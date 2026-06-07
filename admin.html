@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>বাংলাদেশ মেলা - এডমিন প্যানেল</title>
+    <title>এডমিন প্যানেল - বাংলাদেশ মেলা</title>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -11,126 +11,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background: #f0f2f5;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .header {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .header h1 {
-            font-size: 1.8rem;
-            color: #1a1a1a;
-        }
-        .header p {
-            color: #666;
-            margin-top: 5px;
-        }
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .card h2 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 0.9rem;
-        }
-        button {
-            background: #1a1a1a;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        button.danger {
-            background: #dc3545;
-        }
-        button.warning {
-            background: #ffc107;
-            color: #1a1a1a;
-        }
-        button:hover {
-            opacity: 0.9;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
-        th {
-            background: #f8f9fa;
-        }
-        .slide-item {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            margin-bottom: 10px;
-        }
-        .slide-item img {
-            width: 80px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
-            th {
-                display: none;
-            }
-            td {
-                padding: 10px;
-                border-bottom: 1px solid #eee;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 20px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 1.8rem; color: #1a1a1a; }
+        .header p { color: #666; margin-top: 5px; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card h2 { font-size: 1.3rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 0.9rem; }
+        button { background: #1a1a1a; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.9rem; }
+        button.danger { background: #dc3545; }
+        .slide-item { display: flex; gap: 15px; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 12px; margin-bottom: 10px; }
+        .slide-item img { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; }
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; background: #e8f5e9; color: #2e7d32; }
+        @media (max-width: 768px) { table, thead, tbody, th, td, tr { display: block; } th { display: none; } td { padding: 10px; border-bottom: 1px solid #eee; } }
     </style>
 </head>
 <body>
@@ -140,7 +38,6 @@
         <p>বাংলাদেশ মেলা - পূর্ণ নিয়ন্ত্রণ</p>
     </div>
     
-    <!-- স্লাইডার কন্ট্রোল -->
     <div class="card">
         <h2><i class="fa-regular fa-images"></i> ইমেজ স্লাইডার কন্ট্রোল</h2>
         <input type="text" id="slideUrl" placeholder="ইমেজ URL (https://...)">
@@ -149,21 +46,18 @@
         <div id="slidesList" style="margin-top: 20px;"></div>
     </div>
     
-    <!-- কন্টাক্ট নম্বর -->
     <div class="card">
         <h2><i class="fa-solid fa-phone"></i> কন্টাক্ট নম্বর</h2>
         <input type="text" id="contactNumber" placeholder="হটলাইন নম্বর">
         <button id="updateContactBtn">আপডেট করুন</button>
     </div>
     
-    <!-- ইউজার ব্লক -->
     <div class="card">
         <h2><i class="fa-solid fa-ban"></i> ইউজার ব্লক করুন</h2>
         <input type="email" id="blockEmail" placeholder="ইমেইল লিখুন">
         <button id="blockUserBtn" class="danger">ব্লক করুন</button>
     </div>
     
-    <!-- পোস্ট তালিকা -->
     <div class="card">
         <h2><i class="fa-regular fa-newspaper"></i> সকল পোস্ট</h2>
         <div id="postsTable"></div>
@@ -185,9 +79,14 @@
     const auth = firebase.auth();
     const db = firebase.database();
     
-    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => {
+    // লগইন চেক - লগইন না থাকলে লগইন পেজে পাঠাবে
+    auth.onAuthStateChanged(async (user) => {
+        if (!user) {
+            window.location.href = "login.html";
+            return;
+        }
         loadDashboard();
-    }).catch(e => console.error(e));
+    });
     
     async function loadDashboard() {
         await loadSlides();
