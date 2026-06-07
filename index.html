@@ -65,7 +65,7 @@
             cursor: pointer;
         }
         
-        /* সার্চ বার (স্লাইডারের উপরে) */
+        /* সার্চ বার */
         .search-wrapper {
             background: white;
             padding: 10px 16px;
@@ -90,10 +90,16 @@
             font-size: 0.9rem;
         }
         
-        /* অটো স্লাইডার */
+        /* অটো স্লাইডার - কার্ড ডিজাইন */
+        .card {
+            background: white;
+            border-radius: 20px;
+            margin: 12px 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
         .banner-slider {
             position: relative;
-            margin: 0;
             overflow: hidden;
         }
         .banner-container {
@@ -132,18 +138,22 @@
             border-radius: 10px;
         }
         
-        /* চলন্ত লেখা (মার্কি) */
+        /* চলন্ত লেখার কার্ড */
+        .marquee-card {
+            padding: 12px 16px;
+        }
         .marquee {
             background: #1a1a1a;
             color: white;
-            padding: 10px;
+            padding: 12px;
             overflow: hidden;
             white-space: nowrap;
+            border-radius: 40px;
         }
         .marquee p {
             display: inline-block;
             animation: scrollText 25s linear infinite;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
         @keyframes scrollText {
             0% { transform: translateX(100%); }
@@ -156,7 +166,7 @@
             justify-content: space-around;
             padding: 12px 10px;
             background: white;
-            margin: 10px 12px;
+            margin: 12px 16px;
             border-radius: 20px;
         }
         .category-item {
@@ -198,14 +208,14 @@
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding: 10px 12px;
+            padding: 10px 16px;
         }
         .chip {
             background: white;
             border: 1px solid #ddd;
             border-radius: 30px;
-            padding: 6px 16px;
-            font-size: 0.75rem;
+            padding: 8px 18px;
+            font-size: 0.8rem;
             cursor: pointer;
             white-space: nowrap;
         }
@@ -216,8 +226,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 12px;
-            margin: 10px 0;
+            padding: 0 16px;
+            margin: 12px 0;
         }
         .section-title h3 {
             font-size: 1rem;
@@ -226,14 +236,14 @@
         .posts-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 0 12px;
+            gap: 14px;
+            padding: 0 16px;
         }
         .post-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .post-image {
             height: 120px;
@@ -245,79 +255,95 @@
             font-size: 2rem;
         }
         .post-info {
-            padding: 10px;
+            padding: 12px;
         }
         .post-title {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         .post-location {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #888;
             margin-bottom: 4px;
         }
         .post-date {
             font-size: 0.65rem;
             color: #999;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .post-actions {
             display: flex;
-            gap: 12px;
-            padding-top: 6px;
+            gap: 20px;
+            padding-top: 8px;
             border-top: 1px solid #eee;
             position: relative;
+            margin-left: 8px;
         }
         .action-btn {
             background: none;
             border: none;
-            font-size: 0.75rem;
-            color: #777;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 0;
+            position: relative;
+        }
+        .edit-btn {
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            color: #2e7d32;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 4px;
-            position: relative;
+            padding: 6px 0;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            color: #dc3545;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 0;
         }
         
-        /* ইমোজি রিয়েকশন পপআপ (ফেসবুক স্টাইল) */
+        /* ইমোজি রিয়েকশন পপআপ */
         .reaction-popup {
-            position: absolute;
-            bottom: 35px;
-            left: 0;
+            position: fixed;
             background: white;
-            border-radius: 40px;
-            padding: 8px 12px;
+            border-radius: 50px;
+            padding: 10px 16px;
             display: flex;
-            gap: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            gap: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             z-index: 1000;
             animation: fadeInUp 0.2s ease;
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .reaction-emoji {
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
             transition: transform 0.1s;
         }
         .reaction-emoji:hover {
-            transform: scale(1.2);
+            transform: scale(1.25);
         }
         
-        /* লাইক কাউন্টার স্টাইল */
         .like-count {
-            font-size: 0.7rem;
-            margin-left: 4px;
+            font-size: 0.8rem;
+            margin-left: 2px;
         }
         
         /* নিচের মেনু বার */
@@ -391,6 +417,7 @@
             border-radius: 24px;
             padding: 20px;
         }
+        .modal-content h3 { margin-bottom: 15px; }
         .modal-content input, .modal-content select, .modal-content textarea {
             width: 100%;
             padding: 10px;
@@ -432,6 +459,16 @@
             border-radius: 8px;
             cursor: pointer;
         }
+        .my-posts-list {
+            margin-top: 15px;
+        }
+        .my-post-item {
+            background: white;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #eee;
+        }
         
         @media (max-width: 500px) {
             .posts-grid { grid-template-columns: 1fr; }
@@ -457,10 +494,12 @@
 <div id="profileDropdown" class="profile-dropdown">
     <p><strong id="userName"></strong></p>
     <p style="font-size: 0.7rem; color: #888;" id="userEmail"></p>
+    <button id="showMyPostsBtn"><i class="fa-regular fa-user"></i> আমার পোস্ট</button>
     <button id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
+    <div id="myPostsList" class="my-posts-list" style="display: none;"></div>
 </div>
 
-<!-- সার্চ বার (স্লাইডারের উপরে) -->
+<!-- সার্চ বার -->
 <div class="search-wrapper">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -468,19 +507,23 @@
     </div>
 </div>
 
-<!-- অটো স্লাইডার -->
-<div class="banner-slider">
-    <div class="banner-container" id="bannerContainer">
-        <div class="banner-item">
-            <img src="https://placehold.co/600x180?text=Loading..." alt="Banner">
+<!-- অটো স্লাইডার কার্ড -->
+<div class="card">
+    <div class="banner-slider">
+        <div class="banner-container" id="bannerContainer">
+            <div class="banner-item">
+                <img src="https://placehold.co/600x180?text=Loading..." alt="Banner">
+            </div>
         </div>
+        <div class="banner-dots" id="bannerDots"></div>
     </div>
-    <div class="banner-dots" id="bannerDots"></div>
 </div>
 
-<!-- চলন্ত লেখা (মার্কি) -->
-<div class="marquee">
-    <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন (ইমোজি রিয়েকশন সহ), কমেন্ট করুন, সেভ করুন 🎉</p>
+<!-- চলন্ত লেখার কার্ড -->
+<div class="marquee-card">
+    <div class="marquee">
+        <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন (৭টি ইমোজি রিয়েকশন সহ), কমেন্ট করুন, সেভ করুন 🎉</p>
+    </div>
 </div>
 
 <!-- ক্যাটাগরি আইকন -->
@@ -567,6 +610,30 @@
     </div>
 </div>
 
+<!-- এডিট পোস্ট মডাল -->
+<div id="editPostModal" class="modal">
+    <div class="modal-content">
+        <h3>✏️ পোস্ট এডিট করুন</h3>
+        <input type="text" id="editPostTitle" placeholder="মেলার নাম">
+        <select id="editPostDivision"></select>
+        <select id="editPostDistrict"></select>
+        <input type="text" id="editPostUpazila" placeholder="উপজেলা">
+        <div style="display: flex; gap: 10px;">
+            <input type="date" id="editStartDate" style="width:50%">
+            <input type="date" id="editEndDate" style="width:50%">
+        </div>
+        <textarea id="editPostDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
+        <select id="editPostCategory">
+            <option value="চলমান">চলমান</option>
+            <option value="আসন্ন">আসন্ন</option>
+            <option value="১৫ দিন">১৫ দিনের মেলা</option>
+            <option value="সাপ্তাহিক">সাপ্তাহিক</option>
+        </select>
+        <button id="updatePostBtn">আপডেট করুন</button>
+        <button class="cancel" id="closeEditModal">বাতিল</button>
+    </div>
+</div>
+
 <script>
     // Firebase Config
     const firebaseConfig = {
@@ -593,8 +660,10 @@
     let bannerImages = [];
     let currentBannerIndex = 0;
     let bannerInterval = null;
+    let currentEditPostId = null;
+    let showingMyPosts = false;
     
-    // লাইক ইমোজি অপশন (ফেসবুক স্টাইল)
+    // ৭টি ইমোজি রিয়েকশন (ফেসবুক স্টাইল)
     const reactionEmojis = [
         { code: "like", emoji: "❤️", type: "like" },
         { code: "love", emoji: "😍", type: "love" },
@@ -619,7 +688,6 @@
         startAutoSlide();
     });
     
-    // অটো স্লাইডার ফাংশন
     function startAutoSlide() {
         if(bannerInterval) clearInterval(bannerInterval);
         bannerInterval = setInterval(() => {
@@ -675,10 +743,12 @@
             divisionsData = data.divisions;
             displayDivisions(divisionsData);
             updatePostDivisionSelect();
+            updateEditDivisionSelect();
         } catch(e) {
             divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }];
             displayDivisions(divisionsData);
             updatePostDivisionSelect();
+            updateEditDivisionSelect();
         }
     }
     
@@ -711,6 +781,34 @@
         });
         if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name);
         divSelect.onchange = () => updatePostDistricts(divSelect.value);
+    }
+    
+    function updateEditDivisionSelect() {
+        const divSelect = document.getElementById("editPostDivision");
+        divSelect.innerHTML = "";
+        divisionsData.forEach(div => {
+            const opt = document.createElement("option");
+            opt.value = div.name;
+            opt.innerText = div.name;
+            divSelect.appendChild(opt);
+        });
+        if(divisionsData.length > 0) {
+            updateEditDistricts(divisionsData[0].name);
+        }
+        divSelect.onchange = () => updateEditDistricts(divSelect.value);
+    }
+    
+    function updateEditDistricts(divisionName) {
+        const division = divisionsData.find(d => d.name === divisionName);
+        const districts = division?.districts || [];
+        const districtSelect = document.getElementById("editPostDistrict");
+        districtSelect.innerHTML = "";
+        districts.forEach(dist => {
+            const opt = document.createElement("option");
+            opt.value = dist.name;
+            opt.innerText = dist.name;
+            districtSelect.appendChild(opt);
+        });
     }
     
     function updatePostDistricts(divisionName) {
@@ -771,12 +869,11 @@
         });
         
         if(currentView === "saved") filtered = filtered.filter(post => savedPostsIds.includes(post.id));
+        if(showingMyPosts) filtered = filtered.filter(post => post.uid === currentUser.uid);
         renderPosts(filtered);
     }
     
-    // লাইক ইমোজি পপআপ দেখানো
     function showReactionPopup(btnElement, postId) {
-        // আগের পপআপ থাকলে রিমুভ
         const existingPopup = document.querySelector('.reaction-popup');
         if(existingPopup) existingPopup.remove();
         
@@ -798,10 +895,9 @@
         const rect = btnElement.getBoundingClientRect();
         popup.style.position = 'fixed';
         popup.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
-        popup.style.left = (rect.left + rect.width/2 - 80) + 'px';
+        popup.style.left = (rect.left + rect.width/2 - 120) + 'px';
         document.body.appendChild(popup);
         
-        // পপআপের বাইরে ক্লিক করলে বন্ধ
         setTimeout(() => {
             document.addEventListener('click', function removePopup(e) {
                 if(!popup.contains(e.target)) {
@@ -835,8 +931,8 @@
             const reactionCount = Object.keys(reactions).length;
             const userReaction = reactions[currentUser?.uid];
             const isSaved = savedPostsIds.includes(post.id);
+            const isMyPost = (post.uid === currentUser?.uid);
             
-            // লাইক বাটনের জন্য টেক্সট (কাউন্ট সহ)
             let likeButtonHtml = `<button class="action-btn like-btn" data-id="${post.id}">`;
             if(userReaction) {
                 likeButtonHtml += `${userReaction.emoji} <span class="like-count">${reactionCount}</span>`;
@@ -844,6 +940,21 @@
                 likeButtonHtml += `<i class="fa-regular fa-thumbs-up"></i> <span class="like-count">${reactionCount}</span>`;
             }
             likeButtonHtml += `</button>`;
+            
+            let actionButtons = `
+                <div class="post-actions">
+                    ${likeButtonHtml}
+                    <button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i></button>
+                    <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>
+            `;
+            
+            if(isMyPost) {
+                actionButtons += `
+                    <button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button>
+                    <button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>
+                `;
+            }
+            actionButtons += `</div>`;
             
             const card = document.createElement("div");
             card.className = "post-card";
@@ -855,21 +966,65 @@
                     <div class="post-title">${escapeHtml(post.title)}</div>
                     <div class="post-location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} > ${escapeHtml(post.district)}</div>
                     <div class="post-date"><i class="fa-regular fa-calendar"></i> ${post.startDate || 'N/A'} → ${post.endDate || 'N/A'}</div>
-                    <div class="post-actions">
-                        ${likeButtonHtml}
-                        <button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i></button>
-                        <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>
-                    </div>
+                    ${actionButtons}
                 </div>
             `;
             container.appendChild(card);
             
             const likeBtn = card.querySelector(".like-btn");
-            likeBtn.onclick = (e) => {
-                e.stopPropagation();
-                showReactionPopup(likeBtn, post.id);
-            };
-            card.querySelector(".save-btn").onclick = () => toggleSave(post.id);
+            if(likeBtn) likeBtn.onclick = (e) => { e.stopPropagation(); showReactionPopup(likeBtn, post.id); };
+            
+            const saveBtn = card.querySelector(".save-btn");
+            if(saveBtn) saveBtn.onclick = () => toggleSave(post.id);
+            
+            const editBtn = card.querySelector(".edit-btn");
+            if(editBtn) editBtn.onclick = () => openEditModal(post);
+            
+            const deleteBtn = card.querySelector(".delete-btn");
+            if(deleteBtn) deleteBtn.onclick = () => deletePost(post.id);
+        }
+    }
+    
+    function openEditModal(post) {
+        currentEditPostId = post.id;
+        document.getElementById("editPostTitle").value = post.title || "";
+        document.getElementById("editPostDivision").value = post.division || "";
+        updateEditDistricts(post.division);
+        setTimeout(() => {
+            document.getElementById("editPostDistrict").value = post.district || "";
+        }, 100);
+        document.getElementById("editPostUpazila").value = post.upazila || "";
+        document.getElementById("editStartDate").value = post.startDate || "";
+        document.getElementById("editEndDate").value = post.endDate || "";
+        document.getElementById("editPostDesc").value = post.description || "";
+        document.getElementById("editPostCategory").value = post.category || "চলমান";
+        document.getElementById("editPostModal").style.display = "flex";
+    }
+    
+    async function updatePost() {
+        if(!currentEditPostId) return;
+        const updatedData = {
+            title: document.getElementById("editPostTitle").value,
+            division: document.getElementById("editPostDivision").value,
+            district: document.getElementById("editPostDistrict").value,
+            upazila: document.getElementById("editPostUpazila").value,
+            startDate: document.getElementById("editStartDate").value,
+            endDate: document.getElementById("editEndDate").value,
+            description: document.getElementById("editPostDesc").value,
+            category: document.getElementById("editPostCategory").value,
+            updatedAt: Date.now()
+        };
+        await db.ref(`posts/${currentEditPostId}`).update(updatedData);
+        document.getElementById("editPostModal").style.display = "none";
+        loadPosts();
+        if(showingMyPosts) showMyPosts();
+    }
+    
+    async function deletePost(postId) {
+        if(confirm("পোস্টটি ডিলিট করতে চান?")) {
+            await db.ref(`posts/${postId}`).remove();
+            loadPosts();
+            if(showingMyPosts) showMyPosts();
         }
     }
     
@@ -887,12 +1042,26 @@
     }
     
     function toggleProfileDropdown() {
-        document.getElementById("profileDropdown").classList.toggle("show");
+        const dropdown = document.getElementById("profileDropdown");
+        dropdown.classList.toggle("show");
+        if(dropdown.classList.contains("show")) {
+            document.getElementById("myPostsList").style.display = "none";
+            showingMyPosts = false;
+        }
+    }
+    
+    async function showMyPosts() {
+        showingMyPosts = true;
+        currentView = "home";
+        document.getElementById("profileDropdown").classList.remove("show");
+        await loadPosts();
+        document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+        document.getElementById("navHome").classList.add("active");
     }
     
     document.getElementById("logoutBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
+    document.getElementById("showMyPostsBtn").onclick = () => showMyPosts();
     
-    // ক্যাটাগরি আইকন ক্লিক
     document.querySelectorAll(".category-item").forEach(item => {
         item.addEventListener("click", () => {
             activeCategory = item.dataset.cat;
@@ -902,10 +1071,9 @@
         });
     });
     
-    // নিচের মেনু বার
-    document.getElementById("navHome").onclick = () => { currentView = "home"; loadPosts(); updateNavActive("home"); };
-    document.getElementById("navSaved").onclick = () => { currentView = "saved"; loadPosts(); updateNavActive("saved"); };
-    document.getElementById("navSavedIcon").onclick = () => { currentView = "saved"; loadPosts(); updateNavActive("saved"); };
+    document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); updateNavActive("home"); };
+    document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
+    document.getElementById("navSavedIcon").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
     document.getElementById("navCreate").onclick = () => document.getElementById("postModal").style.display = "flex";
     document.getElementById("navProfileBtn").onclick = () => toggleProfileDropdown();
     document.getElementById("navSearch").onclick = () => document.getElementById("searchInput").focus();
@@ -918,6 +1086,8 @@
     
     document.getElementById("searchInput").addEventListener("input", (e) => { searchText = e.target.value; loadPosts(); });
     document.getElementById("closeModal").onclick = () => document.getElementById("postModal").style.display = "none";
+    document.getElementById("closeEditModal").onclick = () => document.getElementById("editPostModal").style.display = "none";
+    document.getElementById("updatePostBtn").onclick = () => updatePost();
     
     document.getElementById("submitPost").onclick = async () => {
         const title = document.getElementById("postTitle").value.trim();
@@ -932,11 +1102,13 @@
         await db.ref('posts').push({ title, division, district, upazila, startDate: start, endDate: end, description: desc, category: cat, createdAt: Date.now(), uid: currentUser.uid });
         document.getElementById("postModal").style.display = "none";
         document.getElementById("postTitle").value = "";
+        document.getElementById("postDesc").value = "";
         loadPosts();
     };
     
     window.onclick = (e) => {
         if(e.target === document.getElementById("postModal")) document.getElementById("postModal").style.display = "none";
+        if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
         if(!e.target.closest('.app-header') && !e.target.closest('#navProfileBtn')) {
             document.getElementById("profileDropdown").classList.remove("show");
         }
