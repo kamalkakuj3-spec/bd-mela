@@ -51,6 +51,7 @@
         .header-icons {
             display: flex;
             gap: 16px;
+            align-items: center;
         }
         .header-icons i {
             font-size: 1.2rem;
@@ -316,34 +317,83 @@
             padding: 6px 0;
         }
         
-        /* ইমোজি রিয়েকশন পপআপ */
+        /* ইমোজি রিয়েকশন পপআপ - সেন্টারে এবং স্লাইডযোগ্য */
         .reaction-popup {
             position: fixed;
-            background: white;
-            border-radius: 50px;
-            padding: 10px 16px;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 60px;
+            padding: 12px 20px;
             display: flex;
-            gap: 14px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            z-index: 1000;
+            gap: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
             animation: fadeInUp 0.2s ease;
+            overflow-x: auto;
+            max-width: 90vw;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        .reaction-popup::-webkit-scrollbar {
+            height: 3px;
+        }
+        .reaction-popup::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        .reaction-popup::-webkit-scrollbar-thumb {
+            background: #ffd966;
+            border-radius: 10px;
         }
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translate(-50%, 60%); }
+            to { opacity: 1; transform: translate(-50%, 50%); }
         }
         .reaction-emoji {
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
             transition: transform 0.1s;
+            display: inline-block;
         }
         .reaction-emoji:hover {
-            transform: scale(1.25);
+            transform: scale(1.3);
         }
         
         .like-count {
             font-size: 0.8rem;
             margin-left: 2px;
+        }
+        
+        /* হেল্প ড্রপডাউন */
+        .help-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            width: 260px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 200;
+            border: 1px solid #eee;
+        }
+        .help-dropdown.show {
+            display: block;
+        }
+        .help-dropdown p {
+            margin-bottom: 8px;
+        }
+        .help-dropdown ul {
+            margin-left: 18px;
+            font-size: 0.8rem;
+        }
+        .help-dropdown li {
+            margin: 6px 0;
         }
         
         /* নিচের মেনু বার */
@@ -484,10 +534,24 @@
         <p>দেশের মেলার ঠিকানা</p>
     </div>
     <div class="header-icons">
-        <i class="fa-regular fa-bookmark" id="navSavedIcon"></i>
-        <i class="fa-regular fa-bell"></i>
+        <i class="fa-regular fa-circle-question" id="helpIcon"></i>
         <img id="userAvatar" class="user-avatar-small" src="" onclick="toggleProfileDropdown()">
     </div>
+</div>
+
+<!-- হেল্প ড্রপডাউন -->
+<div id="helpDropdown" class="help-dropdown">
+    <p><i class="fa-solid fa-phone"></i> <strong>হটলাইন:</strong> <span id="contactNumber">০১৯৯৯-৮৮৮৭৭৭</span></p>
+    <hr style="margin: 8px 0;">
+    <p><strong>📌 কিভাবে ব্যবহার করবেন:</strong></p>
+    <ul>
+        <li>🔍 সার্চ দিয়ে মেলা খুঁজুন</li>
+        <li>📝 নিচের + বাটন চেপে পোস্ট করুন</li>
+        <li>❤️ লাইকে ইমোজি রিয়েকশন দিন</li>
+        <li>💬 কমেন্ট করুন | ⭐ সেভ করুন</li>
+        <li>👤 প্রোফাইলে নিজের পোস্ট এডিট/ডিলিট করুন</li>
+    </ul>
+    <button id="closeHelp" style="margin-top:10px; padding:6px; background:#eee; border:none; border-radius:20px; cursor:pointer;">বন্ধ করুন</button>
 </div>
 
 <!-- প্রোফাইল ড্রপডাউন -->
@@ -663,7 +727,7 @@
     let currentEditPostId = null;
     let showingMyPosts = false;
     
-    // ৭টি ইমোজি রিয়েকশন (ফেসবুক স্টাইল)
+    // ৭টি ইমোজি রিয়েকশন
     const reactionEmojis = [
         { code: "like", emoji: "❤️", type: "like" },
         { code: "love", emoji: "😍", type: "love" },
@@ -683,10 +747,20 @@
         
         await loadDivisions();
         await loadSliderImages();
+        await loadContactNumber();
         await loadSavedPosts();
         loadPosts();
         startAutoSlide();
     });
+    
+    async function loadContactNumber() {
+        try {
+            const snapshot = await db.ref('settings/contact/number').once('value');
+            if(snapshot.exists()) {
+                document.getElementById("contactNumber").innerText = snapshot.val();
+            }
+        } catch(e) { console.error("Contact error:", e); }
+    }
     
     function startAutoSlide() {
         if(bannerInterval) clearInterval(bannerInterval);
@@ -892,12 +966,9 @@
             popup.appendChild(emojiSpan);
         });
         
-        const rect = btnElement.getBoundingClientRect();
-        popup.style.position = 'fixed';
-        popup.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
-        popup.style.left = (rect.left + rect.width/2 - 120) + 'px';
         document.body.appendChild(popup);
         
+        // পপআপের বাইরে ক্লিক করলে বন্ধ
         setTimeout(() => {
             document.addEventListener('click', function removePopup(e) {
                 if(!popup.contains(e.target)) {
@@ -1062,6 +1133,14 @@
     document.getElementById("logoutBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
     document.getElementById("showMyPostsBtn").onclick = () => showMyPosts();
     
+    // হেল্প ড্রপডাউন টগল
+    document.getElementById("helpIcon").onclick = () => {
+        document.getElementById("helpDropdown").classList.toggle("show");
+    };
+    document.getElementById("closeHelp").onclick = () => {
+        document.getElementById("helpDropdown").classList.remove("show");
+    };
+    
     document.querySelectorAll(".category-item").forEach(item => {
         item.addEventListener("click", () => {
             activeCategory = item.dataset.cat;
@@ -1073,7 +1152,6 @@
     
     document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); updateNavActive("home"); };
     document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
-    document.getElementById("navSavedIcon").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
     document.getElementById("navCreate").onclick = () => document.getElementById("postModal").style.display = "flex";
     document.getElementById("navProfileBtn").onclick = () => toggleProfileDropdown();
     document.getElementById("navSearch").onclick = () => document.getElementById("searchInput").focus();
@@ -1106,11 +1184,15 @@
         loadPosts();
     };
     
+    // ক্লিক করে ড্রপডাউন বন্ধ
     window.onclick = (e) => {
         if(e.target === document.getElementById("postModal")) document.getElementById("postModal").style.display = "none";
         if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
         if(!e.target.closest('.app-header') && !e.target.closest('#navProfileBtn')) {
             document.getElementById("profileDropdown").classList.remove("show");
+        }
+        if(!e.target.closest('.app-header') && !e.target.closest('#helpIcon')) {
+            document.getElementById("helpDropdown").classList.remove("show");
         }
     };
 </script>
