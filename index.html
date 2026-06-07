@@ -99,7 +99,6 @@ body {
   transition: all 0.3s ease;
 }
 .google-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,255,255,0.2); }
-.google-btn img { width: 22px; height: 22px; }
 .auth-note { margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.4); }
 
 /* ===== MAIN APP ===== */
@@ -278,11 +277,6 @@ body {
 .rating-stars {
   display: flex; align-items: center; gap: 2px; margin: 6px 0;
 }
-.star {
-  font-size: 12px; cursor: pointer; color: #555; transition: all 0.1s;
-}
-.star.active { color: var(--gold); text-shadow: 0 0 4px var(--gold-glow); }
-.star.hover { color: #ffcc44; }
 .rating-count {
   font-size: 9px; color: var(--silver); margin-left: 5px;
 }
@@ -785,20 +779,20 @@ body {
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">বিভাগ *</label>
-          <select class="form-select" id="f_div" onchange="loadFormDist()"><option value="">বিভাগ</option></select>
+          <select class="form-select" id="f_div" onchange="loadFormDist()"><option value="">বিভাগ নির্বাচন করুন</option></select>
         </div>
         <div class="form-group">
           <label class="form-label">জেলা *</label>
-          <select class="form-select" id="f_dist" onchange="loadFormUpazila()"><option value="">জেলা</option></select>
+          <select class="form-select" id="f_dist" onchange="loadFormUpazila()"><option value="">জেলা নির্বাচন করুন</option></select>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">উপজেলা</label>
-          <select class="form-select" id="f_upazila"><option value="">উপজেলা</option></select>
+          <label class="form-label">উপজেলা/থানা</label>
+          <select class="form-select" id="f_upazila"><option value="">উপজেলা নির্বাচন করুন</option></select>
         </div>
         <div class="form-group">
-          <label class="form-label">স্থান</label>
+          <label class="form-label">ঠিকানা/স্থান</label>
           <input class="form-input" id="f_place" placeholder="মাঠ/ভবন/এলাকা">
         </div>
       </div>
@@ -841,9 +835,7 @@ body {
       <button onclick="closeReviewModal()" style="background:none; border:none; color:var(--silver); font-size:18px;"><i class="fa fa-times"></i></button>
     </div>
     <div class="review-body">
-      <div class="review-stars" id="reviewStars">
-        ★★★★★
-      </div>
+      <div class="review-stars" id="reviewStars"></div>
       <textarea class="review-textarea" id="reviewText" placeholder="আপনার মতামত লিখুন..."></textarea>
       <button class="review-submit" onclick="submitReview()">রিভিউ পোস্ট করুন</button>
       <div id="reviewList" class="review-list"></div>
@@ -918,17 +910,19 @@ body {
 
 <script>
 // ============================================================
-// DEMO DATA (Firebase এর জায়গায়)
+// GLOBAL VARIABLES
 // ============================================================
 let currentUser = null;
 let allMelas = [];
 let userSaved = [];
 let currentReviewMelaId = null;
-let currentMapMela = null;
 let currentPromoMelaId = null;
-let userPoints = 100; // প্রোমো বুস্টের জন্য পয়েন্ট
+let userPoints = 100;
+let divisionsData = {};  // JSON থেকে লোড হবে
 
-// ডেমো মেলা ডাটা
+// ============================================================
+// DEMO MELAS (Backup)
+// ============================================================
 function getDemoMelas() {
   const today = new Date();
   const fmt = d => d.toISOString().split('T')[0];
@@ -941,23 +935,114 @@ function getDemoMelas() {
   ];
 }
 
-// বিভাগ ডাটা
-const divisionsData = {
-  "ঢাকা": { districts: { "ঢাকা": { upazilas: ["মিরপুর","সাভার","কেরানীগঞ্জ","গুলশান","ধানমন্ডি"] }, "গাজীপুর": { upazilas: ["গাজীপুর সদর","কালিয়াকৈর"] }, "নারায়ণগঞ্জ": { upazilas: ["নারায়ণগঞ্জ সদর","সোনারগাঁও"] } } },
-  "চট্টগ্রাম": { districts: { "চট্টগ্রাম": { upazilas: ["চট্টগ্রাম সদর","হাটহাজারী","রাউজান"] }, "কক্সবাজার": { upazilas: ["কক্সবাজার সদর","উখিয়া"] } } },
-  "রাজশাহী": { districts: { "রাজশাহী": { upazilas: ["রাজশাহী সদর","পবা","চারঘাট"] }, "নওগাঁ": { upazilas: ["নওগাঁ সদর","বদলগাছি"] } } },
-  "খুলনা": { districts: { "খুলনা": { upazilas: ["খুলনা সদর","ডুমুরিয়া"] }, "বাগেরহাট": { upazilas: ["বাগেরহাট সদর","মোংলা"] } } },
-  "বরিশাল": { districts: { "বরিশাল": { upazilas: ["বরিশাল সদর","বানারীপাড়া"] } } },
-  "সিলেট": { districts: { "সিলেট": { upazilas: ["সিলেট সদর","গোলাপগঞ্জ"] } } },
-  "রংপুর": { districts: { "রংপুর": { upazilas: ["রংপুর সদর","গঙ্গাচড়া"] } } },
-  "ময়মনসিংহ": { districts: { "ময়মনসিংহ": { upazilas: ["ময়মনসিংহ সদর","ফুলবাড়িয়া"] } } }
+// ============================================================
+// DIVISIONS - JSON FILE LOAD (YOUR OWN divisions.json)
+// ============================================================
+async function loadDivisionsFromJSON() {
+  try {
+    const response = await fetch('divisions.json');
+    if (!response.ok) throw new Error('divisions.json not found');
+    const data = await response.json();
+    
+    // আপনার JSON ফাইলের স্ট্রাকচার অনুযায়ী পার্স করুন
+    // ধরে নিচ্ছি: data.divisions = [{ name:"ঢাকা", districts:[{name:"ঢাকা", upazilas:[...]}] }]
+    if (data.divisions && Array.isArray(data.divisions)) {
+      // কনভার্ট করে নেওয়া: { "ঢাকা": { districts: { "ঢাকা": { upazilas: [...] } } } }
+      divisionsData = {};
+      data.divisions.forEach(div => {
+        divisionsData[div.name] = { districts: {} };
+        if (div.districts && Array.isArray(div.districts)) {
+          div.districts.forEach(dist => {
+            divisionsData[div.name].districts[dist.name] = { upazilas: dist.upazilas || [] };
+          });
+        }
+      });
+    } else {
+      throw new Error('Invalid JSON structure');
+    }
+    
+    console.log('divisions.json loaded successfully', divisionsData);
+    populateDivSelects();
+  } catch(error) {
+    console.error('divisions.json load error:', error);
+    // Fallback data if JSON fails to load
+    divisionsData = {
+      "ঢাকা": { districts: { "ঢাকা": { upazilas: ["মিরপুর","সাভার","কেরানীগঞ্জ","গুলশান","ধানমন্ডি"] }, "গাজীপুর": { upazilas: ["গাজীপুর সদর","কালিয়াকৈর"] } } },
+      "চট্টগ্রাম": { districts: { "চট্টগ্রাম": { upazilas: ["চট্টগ্রাম সদর","হাটহাজারী","রাউজান"] }, "কক্সবাজার": { upazilas: ["কক্সবাজার সদর","উখিয়া"] } } },
+      "রাজশাহী": { districts: { "রাজশাহী": { upazilas: ["রাজশাহী সদর","পবা","চারঘাট"] }, "নওগাঁ": { upazilas: ["নওগাঁ সদর","বদলগাছি"] } } }
+    };
+    populateDivSelects();
+  }
+}
+
+function populateDivSelects() {
+  const divs = Object.keys(divisionsData);
+  const divSelect = document.getElementById('divSelect');
+  divSelect.innerHTML = '<option value="">সকল বিভাগ</option>';
+  divs.forEach(d => divSelect.add(new Option(d, d)));
+  
+  const fDiv = document.getElementById('f_div');
+  fDiv.innerHTML = '<option value="">বিভাগ নির্বাচন করুন</option>';
+  divs.forEach(d => fDiv.add(new Option(d, d)));
+}
+
+function loadDistricts(divisionName) {
+  const districts = divisionsData[divisionName]?.districts || {};
+  return Object.keys(districts);
+}
+
+function loadUpazilas(divisionName, districtName) {
+  return divisionsData[divisionName]?.districts[districtName]?.upazilas || [];
+}
+
+window.loadFormDist = function() {
+  const div = document.getElementById('f_div').value;
+  const distSel = document.getElementById('f_dist');
+  distSel.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+  if(div && divisionsData[div]) {
+    const districts = loadDistricts(div);
+    districts.forEach(d => distSel.add(new Option(d, d)));
+  }
 };
+
+window.loadFormUpazila = function() {
+  const div = document.getElementById('f_div').value;
+  const dist = document.getElementById('f_dist').value;
+  const upazilaSel = document.getElementById('f_upazila');
+  upazilaSel.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+  if(div && dist) {
+    const upazilas = loadUpazilas(div, dist);
+    upazilas.forEach(u => upazilaSel.add(new Option(u, u)));
+  }
+};
+
+// Filter location dropdowns update
+function updateDistSelect() {
+  const div = document.getElementById('divSelect').value;
+  const distSel = document.getElementById('distSelect');
+  distSel.innerHTML = '<option value="">সকল জেলা</option>';
+  if(div && divisionsData[div]) {
+    const districts = loadDistricts(div);
+    districts.forEach(d => distSel.add(new Option(d, d)));
+  }
+  updateUpazilaSelect();
+}
+
+function updateUpazilaSelect() {
+  const div = document.getElementById('divSelect').value;
+  const dist = document.getElementById('distSelect').value;
+  const upazilaSel = document.getElementById('upazilaSelect');
+  upazilaSel.innerHTML = '<option value="">সকল উপজেলা</option>';
+  if(div && dist) {
+    const upazilas = loadUpazilas(div, dist);
+    upazilas.forEach(u => upazilaSel.add(new Option(u, u)));
+  }
+}
 
 // ============================================================
 // AUTH FUNCTIONS
 // ============================================================
 window.signInWithGoogle = function() {
-  // ডেমো লগইন (Firebase ছাড়া)
   const demoUser = { displayName:'রাফি আহমেদ', email:'rafi@example.com', photoURL:'https://ui-avatars.com/api/?name=Rafi&background=00c853&color=000&bold=true', uid:'demo123' };
   onUserLoggedIn(demoUser);
   document.getElementById('authOverlay').style.display = 'none';
@@ -971,7 +1056,7 @@ window.signOut = function() {
   document.getElementById('bottomNav').style.display = 'none';
 };
 
-function onUserLoggedIn(user) {
+async function onUserLoggedIn(user) {
   currentUser = user;
   document.getElementById('mainApp').style.display = 'block';
   document.getElementById('fabBtn').style.display = 'flex';
@@ -981,44 +1066,12 @@ function onUserLoggedIn(user) {
   document.getElementById('profileBigAva').src = ava;
   document.getElementById('profileName').textContent = user.displayName || 'ব্যবহারকারী';
   document.getElementById('profileEmail').textContent = user.email || '';
+  
+  await loadDivisionsFromJSON();  // JSON ফাইল লোড
   loadMelas();
-  populateDivSelects();
   startSlider();
   updateLiveCount();
 }
-
-// ============================================================
-// DIVISIONS
-// ============================================================
-function populateDivSelects() {
-  const divs = Object.keys(divisionsData);
-  const divSelect = document.getElementById('divSelect');
-  divSelect.innerHTML = '<option value="">সকল বিভাগ</option>';
-  divs.forEach(d => divSelect.add(new Option(d, d)));
-  
-  const fDiv = document.getElementById('f_div');
-  fDiv.innerHTML = '<option value="">বিভাগ</option>';
-  divs.forEach(d => fDiv.add(new Option(d, d)));
-}
-
-window.loadFormDist = function() {
-  const div = document.getElementById('f_div').value;
-  const distSel = document.getElementById('f_dist');
-  distSel.innerHTML = '<option value="">জেলা</option>';
-  if(div && divisionsData[div]) {
-    Object.keys(divisionsData[div].districts).forEach(d => distSel.add(new Option(d, d)));
-  }
-};
-
-window.loadFormUpazila = function() {
-  const div = document.getElementById('f_div').value;
-  const dist = document.getElementById('f_dist').value;
-  const sel = document.getElementById('f_upazila');
-  sel.innerHTML = '<option value="">উপজেলা</option>';
-  if(div && dist && divisionsData[div]?.districts?.[dist]) {
-    divisionsData[div].districts[dist].upazilas.forEach(u => sel.add(new Option(u, u)));
-  }
-};
 
 // ============================================================
 // MELAS LOAD & RENDER
@@ -1072,7 +1125,7 @@ function renderAllMelas() {
     return true;
   });
   
-  // প্রোমো বুস্টেড মেলা উপরে দেখাবে
+  // প্রোমো বুস্টেড মেলা উপরে
   filtered.sort((a,b) => {
     if(a.promo && (!b.promo || new Date(a.promoExpiry) > new Date())) return -1;
     if(b.promo && (!a.promo || new Date(b.promoExpiry) > new Date())) return 1;
@@ -1086,6 +1139,18 @@ function renderAllMelas() {
   }
   grid.innerHTML = filtered.map(m => createCard(m)).join('');
   renderSavedList();
+}
+
+function renderStars(rating) {
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating % 1 >= 0.5;
+  let stars = '';
+  for(let i=1; i<=5; i++) {
+    if(i <= fullStars) stars += '<i class="fa fa-star" style="color:var(--gold);"></i>';
+    else if(i === fullStars+1 && hasHalf) stars += '<i class="fa fa-star-half-alt" style="color:var(--gold);"></i>';
+    else stars += '<i class="fa fa-star" style="color:#555;"></i>';
+  }
+  return stars;
 }
 
 function createCard(m) {
@@ -1142,18 +1207,6 @@ function createCard(m) {
   </div>`;
 }
 
-function renderStars(rating) {
-  const fullStars = Math.floor(rating);
-  const hasHalf = rating % 1 >= 0.5;
-  let stars = '';
-  for(let i=1; i<=5; i++) {
-    if(i <= fullStars) stars += '<i class="fa fa-star" style="color:var(--gold);"></i>';
-    else if(i === fullStars+1 && hasHalf) stars += '<i class="fa fa-star-half-alt" style="color:var(--gold);"></i>';
-    else stars += '<i class="fa fa-star" style="color:#555;"></i>';
-  }
-  return stars;
-}
-
 // ============================================================
 // RATING & REVIEW
 // ============================================================
@@ -1162,7 +1215,6 @@ window.openReviewModal = function(melaId) {
   const mela = allMelas.find(m => m.id === melaId);
   if(!mela) return;
   
-  // রিভিউ লিস্ট দেখানো
   const reviews = mela.reviews || [];
   const reviewListHtml = reviews.map(r => `
     <div class="review-item">
@@ -1173,7 +1225,6 @@ window.openReviewModal = function(melaId) {
   `).join('');
   document.getElementById('reviewList').innerHTML = reviewListHtml || '<div style="text-align:center;color:var(--silver);">কোনো রিভিউ নেই</div>';
   
-  // স্টার সিলেক্ট
   const starContainer = document.getElementById('reviewStars');
   starContainer.innerHTML = '';
   for(let i=1; i<=5; i++) {
@@ -1246,11 +1297,9 @@ window.closeReviewModal = function() {
 window.showLocationMap = function(melaId) {
   const mela = allMelas.find(m => m.id === melaId);
   if(!mela) return;
-  currentMapMela = mela;
   document.getElementById('mapModal').classList.add('open');
   document.getElementById('mapAddress').innerHTML = `<i class="fa fa-location-dot"></i> ${mela.place}, ${mela.upazila}, ${mela.district}, ${mela.division}`;
   
-  // Leaflet Map
   setTimeout(() => {
     const mapContainer = document.getElementById('locationMap');
     if(mapContainer._leaflet_id) {
@@ -1430,7 +1479,7 @@ window.submitPost = function() {
   const phone = document.getElementById('f_phone').value.trim();
   
   if(!name || !cat || !div || !dist || !start || !end) {
-    showToast('❌ তারকা চিহ্নিত তথ্য পূরণ করুন');
+    showToast('❌ প্রয়োজনীয় তথ্য পূরণ করুন');
     return;
   }
   
@@ -1463,7 +1512,7 @@ window.setNav = function(el, tab) { document.querySelectorAll('.nav-item').forEa
 window.shareMela = function(id) { showToast('📋 লিঙ্ক কপি হয়েছে'); };
 window.showActiveUsers = function() { document.getElementById('activeModal').style.display = 'flex'; };
 window.closeActiveModal = function() { document.getElementById('activeModal').style.display = 'none'; };
-window.filterByLocation = function() { renderAllMelas(); };
+window.filterByLocation = function() { updateDistSelect(); renderAllMelas(); };
 window.searchMela = function() { renderAllMelas(); };
 window.filterCat = function(cat) {
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
@@ -1531,7 +1580,7 @@ function createParticles() {
 }
 createParticles();
 
-// Notifications demo
+// Notifications
 document.getElementById('notifList').innerHTML = `
   <div class="notif-item unread" style="padding:10px;"><div class="notif-title">নতুন মেলা পোস্ট</div><div class="notif-sub">ঢাকায় নতুন বাণিজ্য মেলা শুরু হয়েছে</div></div>
   <div class="notif-item" style="padding:10px;"><div class="notif-title">আপনার পোস্টে লাইক</div><div class="notif-sub">কেউ আপনার মেলা পোস্টে লাইক দিয়েছেন</div></div>
@@ -1544,10 +1593,9 @@ document.addEventListener('click', e => {
     document.getElementById('notifPanel').style.display = 'none';
 });
 
-// Demo login trigger
+// Auto login for testing
 setTimeout(() => {
   if(!currentUser) {
-    // Auto demo login for testing
     const demoUser = { displayName:'রাফি আহমেদ', email:'rafi@example.com', photoURL:'https://ui-avatars.com/api/?name=Rafi&background=00c853&color=000&bold=true', uid:'demo123' };
     onUserLoggedIn(demoUser);
     document.getElementById('authOverlay').style.display = 'none';
