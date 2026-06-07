@@ -37,6 +37,17 @@
             top: 0;
             z-index: 100;
         }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 8px;
+        }
+        .menu-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
         .logo-area h1 {
             font-size: 1.3rem;
             font-weight: 700;
@@ -51,7 +62,7 @@
         }
         .header-icons {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             align-items: center;
         }
         .header-icons i {
@@ -59,17 +70,18 @@
             color: #333;
             cursor: pointer;
         }
-        .user-avatar-small {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-            cursor: pointer;
-        }
         
-        /* সার্চ বার */
+        /* সার্চ বার (প্রাথমিকভাবে হাইডেন) */
         .search-wrapper {
             background: white;
+            padding: 0 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            border-bottom: none;
+        }
+        .search-wrapper.show {
+            max-height: 80px;
             padding: 10px 16px;
             border-bottom: 1px solid #e0e0e0;
         }
@@ -140,9 +152,10 @@
             border-radius: 4px;
         }
         
-        /* চলন্ত লেখা */
+        /* চলন্ত লেখা (উপরে ও নিচে জিরো মার্জিন) */
         .marquee-card {
-            padding: 12px 16px;
+            padding: 0;
+            margin: 0;
         }
         .marquee {
             background: #1a1a1a;
@@ -150,7 +163,7 @@
             padding: 10px;
             overflow: hidden;
             white-space: nowrap;
-            border-radius: 30px;
+            border-radius: 0;
         }
         .marquee p {
             display: inline-block;
@@ -223,7 +236,7 @@
         }
         .chip.active { background: #1a1a1a; color: white; border: none; }
         
-        /* ==================== নিউজ স্টাইল পোস্ট কার্ড ==================== */
+        /* নিউজ স্টাইল পোস্ট কার্ড */
         .posts-grid {
             display: flex;
             flex-direction: column;
@@ -257,12 +270,13 @@
             letter-spacing: 0.5px;
             margin-bottom: 8px;
         }
+        /* মেলার নামের সাইজ ডবল করা হয়েছে */
         .news-title {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            line-height: 1.4;
+            line-height: 1.3;
             color: #1a1a1a;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .news-meta {
             display: flex;
@@ -319,9 +333,10 @@
         .news-footer {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             padding: 10px 16px;
             border-top: 1px solid #f0f0f0;
+            gap: 20px;
         }
         .news-actions {
             display: flex;
@@ -442,30 +457,74 @@
             transform: scale(1.2);
         }
         
-        .card-dropdown {
-            display: none;
-            position: absolute;
+        /* সাইড ড্রয়ার (মেনু) */
+        .side-drawer {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 200;
-            min-width: 130px;
-            right: 16px;
-            margin-top: -40px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            overflow-y: auto;
         }
-        .card-dropdown.open {
-            display: block;
+        .side-drawer.open {
+            left: 0;
         }
-        .dd-item {
-            padding: 10px 14px;
-            font-size: 0.8rem;
-            cursor: pointer;
+        .drawer-header {
+            padding: 50px 20px 20px;
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            color: white;
+            text-align: center;
+        }
+        .drawer-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-bottom: 10px;
+        }
+        .drawer-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .drawer-email {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        .drawer-menu {
+            padding: 20px;
+        }
+        .drawer-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            padding: 12px 0;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
         }
-        .dd-item:hover {
-            background: #f5f5f5;
+        .drawer-item:hover {
+            color: #00c853;
+        }
+        .drawer-item i {
+            width: 24px;
+            font-size: 1.1rem;
+        }
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        .drawer-overlay.show {
+            display: block;
         }
         
         .modal {
@@ -476,7 +535,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.6);
-            z-index: 1000;
+            z-index: 1100;
             align-items: center;
             justify-content: center;
         }
@@ -536,30 +595,6 @@
             font-size: 0.85rem;
             color: #555;
             margin: 0;
-        }
-        
-        .profile-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 15px;
-            background: white;
-            border-radius: 16px;
-            padding: 15px;
-            width: 220px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: none;
-            z-index: 200;
-        }
-        .profile-dropdown.show { display: block; }
-        .profile-dropdown button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
         }
         
         .help-dropdown {
@@ -642,22 +677,53 @@
         .toast.show { opacity: 1; }
         
         @media (max-width: 500px) {
-            .news-title { font-size: 1rem; }
+            .news-title { font-size: 1.3rem; }
             .news-info-grid { gap: 8px; }
         }
     </style>
 </head>
 <body>
 
+<!-- সাইড ড্রয়ার (মেনু) -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="side-drawer" id="sideDrawer">
+    <div class="drawer-header">
+        <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User&background=ffffff&color=333&bold=true">
+        <div class="drawer-name" id="drawerName">লোড হচ্ছে...</div>
+        <div class="drawer-email" id="drawerEmail"></div>
+    </div>
+    <div class="drawer-menu">
+        <div class="drawer-item" onclick="closeDrawer(); showMyPosts()">
+            <i class="fa-regular fa-user"></i>
+            <span>আমার পোস্ট</span>
+        </div>
+        <div class="drawer-item" onclick="closeDrawer(); openPostModal()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            <span>নতুন পোস্ট</span>
+        </div>
+        <div class="drawer-item" onclick="closeDrawer(); toggleHelp()">
+            <i class="fa-regular fa-circle-question"></i>
+            <span>সাহায্য</span>
+        </div>
+        <div class="drawer-item" id="logoutDrawerBtn">
+            <i class="fa-solid fa-sign-out-alt"></i>
+            <span>লগআউট</span>
+        </div>
+    </div>
+</div>
+
 <!-- হেডার -->
 <div class="app-header">
     <div class="logo-area">
-        <h1>বাংলাদেশ মেলা</h1>
-        <p>দেশের মেলার ঠিকানা</p>
+        <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
+        <div>
+            <h1>বাংলাদেশ মেলা</h1>
+            <p>দেশের মেলার ঠিকানা</p>
+        </div>
     </div>
     <div class="header-icons">
+        <i class="fa-regular fa-bell" id="notifIcon"></i>
         <i class="fa-regular fa-circle-question" id="helpIcon"></i>
-        <img id="userAvatar" class="user-avatar-small" src="" onclick="toggleProfileDropdown()">
     </div>
 </div>
 
@@ -667,7 +733,7 @@
     <hr style="margin: 8px 0;">
     <p><strong>📌 কিভাবে ব্যবহার করবেন:</strong></p>
     <ul style="margin-left: 18px; font-size: 0.75rem;">
-        <li>🔍 সার্চ দিয়ে মেলা খুঁজুন</li>
+        <li>🔍 সার্চ করতে মেনু বারের 🔍 আইকনে ক্লিক করুন</li>
         <li>📝 নিচের + বাটন চেপে পোস্ট করুন</li>
         <li>❤️ লাইকে ইমোজি রিয়েকশন দিন</li>
         <li>📍 গুগল ম্যাপ লিংক দিতে পারেন (ঐচ্ছিক)</li>
@@ -677,16 +743,8 @@
     <button id="closeHelp" style="margin-top:10px; padding:6px; background:#eee; border:none; border-radius:20px; cursor:pointer;">বন্ধ করুন</button>
 </div>
 
-<!-- প্রোফাইল ড্রপডাউন -->
-<div id="profileDropdown" class="profile-dropdown">
-    <p><strong id="userName"></strong></p>
-    <p style="font-size: 0.7rem; color: #888;" id="userEmail"></p>
-    <button id="showMyPostsBtn"><i class="fa-regular fa-user"></i> আমার পোস্ট</button>
-    <button id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
-</div>
-
-<!-- সার্চ বার -->
-<div class="search-wrapper">
+<!-- সার্চ বার (প্রাথমিকভাবে হাইডেন) -->
+<div class="search-wrapper" id="searchWrapper">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ লিখুন...">
@@ -705,7 +763,7 @@
     </div>
 </div>
 
-<!-- চলন্ত লেখা -->
+<!-- চলন্ত লেখা (উপরে ও নিচে জিরো মার্জিন) -->
 <div class="marquee-card">
     <div class="marquee">
         <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
@@ -754,7 +812,7 @@
         <i class="fa-solid fa-house"></i>
         <span>হোম</span>
     </button>
-    <button class="nav-item" id="navSearch">
+    <button class="nav-item" id="navSearchBtn">
         <i class="fa-solid fa-magnifying-glass"></i>
         <span>সার্চ</span>
     </button>
@@ -771,7 +829,7 @@
     </button>
 </div>
 
-<!-- পোস্ট মডাল (বেনামে চেকবক্স সহ) -->
+<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলা পোস্ট করুন</h3>
@@ -797,7 +855,6 @@
             <option value="সাপ্তাহিক">সাপ্তাহিক</option>
         </select>
         
-        <!-- বেনামে পোস্ট করার চেকবক্স -->
         <div class="checkbox-group">
             <input type="checkbox" id="anonymousPost">
             <label for="anonymousPost">🕵️ বেনামে পোস্ট করুন (নাম গোপন রাখুন)</label>
@@ -875,9 +932,11 @@
     auth.onAuthStateChanged(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
         currentUser = user;
-        document.getElementById("userName").innerText = currentUser.displayName || "User";
-        document.getElementById("userEmail").innerText = currentUser.email || "";
-        document.getElementById("userAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
+        
+        // ড্রয়ারে ইউজার তথ্য আপডেট
+        document.getElementById("drawerName").innerText = currentUser.displayName || "User";
+        document.getElementById("drawerEmail").innerText = currentUser.email || "";
+        document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
         
         await loadDivisions();
         await loadSliderImages();
@@ -1096,7 +1155,6 @@
         return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' });
     }
     
-    // নাম দেখানোর ফাংশন (বেনামে চেক করলে "🕵️ বেনামে" দেখাবে)
     function getDisplayName(post) {
         if(post.isAnonymous) {
             return { name: '🕵️ বেনামে', isAnonymous: true };
@@ -1186,7 +1244,6 @@
             }
             actionButtons += `</div>`;
             
-            // নামের HTML (বেনামে হলে আলাদা স্টাইল)
             const nameHtml = displayInfo.isAnonymous 
                 ? `<span class="anonymous-badge"><i class="fa-regular fa-user-secret"></i> ${displayInfo.name}</span>`
                 : `<span><i class="fa-regular fa-user"></i> ${escapeHtml(displayInfo.name)}</span>`;
@@ -1216,11 +1273,6 @@
                 </div>
                 <div class="news-footer">
                     ${actionButtons}
-                    <button class="card-dropdown-btn" onclick="event.stopPropagation();toggleDropdown('dd${post.id}')" style="background:none; border:none; cursor:pointer; color:#888;"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                </div>
-                <div class="card-dropdown" id="dd${post.id}">
-                    <div class="dd-item" onclick="event.stopPropagation();openDetail('${post.id}')"><i class="fa-regular fa-eye"></i> বিস্তারিত</div>
-                    <div class="dd-item" onclick="event.stopPropagation();shareMela('${post.id}')"><i class="fa-regular fa-share-from-square"></i> শেয়ার</div>
                 </div>
             `;
             container.appendChild(card);
@@ -1353,23 +1405,53 @@
         showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল');
     }
     
-    function toggleProfileDropdown() {
-        document.getElementById("profileDropdown").classList.toggle("show");
+    // ড্রয়ার ফাংশন
+    function openDrawer() {
+        document.getElementById("sideDrawer").classList.add("open");
+        document.getElementById("drawerOverlay").classList.add("show");
+    }
+    
+    function closeDrawer() {
+        document.getElementById("sideDrawer").classList.remove("open");
+        document.getElementById("drawerOverlay").classList.remove("show");
     }
     
     async function showMyPosts() {
         showingMyPosts = true;
         currentView = "home";
-        document.getElementById("profileDropdown").classList.remove("show");
         await loadPosts();
         document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
         document.getElementById("navHome").classList.add("active");
+        closeDrawer();
     }
     
-    document.getElementById("logoutBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
-    document.getElementById("showMyPostsBtn").onclick = () => showMyPosts();
+    function openPostModal() {
+        document.getElementById("postModal").style.display = "flex";
+        closeDrawer();
+    }
+    
+    function toggleHelp() {
+        document.getElementById("helpDropdown").classList.toggle("show");
+        closeDrawer();
+    }
+    
+    document.getElementById("menuIcon").onclick = openDrawer;
+    document.getElementById("drawerOverlay").onclick = closeDrawer;
+    document.getElementById("logoutDrawerBtn").onclick = async () => { 
+        await auth.signOut(); 
+        window.location.href = "login.html"; 
+    };
+    
     document.getElementById("helpIcon").onclick = () => document.getElementById("helpDropdown").classList.toggle("show");
     document.getElementById("closeHelp").onclick = () => document.getElementById("helpDropdown").classList.remove("show");
+    
+    // সার্চ বার টগল (নিচের মেনুবারের সার্চ আইকনে ক্লিক করলে)
+    document.getElementById("navSearchBtn").onclick = () => {
+        document.getElementById("searchWrapper").classList.toggle("show");
+        if(document.getElementById("searchWrapper").classList.contains("show")) {
+            document.getElementById("searchInput").focus();
+        }
+    };
     
     document.querySelectorAll(".category-item").forEach(item => {
         item.addEventListener("click", () => {
@@ -1383,8 +1465,7 @@
     document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); updateNavActive("home"); };
     document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
     document.getElementById("navCreate").onclick = () => document.getElementById("postModal").style.display = "flex";
-    document.getElementById("navProfileBtn").onclick = () => toggleProfileDropdown();
-    document.getElementById("navSearch").onclick = () => document.getElementById("searchInput").focus();
+    document.getElementById("navProfileBtn").onclick = openDrawer;
     
     function updateNavActive(active) {
         document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
@@ -1397,7 +1478,7 @@
     document.getElementById("closeEditModal").onclick = () => document.getElementById("editPostModal").style.display = "none";
     document.getElementById("updatePostBtn").onclick = () => updatePost();
     
-    // Submit Post - বেনামে অপশন সহ
+    // Submit Post
     document.getElementById("submitPost").onclick = async () => {
         const title = document.getElementById("postTitle").value.trim();
         const division = document.getElementById("postDivision").value;
@@ -1412,7 +1493,6 @@
         
         if(!title || !division || !district) { alert("মেলার নাম, বিভাগ ও জেলা দিন!"); return; }
         
-        // পোস্ট ডাটা তৈরি
         const postData = { 
             title, division, district, upazila, 
             locationLink: locationLink || "",
@@ -1424,11 +1504,10 @@
             isAnonymous: isAnonymous
         };
         
-        // বেনামে না হলে নাম সংরক্ষণ করবে, বেনামে হলে নাম সংরক্ষণ করবে না (শুধু isAnonymous = true)
         if(!isAnonymous) {
             postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
         } else {
-            postData.posterName = null; // বেনামে পোস্টে নাম থাকবে না
+            postData.posterName = null;
         }
         
         await db.ref('posts').push(postData);
@@ -1442,16 +1521,6 @@
         showToast("✅ মেলা পোস্ট হয়েছে!");
     };
     
-    window.toggleDropdown = function(id) {
-        document.querySelectorAll('.card-dropdown').forEach(d => { if(d.id !== id) d.classList.remove('open'); });
-        document.getElementById(id)?.classList.toggle('open');
-    };
-    
-    window.shareMela = function(id) {
-        navigator.clipboard?.writeText(window.location.href);
-        showToast("📋 লিংক কপি হয়েছে");
-    };
-    
     function showToast(msg) {
         const toast = document.getElementById("toast");
         toast.textContent = msg;
@@ -1462,14 +1531,8 @@
     window.onclick = (e) => {
         if(e.target === document.getElementById("postModal")) document.getElementById("postModal").style.display = "none";
         if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
-        if(!e.target.closest('.app-header') && !e.target.closest('#navProfileBtn')) {
-            document.getElementById("profileDropdown").classList.remove("show");
-        }
         if(!e.target.closest('.app-header') && !e.target.closest('#helpIcon')) {
             document.getElementById("helpDropdown").classList.remove("show");
-        }
-        if(!e.target.closest('.card-dropdown') && !e.target.closest('.card-dropdown-btn')) {
-            document.querySelectorAll('.card-dropdown').forEach(d => d.classList.remove('open'));
         }
     };
 </script>
