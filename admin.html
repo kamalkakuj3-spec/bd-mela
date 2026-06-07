@@ -2,949 +2,767 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>বাংলাদেশ মেলা - অ্যাডমিন প্যানেল</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>🔐 অ্যাডমিন প্যানেল | বাংলাদেশ মেলা</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 :root {
-  --green: #00e676; --green-dark: #00c853; --green-glow: rgba(0,230,118,0.25);
-  --gold: #ffd700; --gold-dark: #ffaa00; --gold-glow: rgba(255,215,0,0.25);
-  --red: #ff1744; --red-glow: rgba(255,23,68,0.25);
-  --purple: #ce93d8; --silver: #b0bec5;
-  --bg: #040b18; --card: rgba(8,18,38,0.9); --card2: rgba(12,25,55,0.95);
+  --green: #00e676;
+  --green-dark: #00c853;
+  --gold: #ffd700;
+  --gold-dark: #ffaa00;
+  --silver: #c0c0c0;
+  --red: #ff1744;
+  --dark-bg: #0a0f1a;
+  --card-bg: #111827;
   --border: rgba(0,230,118,0.2);
 }
+
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Hind Siliguri',sans-serif; background:var(--bg); color:#e8f5e9; min-height:100vh; overflow-x:hidden; }
+body {
+  font-family: 'Hind Siliguri', sans-serif;
+  background: var(--dark-bg);
+  color: #e5e7eb;
+  padding: 20px;
+}
 
-/* BG */
-.bg-fx { position:fixed; inset:0; z-index:0; pointer-events:none; }
-.bg-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(0,230,118,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,118,0.03) 1px,transparent 1px); background-size:50px 50px; }
-.bg-orb { position:absolute; border-radius:50%; filter:blur(100px); opacity:0.08; }
-.ob1 { width:500px;height:500px;background:radial-gradient(var(--green),transparent);top:-100px;left:-100px; }
-.ob2 { width:400px;height:400px;background:radial-gradient(var(--gold),transparent);bottom:0;right:0; }
+.admin-container { max-width: 1400px; margin: 0 auto; }
 
-/* AUTH */
-#adminAuth { position:fixed;inset:0;z-index:999;background:radial-gradient(ellipse,#081828,#010508);display:flex;align-items:center;justify-content:center; }
-.auth-card { background:linear-gradient(135deg,rgba(8,20,45,0.98),rgba(4,10,22,0.99));border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:40px;width:90%;max-width:380px;text-align:center;position:relative;overflow:hidden; }
-.auth-card::before { content:'';position:absolute;top:-1px;left:-1px;right:-1px;bottom:-1px;background:linear-gradient(45deg,var(--green),var(--gold),var(--purple),var(--green));border-radius:21px;z-index:-1;background-size:300% 300%;animation:ba 4s linear infinite; }
-@keyframes ba { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
-.auth-icon { font-size:50px;margin-bottom:10px; }
-.auth-title { font-size:22px;font-weight:700;color:var(--gold);margin-bottom:4px; }
-.auth-sub { font-size:13px;color:var(--silver);margin-bottom:24px; }
-.admin-input { width:100%;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px 16px;color:#e8f5e9;font-family:'Hind Siliguri',sans-serif;font-size:14px;outline:none;margin-bottom:10px;transition:border 0.3s; }
-.admin-input:focus { border-color:var(--green); }
-.login-btn { width:100%;background:linear-gradient(135deg,var(--green-dark),var(--green));border:none;border-radius:50px;padding:12px;color:#000;font-size:16px;font-weight:700;font-family:'Hind Siliguri',sans-serif;cursor:pointer;margin-top:6px; }
+/* Header */
+.admin-header {
+  background: linear-gradient(135deg, #0f1724, #0a0f1a);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.admin-header h1 {
+  font-size: 1.6rem;
+  background: linear-gradient(135deg, var(--green), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.admin-header p { color: var(--silver); font-size: 0.85rem; }
+.header-stats { display: flex; gap: 20px; }
+.stat-badge {
+  background: rgba(0,230,118,0.1);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+}
+.stat-badge i { color: var(--green); margin-right: 6px; }
 
-/* LAYOUT */
-#adminApp { display:none;position:relative;z-index:1; }
-.layout { display:flex;min-height:100vh; }
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-left: 3px solid var(--green);
+  padding-left: 12px;
+}
+/* Form */
+.form-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.form-group { flex: 1; min-width: 180px; }
+label { display: block; font-size: 0.75rem; color: var(--silver); margin-bottom: 4px; }
+input, select, textarea {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: white;
+  font-family: 'Hind Siliguri', sans-serif;
+  font-size: 0.85rem;
+}
+button {
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Hind Siliguri', sans-serif;
+  transition: all 0.2s;
+}
+button.danger { background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; }
+button.warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+button:hover { transform: translateY(-2px); filter: brightness(1.05); }
 
-/* SIDEBAR */
-.sidebar { width:230px;background:linear-gradient(180deg,rgba(5,15,35,0.97),rgba(3,8,18,0.98));border-right:1px solid var(--border);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;display:flex;flex-direction:column; }
-.sb-logo { padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px; }
-.sb-logo-icon { font-size:28px; }
-.sb-logo-text { font-size:16px;font-weight:700;background:linear-gradient(90deg,var(--green),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
-.sb-menu { padding:12px 0;flex:1; }
-.sb-section { font-size:10px;color:rgba(255,255,255,0.3);padding:10px 16px 4px;text-transform:uppercase;letter-spacing:1px; }
-.sb-item { display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;transition:all 0.2s;border-left:3px solid transparent;font-size:14px;color:var(--silver); }
-.sb-item:hover,.sb-item.active { background:rgba(0,230,118,0.08);border-left-color:var(--green);color:var(--green); }
-.sb-item i { width:18px;text-align:center; }
-.sb-badge { margin-left:auto;background:var(--red);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;font-weight:700; }
-.sb-bottom { padding:16px;border-top:1px solid var(--border); }
-.sb-admin-info { display:flex;align-items:center;gap:8px; }
-.sb-ava { width:36px;height:36px;border-radius:50%;border:2px solid var(--green);object-fit:cover; }
-.sb-name { font-size:13px;font-weight:600;color:var(--green); }
-.sb-role { font-size:10px;color:var(--silver); }
+/* Table */
+.table-responsive { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+th { color: var(--gold); font-size: 0.8rem; }
+td { font-size: 0.8rem; }
+.badge {
+  background: rgba(0,230,118,0.15);
+  padding: 4px 10px;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  color: var(--green);
+}
+.slider-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #1a2436;
+  padding: 12px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+}
+.slider-item img { width: 70px; height: 50px; object-fit: cover; border-radius: 12px; }
 
-/* MAIN */
-.main { margin-left:230px;flex:1;padding:20px; }
-.page { display:none; }
-.page.active { display:block; }
+/* Tabs */
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.tab-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--silver);
+  border-radius: 40px;
+  padding: 8px 20px;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  color: #000;
+  border: none;
+}
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
 
-/* PAGE HEADER */
-.page-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:20px; }
-.page-title { font-size:22px;font-weight:700;color:var(--gold); }
-.page-sub { font-size:13px;color:var(--silver);margin-top:2px; }
-.btn { display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:8px;border:none;font-family:'Hind Siliguri',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.3s; }
-.btn-green { background:linear-gradient(135deg,var(--green-dark),var(--green));color:#000; }
-.btn-green:hover { box-shadow:0 4px 15px var(--green-glow); }
-.btn-red { background:rgba(255,23,68,0.1);border:1px solid rgba(255,23,68,0.3);color:var(--red); }
-.btn-red:hover { background:rgba(255,23,68,0.2); }
-.btn-gold { background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);color:var(--gold); }
-.btn-sm { padding:6px 12px;font-size:12px; }
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.modal.open { display: flex; }
+.modal-content {
+  background: #111827;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  max-width: 500px;
+  width: 90%;
+  padding: 25px;
+}
+.modal-content h3 { margin-bottom: 15px; color: var(--gold); }
 
-/* STATS CARDS */
-.stats-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px; }
-.stat-card { background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;position:relative;overflow:hidden;transition:all 0.3s; }
-.stat-card:hover { transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,230,118,0.1); }
-.stat-card::after { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--bar-color,var(--green)); }
-.stat-icon { font-size:28px;margin-bottom:8px; }
-.stat-val { font-size:28px;font-weight:700;color:var(--gold); }
-.stat-label { font-size:12px;color:var(--silver);margin-top:2px; }
-.stat-change { font-size:11px;margin-top:4px; }
-.up { color:var(--green); } .down { color:var(--red); }
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #1e293b; }
+::-webkit-scrollbar-thumb { background: var(--green); border-radius: 10px; }
 
-/* TABLE */
-.table-wrap { background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden; }
-.table-header { padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center; }
-.table-title { font-size:15px;font-weight:700;color:var(--green); }
-.search-input { background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:8px;padding:7px 12px;color:#e8f5e9;font-family:'Hind Siliguri',sans-serif;font-size:13px;outline:none;width:200px; }
-table { width:100%;border-collapse:collapse; }
-th { padding:10px 14px;background:rgba(0,0,0,0.2);text-align:left;font-size:12px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:0.5px; }
-td { padding:10px 14px;border-top:1px solid rgba(255,255,255,0.04);font-size:13px;vertical-align:middle; }
-tr:hover td { background:rgba(0,230,118,0.03); }
-.td-name { font-weight:600;color:var(--gold); }
-.tag { display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600; }
-.tag-live { background:rgba(0,230,118,0.15);color:var(--green);border:1px solid rgba(0,230,118,0.3); }
-.tag-soon { background:rgba(255,215,0,0.15);color:var(--gold);border:1px solid rgba(255,215,0,0.3); }
-.tag-ended { background:rgba(255,255,255,0.05);color:var(--silver);border:1px solid rgba(255,255,255,0.15); }
-.tag-blocked { background:rgba(255,23,68,0.15);color:var(--red);border:1px solid rgba(255,23,68,0.3); }
-.tag-active { background:rgba(0,230,118,0.15);color:var(--green);border:1px solid rgba(0,230,118,0.3); }
-.action-btns { display:flex;gap:6px; }
-
-/* FORM CARD */
-.form-card { background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px; }
-.form-card-title { font-size:15px;font-weight:700;color:var(--green);margin-bottom:14px; }
-.form-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-.form-group { display:flex;flex-direction:column;gap:4px; }
-.form-group.full { grid-column:span 2; }
-.form-label { font-size:12px;color:var(--green);font-weight:600; }
-.form-input,.form-textarea,.form-select { background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:8px;padding:10px 14px;color:#e8f5e9;font-family:'Hind Siliguri',sans-serif;font-size:13px;outline:none;transition:border 0.3s; }
-.form-input:focus,.form-textarea:focus,.form-select:focus { border-color:var(--green); }
-.form-textarea { resize:vertical;min-height:80px; }
-.form-select option { background:#0a1628; }
-.form-hint { font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px; }
-
-/* SLIDER MANAGER */
-.slider-cards { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px; }
-.slider-card { background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden; }
-.slider-card-img { height:100px;background:linear-gradient(135deg,#0d3b20,#1a6b3a);display:flex;align-items:center;justify-content:center;font-size:30px;position:relative; }
-.slider-card-body { padding:10px; }
-.slider-card-title { font-size:13px;font-weight:600;color:var(--gold);margin-bottom:4px; }
-.slider-card-type { font-size:11px;color:var(--silver); }
-.slider-card-actions { display:flex;gap:6px;margin-top:8px; }
-
-/* NOTIFICATION MANAGER */
-.notif-composer { background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px; }
-
-/* SETTINGS */
-.settings-section { background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px; }
-.settings-title { font-size:15px;font-weight:700;color:var(--green);margin-bottom:14px;display:flex;align-items:center;gap:8px; }
-.setting-row { display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05); }
-.setting-row:last-child { border:none; }
-.setting-label { font-size:14px;color:#e8f5e9; }
-.setting-sub { font-size:11px;color:var(--silver);margin-top:2px; }
-.toggle { width:44px;height:24px;background:rgba(255,255,255,0.1);border-radius:12px;position:relative;cursor:pointer;transition:all 0.3s;border:none; }
-.toggle.on { background:var(--green); }
-.toggle::after { content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:2px;left:2px;transition:all 0.3s; }
-.toggle.on::after { left:22px; }
-
-/* MODAL */
-.modal-bg { display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:16px; }
-.modal-bg.open { display:flex; }
-.modal-box { background:linear-gradient(135deg,#0a1f3c,#050f20);border:1px solid rgba(0,230,118,0.3);border-radius:20px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto; }
-.modal-head { padding:16px 20px;border-bottom:1px solid rgba(0,230,118,0.1);display:flex;justify-content:space-between;align-items:center; }
-.modal-head-title { font-size:18px;font-weight:700;color:var(--gold); }
-.modal-close { background:none;border:none;color:var(--silver);font-size:18px;cursor:pointer; }
-.modal-body { padding:20px; }
-
-/* CHARTS placeholder */
-.chart-wrap { background:rgba(0,230,118,0.03);border:1px solid rgba(0,230,118,0.1);border-radius:10px;padding:16px;min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px; }
-.chart-bar-row { display:flex;align-items:flex-end;gap:6px;height:120px;width:100%; }
-.chart-bar { flex:1;border-radius:4px 4px 0 0;transition:all 0.5s;cursor:pointer;position:relative; }
-.chart-bar:hover { filter:brightness(1.3); }
-.chart-bar::after { content:attr(data-val);position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--silver);white-space:nowrap; }
-.chart-labels { display:flex;gap:6px;margin-top:6px; }
-.chart-label { flex:1;text-align:center;font-size:10px;color:var(--silver); }
-
-/* TOAST */
-.toast { position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#0d2040,#0a1628);border:1px solid var(--green);color:var(--green);padding:12px 20px;border-radius:10px;font-size:13px;z-index:1000;opacity:0;transition:all 0.3s;pointer-events:none; }
-.toast.show { opacity:1; }
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width:4px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:rgba(0,230,118,0.3);border-radius:2px; }
-
-/* Dropdown detail */
-.dd-toggle { cursor:pointer; color:var(--green); font-size:12px; margin-bottom:8px; }
-.dd-detail { display:none; padding:10px; background:rgba(0,0,0,0.2); border-radius:8px; font-size:12px; color:var(--silver); line-height:1.8; }
-.dd-detail.open { display:block; }
+@media (max-width: 768px) {
+  .admin-header { flex-direction: column; text-align: center; }
+  .form-row { flex-direction: column; }
+  th, td { font-size: 0.7rem; }
+}
 </style>
 </head>
 <body>
-<div class="bg-fx"><div class="bg-grid"></div><div class="bg-orb ob1"></div><div class="bg-orb ob2"></div></div>
 
-<!-- ADMIN AUTH -->
-<div id="adminAuth">
-  <div class="auth-card">
-    <div class="auth-icon">🛡️</div>
-    <div class="auth-title">অ্যাডমিন প্যানেল</div>
-    <div class="auth-sub">বাংলাদেশ মেলা নিয়ন্ত্রণ কেন্দ্র</div>
-    <input class="admin-input" type="email" id="adminEmail" placeholder="অ্যাডমিন ইমেইল">
-    <input class="admin-input" type="password" id="adminPass" placeholder="পাসওয়ার্ড">
-    <button class="login-btn" onclick="adminLogin()">🔐 অ্যাডমিন লগইন</button>
-    <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.3)">শুধুমাত্র অনুমোদিত অ্যাডমিনের জন্য</div>
+<div class="admin-container">
+  
+  <!-- Header -->
+  <div class="admin-header">
+    <div>
+      <h1><i class="fa fa-shield-alt"></i> অ্যাডমিন প্যানেল</h1>
+      <p>বাংলাদেশ মেলা - সম্পূর্ণ নিয়ন্ত্রণ কেন্দ্র</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat-badge"><i class="fa fa-calendar"></i> <span id="todayDate"></span></div>
+      <div class="stat-badge"><i class="fa fa-users"></i> মোট ইউজার: <span id="totalUsers">০</span></div>
+      <div class="stat-badge"><i class="fa fa-tent"></i> মোট মেলা: <span id="totalMelas">০</span></div>
+    </div>
   </div>
-</div>
 
-<!-- ADMIN APP -->
-<div id="adminApp">
-  <div class="layout">
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('slider')"><i class="fa fa-images"></i> স্লাইডার</button>
+    <button class="tab-btn" onclick="showTab('contact')"><i class="fa fa-phone"></i> কন্টাক্ট</button>
+    <button class="tab-btn" onclick="showTab('posts')"><i class="fa fa-newspaper"></i> সকল পোস্ট</button>
+    <button class="tab-btn" onclick="showTab('users')"><i class="fa fa-user-shield"></i> ইউজার ব্যবস্থাপনা</button>
+    <button class="tab-btn" onclick="showTab('promo')"><i class="fa fa-rocket"></i> প্রোমো বুস্ট</button>
+    <button class="tab-btn" onclick="showTab('stats')"><i class="fa fa-chart-line"></i> পরিসংখ্যান</button>
+  </div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="sb-logo">
-        <div class="sb-logo-icon">🎪</div>
-        <div><div class="sb-logo-text">বাংলাদেশ মেলা</div><div style="font-size:10px;color:var(--silver)">ADMIN PANEL</div></div>
-      </div>
-      <div class="sb-menu">
-        <div class="sb-section">প্রধান</div>
-        <div class="sb-item active" onclick="showPage('dashboard',this)"><i class="fa fa-chart-pie"></i> ড্যাশবোর্ড</div>
-        <div class="sb-item" onclick="showPage('melas',this)"><i class="fa fa-store"></i> সকল মেলা <span class="sb-badge" id="melaBadge">০</span></div>
-        <div class="sb-section">ব্যবস্থাপনা</div>
-        <div class="sb-item" onclick="showPage('users',this)"><i class="fa fa-users"></i> ব্যবহারকারী</div>
-        <div class="sb-item" onclick="showPage('slider',this)"><i class="fa fa-images"></i> স্লাইডার/বিজ্ঞাপন</div>
-        <div class="sb-item" onclick="showPage('notifications',this)"><i class="fa fa-bell"></i> নোটিফিকেশন</div>
-        <div class="sb-item" onclick="showPage('analytics',this)"><i class="fa fa-chart-line"></i> Analytics</div>
-        <div class="sb-section">সেটিংস</div>
-        <div class="sb-item" onclick="showPage('settings',this)"><i class="fa fa-cog"></i> সেটিংস</div>
-        <div class="sb-item" onclick="showPage('helpmanage',this)"><i class="fa fa-question-circle"></i> সাহায্য ম্যানেজ</div>
-      </div>
-      <div class="sb-bottom">
-        <div class="sb-admin-info">
-          <img class="sb-ava" id="adminAva" src="https://ui-avatars.com/api/?name=Admin&background=ffd700&color=000&bold=true">
-          <div><div class="sb-name" id="adminNameSb">অ্যাডমিন</div><div class="sb-role">Super Admin</div></div>
+  <!-- ==================== TAB 1: SLIDER ==================== -->
+  <div id="tabSlider" class="tab-pane active">
+    <div class="card">
+      <div class="card-title"><i class="fa fa-sliders-h"></i> ইমেজ স্লাইডার কন্ট্রোল</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>ইমেজ URL</label>
+          <input type="text" id="slideUrl" placeholder="https://example.com/image.jpg">
         </div>
-        <button class="btn btn-red btn-sm" style="width:100%;margin-top:10px" onclick="adminLogout()"><i class="fa fa-sign-out-alt"></i> লগআউট</button>
+        <div class="form-group">
+          <label>ক্লিক লিংক</label>
+          <input type="text" id="slideLink" placeholder="https://example.com/mela-detail">
+        </div>
+        <div class="form-group">
+          <label>বিজ্ঞাপনের শিরোনাম</label>
+          <input type="text" id="slideTitle" placeholder="প্রোমো টেক্সট (ঐচ্ছিক)">
+        </div>
+      </div>
+      <button id="addSlideBtn"><i class="fa fa-plus"></i> স্লাইড যোগ করুন</button>
+      
+      <div style="margin-top: 20px;">
+        <h4 style="margin-bottom: 12px;">বর্তমান স্লাইড সমূহ</h4>
+        <div id="slidesList"></div>
       </div>
     </div>
+  </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main">
-
-      <!-- DASHBOARD -->
-      <div class="page active" id="page-dashboard">
-        <div class="page-header">
-          <div><div class="page-title">📊 ড্যাশবোর্ড</div><div class="page-sub">বাংলাদেশ মেলা - সামগ্রিক পরিসংখ্যান</div></div>
-          <div style="display:flex;gap:8px">
-            <div style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);border-radius:8px;font-size:13px;color:var(--green)">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:livePulse 1s infinite;display:inline-block"></span>
-              লাইভ: <strong id="dbLive">৪৭</strong> জন
-            </div>
-          </div>
+  <!-- ==================== TAB 2: CONTACT ==================== -->
+  <div id="tabContact" class="tab-pane">
+    <div class="card">
+      <div class="card-title"><i class="fa fa-phone-alt"></i> কন্টাক্ট নম্বর কন্ট্রোল</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>হটলাইন নম্বর</label>
+          <input type="text" id="adminContactNumber" placeholder="০১৯৯৯-৮৮৮৭৭৭">
         </div>
-        <div class="stats-grid">
-          <div class="stat-card" style="--bar-color:var(--green)"><div class="stat-icon">🎪</div><div class="stat-val" id="totalMelas">০</div><div class="stat-label">মোট মেলা</div><div class="stat-change up">↑ আজ ৩টি নতুন</div></div>
-          <div class="stat-card" style="--bar-color:var(--gold)"><div class="stat-icon">🟢</div><div class="stat-val" id="liveMelas">০</div><div class="stat-label">চলমান মেলা</div><div class="stat-change up">↑ সক্রিয়</div></div>
-          <div class="stat-card" style="--bar-color:var(--purple)"><div class="stat-icon">👥</div><div class="stat-val" id="totalUsers">০</div><div class="stat-label">মোট ব্যবহারকারী</div><div class="stat-change up">↑ +১৫ আজ</div></div>
-          <div class="stat-card" style="--bar-color:var(--red)"><div class="stat-icon">❤️</div><div class="stat-val" id="totalLikes">০</div><div class="stat-label">মোট লাইক</div><div class="stat-change up">↑ বাড়ছে</div></div>
-        </div>
-
-        <!-- Weekly Chart -->
-        <div class="form-card" style="margin-bottom:16px">
-          <div class="form-card-title">📈 সাপ্তাহিক মেলা পোস্ট</div>
-          <div class="chart-wrap">
-            <div class="chart-bar-row" id="weekChart"></div>
-            <div class="chart-labels" id="weekLabels"></div>
-          </div>
-        </div>
-
-        <!-- Recent Posts -->
-        <div class="table-wrap">
-          <div class="table-header">
-            <div class="table-title">সাম্প্রতিক মেলা পোস্ট</div>
-            <button class="btn btn-green btn-sm" onclick="showPage('melas',document.querySelector('[onclick*=melas]'))">সব দেখুন</button>
-          </div>
-          <table><thead><tr><th>মেলার নাম</th><th>বিভাগ</th><th>স্থান</th><th>অবস্থা</th><th>কাজ</th></tr></thead>
-          <tbody id="recentMelaTable"></tbody></table>
+        <div class="form-group">
+          <label>ইমার্জেন্সি নম্বর</label>
+          <input type="text" id="adminEmergencyNumber" placeholder="০১৭৭৭-৭৭৭৭৭৭">
         </div>
       </div>
+      <button id="updateContactBtn"><i class="fa fa-save"></i> কন্টাক্ট আপডেট করুন</button>
+      <div style="margin-top: 15px; background:#1a2436; padding:12px; border-radius:12px;">
+        <span><i class="fa fa-info-circle"></i> বর্তমান নম্বর:</span>
+        <span id="currentContactDisplay" style="color:var(--gold); margin-left:10px;">০১৯৯৯-৮৮৮৭৭৭</span>
+      </div>
+    </div>
+  </div>
 
-      <!-- ALL MELAS -->
-      <div class="page" id="page-melas">
-        <div class="page-header">
-          <div><div class="page-title">🎪 সকল মেলা</div><div class="page-sub">সমস্ত মেলার তালিকা ও পরিচালনা</div></div>
+  <!-- ==================== TAB 3: POSTS ==================== -->
+  <div id="tabPosts" class="tab-pane">
+    <div class="card">
+      <div class="card-title"><i class="fa fa-list-ul"></i> সকল পোস্ট ব্যবস্থাপনা</div>
+      <div class="form-row">
+        <div class="form-group">
+          <input type="text" id="searchPost" placeholder="মেলার নাম বা বিভাগ লিখুন..." style="background:#1e293b;">
         </div>
-        <div class="table-wrap">
-          <div class="table-header">
-            <div class="table-title">মেলার তালিকা</div>
-            <input class="search-input" placeholder="মেলা খুঁজুন..." oninput="filterAdminMelas(this.value)">
-          </div>
-          <table><thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>স্থান</th><th>তারিখ</th><th>অবস্থা</th><th>পোস্টকারী</th><th>কাজ</th></tr></thead>
-          <tbody id="adminMelaTable"></tbody></table>
+        <div class="form-group">
+          <select id="filterPostStatus">
+            <option value="all">সব অবস্থা</option>
+            <option value="live">চলমান</option>
+            <option value="soon">আসন্ন</option>
+            <option value="ended">সমাপ্ত</option>
+          </select>
+        </div>
+        <div><button id="refreshPostsBtn" class="warning"><i class="fa fa-refresh"></i> রিফ্রেশ</button></div>
+      </div>
+      <div class="table-responsive">
+        <table id="postsTable">
+          <thead>
+            <tr><th>মেলার নাম</th><th>বিভাগ</th><th>জেলা</th><th>স্থিতি</th><th>পোস্টার</th><th>অ্যাকশন</th></tr>
+          </thead>
+          <tbody id="postsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 4: USERS ==================== -->
+  <div id="tabUsers" class="tab-pane">
+    <div class="card">
+      <div class="card-title"><i class="fa fa-users-cog"></i> ইউজার ব্যবস্থাপনা</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>ইমেইল দিয়ে ইউজার ব্লক করুন</label>
+          <input type="email" id="blockEmail" placeholder="user@example.com">
+        </div>
+        <div><button id="blockUserBtn" class="danger"><i class="fa fa-ban"></i> ব্লক করুন</button></div>
+      </div>
+      <div style="margin-top: 20px;">
+        <h4>📋 ব্লক করা ইউজার লিস্ট</h4>
+        <div id="bannedUsersList" style="margin-top: 12px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 5: PROMO ==================== -->
+  <div id="tabPromo" class="tab-pane">
+    <div class="card">
+      <div class="card-title"><i class="fa fa-gem"></i> প্রোমো বুস্ট রিকোয়েস্ট</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>মেলা আইডি / নাম</label>
+          <input type="text" id="promoMelaId" placeholder="মেলার আইডি বা নাম">
+        </div>
+        <div class="form-group">
+          <label>বুস্ট সময়কাল (দিন)</label>
+          <select id="promoDuration">
+            <option value="3">৩ দিন</option>
+            <option value="7" selected>৭ দিন</option>
+            <option value="15">১৫ দিন</option>
+            <option value="30">৩০ দিন</option>
+          </select>
+        </div>
+        <div><button id="applyPromoBtn" class="warning"><i class="fa fa-rocket"></i> প্রোমো অ্যাপ্রুভ করুন</button></div>
+      </div>
+      <div style="margin-top: 20px;">
+        <h4>🚀 বর্তমানে প্রোমো চলছে</h4>
+        <div id="promoActiveList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 6: STATISTICS ==================== -->
+  <div id="tabStats" class="tab-pane">
+    <div class="card">
+      <div class="card-title"><i class="fa fa-chart-simple"></i> সম্পূর্ণ পরিসংখ্যান</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 15px;">
+        <div style="background:#1a2436; padding:15px; border-radius:16px; text-align:center;">
+          <div style="font-size:28px; color:var(--gold);" id="statTotalMelas">০</div>
+          <div>মোট মেলা</div>
+        </div>
+        <div style="background:#1a2436; padding:15px; border-radius:16px; text-align:center;">
+          <div style="font-size:28px; color:var(--green);" id="statLiveMelas">০</div>
+          <div>চলমান মেলা</div>
+        </div>
+        <div style="background:#1a2436; padding:15px; border-radius:16px; text-align:center;">
+          <div style="font-size:28px; color:var(--gold);" id="statSoonMelas">০</div>
+          <div>আসন্ন মেলা</div>
+        </div>
+        <div style="background:#1a2436; padding:15px; border-radius:16px; text-align:center;">
+          <div style="font-size:28px; color:var(--silver);" id="statEndedMelas">০</div>
+          <div>সমাপ্ত মেলা</div>
+        </div>
+        <div style="background:#1a2436; padding:15px; border-radius:16px; text-align:center;">
+          <div style="font-size:28px; color:#a78bfa;" id="statTotalReviews">০</div>
+          <div>মোট রিভিউ</div>
         </div>
       </div>
-
-      <!-- USERS -->
-      <div class="page" id="page-users">
-        <div class="page-header">
-          <div><div class="page-title">👥 ব্যবহারকারী</div><div class="page-sub">সকল নিবন্ধিত ব্যবহারকারীর তালিকা</div></div>
-        </div>
-        <div class="table-wrap">
-          <div class="table-header">
-            <div class="table-title">ব্যবহারকারীর তালিকা</div>
-            <input class="search-input" placeholder="নাম বা ইমেইল..." oninput="filterUsers(this.value)">
-          </div>
-          <table><thead><tr><th>নাম</th><th>ইমেইল</th><th>পোস্ট সংখ্যা</th><th>যোগদান</th><th>অবস্থা</th><th>কাজ</th></tr></thead>
-          <tbody id="usersTable"></tbody></table>
-        </div>
-      </div>
-
-      <!-- SLIDER MANAGER -->
-      <div class="page" id="page-slider">
-        <div class="page-header">
-          <div><div class="page-title">🖼️ স্লাইডার / বিজ্ঞাপন</div><div class="page-sub">ইমেজ স্লাইডার ও প্রমোশনাল বিজ্ঞাপন পরিচালনা</div></div>
-          <button class="btn btn-green" onclick="openSliderModal()"><i class="fa fa-plus"></i> নতুন স্লাইড যোগ</button>
-        </div>
-
-        <div class="form-card">
-          <div class="form-card-title">💰 প্রমোশন প্যাকেজ (bKash/Nagad)</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-            <div style="background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:14px;text-align:center">
-              <div style="font-size:20px;font-weight:700;color:var(--green)">৳৫০০</div>
-              <div style="font-size:13px;color:var(--silver)">৭ দিন</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px">১টি স্লাইড</div>
-            </div>
-            <div style="background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:14px;text-align:center">
-              <div style="font-size:20px;font-weight:700;color:var(--gold)">৳১৫০০</div>
-              <div style="font-size:13px;color:var(--silver)">৩০ দিন</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px">১টি স্লাইড</div>
-            </div>
-            <div style="background:rgba(206,147,216,0.05);border:1px solid rgba(206,147,216,0.2);border-radius:10px;padding:14px;text-align:center">
-              <div style="font-size:20px;font-weight:700;color:var(--purple)">৳৩০০০</div>
-              <div style="font-size:13px;color:var(--silver)">৯০ দিন</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px">২টি স্লাইড</div>
-            </div>
-          </div>
-          <div style="margin-top:14px;font-size:12px;color:var(--silver)">📞 বিজ্ঞাপনের জন্য যোগাযোগ: <strong id="promoContact" style="color:var(--gold)">01XXXXXXXXX</strong></div>
-        </div>
-
-        <div class="table-wrap">
-          <div class="table-header"><div class="table-title">সক্রিয় স্লাইড তালিকা</div></div>
-          <table><thead><tr><th>#</th><th>শিরোনাম</th><th>ধরন</th><th>মেয়াদ</th><th>অবস্থা</th><th>কাজ</th></tr></thead>
-          <tbody id="sliderTable"></tbody></table>
-        </div>
-      </div>
-
-      <!-- NOTIFICATIONS -->
-      <div class="page" id="page-notifications">
-        <div class="page-header">
-          <div><div class="page-title">🔔 নোটিফিকেশন পাঠান</div><div class="page-sub">সকল ব্যবহারকারীদের Push Notification পাঠান</div></div>
-        </div>
-        <div class="form-card">
-          <div class="form-card-title">📢 নতুন নোটিফিকেশন</div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">শিরোনাম</label><input class="form-input" id="notifTitle" placeholder="নোটিফিকেশনের শিরোনাম"></div>
-            <div class="form-group"><label class="form-label">প্রাপক</label>
-              <select class="form-select" id="notifTarget">
-                <option value="all">সকল ব্যবহারকারী</option>
-                <option value="active">সক্রিয় ব্যবহারকারী</option>
-              </select>
-            </div>
-            <div class="form-group full"><label class="form-label">বার্তা</label><textarea class="form-textarea" id="notifBody" placeholder="নোটিফিকেশনের বিস্তারিত বার্তা..."></textarea></div>
-          </div>
-          <div style="margin-top:14px;display:flex;gap:10px">
-            <button class="btn btn-green" onclick="sendNotification()"><i class="fa fa-paper-plane"></i> নোটিফিকেশন পাঠান</button>
-            <button class="btn btn-gold" onclick="previewNotif()"><i class="fa fa-eye"></i> প্রিভিউ</button>
-          </div>
-        </div>
-
-        <div class="table-wrap">
-          <div class="table-header"><div class="table-title">পাঠানো নোটিফিকেশন ইতিহাস</div></div>
-          <table><thead><tr><th>শিরোনাম</th><th>বার্তা</th><th>প্রাপক</th><th>সময়</th></tr></thead>
-          <tbody id="notifHistoryTable"><tr><td colspan="4" style="text-align:center;color:var(--silver);padding:20px">এখনো কোনো নোটিফিকেশন পাঠানো হয়নি</td></tr></tbody></table>
-        </div>
-      </div>
-
-      <!-- ANALYTICS -->
-      <div class="page" id="page-analytics">
-        <div class="page-header">
-          <div><div class="page-title">📈 Analytics</div><div class="page-sub">ব্যবহারকারী ও মেলার বিশ্লেষণ</div></div>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-card" style="--bar-color:var(--green)"><div class="stat-icon">🟢</div><div class="stat-val" id="anLive">৪৭</div><div class="stat-label">এখন অ্যাক্টিভ</div></div>
-          <div class="stat-card" style="--bar-color:var(--gold)"><div class="stat-icon">📅</div><div class="stat-val" id="anToday">১২৩</div><div class="stat-label">আজকের ভিজিটর</div></div>
-          <div class="stat-card" style="--bar-color:var(--purple)"><div class="stat-icon">📆</div><div class="stat-val" id="anWeek">৮৪৫</div><div class="stat-label">সাপ্তাহিক</div></div>
-          <div class="stat-card" style="--bar-color:var(--red)"><div class="stat-icon">📊</div><div class="stat-val" id="anMonth">৩,২৪১</div><div class="stat-label">মাসিক</div></div>
-        </div>
-        <div class="form-card">
-          <div class="form-card-title">📊 মাসিক ব্যবহারকারী গ্রাফ</div>
-          <div class="chart-wrap" id="monthlyChart">
-            <div class="chart-bar-row" id="monthChart"></div>
-            <div class="chart-labels" id="monthLabels"></div>
-          </div>
-        </div>
-        <div class="form-card">
-          <div class="form-card-title">🗺️ বিভাগ অনুযায়ী মেলা</div>
-          <div id="divisionStats"></div>
-        </div>
-        <div style="margin-top:12px;padding:14px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.15);border-radius:10px;font-size:13px;color:var(--silver)">
-          <i class="fa fa-info-circle" style="color:var(--green)"></i> বিস্তারিত Analytics এর জন্য Google Analytics কোড যোগ করুন Settings থেকে।
-        </div>
-      </div>
-
-      <!-- SETTINGS -->
-      <div class="page" id="page-settings">
-        <div class="page-header">
-          <div><div class="page-title">⚙️ সেটিংস</div><div class="page-sub">অ্যাপ কনফিগারেশন ও পরিচালনা</div></div>
-        </div>
-
-        <div class="settings-section">
-          <div class="settings-title"><i class="fa fa-phone"></i> যোগাযোগ তথ্য</div>
-          <div class="setting-row">
-            <div><div class="setting-label">যোগাযোগ নম্বর</div><div class="setting-sub">সাহায্য প্যানেলে দেখাবে</div></div>
-            <input class="form-input" id="contactNumInput" placeholder="01XXXXXXXXX" style="width:180px" value="01XXXXXXXXX">
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">প্রমো যোগাযোগ নম্বর</div><div class="setting-sub">বিজ্ঞাপন প্যানেলে দেখাবে</div></div>
-            <input class="form-input" id="promoNumInput" placeholder="01XXXXXXXXX" style="width:180px" value="01XXXXXXXXX">
-          </div>
-          <button class="btn btn-green" style="margin-top:12px" onclick="saveContactNum()"><i class="fa fa-save"></i> সংরক্ষণ করুন</button>
-        </div>
-
-        <div class="settings-section">
-          <div class="settings-title"><i class="fa fa-bullhorn"></i> চলন্ত লেখা (Marquee)</div>
-          <div class="form-group">
-            <label class="form-label">চলন্ত বার্তা</label>
-            <textarea class="form-textarea" id="marqueeInput" placeholder="চলন্ত বার্তা লিখুন...">🎪 বাংলাদেশ মেলা অ্যাপে স্বাগতম! সকল মেলার আপডেট পান •</textarea>
-          </div>
-          <button class="btn btn-green" style="margin-top:10px" onclick="saveMarquee()"><i class="fa fa-save"></i> আপডেট করুন</button>
-        </div>
-
-        <div class="settings-section">
-          <div class="settings-title"><i class="fa fa-chart-bar"></i> Google Analytics</div>
-          <div class="form-group">
-            <label class="form-label">Measurement ID (G-XXXXXXXXXX)</label>
-            <input class="form-input" id="gaId" placeholder="G-XXXXXXXXXX">
-            <div class="form-hint">Google Analytics 4 থেকে Measurement ID নিন</div>
-          </div>
-          <button class="btn btn-green" style="margin-top:10px" onclick="saveGaId()"><i class="fa fa-save"></i> সংরক্ষণ</button>
-        </div>
-
-        <div class="settings-section">
-          <div class="settings-title"><i class="fa fa-shield-alt"></i> অ্যাডমিন পাসওয়ার্ড পরিবর্তন</div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">নতুন পাসওয়ার্ড</label><input class="form-input" type="password" id="newPass" placeholder="নতুন পাসওয়ার্ড"></div>
-            <div class="form-group"><label class="form-label">নিশ্চিত করুন</label><input class="form-input" type="password" id="confPass" placeholder="আবার লিখুন"></div>
-          </div>
-          <button class="btn btn-gold" style="margin-top:12px" onclick="changePass()"><i class="fa fa-key"></i> পরিবর্তন করুন</button>
-        </div>
-      </div>
-
-      <!-- HELP MANAGE -->
-      <div class="page" id="page-helpmanage">
-        <div class="page-header">
-          <div><div class="page-title">❓ সাহায্য পরিচালনা</div><div class="page-sub">FAQ এবং সাহায্য তথ্য আপডেট করুন</div></div>
-          <button class="btn btn-green" onclick="addFaqRow()"><i class="fa fa-plus"></i> নতুন FAQ</button>
-        </div>
-        <div id="faqManager"></div>
-      </div>
-
-    </div><!-- /main -->
-  </div><!-- /layout -->
-</div>
-
-<!-- SLIDER MODAL -->
-<div class="modal-bg" id="sliderModal">
-  <div class="modal-box">
-    <div class="modal-head"><div class="modal-head-title">🖼️ নতুন স্লাইড যোগ</div><button class="modal-close" onclick="closeSliderModal()"><i class="fa fa-times"></i></button></div>
-    <div class="modal-body">
-      <div class="form-group" style="margin-bottom:12px"><label class="form-label">শিরোনাম *</label><input class="form-input" id="sl_title" placeholder="স্লাইডের শিরোনাম"></div>
-      <div class="form-group" style="margin-bottom:12px"><label class="form-label">সাব-শিরোনাম</label><input class="form-input" id="sl_sub" placeholder="ছোট বিবরণ"></div>
-      <div class="form-group" style="margin-bottom:12px"><label class="form-label">ইমেজ URL / রং</label><input class="form-input" id="sl_img" placeholder="https://... অথবা CSS gradient"></div>
-      <div class="form-group" style="margin-bottom:12px">
-        <label class="form-label">ধরন</label>
-        <select class="form-select" id="sl_type">
-          <option value="promo">📢 বিজ্ঞাপন (Promo)</option>
-          <option value="featured">⭐ ফিচার্ড মেলা</option>
-          <option value="info">ℹ️ তথ্য</option>
-        </select>
-      </div>
-      <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-        <div class="form-group"><label class="form-label">শুরু তারিখ</label><input class="form-input" type="date" id="sl_start"></div>
-        <div class="form-group"><label class="form-label">শেষ তারিখ</label><input class="form-input" type="date" id="sl_end"></div>
-      </div>
-      <button class="btn btn-green" style="width:100%" onclick="addSlide()"><i class="fa fa-plus"></i> স্লাইড যোগ করুন</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="adminToast"></div>
+<!-- Edit Post Modal -->
+<div id="editPostModal" class="modal">
+  <div class="modal-content">
+    <h3>✏️ মেলা তথ্য সম্পাদনা</h3>
+    <input type="text" id="editTitle" placeholder="মেলার নাম">
+    <select id="editCategory">
+      <option value="কৃষি">🌾 কৃষি</option><option value="বাণিজ্য">💼 বাণিজ্য</option>
+      <option value="সাংস্কৃতিক">🎭 সাংস্কৃতিক</option><option value="বইমেলা">📚 বইমেলা</option>
+      <option value="খাবার">🍽️ খাবার</option>
+    </select>
+    <input type="text" id="editDivision" placeholder="বিভাগ">
+    <input type="text" id="editDistrict" placeholder="জেলা">
+    <input type="text" id="editUpazila" placeholder="উপজেলা">
+    <div style="display: flex; gap: 10px;">
+      <input type="date" id="editStartDate">
+      <input type="date" id="editEndDate">
+    </div>
+    <textarea id="editDescription" rows="3" placeholder="বিবরণ"></textarea>
+    <div style="display: flex; gap: 10px; margin-top: 15px;">
+      <button id="updatePostBtn" style="flex:1;">আপডেট করুন</button>
+      <button id="closeEditModal" class="danger" style="flex:1;">বাতিল</button>
+    </div>
+  </div>
+</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, getDoc, doc, setDoc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+<script>
 // ============================================================
-// FIREBASE CONFIG - Same as index.html
+// DEMO DATA (Admin Panel - Local Storage Based)
 // ============================================================
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+let adminMelas = [];
+let bannedUsers = [];
+let currentEditId = null;
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let allMelas = [];
-let allUsers = [];
-let slides = [];
-let adminUser = null;
-
-// Demo admin credentials (replace with Firebase Auth)
-const ADMIN_EMAIL = "admin@bdmela.com";
-const ADMIN_PASS  = "admin123"; // Change this!
-
-// ============================================================
-// AUTH
-// ============================================================
-window.adminLogin = async function() {
-  const email = document.getElementById('adminEmail').value.trim();
-  const pass  = document.getElementById('adminPass').value;
-  try {
-    const uc = await signInWithEmailAndPassword(auth, email, pass);
-    adminUser = uc.user;
-    showAdminApp(adminUser);
-  } catch(e) {
-    // Demo fallback
-    if(email===ADMIN_EMAIL && pass===ADMIN_PASS) {
-      showAdminApp({ displayName:'অ্যাডমিন', email:ADMIN_EMAIL, photoURL:null });
-    } else {
-      showToast('❌ ভুল ইমেইল বা পাসওয়ার্ড');
-    }
-  }
-};
-
-onAuthStateChanged(auth, user => {
-  if(user) { adminUser=user; showAdminApp(user); }
-});
-
-function showAdminApp(user) {
-  document.getElementById('adminAuth').style.display='none';
-  document.getElementById('adminApp').style.display='block';
-  const name = user.displayName||'অ্যাডমিন';
-  document.getElementById('adminNameSb').textContent = name;
-  const ava = user.photoURL||`https://ui-avatars.com/api/?name=Admin&background=ffd700&color=000&bold=true`;
-  document.getElementById('adminAva').src = ava;
-  loadAllData();
-  buildCharts();
-  updateLive();
-  buildFaqManager();
-}
-
-window.adminLogout = async function() {
-  await fbSignOut(auth);
-  location.reload();
-};
-
-// ============================================================
-// LOAD DATA
-// ============================================================
-async function loadAllData() {
-  // Load melas
-  try {
-    const q = query(collection(db,'melas'), orderBy('createdAt','desc'));
-    onSnapshot(q, snap => {
-      allMelas = snap.docs.map(d=>({id:d.id,...d.data()}));
-      renderDashboard();
-      renderMelaTable();
-    });
-  } catch(e) {
-    allMelas = getDemoMelas();
-    renderDashboard();
-    renderMelaTable();
-  }
-
-  // Load users
-  try {
-    const snap = await getDocs(collection(db,'users'));
-    allUsers = snap.docs.map(d=>({id:d.id,...d.data()}));
-  } catch(e) {
-    allUsers = getDemoUsers();
-  }
-  renderUsersTable();
-
-  // Load slides
-  try {
-    const snap = await getDocs(collection(db,'slides'));
-    slides = snap.docs.map(d=>({id:d.id,...d.data()}));
-  } catch(e) {
-    slides = getDemoSlides();
-  }
-  renderSliderTable();
-
-  // Load settings
-  loadSettings();
-}
-
-// ============================================================
-// DEMO DATA
-// ============================================================
-function getDemoMelas() {
+// Demo melas data
+function getDemoAdminMelas() {
   const today = new Date();
-  const fmt = d=>d.toISOString().split('T')[0];
-  const add = (d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r;};
+  const fmt = d => d.toISOString().split('T')[0];
+  const add = (d, n) => { const r=new Date(d); r.setDate(r.getDate()+n); return r; };
   return [
-    {id:'1',name:'ঢাকা আন্তর্জাতিক বাণিজ্য মেলা',category:'বাণিজ্য',division:'ঢাকা',district:'ঢাকা',startDate:fmt(add(today,-5)),endDate:fmt(add(today,25)),likes:145,comments:[],posterName:'আহমেদ আলী',posterEmail:'ahmed@test.com',posterId:'u1'},
-    {id:'2',name:'রাজশাহী কৃষি মেলা',category:'কৃষি',division:'রাজশাহী',district:'রাজশাহী',startDate:fmt(add(today,5)),endDate:fmt(add(today,12)),likes:89,comments:[],posterName:'করিম উদ্দীন',posterEmail:'karim@test.com',posterId:'u2'},
-    {id:'3',name:'চট্টগ্রাম সাংস্কৃতিক মেলা',category:'সাংস্কৃতিক',division:'চট্টগ্রাম',district:'চট্টগ্রাম',startDate:fmt(add(today,-2)),endDate:fmt(add(today,3)),likes:203,comments:[],posterName:'রহিমা বেগম',posterEmail:'rahima@test.com',posterId:'u3'},
-    {id:'4',name:'একুশে বইমেলা',category:'বইমেলা',division:'ঢাকা',district:'ঢাকা',startDate:fmt(add(today,15)),endDate:fmt(add(today,45)),likes:512,comments:[],posterName:'জাহানারা ইসলাম',posterEmail:'j@test.com',posterId:'u4'},
-  ];
-}
-function getDemoUsers() {
-  return [
-    {id:'u1',name:'আহমেদ আলী',email:'ahmed@test.com',joinDate:'২০২৫-০১-১৫',posts:5,blocked:false},
-    {id:'u2',name:'করিম উদ্দীন',email:'karim@test.com',joinDate:'২০২৫-০২-২০',posts:3,blocked:false},
-    {id:'u3',name:'রহিমা বেগম',email:'rahima@test.com',joinDate:'২০২৫-০৩-১০',posts:7,blocked:false},
-    {id:'u4',name:'জাহানারা ইসলাম',email:'j@test.com',joinDate:'২০২৫-০৪-05',posts:2,blocked:true},
-  ];
-}
-function getDemoSlides() {
-  return [
-    {id:'s1',title:'আপনার মেলার বিজ্ঞাপন দিন',sub:'অ্যাডমিনের সাথে যোগাযোগ করুন',type:'promo',active:true,startDate:'2025-01-01',endDate:'2025-12-31'},
-    {id:'s2',title:'ঢাকা বাণিজ্য মেলা',sub:'বশিলা, ঢাকা',type:'featured',active:true,startDate:'2025-06-01',endDate:'2025-06-30'},
+    { id:'1', name:'ঢাকা আন্তর্জাতিক বাণিজ্য মেলা', category:'বাণিজ্য', division:'ঢাকা', district:'ঢাকা', upazila:'শেরেবাংলা', place:'বঙ্গবন্ধু আন্তর্জাতিক সম্মেলন কেন্দ্র', startDate:fmt(add(today,-5)), endDate:fmt(add(today,25)), description:'বাংলাদেশের সবচেয়ে বড় বাণিজ্য মেলা।', phone:'01711-XXXXXX', ratings:{}, likes:145, posterName:'আহমেদ আলী', posterEmail:'ahmed@example.com', promo:true, promoExpiry:add(today,10).toISOString() },
+    { id:'2', name:'রাজশাহী কৃষি মেলা ২০২৫', category:'কৃষি', division:'রাজশাহী', district:'রাজশাহী', upazila:'রাজশাহী সদর', place:'রাজশাহী কলেজ মাঠ', startDate:fmt(add(today,5)), endDate:fmt(add(today,12)), description:'কৃষি ও প্রযুক্তির সমন্বয়ে এক অনন্য মেলা।', phone:'01812-XXXXXX', ratings:{}, likes:89, posterName:'করিম উদ্দীন', posterEmail:'karim@example.com', promo:false, promoExpiry:null },
+    { id:'3', name:'চট্টগ্রাম সাংস্কৃতিক মেলা', category:'সাংস্কৃতিক', division:'চট্টগ্রাম', district:'চট্টগ্রাম', upazila:'চট্টগ্রাম সদর', place:'এম.এ. আজিজ স্টেডিয়াম', startDate:fmt(add(today,-2)), endDate:fmt(add(today,3)), description:'চট্টগ্রামের ঐতিহ্যবাহী সাংস্কৃতিক মেলা।', phone:'01911-XXXXXX', ratings:{}, likes:203, posterName:'রহিমা বেগম', posterEmail:'rahima@example.com', promo:false, promoExpiry:null },
+    { id:'4', name:'একুশে বইমেলা ২০২৫', category:'বইমেলা', division:'ঢাকা', district:'ঢাকা', upazila:'ধানমন্ডি', place:'বাংলা একাডেমি প্রাঙ্গণ', startDate:fmt(add(today,15)), endDate:fmt(add(today,45)), description:'বাংলাদেশের সবচেয়ে প্রতীক্ষিত বইমেলা।', phone:'01611-XXXXXX', ratings:{}, likes:512, posterName:'জাহানারা ইসলাম', posterEmail:'jahanara@example.com', promo:false, promoExpiry:null },
+    { id:'5', name:'ময়মনসিংহ খাদ্য মেলা', category:'খাবার', division:'ময়মনসিংহ', district:'ময়মনসিংহ', upazila:'ময়মনসিংহ সদর', place:'টাউন হল মাঠ', startDate:fmt(today), endDate:fmt(add(today,7)), description:'বাংলাদেশের বিভিন্ন অঞ্চলের ঐতিহ্যবাহী খাবারের মেলা।', phone:'01711-YYYYYY', ratings:{}, likes:178, posterName:'ফারিদা খানম', posterEmail:'farida@example.com', promo:false, promoExpiry:null },
   ];
 }
 
-// ============================================================
-// DASHBOARD
-// ============================================================
-function renderDashboard() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const live = allMelas.filter(m=>{const s=new Date(m.startDate),e=new Date(m.endDate);return s<=today&&e>=today;});
-  const totalLikes = allMelas.reduce((s,m)=>s+(m.likes||0),0);
-  document.getElementById('totalMelas').textContent = allMelas.length;
-  document.getElementById('liveMelas').textContent = live.length;
-  document.getElementById('totalUsers').textContent = allUsers.length || Math.floor(30+Math.random()*100);
-  document.getElementById('totalLikes').textContent = totalLikes;
-  document.getElementById('melaBadge').textContent = allMelas.length;
-  renderRecentTable();
+// Initialize / Load Data
+function loadAdminData() {
+  let saved = localStorage.getItem('admin_melas');
+  if(saved) {
+    adminMelas = JSON.parse(saved);
+  } else {
+    adminMelas = getDemoAdminMelas();
+    localStorage.setItem('admin_melas', JSON.stringify(adminMelas));
+  }
+  
+  let banned = localStorage.getItem('banned_users');
+  if(banned) {
+    bannedUsers = JSON.parse(banned);
+  } else {
+    bannedUsers = [];
+    localStorage.setItem('banned_users', JSON.stringify(bannedUsers));
+  }
+  
+  // Load slider from localStorage
+  let slides = localStorage.getItem('admin_slides');
+  if(!slides) {
+    const defaultSlides = [
+      { url: "https://placehold.co/600x180?text=Bangladesh+Mela+1", link: "#", title: "বাংলাদেশ মেলায় স্বাগতম" },
+      { url: "https://placehold.co/600x180?text=Winter+Sell", link: "#", title: "শীতকালীন মেলার অফার" },
+      { url: "https://placehold.co/600x180?text=Cultural+Mela", link: "#", title: "সাংস্কৃতিক মেলা আসছে" }
+    ];
+    localStorage.setItem('admin_slides', JSON.stringify(defaultSlides));
+  }
+  
+  // Load contact number
+  let contact = localStorage.getItem('admin_contact');
+  if(!contact) {
+    localStorage.setItem('admin_contact', JSON.stringify({ main: "০১৯৯৯-৮৮৮৭৭৭", emergency: "০১৭৭৭-৭৭৭৭৭৭" }));
+  }
+  
+  updateStats();
+  renderAllTables();
+  updateDate();
 }
 
-function renderRecentTable() {
-  const tbody = document.getElementById('recentMelaTable');
-  const today = new Date(); today.setHours(0,0,0,0);
-  tbody.innerHTML = allMelas.slice(0,8).map(m=>{
-    const s=new Date(m.startDate),e=new Date(m.endDate);
-    const status = e<today?'ended':s>today?'soon':'live';
-    const stClass={live:'tag-live',soon:'tag-soon',ended:'tag-ended'}[status];
-    const stText={live:'চলমান',soon:'আসছে',ended:'শেষ'}[status];
-    return `<tr>
-      <td class="td-name">${m.name}</td>
-      <td>${m.category||'—'}</td>
-      <td>${m.district||'—'}, ${m.division||''}</td>
-      <td><span class="tag ${stClass}">${stText}</span></td>
-      <td><div class="action-btns">
-        <button class="btn btn-sm btn-red" onclick="confirmDelete('${m.id}')"><i class="fa fa-trash"></i></button>
-        <button class="btn btn-sm btn-gold" onclick="viewMelaDetail('${m.id}')"><i class="fa fa-eye"></i></button>
-      </div></td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--silver);padding:20px">কোনো মেলা নেই</td></tr>';
+function updateDate() {
+  const d = new Date();
+  document.getElementById('todayDate').innerText = d.toLocaleDateString('bn-BD');
 }
 
-// ============================================================
-// MELA TABLE
-// ============================================================
-function renderMelaTable(filter='') {
-  const tbody = document.getElementById('adminMelaTable');
+function updateStats() {
+  document.getElementById('totalMelas').innerText = adminMelas.length;
+  document.getElementById('statTotalMelas').innerText = adminMelas.length;
+  
+  const live = adminMelas.filter(m => getStatus(m) === 'live').length;
+  const soon = adminMelas.filter(m => getStatus(m) === 'soon').length;
+  const ended = adminMelas.filter(m => getStatus(m) === 'ended').length;
+  document.getElementById('statLiveMelas').innerText = live;
+  document.getElementById('statSoonMelas').innerText = soon;
+  document.getElementById('statEndedMelas').innerText = ended;
+  
+  const totalReviews = adminMelas.reduce((sum, m) => sum + (m.reviews ? Object.keys(m.reviews).length : 0), 0);
+  document.getElementById('statTotalReviews').innerText = totalReviews;
+  document.getElementById('totalUsers').innerText = Math.floor(30 + Math.random() * 100);
+}
+
+function getStatus(mela) {
   const today = new Date(); today.setHours(0,0,0,0);
-  let melas = filter ? allMelas.filter(m=>JSON.stringify(m).toLowerCase().includes(filter.toLowerCase())) : allMelas;
-  tbody.innerHTML = melas.map(m=>{
-    const s=new Date(m.startDate),e=new Date(m.endDate);
-    const status=e<today?'ended':s>today?'soon':'live';
-    const stClass={live:'tag-live',soon:'tag-soon',ended:'tag-ended'}[status];
-    const stText={live:'চলমান',soon:'আসছে',ended:'শেষ'}[status];
-    return `<tr>
+  const start = new Date(mela.startDate);
+  const end = new Date(mela.endDate);
+  if(end < today) return 'ended';
+  if(start > today) return 'soon';
+  return 'live';
+}
+
+// ==================== SLIDER FUNCTIONS ====================
+function renderSlides() {
+  const slides = JSON.parse(localStorage.getItem('admin_slides') || '[]');
+  const container = document.getElementById('slidesList');
+  if(slides.length === 0) {
+    container.innerHTML = '<p style="color:var(--silver);">কোনো স্লাইড নেই। উপরে যোগ করুন।</p>';
+    return;
+  }
+  container.innerHTML = slides.map((slide, idx) => `
+    <div class="slider-item">
+      <img src="${slide.url}" onerror="this.src='https://placehold.co/70x50'">
+      <div style="flex:1;">
+        <div><strong>${slide.title || 'নামহীন'}</strong></div>
+        <div style="font-size:11px; color:var(--silver);">${slide.link.substring(0, 50)}...</div>
+      </div>
+      <button onclick="deleteSlide(${idx})" class="danger" style="padding:6px 12px;">ডিলিট</button>
+    </div>
+  `).join('');
+}
+
+window.deleteSlide = function(idx) {
+  let slides = JSON.parse(localStorage.getItem('admin_slides') || '[]');
+  slides.splice(idx, 1);
+  localStorage.setItem('admin_slides', JSON.stringify(slides));
+  renderSlides();
+};
+
+document.getElementById('addSlideBtn').onclick = function() {
+  const url = document.getElementById('slideUrl').value.trim();
+  const link = document.getElementById('slideLink').value.trim();
+  const title = document.getElementById('slideTitle').value.trim();
+  if(!url || !link) {
+    alert('ইমেজ URL এবং লিংক দিন!');
+    return;
+  }
+  let slides = JSON.parse(localStorage.getItem('admin_slides') || '[]');
+  slides.push({ url, link, title: title || 'প্রোমো স্লাইড' });
+  localStorage.setItem('admin_slides', JSON.stringify(slides));
+  document.getElementById('slideUrl').value = '';
+  document.getElementById('slideLink').value = '';
+  document.getElementById('slideTitle').value = '';
+  renderSlides();
+  alert('✅ স্লাইড যোগ হয়েছে!');
+};
+
+// ==================== CONTACT FUNCTIONS ====================
+function renderContact() {
+  const contact = JSON.parse(localStorage.getItem('admin_contact') || '{}');
+  document.getElementById('adminContactNumber').value = contact.main || '';
+  document.getElementById('adminEmergencyNumber').value = contact.emergency || '';
+  document.getElementById('currentContactDisplay').innerHTML = `${contact.main || '০১৯৯৯-৮৮৮৭৭৭'} | ইমার্জেন্সি: ${contact.emergency || '০১৭৭৭-৭৭৭৭৭৭'}`;
+}
+
+document.getElementById('updateContactBtn').onclick = function() {
+  const main = document.getElementById('adminContactNumber').value.trim();
+  const emergency = document.getElementById('adminEmergencyNumber').value.trim();
+  if(!main) { alert('হটলাইন নম্বর দিন!'); return; }
+  localStorage.setItem('admin_contact', JSON.stringify({ main, emergency }));
+  renderContact();
+  alert('✅ কন্টাক্ট নম্বর আপডেট হয়েছে!');
+};
+
+// ==================== POSTS FUNCTIONS ====================
+function renderPostsTable() {
+  const search = document.getElementById('searchPost').value.toLowerCase();
+  const statusFilter = document.getElementById('filterPostStatus').value;
+  let filtered = adminMelas.filter(m => {
+    if(search && !m.name.toLowerCase().includes(search) && !m.division.toLowerCase().includes(search)) return false;
+    if(statusFilter !== 'all' && getStatus(m) !== statusFilter) return false;
+    return true;
+  });
+  
+  const tbody = document.getElementById('postsTableBody');
+  if(filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">কোনো পোস্ট নেই</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(m => `
+    <tr>
+      <td><strong>${m.name}</strong><br><small style="color:var(--silver);">${m.category}</small></td>
+      <td>${m.division}</td>
+      <td>${m.district}</td>
+      <td><span class="badge">${getStatus(m) === 'live' ? '🟢 চলমান' : (getStatus(m) === 'soon' ? '⏰ আসন্ন' : '⬛ সমাপ্ত')}</span></td>
+      <td>${m.posterName || 'অজ্ঞাত'}<br><small>${m.posterEmail || ''}</small></td>
       <td>
-        <div class="dd-toggle" onclick="this.nextElementSibling.classList.toggle('open')">▶ ${m.name}</div>
-        <div class="dd-detail">
-          <strong>বিবরণ:</strong> ${m.description||'নেই'}<br>
-          <strong>ফোন:</strong> ${m.phone||'নেই'}<br>
-          <strong>ওয়েবসাইট:</strong> ${m.website||'নেই'}<br>
-          <strong>লাইক:</strong> ${m.likes||0} | <strong>মন্তব্য:</strong> ${(m.comments||[]).length}
-        </div>
+        <button onclick="editPost('${m.id}')" style="background:#f59e0b; padding:4px 10px; margin-right:5px;"><i class="fa fa-edit"></i></button>
+        <button onclick="deletePost('${m.id}')" class="danger" style="padding:4px 10px;"><i class="fa fa-trash"></i></button>
       </td>
-      <td>${m.category||'—'}</td>
-      <td>${[m.place,m.upazila,m.district].filter(Boolean).join(', ')}</td>
-      <td style="font-size:11px">${m.startDate||''}<br>${m.endDate||''}</td>
-      <td><span class="tag ${stClass}">${stText}</span></td>
-      <td style="font-size:12px">${m.posterName||'—'}</td>
-      <td><div class="action-btns">
-        <button class="btn btn-sm btn-red" onclick="confirmDelete('${m.id}')"><i class="fa fa-trash"></i> মুছুন</button>
-      </div></td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--silver);padding:20px">কোনো মেলা নেই</td></tr>';
-}
-window.filterAdminMelas = v => renderMelaTable(v);
-
-// ============================================================
-// USERS
-// ============================================================
-function renderUsersTable(filter='') {
-  const tbody = document.getElementById('usersTable');
-  let users = filter ? allUsers.filter(u=>u.name?.toLowerCase().includes(filter.toLowerCase())||u.email?.toLowerCase().includes(filter.toLowerCase())) : allUsers;
-  tbody.innerHTML = users.map(u=>`<tr>
-    <td class="td-name">${u.name||'—'}</td>
-    <td style="font-size:12px">${u.email||'—'}</td>
-    <td style="text-align:center">${u.posts||allMelas.filter(m=>m.posterId===u.id).length}</td>
-    <td style="font-size:11px">${u.joinDate||'—'}</td>
-    <td><span class="tag ${u.blocked?'tag-blocked':'tag-active'}">${u.blocked?'ব্লকড':'সক্রিয়'}</span></td>
-    <td><div class="action-btns">
-      <button class="btn btn-sm ${u.blocked?'btn-green':'btn-red'}" onclick="toggleBlock('${u.id}')">
-        <i class="fa ${u.blocked?'fa-unlock':'fa-ban'}"></i> ${u.blocked?'আনব্লক':'ব্লক'}
-      </button>
-    </div></td>
-  </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--silver);padding:20px">কোনো ব্যবহারকারী নেই</td></tr>';
-}
-window.filterUsers = v => renderUsersTable(v);
-
-window.toggleBlock = async function(uid) {
-  const u = allUsers.find(x=>x.id===uid);
-  if(!u) return;
-  u.blocked = !u.blocked;
-  renderUsersTable();
-  try { await updateDoc(doc(db,'users',uid),{blocked:u.blocked}); } catch(e){}
-  showToast(u.blocked?'🚫 ব্যবহারকারী ব্লক হয়েছে':'✅ ব্লক সরানো হয়েছে');
-};
-
-// ============================================================
-// SLIDER
-// ============================================================
-function renderSliderTable() {
-  const tbody = document.getElementById('sliderTable');
-  tbody.innerHTML = slides.map((s,i)=>`<tr>
-    <td>${i+1}</td>
-    <td class="td-name">${s.title}</td>
-    <td><span class="tag tag-${s.type==='promo'?'live':'soon'}">${s.type==='promo'?'📢 বিজ্ঞাপন':'⭐ ফিচার্ড'}</span></td>
-    <td style="font-size:11px">${s.startDate||'—'} → ${s.endDate||'—'}</td>
-    <td><span class="tag ${s.active?'tag-live':'tag-ended'}">${s.active?'সক্রিয়':'বন্ধ'}</span></td>
-    <td><div class="action-btns">
-      <button class="btn btn-sm btn-gold" onclick="toggleSlide('${s.id}')"><i class="fa fa-toggle-${s.active?'on':'off'}"></i></button>
-      <button class="btn btn-sm btn-red" onclick="deleteSlide('${s.id}')"><i class="fa fa-trash"></i></button>
-    </div></td>
-  </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--silver);padding:20px">কোনো স্লাইড নেই</td></tr>';
-}
-window.openSliderModal = ()=>document.getElementById('sliderModal').classList.add('open');
-window.closeSliderModal = ()=>document.getElementById('sliderModal').classList.remove('open');
-window.addSlide = async function() {
-  const title = document.getElementById('sl_title').value.trim();
-  const sub = document.getElementById('sl_sub').value.trim();
-  const img = document.getElementById('sl_img').value.trim();
-  const type = document.getElementById('sl_type').value;
-  const startDate = document.getElementById('sl_start').value;
-  const endDate = document.getElementById('sl_end').value;
-  if(!title) { showToast('❌ শিরোনাম দিন'); return; }
-  const slide = {title,sub,img,type,startDate,endDate,active:true,createdAt:serverTimestamp()};
-  try { const ref=await addDoc(collection(db,'slides'),slide); slides.push({id:ref.id,...slide}); }
-  catch(e) { slides.push({id:'s'+Date.now(),...slide}); }
-  renderSliderTable(); closeSliderModal(); showToast('✅ স্লাইড যোগ হয়েছে');
-};
-window.toggleSlide = async function(id) {
-  const s=slides.find(x=>x.id===id); if(!s)return;
-  s.active=!s.active; renderSliderTable();
-  try { await updateDoc(doc(db,'slides',id),{active:s.active}); } catch(e){}
-  showToast(s.active?'✅ স্লাইড সক্রিয়':'❌ স্লাইড বন্ধ');
-};
-window.deleteSlide = async function(id) {
-  if(!confirm('স্লাইড মুছবেন?')) return;
-  slides=slides.filter(s=>s.id!==id); renderSliderTable();
-  try { await deleteDoc(doc(db,'slides',id)); } catch(e){}
-  showToast('🗑️ স্লাইড মুছে ফেলা হয়েছে');
-};
-
-// ============================================================
-// NOTIFICATIONS
-// ============================================================
-let notifHistory = [];
-window.sendNotification = async function() {
-  const title = document.getElementById('notifTitle').value.trim();
-  const body = document.getElementById('notifBody').value.trim();
-  const target = document.getElementById('notifTarget').value;
-  if(!title||!body) { showToast('❌ শিরোনাম ও বার্তা দিন'); return; }
-  const n = {title,body,target,sentAt:new Date().toLocaleString('bn-BD')};
-  notifHistory.unshift(n);
-  try { await addDoc(collection(db,'notifications'),{...n,createdAt:serverTimestamp()}); } catch(e){}
-  renderNotifHistory();
-  document.getElementById('notifTitle').value='';
-  document.getElementById('notifBody').value='';
-  showToast('📢 নোটিফিকেশন পাঠানো হয়েছে!');
-};
-window.previewNotif = function() {
-  const t=document.getElementById('notifTitle').value;
-  const b=document.getElementById('notifBody').value;
-  if(Notification.permission==='granted'){ new Notification(t,{body:b,icon:'🎪'}); }
-  else { Notification.requestPermission().then(p=>{if(p==='granted') new Notification(t,{body:b})}); }
-};
-function renderNotifHistory() {
-  const tbody=document.getElementById('notifHistoryTable');
-  tbody.innerHTML=notifHistory.map(n=>`<tr><td class="td-name">${n.title}</td><td style="font-size:12px">${n.body}</td><td>${n.target==='all'?'সকল':'সক্রিয়'}</td><td style="font-size:11px">${n.sentAt}</td></tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--silver);padding:20px">কোনো ইতিহাস নেই</td></tr>';
+    </tr>
+  `).join('');
 }
 
-// ============================================================
-// DELETE MELA
-// ============================================================
-window.confirmDelete = async function(id) {
-  if(!confirm('এই মেলা মুছবেন?')) return;
-  try { await deleteDoc(doc(db,'melas',id)); allMelas=allMelas.filter(m=>m.id!==id); }
-  catch(e) { allMelas=allMelas.filter(m=>m.id!==id); }
-  renderDashboard(); renderMelaTable(); showToast('🗑️ মেলা মুছে ফেলা হয়েছে');
+window.editPost = function(id) {
+  const mela = adminMelas.find(m => m.id === id);
+  if(!mela) return;
+  currentEditId = id;
+  document.getElementById('editTitle').value = mela.name;
+  document.getElementById('editCategory').value = mela.category;
+  document.getElementById('editDivision').value = mela.division;
+  document.getElementById('editDistrict').value = mela.district;
+  document.getElementById('editUpazila').value = mela.upazila || '';
+  document.getElementById('editStartDate').value = mela.startDate;
+  document.getElementById('editEndDate').value = mela.endDate;
+  document.getElementById('editDescription').value = mela.description || '';
+  document.getElementById('editPostModal').classList.add('open');
 };
 
-window.viewMelaDetail = function(id) {
-  const m=allMelas.find(x=>x.id===id);
-  if(!m)return;
-  alert(`মেলা: ${m.name}\nস্থান: ${[m.place,m.district,m.division].filter(Boolean).join(', ')}\nতারিখ: ${m.startDate} - ${m.endDate}\nলাইক: ${m.likes||0}\nমন্তব্য: ${(m.comments||[]).length}\nপোস্টকারী: ${m.posterName}`);
+window.deletePost = function(id) {
+  if(confirm('পোস্টটি মুছবেন?')) {
+    adminMelas = adminMelas.filter(m => m.id !== id);
+    localStorage.setItem('admin_melas', JSON.stringify(adminMelas));
+    renderPostsTable();
+    renderAllTables();
+    updateStats();
+    showToast('🗑️ পোস্ট মুছে ফেলা হয়েছে');
+  }
 };
 
-// ============================================================
-// SETTINGS
-// ============================================================
-function loadSettings() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('bdmela_settings')||'{}');
-    if(saved.contactNum) { document.getElementById('contactNumInput').value=saved.contactNum; document.getElementById('helpContactNum')&&(document.getElementById('helpContactNum').textContent=saved.contactNum); }
-    if(saved.promoNum) { document.getElementById('promoNumInput').value=saved.promoNum; }
-    if(saved.marquee) { document.getElementById('marqueeInput').value=saved.marquee; }
-    if(saved.gaId) { document.getElementById('gaId').value=saved.gaId; }
-  } catch(e){}
-}
-window.saveContactNum = function() {
-  const num=document.getElementById('contactNumInput').value.trim();
-  const pnum=document.getElementById('promoNumInput').value.trim();
-  const saved=JSON.parse(localStorage.getItem('bdmela_settings')||'{}');
-  saved.contactNum=num; saved.promoNum=pnum;
-  localStorage.setItem('bdmela_settings',JSON.stringify(saved));
-  document.getElementById('promoContact').textContent=pnum;
-  showToast('✅ নম্বর সংরক্ষিত হয়েছে');
-};
-window.saveMarquee = function() {
-  const txt=document.getElementById('marqueeInput').value;
-  const saved=JSON.parse(localStorage.getItem('bdmela_settings')||'{}');
-  saved.marquee=txt; localStorage.setItem('bdmela_settings',JSON.stringify(saved));
-  showToast('✅ চলন্ত লেখা আপডেট হয়েছে');
-};
-window.saveGaId = function() {
-  const id=document.getElementById('gaId').value.trim();
-  const saved=JSON.parse(localStorage.getItem('bdmela_settings')||'{}');
-  saved.gaId=id; localStorage.setItem('bdmela_settings',JSON.stringify(saved));
-  showToast('✅ Google Analytics ID সংরক্ষিত');
-};
-window.changePass = function() {
-  const np=document.getElementById('newPass').value;
-  const cp=document.getElementById('confPass').value;
-  if(!np){ showToast('❌ নতুন পাসওয়ার্ড দিন'); return; }
-  if(np!==cp){ showToast('❌ পাসওয়ার্ড মিলছে না'); return; }
-  showToast('✅ পাসওয়ার্ড পরিবর্তিত হয়েছে (Firebase এ আপডেট করুন)');
+document.getElementById('updatePostBtn').onclick = function() {
+  if(!currentEditId) return;
+  const index = adminMelas.findIndex(m => m.id === currentEditId);
+  if(index !== -1) {
+    adminMelas[index] = {
+      ...adminMelas[index],
+      name: document.getElementById('editTitle').value,
+      category: document.getElementById('editCategory').value,
+      division: document.getElementById('editDivision').value,
+      district: document.getElementById('editDistrict').value,
+      upazila: document.getElementById('editUpazila').value,
+      startDate: document.getElementById('editStartDate').value,
+      endDate: document.getElementById('editEndDate').value,
+      description: document.getElementById('editDescription').value
+    };
+    localStorage.setItem('admin_melas', JSON.stringify(adminMelas));
+    renderPostsTable();
+    renderAllTables();
+    updateStats();
+  }
+  document.getElementById('editPostModal').classList.remove('open');
+  showToast('✅ পোস্ট আপডেট হয়েছে');
 };
 
-// ============================================================
-// FAQ MANAGER
-// ============================================================
-let faqs = [
-  {q:'মেলা পোস্ট করব কীভাবে?', a:'নিচের + বাটনে ক্লিক করে তথ্য পূরণ করুন।'},
-  {q:'মেলা সার্চ করব কীভাবে?', a:'সার্চ বারে নাম বা বিভাগ/জেলা সিলেক্ট করুন।'},
-  {q:'মেলা ফেভারিট করব কীভাবে?', a:'বুকমার্ক আইকনে ক্লিক করুন।'},
-  {q:'আমার পোস্ট মুছব কীভাবে?', a:'পোস্টের ⋮ মেনু থেকে মুছুন।'},
-];
-function buildFaqManager() {
-  const el = document.getElementById('faqManager');
-  el.innerHTML = faqs.map((f,i)=>`
-    <div class="form-card" style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="font-size:13px;color:var(--gold);font-weight:600">FAQ #${i+1}</div>
-        <button class="btn btn-red btn-sm" onclick="removeFaq(${i})"><i class="fa fa-trash"></i></button>
-      </div>
-      <div class="form-group" style="margin-bottom:8px"><label class="form-label">প্রশ্ন</label><input class="form-input" value="${f.q}" onchange="faqs[${i}].q=this.value"></div>
-      <div class="form-group"><label class="form-label">উত্তর</label><textarea class="form-textarea" onchange="faqs[${i}].a=this.value" style="min-height:60px">${f.a}</textarea></div>
-    </div>`).join('');
-  el.innerHTML += `<button class="btn btn-green" onclick="saveFaqs()"><i class="fa fa-save"></i> সকল FAQ সংরক্ষণ করুন</button>`;
-}
-window.addFaqRow = function() { faqs.push({q:'',a:''}); buildFaqManager(); };
-window.removeFaq = function(i) { faqs.splice(i,1); buildFaqManager(); };
-window.saveFaqs = function() {
-  localStorage.setItem('bdmela_faqs',JSON.stringify(faqs));
-  showToast('✅ FAQ সংরক্ষিত হয়েছে');
+document.getElementById('closeEditModal').onclick = function() {
+  document.getElementById('editPostModal').classList.remove('open');
 };
 
-// ============================================================
-// CHARTS
-// ============================================================
-function buildCharts() {
-  const days = ['রবি','সোম','মঙ্গল','বুধ','বৃহ','শুক্র','শনি'];
-  const vals = [12,18,8,22,15,30,25];
-  const colors = ['#00e676','#ffd700','#ce93d8','#00e676','#ffd700','#ff1744','#00e676'];
-  const max = Math.max(...vals);
-  document.getElementById('weekChart').innerHTML = vals.map((v,i)=>`<div class="chart-bar" data-val="${v}" style="height:${(v/max)*100}%;background:${colors[i]};opacity:0.8"></div>`).join('');
-  document.getElementById('weekLabels').innerHTML = days.map(d=>`<div class="chart-label">${d}</div>`).join('');
+document.getElementById('refreshPostsBtn').onclick = function() {
+  renderPostsTable();
+};
 
-  const months = ['জানু','ফেব','মার্চ','এপ্রি','মে','জুন','জুলা','আগ','সেপ','অক্টো','নভে','ডিসে'];
-  const mvals = [450,680,520,890,1100,980,1250,1380,1020,1560,890,1200];
-  const mmax = Math.max(...mvals);
-  document.getElementById('monthChart').innerHTML = mvals.map((v,i)=>`<div class="chart-bar" data-val="${v}" style="height:${(v/mmax)*100}%;background:linear-gradient(180deg,var(--green),var(--green-dark))"></div>`).join('');
-  document.getElementById('monthLabels').innerHTML = months.map(m=>`<div class="chart-label">${m}</div>`).join('');
-
-  // Division stats
-  const divData = [
-    {name:'ঢাকা',count:45,pct:40},
-    {name:'চট্টগ্রাম',count:25,pct:22},
-    {name:'রাজশাহী',count:18,pct:16},
-    {name:'খুলনা',count:12,pct:11},
-    {name:'সিলেট',count:8,pct:7},
-    {name:'অন্যান্য',count:5,pct:4},
-  ];
-  document.getElementById('divisionStats').innerHTML = divData.map(d=>`
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <div style="width:80px;font-size:13px;color:var(--silver)">${d.name}</div>
-      <div style="flex:1;height:20px;background:rgba(0,0,0,0.3);border-radius:10px;overflow:hidden">
-        <div style="height:100%;width:${d.pct}%;background:linear-gradient(90deg,var(--green-dark),var(--green));border-radius:10px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:#000;font-weight:700">${d.pct}%</div>
-      </div>
-      <div style="font-size:13px;color:var(--gold);width:30px">${d.count}</div>
-    </div>`).join('');
+// ==================== USERS FUNCTIONS ====================
+function renderBannedUsers() {
+  const container = document.getElementById('bannedUsersList');
+  if(bannedUsers.length === 0) {
+    container.innerHTML = '<p style="color:var(--silver);">কোনো ব্লক করা ইউজার নেই</p>';
+    return;
+  }
+  container.innerHTML = bannedUsers.map((email, idx) => `
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#1a2436; padding:8px 12px; border-radius:10px; margin-bottom:6px;">
+      <span><i class="fa fa-ban" style="color:var(--red);"></i> ${email}</span>
+      <button onclick="unbanUser('${email}')" style="background:#1e293b; border:1px solid var(--green); padding:4px 12px;">আনব্লক</button>
+    </div>
+  `).join('');
 }
 
-// ============================================================
-// LIVE COUNT
-// ============================================================
-function updateLive() {
-  let c = 47;
-  document.getElementById('dbLive').textContent = c;
-  setInterval(()=>{ c=Math.max(20,c+Math.floor(Math.random()*6)-3); document.getElementById('dbLive').textContent=c; }, 5000);
-}
-
-// ============================================================
-// NAVIGATION
-// ============================================================
-window.showPage = function(page, el) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
-  document.getElementById('page-'+page)?.classList.add('active');
-  el?.classList.add('active');
+window.unbanUser = function(email) {
+  bannedUsers = bannedUsers.filter(e => e !== email);
+  localStorage.setItem('banned_users', JSON.stringify(bannedUsers));
+  renderBannedUsers();
+  showToast(`✅ ${email} আনব্লক করা হয়েছে`);
 };
 
-// ============================================================
-// HELPERS
-// ============================================================
+document.getElementById('blockUserBtn').onclick = function() {
+  const email = document.getElementById('blockEmail').value.trim();
+  if(!email) { alert('ইমেইল দিন!'); return; }
+  if(!bannedUsers.includes(email)) {
+    bannedUsers.push(email);
+    localStorage.setItem('banned_users', JSON.stringify(bannedUsers));
+    renderBannedUsers();
+    showToast(`⚠️ ${email} ব্লক করা হয়েছে`);
+  } else {
+    alert('ইউজার ইতিমধ্যে ব্লক করা আছে');
+  }
+  document.getElementById('blockEmail').value = '';
+};
+
+// ==================== PROMO FUNCTIONS ====================
+function renderPromoActive() {
+  const activePromos = adminMelas.filter(m => m.promo && new Date(m.promoExpiry) > new Date());
+  const container = document.getElementById('promoActiveList');
+  if(activePromos.length === 0) {
+    container.innerHTML = '<p style="color:var(--silver);">কোনো সক্রিয় প্রোমো নেই</p>';
+    return;
+  }
+  container.innerHTML = activePromos.map(m => `
+    <div style="background:#1a2436; padding:10px; border-radius:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+      <div><strong style="color:var(--gold);">${m.name}</strong><br><small>শেষ: ${new Date(m.promoExpiry).toLocaleDateString()}</small></div>
+      <button onclick="removePromo('${m.id}')" class="danger" style="padding:4px 12px;">রিমুভ</button>
+    </div>
+  `).join('');
+}
+
+window.removePromo = function(id) {
+  const mela = adminMelas.find(m => m.id === id);
+  if(mela) {
+    mela.promo = false;
+    mela.promoExpiry = null;
+    localStorage.setItem('admin_melas', JSON.stringify(adminMelas));
+    renderPromoActive();
+    renderAllTables();
+    showToast('প্রোমো রিমুভ করা হয়েছে');
+  }
+};
+
+document.getElementById('applyPromoBtn').onclick = function() {
+  const search = document.getElementById('promoMelaId').value.trim();
+  const duration = parseInt(document.getElementById('promoDuration').value);
+  let mela = adminMelas.find(m => m.id === search || m.name === search);
+  if(!mela) {
+    alert('মেলা খুঁজে পাওয়া যায়নি। সঠিক আইডি বা নাম দিন');
+    return;
+  }
+  const expiry = new Date();
+  expiry.setDate(expiry.getDate() + duration);
+  mela.promo = true;
+  mela.promoExpiry = expiry.toISOString();
+  localStorage.setItem('admin_melas', JSON.stringify(adminMelas));
+  renderPromoActive();
+  renderAllTables();
+  showToast(`🚀 ${mela.name} প্রোমো বুস্ট হয়েছে (${duration} দিন)`);
+  document.getElementById('promoMelaId').value = '';
+};
+
+// ==================== UTILITIES ====================
+function renderAllTables() {
+  renderPostsTable();
+  renderPromoActive();
+  updateStats();
+}
+
+function showTab(tabName) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.add('active');
+  event.target.classList.add('active');
+  
+  if(tabName === 'slider') renderSlides();
+  if(tabName === 'contact') renderContact();
+  if(tabName === 'posts') renderPostsTable();
+  if(tabName === 'users') renderBannedUsers();
+  if(tabName === 'promo') renderPromoActive();
+  if(tabName === 'stats') updateStats();
+}
+
+// Close modal on outside click
+window.onclick = function(e) {
+  const modal = document.getElementById('editPostModal');
+  if(e.target === modal) modal.classList.remove('open');
+};
+
 function showToast(msg) {
-  const t=document.getElementById('adminToast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  let toast = document.getElementById('adminToast');
+  if(!toast) {
+    toast = document.createElement('div');
+    toast.id = 'adminToast';
+    toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;border:1px solid var(--green);color:var(--green);padding:10px 20px;border-radius:30px;z-index:2000;font-size:13px;transition:0.3s;opacity:0;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  setTimeout(() => toast.style.opacity = '0', 2500);
 }
 
-// Keypress Enter for login
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('adminPass')?.addEventListener('keypress',e=>{ if(e.key==='Enter') adminLogin(); });
-});
+// Search filter
+document.getElementById('searchPost').addEventListener('input', () => renderPostsTable());
+document.getElementById('filterPostStatus').addEventListener('change', () => renderPostsTable());
 
+// Initialize
+loadAdminData();
 </script>
 </body>
 </html>
