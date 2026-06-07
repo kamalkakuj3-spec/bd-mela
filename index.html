@@ -20,7 +20,10 @@
         body {
             background: #f5f5f5;
             color: #1a1a1a;
+            padding-bottom: 70px;
         }
+        
+        /* হেডার */
         .header {
             background: white;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -35,7 +38,8 @@
             gap: 12px;
         }
         .logo h1 { font-size: 1.5rem; color: #1a1a1a; }
-        .logo p { font-size: 0.75rem; color: #666; }
+        .logo p { font-size: 0.7rem; color: #666; }
+        
         .user-info {
             display: flex;
             align-items: center;
@@ -46,22 +50,66 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-        }
-        .logout-btn {
-            background: none;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 8px 16px;
             cursor: pointer;
-            font-size: 0.85rem;
         }
-        .btn {
-            padding: 8px 18px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+        
+        /* নিচের মেনু বার (YouTube/MoveOn স্টাইল) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: white;
-            cursor: pointer;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 200;
+            border-top: 1px solid #eee;
         }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        .nav-item i {
+            font-size: 1.5rem;
+        }
+        .nav-item.active {
+            color: #1a1a1a;
+        }
+        .nav-item .nav-label {
+            font-size: 0.65rem;
+        }
+        .nav-center {
+            background: #1a1a1a;
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .nav-center i {
+            font-size: 1.8rem;
+        }
+        .nav-center.active {
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        /* সার্চ বক্স */
         .search-box {
             background: white;
             border: 1px solid #ddd;
@@ -69,9 +117,11 @@
             padding: 10px 18px;
             display: flex;
             gap: 12px;
-            margin: 20px;
+            margin: 15px 20px;
         }
-        .search-box input { flex: 1; border: none; outline: none; font-size: 1rem; background: transparent; }
+        .search-box input { flex: 1; border: none; outline: none; font-size: 0.9rem; background: transparent; }
+        
+        /* চিপস */
         .chip-container {
             display: flex;
             gap: 10px;
@@ -82,28 +132,32 @@
             background: white;
             border: 1px solid #ddd;
             border-radius: 30px;
-            padding: 8px 18px;
-            font-size: 0.85rem;
+            padding: 6px 16px;
+            font-size: 0.8rem;
             cursor: pointer;
             white-space: nowrap;
         }
         .chip.active { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+        
+        /* ক্যাটাগরি */
         .cat-container {
             display: flex;
             gap: 12px;
             padding: 0 20px 15px 20px;
             flex-wrap: wrap;
-            border-bottom: 1px solid #eee;
         }
         .cat-btn {
             background: none;
             border: none;
-            padding: 8px 0;
+            padding: 6px 0;
             cursor: pointer;
             color: #666;
             border-bottom: 2px solid transparent;
+            font-size: 0.85rem;
         }
         .cat-btn.active { color: #1a1a1a; border-bottom-color: #1a1a1a; font-weight: 500; }
+        
+        /* স্লাইডার */
         .slider-container {
             display: flex;
             gap: 15px;
@@ -117,33 +171,37 @@
             overflow: hidden;
             cursor: pointer;
         }
-        .slider-item img { width: 100%; height: 140px; object-fit: cover; }
+        .slider-item img { width: 100%; height: 130px; object-fit: cover; }
+        
+        /* মার্কি */
         .marquee {
             background: #1a1a1a;
             color: white;
-            padding: 12px;
-            margin: 20px;
+            padding: 10px;
+            margin: 15px 20px;
             border-radius: 30px;
             overflow: hidden;
             white-space: nowrap;
         }
-        .marquee p { display: inline-block; animation: scroll 20s linear infinite; }
+        .marquee p { display: inline-block; animation: scroll 20s linear infinite; font-size: 0.85rem; }
         @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        
+        /* পোস্ট কার্ড */
         .post-card {
             background: white;
             border-radius: 16px;
-            padding: 18px;
-            margin: 15px 20px;
+            padding: 15px;
+            margin: 12px 20px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             border: 1px solid #eee;
         }
-        .post-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .post-title { font-size: 1.2rem; font-weight: 600; }
-        .post-cat { background: #f0f0f0; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; }
-        .post-location { color: #666; font-size: 0.85rem; margin-bottom: 10px; }
-        .post-date { color: #888; font-size: 0.8rem; margin-bottom: 12px; }
-        .post-desc { color: #333; margin-bottom: 15px; line-height: 1.4; }
-        .post-actions { display: flex; gap: 20px; border-top: 1px solid #eee; padding-top: 12px; }
+        .post-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .post-title { font-size: 1.1rem; font-weight: 600; }
+        .post-cat { background: #f0f0f0; padding: 3px 10px; border-radius: 20px; font-size: 0.65rem; }
+        .post-location { color: #666; font-size: 0.75rem; margin-bottom: 8px; }
+        .post-date { color: #888; font-size: 0.7rem; margin-bottom: 10px; }
+        .post-desc { color: #333; margin-bottom: 12px; line-height: 1.4; font-size: 0.85rem; }
+        .post-actions { display: flex; gap: 20px; border-top: 1px solid #eee; padding-top: 10px; }
         .action-btn {
             background: none;
             border: none;
@@ -152,38 +210,23 @@
             align-items: center;
             gap: 6px;
             color: #555;
+            font-size: 0.85rem;
         }
         .action-btn.liked { color: #e74c3c; }
         .action-btn.saved { color: #f39c12; }
         .comments-section {
-            margin-top: 15px;
+            margin-top: 12px;
             background: #f9f9f9;
             border-radius: 12px;
-            padding: 12px;
+            padding: 10px;
             display: none;
         }
-        .comment-input { display: flex; gap: 8px; margin-bottom: 12px; }
-        .comment-input input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 25px; }
-        .comment-input button { padding: 8px 18px; background: #1a1a1a; color: white; border: none; border-radius: 25px; }
-        .comment-item { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 0.85rem; }
-        .fab {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: #1a1a1a;
-            color: white;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            border: none;
-            font-size: 1.4rem;
-            z-index: 99;
-        }
+        .comment-input { display: flex; gap: 8px; margin-bottom: 10px; }
+        .comment-input input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 25px; font-size: 0.8rem; }
+        .comment-input button { padding: 6px 15px; background: #1a1a1a; color: white; border: none; border-radius: 25px; cursor: pointer; }
+        .comment-item { padding: 6px 0; border-bottom: 1px solid #eee; font-size: 0.75rem; }
+        
+        /* মডাল */
         .modal {
             display: none;
             position: fixed;
@@ -203,14 +246,16 @@
             max-height: 85vh;
             overflow-y: auto;
             border-radius: 24px;
-            padding: 25px;
+            padding: 20px;
         }
+        .modal-content h3 { margin-bottom: 15px; }
         .modal-content input, .modal-content select, .modal-content textarea {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
+            padding: 10px;
+            margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 12px;
+            font-size: 0.85rem;
         }
         .modal-content button {
             width: 100%;
@@ -222,7 +267,12 @@
             cursor: pointer;
         }
         .modal-content button.cancel { background: #ccc; color: #333; margin-top: 8px; }
-        .support-dropdown {
+        
+        .loader { text-align: center; padding: 40px; color: #888; }
+        .footer { text-align: center; padding: 15px; color: #888; font-size: 0.7rem; }
+        
+        /* প্রোফাইল ড্রপডাউন */
+        .profile-dropdown {
             position: absolute;
             top: 60px;
             right: 20px;
@@ -230,14 +280,29 @@
             border: 1px solid #ddd;
             border-radius: 16px;
             padding: 15px;
-            width: 260px;
+            width: 220px;
             display: none;
             z-index: 200;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .support-dropdown.show { display: block; }
-        .loader { text-align: center; padding: 40px; color: #888; }
-        .footer { text-align: center; padding: 20px; color: #888; font-size: 0.75rem; border-top: 1px solid #eee; margin-top: 20px; }
-        @media (max-width: 600px) { .header { flex-direction: column; text-align: center; } }
+        .profile-dropdown.show { display: block; }
+        .profile-dropdown button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 600px) {
+            .header { flex-direction: column; text-align: center; }
+            .bottom-nav { padding: 8px 15px; }
+            .nav-center { width: 48px; height: 48px; margin-top: -15px; }
+            .nav-center i { font-size: 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -247,23 +312,12 @@
         <h1>🇧🇩 বাংলাদেশ মেলা</h1>
         <p>দেশের মেলার ঠিকানা</p>
     </div>
-    <div class="user-info" id="userInfo" style="display: none;">
-        <img id="userAvatar" class="user-avatar" src="">
-        <span id="userName"></span>
-        <button id="logoutBtn" class="logout-btn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
-        <div style="position: relative;">
-            <button id="supportBtn" class="btn"><i class="fa-regular fa-circle-question"></i></button>
-            <div id="supportDropdown" class="support-dropdown">
-                <p><i class="fa-solid fa-phone"></i> <strong>হটলাইন:</strong> <span id="contactNumber">০১৯৯৯-৮৮৮৭৭৭</span></p>
-                <hr style="margin: 10px 0;">
-                <p><strong>📌 কিভাবে ব্যবহার করবেন:</strong></p>
-                <ul style="margin-left: 18px; font-size: 0.8rem;">
-                    <li>🔍 সার্চ দিয়ে মেলা খুঁজুন</li>
-                    <li>📝 + বাটন চেপে পোস্ট করুন</li>
-                    <li>❤️ লাইক | 💬 কমেন্ট | ⭐ সেভ</li>
-                </ul>
-                <button id="closeSupport" class="btn" style="width:100%; margin-top:12px;">বন্ধ</button>
-            </div>
+    <div class="user-info">
+        <img id="userAvatar" class="user-avatar" src="" onclick="toggleProfileDropdown()">
+        <div id="profileDropdown" class="profile-dropdown">
+            <p><strong id="userName"></strong></p>
+            <p style="font-size: 0.7rem; color: #888;" id="userEmail"></p>
+            <button id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
         </div>
     </div>
 </div>
@@ -296,8 +350,30 @@
     <p>বাংলাদেশ মেলা - দেশের মেলার হাব</p>
 </div>
 
-<button id="createPostBtn" class="fab"><i class="fa-solid fa-plus"></i></button>
+<!-- নিচের মেনু বার (YouTube/MoveOn স্টাইল) -->
+<div class="bottom-nav">
+    <button class="nav-item active" id="navHome">
+        <i class="fa-solid fa-house"></i>
+        <span class="nav-label">হোম</span>
+    </button>
+    <button class="nav-item" id="navExplore">
+        <i class="fa-solid fa-compass"></i>
+        <span class="nav-label">এক্সপ্লোর</span>
+    </button>
+    <button class="nav-item nav-center" id="navCreate">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+    <button class="nav-item" id="navSaved">
+        <i class="fa-solid fa-bookmark"></i>
+        <span class="nav-label">সেভ করা</span>
+    </button>
+    <button class="nav-item" id="navProfile">
+        <i class="fa-solid fa-user"></i>
+        <span class="nav-label">প্রোফাইল</span>
+    </button>
+</div>
 
+<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলার তথ্য দিন</h3>
@@ -341,26 +417,31 @@
     let searchText = "";
     let selectedDivision = "";
     let divisionsData = [];
+    let currentView = "home"; // home, saved
+    let savedPostsIds = [];
     
-    // লগইন চেক - লগইন না থাকলে লগইন পেজে পাঠাবে
+    // লগইন চেক
     auth.onAuthStateChanged(async (user) => {
         if (!user) {
             window.location.href = "login.html";
             return;
         }
-        
         currentUser = user;
-        document.getElementById("userInfo").style.display = "flex";
-        document.getElementById("userAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User");
-        document.getElementById("userName").innerText = user.displayName?.split(" ")[0] || "User";
+        document.getElementById("userName").innerText = currentUser.displayName || "User";
+        document.getElementById("userEmail").innerText = currentUser.email || "";
+        document.getElementById("userAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
         
         await loadDivisions();
         await loadSliderImages();
-        await loadContactNumber();
+        await loadSavedPosts();
         loadPosts();
     });
     
-    // লগআউট
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById("profileDropdown");
+        dropdown.classList.toggle("show");
+    }
+    
     document.getElementById("logoutBtn").addEventListener("click", async () => {
         await auth.signOut();
         window.location.href = "login.html";
@@ -375,7 +456,6 @@
             divisionsData = data.divisions;
             displayDivisions(divisionsData);
             updatePostDivisionSelect();
-            console.log("divisions.json loaded");
         } catch(error) {
             console.error("divisions.json load error:", error);
             divisionsData = [
@@ -464,7 +544,7 @@
             const images = snapshot.val() || [];
             const container = document.getElementById("imageSlider");
             if(images.length === 0) {
-                container.innerHTML = '<div class="slider-item"><div style="height:140px; display:flex; align-items:center; justify-content:center; background:#e0e0e0;">🌟 স্লাইডার আসছে</div></div>';
+                container.innerHTML = '<div class="slider-item"><div style="height:130px; display:flex; align-items:center; justify-content:center; background:#e0e0e0;">🌟 স্লাইডার আসছে</div></div>';
                 return;
             }
             container.innerHTML = images.map(img => `
@@ -475,13 +555,11 @@
         } catch(e) { console.error("Slider error:", e); }
     }
     
-    async function loadContactNumber() {
+    async function loadSavedPosts() {
         try {
-            const snapshot = await db.ref('settings/contact/number').once('value');
-            if(snapshot.exists()) {
-                document.getElementById("contactNumber").innerText = snapshot.val();
-            }
-        } catch(e) { console.error("Contact error:", e); }
+            const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value');
+            savedPostsIds = snapshot.val() || [];
+        } catch(e) { console.error("Saved posts error:", e); }
     }
     
     async function loadPosts() {
@@ -493,7 +571,7 @@
             });
             posts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
             
-            const filtered = posts.filter(post => {
+            let filtered = posts.filter(post => {
                 if(activeCategory !== "all" && post.category !== activeCategory) return false;
                 if(selectedDivision && post.division !== selectedDivision) return false;
                 if(searchText) {
@@ -504,6 +582,12 @@
                 }
                 return true;
             });
+            
+            // সেভ করা ভিউ চেক
+            if(currentView === "saved") {
+                filtered = filtered.filter(post => savedPostsIds.includes(post.id));
+            }
+            
             renderPosts(filtered);
         } catch(e) {
             console.error("Posts load error:", e);
@@ -523,7 +607,7 @@
             const likeCount = post.likes ? Object.keys(post.likes).length : 0;
             const commentCount = post.comments ? Object.keys(post.comments).length : 0;
             const isLiked = post.likes && post.likes[currentUser?.uid];
-            const isSaved = await isPostSaved(post.id);
+            const isSaved = savedPostsIds.includes(post.id);
             
             const card = document.createElement("div");
             card.className = "post-card";
@@ -534,7 +618,7 @@
                 </div>
                 <div class="post-location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} > ${escapeHtml(post.district)} ${post.upazila ? ' > '+escapeHtml(post.upazila) : ''}</div>
                 <div class="post-date"><i class="fa-regular fa-calendar"></i> ${post.startDate || 'N/A'} → ${post.endDate || 'N/A'}</div>
-                <div class="post-desc">📝 ${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}</div>
+                <div class="post-desc">📝 ${escapeHtml(post.description?.substring(0, 120) || 'কোনো বিবরণ নেই')}</div>
                 <div class="post-actions">
                     <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-id="${post.id}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span>${likeCount}</span></button>
                     <button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span>${commentCount}</span></button>
@@ -568,14 +652,6 @@
         });
     }
     
-    async function isPostSaved(postId) {
-        try {
-            const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value');
-            const saved = snapshot.val() || [];
-            return saved.includes(postId);
-        } catch(e) { return false; }
-    }
-    
     async function toggleLike(postId) {
         const likeRef = db.ref(`posts/${postId}/likes/${currentUser.uid}`);
         const snap = await likeRef.once('value');
@@ -588,9 +664,13 @@
         const userRef = db.ref(`users/${currentUser.uid}/savedPosts`);
         const snap = await userRef.once('value');
         let saved = snap.val() || [];
-        if(saved.includes(postId)) saved = saved.filter(id => id !== postId);
-        else saved.push(postId);
+        if(saved.includes(postId)) {
+            saved = saved.filter(id => id !== postId);
+        } else {
+            saved.push(postId);
+        }
         await userRef.set(saved);
+        savedPostsIds = saved;
         loadPosts();
     }
     
@@ -624,6 +704,41 @@
         loadPosts();
     };
     
+    // নিচের মেনু বার ইভেন্ট
+    document.getElementById("navHome").addEventListener("click", () => {
+        currentView = "home";
+        updateNavActive("home");
+        loadPosts();
+    });
+    
+    document.getElementById("navSaved").addEventListener("click", () => {
+        currentView = "saved";
+        updateNavActive("saved");
+        loadPosts();
+    });
+    
+    document.getElementById("navExplore").addEventListener("click", () => {
+        // স্ক্রল টপ করে দেওয়া
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    document.getElementById("navProfile").addEventListener("click", () => {
+        toggleProfileDropdown();
+    });
+    
+    document.getElementById("navCreate").addEventListener("click", () => {
+        document.getElementById("postModal").style.display = "flex";
+    });
+    
+    function updateNavActive(active) {
+        document.querySelectorAll(".nav-item").forEach(item => {
+            item.classList.remove("active");
+        });
+        if(active === "home") document.getElementById("navHome").classList.add("active");
+        if(active === "saved") document.getElementById("navSaved").classList.add("active");
+    }
+    
+    // অন্যান্য ইভেন্ট
     document.getElementById("searchInput").addEventListener("input", (e) => {
         searchText = e.target.value;
         loadPosts();
@@ -638,11 +753,7 @@
         });
     });
     
-    document.getElementById("createPostBtn").onclick = () => document.getElementById("postModal").style.display = "flex";
     document.getElementById("closeModal").onclick = () => document.getElementById("postModal").style.display = "none";
-    document.getElementById("closeSupport").onclick = () => document.getElementById("supportDropdown").classList.remove("show");
-    document.getElementById("supportBtn").onclick = () => document.getElementById("supportDropdown").classList.toggle("show");
-    
     document.getElementById("submitPost").onclick = async () => {
         const title = document.getElementById("postTitle").value.trim();
         const division = document.getElementById("postDivision").value;
@@ -673,6 +784,10 @@
     window.onclick = (e) => {
         const modal = document.getElementById("postModal");
         if(e.target === modal) modal.style.display = "none";
+        const dropdown = document.getElementById("profileDropdown");
+        if(!e.target.closest('.user-info') && dropdown.classList.contains("show")) {
+            dropdown.classList.remove("show");
+        }
     };
 </script>
 </body>
