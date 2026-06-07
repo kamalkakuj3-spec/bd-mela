@@ -2,10 +2,13 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>বাংলাদেশ মেলা 🎪</title>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>বাংলাদেশ মেলা 🎪 - রেটিং, ম্যাপ ও প্রোমো বুস্ট</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Leaflet CSS for Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <style>
 :root {
@@ -17,15 +20,11 @@
   --gold-glow: rgba(255,215,0,0.3);
   --silver: #c0c0c0;
   --purple: #ce93d8;
-  --purple-dark: #9c27b0;
-  --purple-glow: rgba(206,147,216,0.3);
   --red: #ff1744;
   --yellow: #ffea00;
   --white: #ffffff;
   --bg-dark: #050a14;
   --bg-card: rgba(10,20,40,0.85);
-  --bg-card2: rgba(15,30,60,0.9);
-  --border-glow: rgba(0,230,118,0.4);
   --text-main: #e8f5e9;
   --text-sub: #a5d6a7;
 }
@@ -59,9 +58,9 @@ body {
   position: absolute; border-radius: 50%;
   filter: blur(80px); opacity: 0.15; animation: orbFloat 8s ease-in-out infinite;
 }
-.orb1 { width:400px; height:400px; background:radial-gradient(var(--green), transparent); top:-100px; left:-100px; animation-delay:0s; }
-.orb2 { width:300px; height:300px; background:radial-gradient(var(--gold), transparent); top:30%; right:-80px; animation-delay:3s; }
-.orb3 { width:350px; height:350px; background:radial-gradient(var(--purple), transparent); bottom:-80px; left:30%; animation-delay:5s; }
+.orb1 { width:400px; height:400px; background:radial-gradient(var(--green), transparent); top:-100px; left:-100px; }
+.orb2 { width:300px; height:300px; background:radial-gradient(var(--gold), transparent); top:30%; right:-80px; }
+.orb3 { width:350px; height:350px; background:radial-gradient(var(--purple), transparent); bottom:-80px; left:30%; }
 @keyframes orbFloat { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.1) translate(10px,-10px)} }
 
 /* ===== PARTICLES ===== */
@@ -85,29 +84,19 @@ body {
   background: linear-gradient(135deg, rgba(10,30,60,0.95), rgba(5,15,30,0.98));
   border: 1px solid rgba(0,230,118,0.3);
   border-radius: 24px;
-  box-shadow: 0 0 60px rgba(0,230,118,0.1), 0 0 120px rgba(255,215,0,0.05);
-  max-width: 420px; width: 90%; position: relative; overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,230,118,0.1);
+  max-width: 420px; width: 90%;
 }
-.auth-box::before {
-  content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
-  background: linear-gradient(45deg, var(--green), var(--gold), var(--purple), var(--green));
-  border-radius: 26px; z-index: -1;
-  background-size: 300% 300%; animation: borderAnim 4s linear infinite;
-}
-@keyframes borderAnim { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-
 .auth-logo { font-size: 64px; margin-bottom: 10px; animation: logoPulse 2s ease-in-out infinite; }
 @keyframes logoPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
-.auth-title { font-size: 28px; font-weight: 700; color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); margin-bottom: 8px; }
+.auth-title { font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
 .auth-sub { font-size: 14px; color: var(--silver); margin-bottom: 30px; }
 .google-btn {
   display: flex; align-items: center; justify-content: center; gap: 12px;
   background: linear-gradient(135deg, #ffffff, #f0f0f0);
   color: #333; border: none; border-radius: 50px; padding: 14px 32px;
-  font-size: 16px; font-family: 'Hind Siliguri', sans-serif;
-  font-weight: 600; cursor: pointer; width: 100%;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-  transition: all 0.3s ease; position: relative; overflow: hidden;
+  font-size: 16px; font-weight: 600; cursor: pointer; width: 100%;
+  transition: all 0.3s ease;
 }
 .google-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,255,255,0.2); }
 .google-btn img { width: 22px; height: 22px; }
@@ -139,32 +128,29 @@ body {
   width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(0,230,118,0.3);
   background: rgba(0,230,118,0.05); color: var(--green); font-size: 16px;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s; position: relative;
 }
 .icon-btn:hover { background: rgba(0,230,118,0.2); box-shadow: 0 0 15px var(--green-glow); }
 .badge {
   position: absolute; top: -4px; right: -4px; width: 16px; height: 16px;
   background: var(--red); border-radius: 50%; font-size: 9px; color: white;
-  display: flex; align-items: center; justify-content: center; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
 }
 .user-avatar {
   width: 38px; height: 38px; border-radius: 50%;
   border: 2px solid var(--gold); cursor: pointer; object-fit: cover;
-  box-shadow: 0 0 10px var(--gold-glow);
 }
 
 /* ===== SEARCH ===== */
 .search-section { padding: 10px 0 8px; }
 .search-row { display: flex; align-items: center; gap: 8px; }
 .search-wrap {
-  flex: 1; position: relative; display: flex; align-items: center;
+  flex: 1; display: flex; align-items: center;
   background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.25);
-  border-radius: 50px; padding: 0 16px; overflow: hidden;
+  border-radius: 50px; padding: 0 16px;
 }
 .search-wrap input {
   flex: 1; background: none; border: none; outline: none;
-  color: var(--text-main); font-family: 'Hind Siliguri', sans-serif;
-  font-size: 14px; padding: 10px 8px;
+  color: var(--text-main); font-size: 14px; padding: 10px 8px;
 }
 .search-wrap input::placeholder { color: rgba(255,255,255,0.35); }
 .search-wrap .s-icon { color: var(--green); font-size: 14px; }
@@ -174,19 +160,10 @@ body {
   background: linear-gradient(135deg, var(--gold), var(--gold-dark));
   border: none; cursor: pointer; font-size: 18px; color: #000;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 15px var(--gold-glow); flex-shrink: 0;
+  box-shadow: 0 0 15px var(--gold-glow);
   animation: helpPulse 2s ease-in-out infinite;
 }
-@keyframes helpPulse { 0%,100%{box-shadow:0 0 15px var(--gold-glow)} 50%{box-shadow:0 0 30px var(--gold-glow),0 0 50px rgba(255,215,0,0.2)} }
-
-/* Location search */
-.loc-search { display: flex; gap: 6px; padding: 6px 0 2px; }
-.loc-select {
-  flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,230,118,0.2);
-  color: var(--text-main); border-radius: 20px; padding: 6px 10px; font-size: 12px;
-  font-family: 'Hind Siliguri', sans-serif; outline: none; cursor: pointer;
-}
-.loc-select option { background: #0a1628; }
+@keyframes helpPulse { 0%,100%{box-shadow:0 0 15px var(--gold-glow)} 50%{box-shadow:0 0 30px rgba(255,215,0,0.2)} }
 
 /* ===== IMAGE SLIDER ===== */
 .slider-section { position: relative; margin: 8px 0; overflow: hidden; border-radius: 16px; }
@@ -204,31 +181,31 @@ body {
 .slide-badge {
   display: inline-block; background: linear-gradient(135deg,var(--red),#ff6b35);
   color: white; font-size: 10px; font-weight: 700; padding: 2px 8px;
-  border-radius: 20px; margin-bottom: 4px; letter-spacing: 1px;
+  border-radius: 20px; margin-bottom: 4px;
 }
 .slide-title { font-size: 16px; font-weight: 700; color: var(--gold); }
 .slide-sub { font-size: 11px; color: var(--silver); }
 .slide-dots { position: absolute; bottom: 8px; right: 12px; display: flex; gap: 4px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; }
 .dot.active { background: var(--gold); width: 18px; border-radius: 3px; }
 .slide-promo-tag {
   position: absolute; top: 10px; right: 10px;
   background: linear-gradient(135deg,var(--gold),var(--gold-dark));
   color: #000; font-size: 9px; font-weight: 800; padding: 3px 8px;
-  border-radius: 20px; letter-spacing: 1px;
+  border-radius: 20px;
 }
 
 /* ===== MARQUEE ===== */
 .marquee-wrap {
-  background: linear-gradient(90deg, rgba(0,230,118,0.1), rgba(255,215,0,0.1), rgba(206,147,216,0.1));
+  background: linear-gradient(90deg, rgba(0,230,118,0.1), rgba(255,215,0,0.1));
   border: 1px solid rgba(0,230,118,0.2); border-radius: 8px; padding: 8px 0;
   overflow: hidden; margin: 6px 0; position: relative;
 }
 .marquee-label {
-  position: absolute; left: 0; top: 0; bottom: 0; z-index: 2;
+  position: absolute; left: 0; top: 0; bottom: 0;
   background: linear-gradient(135deg, var(--green-dark), var(--green));
   color: #000; font-size: 11px; font-weight: 800; padding: 0 12px;
-  display: flex; align-items: center; letter-spacing: 1px;
+  display: flex; align-items: center;
 }
 .marquee-text {
   display: inline-block; white-space: nowrap; padding-left: 100%;
@@ -242,13 +219,13 @@ body {
   font-size: 13px; font-weight: 700; color: var(--green);
   display: flex; align-items: center; gap: 6px; margin-bottom: 8px;
 }
-.sec-title::before { content:''; width:3px; height:14px; background:var(--gold); border-radius:2px; display:block; }
-.cat-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.sec-title::before { content:''; width:3px; height:14px; background:var(--gold); border-radius:2px; }
+.cat-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
 .cat-chips::-webkit-scrollbar { display: none; }
 .chip {
   flex-shrink: 0; padding: 6px 14px; border-radius: 20px; font-size: 12px;
-  font-family: 'Hind Siliguri', sans-serif; cursor: pointer; white-space: nowrap;
-  transition: all 0.3s; border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer; white-space: nowrap; transition: all 0.3s;
+  border: 1px solid rgba(255,255,255,0.15);
   background: rgba(255,255,255,0.05); color: var(--silver);
 }
 .chip.active, .chip:hover {
@@ -272,18 +249,45 @@ body {
   border-color: var(--green);
   box-shadow: 0 8px 25px rgba(0,230,118,0.15);
 }
-.card-header {
-  padding: 10px 10px 6px;
-  background: linear-gradient(135deg,rgba(0,230,118,0.08),rgba(255,215,0,0.05));
+.mela-card.promo {
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 20px var(--gold-glow);
+  animation: promoGlow 2s ease-in-out infinite;
 }
+@keyframes promoGlow {
+  0%,100%{box-shadow:0 0 10px var(--gold-glow);}
+  50%{box-shadow:0 0 30px rgba(255,215,0,0.5);}
+}
+.promo-badge {
+  position: absolute; top: -8px; left: 10px;
+  background: linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color: #000; font-size: 9px; font-weight: 800; padding: 2px 10px;
+  border-radius: 20px; z-index: 5;
+  display: flex; align-items: center; gap: 4px;
+}
+.card-header { padding: 10px 10px 6px; }
 .card-cat {
   display: inline-block; font-size: 9px; font-weight: 700;
   padding: 2px 7px; border-radius: 10px; margin-bottom: 5px;
-  letter-spacing: 0.5px;
 }
 .card-title { font-size: 13px; font-weight: 700; color: var(--gold); line-height: 1.3; }
 .card-loc { font-size: 11px; color: var(--silver); margin-top: 3px; }
 .card-loc i { color: var(--green); margin-right: 3px; }
+
+/* রেটিং স্টাইল */
+.rating-stars {
+  display: flex; align-items: center; gap: 2px; margin: 6px 0;
+}
+.star {
+  font-size: 12px; cursor: pointer; color: #555; transition: all 0.1s;
+}
+.star.active { color: var(--gold); text-shadow: 0 0 4px var(--gold-glow); }
+.star.hover { color: #ffcc44; }
+.rating-count {
+  font-size: 9px; color: var(--silver); margin-left: 5px;
+}
+.review-count { font-size: 9px; color: var(--silver); cursor: pointer; }
+.review-count:hover { color: var(--green); }
 
 .card-dates {
   display: flex; justify-content: space-between;
@@ -302,7 +306,7 @@ body {
 .act-btn {
   font-size: 11px; color: var(--silver); cursor: pointer;
   display: flex; align-items: center; gap: 3px; background: none; border: none;
-  font-family: 'Hind Siliguri', sans-serif; transition: all 0.2s;
+  font-family: 'Hind Siliguri', sans-serif;
 }
 .act-btn:hover { color: var(--gold); }
 .act-btn.liked { color: var(--red); }
@@ -315,12 +319,11 @@ body {
 .status-soon { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid var(--gold); }
 .status-ended { background: rgba(255,255,255,0.05); color: var(--silver); border: 1px solid rgba(255,255,255,0.2); }
 
-/* Dropdown */
+/* ড্রপডাউন */
 .card-dropdown-btn {
   position: absolute; top: 8px; right: 8px;
   background: rgba(0,0,0,0.4); border: none; color: var(--silver);
   width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 10px;
-  display: flex; align-items: center; justify-content: center;
 }
 .card-dropdown {
   display: none; position: absolute; top: 30px; right: 8px; z-index: 10;
@@ -335,67 +338,92 @@ body {
 }
 .dd-item:hover { background: rgba(0,230,118,0.1); color: var(--green); }
 
-/* ===== POST DETAIL MODAL ===== */
-.modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 500;
-  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-  align-items: flex-end; justify-content: center;
-}
-.modal-overlay.open { display: flex; }
-.modal-sheet {
-  width: 100%; max-width: 500px; max-height: 90vh;
-  background: linear-gradient(180deg, #0a1f3c, #050d1c);
-  border-radius: 24px 24px 0 0; overflow-y: auto;
-  border: 1px solid rgba(0,230,118,0.2); border-bottom: none;
-  animation: slideUp 0.3s ease;
-}
-@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-.modal-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin: 12px auto 0; }
-.modal-header { padding: 16px; display: flex; justify-content: space-between; align-items: flex-start; }
-.modal-title { font-size: 20px; font-weight: 700; color: var(--gold); }
-.modal-close { background: none; border: none; color: var(--silver); font-size: 20px; cursor: pointer; }
-.modal-body { padding: 0 16px 16px; }
-.info-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
-.info-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(0,230,118,0.1); display: flex; align-items: center; justify-content: center; color: var(--green); font-size: 14px; flex-shrink: 0; }
-.info-content { flex: 1; }
-.info-label { font-size: 10px; color: var(--silver); }
-.info-val { font-size: 14px; color: var(--text-main); }
-.modal-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 12px 0; }
-.poster-info { display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(0,230,118,0.05); border-radius: 10px; margin-bottom: 12px; }
-.poster-ava { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--green); }
-.poster-name { font-size: 13px; font-weight: 600; color: var(--green); }
-.poster-time { font-size: 11px; color: var(--silver); }
-.comment-section { margin-top: 10px; }
-.comment-input-row { display: flex; gap: 8px; margin-bottom: 10px; }
-.comment-input {
-  flex: 1; background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.2);
-  border-radius: 20px; padding: 8px 14px; color: var(--text-main);
-  font-family: 'Hind Siliguri', sans-serif; font-size: 13px; outline: none;
-}
-.comment-send {
-  width: 36px; height: 36px; border-radius: 50%; border: none;
-  background: linear-gradient(135deg,var(--green-dark),var(--green));
-  color: #000; cursor: pointer; font-size: 14px;
-}
-.comment-item { display: flex; gap: 8px; margin-bottom: 10px; }
-.com-ava { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--green); flex-shrink: 0; }
-.com-bubble { background: rgba(0,230,118,0.05); border-radius: 10px; padding: 6px 10px; flex: 1; }
-.com-name { font-size: 11px; color: var(--green); font-weight: 600; }
-.com-text { font-size: 12px; color: var(--text-main); }
-
-/* ===== ADD POST FAB ===== */
-.fab {
-  position: fixed; bottom: 80px; right: 16px; z-index: 200;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--green-dark), var(--green));
-  border: none; cursor: pointer; font-size: 22px; color: #000;
-  box-shadow: 0 4px 20px var(--green-glow);
+/* প্রোমো বুস্ট ডায়ালগ */
+.promo-dialog {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,0.9); backdrop-filter: blur(8px);
   display: flex; align-items: center; justify-content: center;
-  animation: fabPulse 2s ease-in-out infinite;
+  visibility: hidden; opacity: 0; transition: all 0.3s;
 }
-@keyframes fabPulse { 0%,100%{box-shadow:0 4px 20px var(--green-glow)} 50%{box-shadow:0 4px 40px rgba(0,230,118,0.5)} }
+.promo-dialog.open { visibility: visible; opacity: 1; }
+.promo-box {
+  background: linear-gradient(135deg,#0a1f3c,#050f20);
+  border: 2px solid var(--gold); border-radius: 24px;
+  padding: 24px; width: 90%; max-width: 350px; text-align: center;
+}
+.promo-box h3 { color: var(--gold); margin-bottom: 15px; }
+.promo-price { font-size: 32px; font-weight: 700; color: var(--green); margin: 10px 0; }
+.promo-btn {
+  background: linear-gradient(135deg,var(--gold),var(--gold-dark));
+  border: none; border-radius: 30px; padding: 12px 24px;
+  font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px;
+}
+.promo-cancel {
+  background: transparent; border: 1px solid var(--silver);
+  color: var(--silver); margin-top: 10px;
+}
 
-/* ===== ADD POST MODAL ===== */
+/* ম্যাপ মোডাল */
+.map-modal {
+  display: none; position: fixed; inset: 0; z-index: 700;
+  background: rgba(0,0,0,0.9); align-items: center; justify-content: center;
+}
+.map-modal.open { display: flex; }
+.map-container {
+  background: #0a1f3c; border-radius: 20px; width: 90%; max-width: 500px;
+  overflow: hidden; border: 1px solid var(--green);
+}
+.map-header {
+  padding: 12px 16px; display: flex; justify-content: space-between;
+  border-bottom: 1px solid rgba(0,230,118,0.2);
+}
+.map-header button { background: none; border: none; color: var(--silver); font-size: 18px; cursor: pointer; }
+#locationMap { height: 300px; width: 100%; }
+.map-address { padding: 12px; font-size: 12px; color: var(--silver); text-align: center; }
+
+/* রিভিউ মোডাল */
+.review-modal {
+  display: none; position: fixed; inset: 0; z-index: 750;
+  background: rgba(0,0,0,0.9); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.review-modal.open { display: flex; }
+.review-box {
+  background: linear-gradient(135deg,#0a1f3c,#050f20);
+  border-radius: 24px; width: 90%; max-width: 400px;
+  border: 1px solid var(--green); overflow: hidden;
+}
+.review-header {
+  padding: 16px; border-bottom: 1px solid rgba(0,230,118,0.2);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.review-header h3 { color: var(--green); }
+.review-body { padding: 16px; }
+.review-stars { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; }
+.review-star { font-size: 28px; cursor: pointer; color: #555; transition: all 0.1s; }
+.review-star.active { color: var(--gold); text-shadow: 0 0 8px var(--gold-glow); }
+.review-textarea {
+  width: 100%; background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.2);
+  border-radius: 12px; padding: 12px; color: white; resize: vertical;
+  min-height: 80px; font-family: 'Hind Siliguri', sans-serif;
+}
+.review-submit {
+  background: linear-gradient(135deg,var(--green-dark),var(--green));
+  border: none; border-radius: 30px; padding: 12px; width: 100%;
+  font-weight: 700; cursor: pointer; margin-top: 15px;
+}
+.review-list {
+  max-height: 300px; overflow-y: auto; margin-top: 15px;
+}
+.review-item {
+  background: rgba(0,230,118,0.05); border-radius: 12px; padding: 10px;
+  margin-bottom: 8px;
+}
+.review-item-name { font-size: 12px; color: var(--green); font-weight: 600; }
+.review-item-stars { font-size: 10px; color: var(--gold); margin: 4px 0; }
+.review-item-text { font-size: 11px; color: var(--silver); }
+
+/* পোস্ট মডাল */
 .post-modal {
   display: none; position: fixed; inset: 0; z-index: 600;
   background: rgba(0,0,0,0.9); align-items: flex-end; justify-content: center;
@@ -407,6 +435,7 @@ body {
   border-radius: 24px 24px 0 0; border: 1px solid rgba(0,230,118,0.3);
   border-bottom: none; animation: slideUp 0.3s ease;
 }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 .post-header { padding: 16px; border-bottom: 1px solid rgba(0,230,118,0.1); display: flex; justify-content: space-between; align-items: center; }
 .post-header-title { font-size: 18px; font-weight: 700; background: linear-gradient(90deg,var(--green),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 .post-form { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -416,22 +445,18 @@ body {
   background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.2);
   border-radius: 10px; padding: 10px 14px; color: var(--text-main);
   font-family: 'Hind Siliguri', sans-serif; font-size: 14px; outline: none;
-  transition: border 0.3s;
 }
 .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--green); box-shadow: 0 0 10px var(--green-glow); }
 .form-textarea { resize: vertical; min-height: 80px; }
-.form-select option { background: #0a1628; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .submit-btn {
   background: linear-gradient(135deg,var(--green-dark),var(--green));
   border: none; border-radius: 50px; padding: 14px; color: #000;
-  font-size: 16px; font-weight: 700; font-family: 'Hind Siliguri', sans-serif;
-  cursor: pointer; box-shadow: 0 4px 20px var(--green-glow);
-  transition: all 0.3s;
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 20px var(--green-glow);
 }
-.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,230,118,0.4); }
 
-/* ===== BOTTOM NAV ===== */
+/* বটম নেভ */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
   background: linear-gradient(180deg,rgba(5,10,20,0.97),rgba(2,5,12,0.99));
@@ -439,15 +464,15 @@ body {
   display: flex; padding: 6px 0 env(safe-area-inset-bottom);
 }
 .nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 6px; cursor: pointer; transition: all 0.3s; gap: 3px;
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 6px; cursor: pointer; gap: 3px;
 }
-.nav-item .ni { font-size: 20px; color: rgba(255,255,255,0.35); transition: all 0.3s; }
-.nav-item .nl { font-size: 10px; color: rgba(255,255,255,0.35); transition: all 0.3s; }
+.nav-item .ni { font-size: 20px; color: rgba(255,255,255,0.35); }
+.nav-item .nl { font-size: 10px; color: rgba(255,255,255,0.35); }
 .nav-item.active .ni { color: var(--green); filter: drop-shadow(0 0 6px var(--green)); }
 .nav-item.active .nl { color: var(--green); }
 
-/* ===== PROFILE PANEL ===== */
+/* সাইড প্যানেল */
 .side-panel {
   display: none; position: fixed; top: 0; right: 0; width: 300px; height: 100vh;
   background: linear-gradient(180deg,#081830,#030c1a);
@@ -459,48 +484,19 @@ body {
 .panel-header {
   padding: 50px 16px 16px;
   background: linear-gradient(135deg,rgba(0,230,118,0.1),rgba(255,215,0,0.05));
-  text-align: center; border-bottom: 1px solid rgba(0,230,118,0.1);
+  text-align: center;
 }
 .panel-close { position: absolute; top: 12px; right: 12px; background: none; border: none; color: var(--silver); font-size: 20px; cursor: pointer; }
-.profile-big-ava { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 10px; display: block; box-shadow: 0 0 20px var(--gold-glow); }
+.profile-big-ava { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 10px; display: block; }
 .profile-name { font-size: 18px; font-weight: 700; color: var(--gold); }
 .profile-email { font-size: 12px; color: var(--silver); }
-.profile-stats { display: flex; gap: 10px; margin-top: 14px; justify-content: center; }
-.pstat { text-align: center; }
-.pstat-val { font-size: 20px; font-weight: 700; color: var(--green); }
-.pstat-label { font-size: 10px; color: var(--silver); }
-.panel-body { padding: 16px; }
-.panel-section-title { font-size: 12px; color: var(--green); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-.saved-card {
-  background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.15);
-  border-radius: 10px; padding: 10px; margin-bottom: 8px; cursor: pointer;
-}
-.saved-title { font-size: 13px; font-weight: 600; color: var(--gold); }
-.saved-info { font-size: 11px; color: var(--silver); }
 .logout-btn {
   width: 100%; margin-top: 16px; background: linear-gradient(135deg,rgba(255,23,68,0.1),rgba(255,23,68,0.05));
   border: 1px solid rgba(255,23,68,0.3); border-radius: 10px; padding: 12px;
-  color: var(--red); font-family: 'Hind Siliguri', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;
+  color: var(--red); font-weight: 600; cursor: pointer;
 }
 
-/* ===== NOTIFICATION PANEL ===== */
-.notif-panel {
-  display: none; position: fixed; top: 60px; right: 8px; width: 300px; max-height: 70vh;
-  background: #0a1f3c; border: 1px solid rgba(0,230,118,0.2);
-  border-radius: 16px; z-index: 300; overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6); animation: fadeDown 0.2s ease;
-}
-.notif-panel.open { display: block; }
-@keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
-.notif-header { padding: 12px 14px; border-bottom: 1px solid rgba(0,230,118,0.1); font-size: 14px; font-weight: 700; color: var(--green); }
-.notif-item { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s; }
-.notif-item:hover { background: rgba(0,230,118,0.05); }
-.notif-item.unread { background: rgba(0,230,118,0.03); }
-.notif-title { font-size: 13px; color: var(--text-main); font-weight: 600; }
-.notif-sub { font-size: 11px; color: var(--silver); margin-top: 2px; }
-.notif-time { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 3px; }
-
-/* ===== HELP PANEL ===== */
+/* হেল্প প্যানেল */
 .help-overlay {
   display: none; position: fixed; inset: 0; z-index: 700;
   background: rgba(0,0,0,0.85); align-items: flex-end; justify-content: center;
@@ -510,81 +506,52 @@ body {
   width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
   background: linear-gradient(180deg,#0d1f40,#050f20);
   border-radius: 24px 24px 0 0; border: 1px solid rgba(255,215,0,0.3);
-  border-bottom: none; animation: slideUp 0.3s ease;
+  border-bottom: none;
 }
 .help-header { padding: 16px; border-bottom: 1px solid rgba(255,215,0,0.1); display: flex; justify-content: space-between; align-items: center; }
 .help-header-title { font-size: 18px; font-weight: 700; color: var(--gold); }
 .help-contact { padding: 14px 16px; background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; margin: 12px 16px; }
-.contact-label { font-size: 11px; color: var(--silver); }
 .contact-num { font-size: 20px; font-weight: 700; color: var(--gold); }
-.help-faq { padding: 0 16px 16px; }
-.faq-item { border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
-.faq-q { padding: 12px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-main); }
-.faq-q:hover { background: rgba(255,255,255,0.03); }
-.faq-a { display: none; padding: 0 14px 12px; font-size: 12px; color: var(--silver); line-height: 1.6; }
+.faq-item { border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin: 8px 16px; overflow: hidden; }
+.faq-q { padding: 12px 14px; cursor: pointer; display: flex; justify-content: space-between; font-size: 13px; }
+.faq-a { display: none; padding: 0 14px 12px; font-size: 12px; color: var(--silver); }
 .faq-a.open { display: block; }
 
-/* ===== USERS LIVE COUNT ===== */
+/* লাইভ ইউজার */
 .live-users {
   display: flex; align-items: center; gap: 6px; padding: 6px 12px;
   background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.15);
   border-radius: 20px; font-size: 12px; color: var(--green); cursor: pointer;
 }
 .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: livePulse 1s ease-in-out infinite; }
-@keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+@keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
-/* ===== SECTION HEADERS ===== */
 .main-content { padding: 10px 14px; padding-bottom: 100px; }
-
 .section-wrap { margin-bottom: 16px; }
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .see-all { font-size: 11px; color: var(--gold); cursor: pointer; }
 
-/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(0,230,118,0.3); border-radius: 2px; }
 
-/* ===== TOAST ===== */
 .toast {
-  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
   background: linear-gradient(135deg,#0d2040,#0a1628); border: 1px solid var(--green);
   color: var(--green); padding: 10px 20px; border-radius: 20px; font-size: 13px;
   z-index: 1000; opacity: 0; transition: all 0.3s; pointer-events: none;
-  white-space: nowrap; box-shadow: 0 4px 20px var(--green-glow);
+  white-space: nowrap;
 }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.show { opacity: 1; }
 
-/* ===== ACTIVE USERS MODAL ===== */
-.active-modal {
-  display: none; position: fixed; inset: 0; z-index: 500;
-  background: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 16px;
+.fab {
+  position: fixed; bottom: 80px; right: 16px; z-index: 200;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  border: none; cursor: pointer; font-size: 22px; color: #000;
+  box-shadow: 0 4px 20px var(--green-glow);
+  display: flex; align-items: center; justify-content: center;
 }
-.active-modal.open { display: flex; }
-.active-box {
-  background: linear-gradient(135deg,#0a1f3c,#050f20);
-  border: 1px solid rgba(0,230,118,0.3); border-radius: 20px; width: 100%; max-width: 380px; padding: 20px;
-}
-.active-title { font-size: 18px; font-weight: 700; color: var(--green); margin-bottom: 16px; text-align: center; }
-.active-stat {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.active-stat:last-child { border: none; }
-.active-stat-label { font-size: 13px; color: var(--silver); }
-.active-stat-val { font-size: 20px; font-weight: 700; color: var(--gold); }
-
-/* Glow effect */
-.glow-green { box-shadow: 0 0 15px var(--green-glow); }
-.glow-gold { box-shadow: 0 0 15px var(--gold-glow); }
-
-/* Cat colors */
-.cat-agriculture { background: rgba(0,200,83,0.15); color: #69f0ae; border-color: rgba(0,200,83,0.3); }
-.cat-business { background: rgba(255,215,0,0.15); color: #ffd700; border-color: rgba(255,215,0,0.3); }
-.cat-cultural { background: rgba(206,147,216,0.15); color: #ce93d8; border-color: rgba(206,147,216,0.3); }
-.cat-book { background: rgba(100,181,246,0.15); color: #64b5f6; border-color: rgba(100,181,246,0.3); }
-.cat-food { background: rgba(255,138,101,0.15); color: #ff8a65; border-color: rgba(255,138,101,0.3); }
-
 </style>
 </head>
 <body>
@@ -648,14 +615,14 @@ body {
           <i class="fa fa-headset"></i>
         </button>
       </div>
-      <div class="loc-search">
-        <select class="loc-select" id="divSelect" onchange="filterByLocation()">
+      <div class="loc-search" style="display: flex; gap: 6px; margin-top: 8px;">
+        <select class="loc-select" id="divSelect" onchange="filterByLocation()" style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(0,230,118,0.2); color:white; border-radius:20px; padding:6px 10px; font-size:12px;">
           <option value="">সকল বিভাগ</option>
         </select>
-        <select class="loc-select" id="distSelect" onchange="filterByLocation()">
+        <select class="loc-select" id="distSelect" onchange="filterByLocation()" style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(0,230,118,0.2); color:white; border-radius:20px; padding:6px 10px; font-size:12px;">
           <option value="">সকল জেলা</option>
         </select>
-        <select class="loc-select" id="upazilaSelect" onchange="filterByLocation()">
+        <select class="loc-select" id="upazilaSelect" onchange="filterByLocation()" style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(0,230,118,0.2); color:white; border-radius:20px; padding:6px 10px; font-size:12px;">
           <option value="">উপজেলা</option>
         </select>
       </div>
@@ -705,7 +672,7 @@ body {
       <div class="marquee-label">🔴 LIVE</div>
       <div style="margin-left:60px; overflow:hidden;">
         <div class="marquee-text" id="marqueeText">
-          🎪 ঢাকায় বাণিজ্য মেলা চলছে • 🎊 রাজশাহীতে কৃষি মেলা আসছে • 🎭 চট্টগ্রামে সাংস্কৃতিক মেলা আগামীকাল শুরু • 🌸 ময়মনসিংহে বসন্ত মেলা • 🎪 সিলেটে আন্তর্জাতিক মেলা শীঘ্রই •
+          🎪 ঢাকায় বাণিজ্য মেলা চলছে • 🎊 রাজশাহীতে কৃষি মেলা আসছে • 🎭 চট্টগ্রামে সাংস্কৃতিক মেলা আগামীকাল শুরু • 🌸 ময়মনসিংহে বসন্ত মেলা •
         </div>
       </div>
     </div>
@@ -728,28 +695,6 @@ body {
       </div>
     </div>
 
-    <!-- LIVE MELAS -->
-    <div class="section-wrap">
-      <div class="section-header">
-        <div class="sec-title"><i class="fa fa-circle" style="color:var(--red);animation:livePulse 1s infinite"></i> চলমান মেলা</div>
-        <span class="see-all" onclick="filterCat('চলমান')">সব দেখুন</span>
-      </div>
-      <div class="posts-grid" id="liveMelaGrid">
-        <!-- Populated by JS -->
-      </div>
-    </div>
-
-    <!-- UPCOMING MELAS -->
-    <div class="section-wrap">
-      <div class="section-header">
-        <div class="sec-title"><i class="fa fa-clock" style="color:var(--gold)"></i> শীঘ্রই আসছে</div>
-        <span class="see-all" onclick="filterCat('শীঘ্রই')">সব দেখুন</span>
-      </div>
-      <div class="posts-grid" id="upcomingMelaGrid">
-        <!-- Populated by JS -->
-      </div>
-    </div>
-
     <!-- ALL MELAS -->
     <div class="section-wrap">
       <div class="section-header">
@@ -757,7 +702,7 @@ body {
         <span class="see-all">আরো দেখুন</span>
       </div>
       <div class="posts-grid" id="allMelaGrid">
-        <!-- Populated by JS -->
+        <div style="text-align:center;padding:20px;">লোড হচ্ছে...</div>
       </div>
     </div>
 
@@ -794,8 +739,8 @@ body {
 </div>
 
 <!-- NOTIFICATION PANEL -->
-<div class="notif-panel" id="notifPanel">
-  <div class="notif-header">🔔 নোটিফিকেশন</div>
+<div class="notif-panel" id="notifPanel" style="display:none; position:fixed; top:60px; right:8px; width:280px; background:#0a1f3c; border:1px solid rgba(0,230,118,0.2); border-radius:16px; z-index:300;">
+  <div class="notif-header" style="padding:12px; border-bottom:1px solid rgba(0,230,118,0.1);">🔔 নোটিফিকেশন</div>
   <div id="notifList"></div>
 </div>
 
@@ -806,32 +751,15 @@ body {
     <img id="profileBigAva" class="profile-big-ava" src="https://ui-avatars.com/api/?name=User&background=00c853&color=000&bold=true">
     <div class="profile-name" id="profileName">লোড হচ্ছে...</div>
     <div class="profile-email" id="profileEmail"></div>
-    <div class="profile-stats">
-      <div class="pstat"><div class="pstat-val" id="myPostCount">0</div><div class="pstat-label">পোস্ট</div></div>
-      <div class="pstat"><div class="pstat-val" id="myLikeCount">0</div><div class="pstat-label">লাইক</div></div>
-      <div class="pstat"><div class="pstat-val" id="mySaveCount">0</div><div class="pstat-label">সেভড</div></div>
-    </div>
   </div>
   <div class="panel-body">
-    <div class="panel-section-title">⭐ ফেভারিট মেলা</div>
+    <div class="panel-section-title" style="font-size:12px; color:var(--green); margin:16px 0 8px;">⭐ ফেভারিট মেলা</div>
     <div id="savedList"></div>
     <button class="logout-btn" onclick="signOut()"><i class="fa fa-sign-out-alt"></i> লগআউট</button>
   </div>
 </div>
 
-<!-- POST DETAIL MODAL -->
-<div class="modal-overlay" id="detailModal">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-header">
-      <div class="modal-title" id="detailTitle"></div>
-      <button class="modal-close" onclick="closeDetail()"><i class="fa fa-times"></i></button>
-    </div>
-    <div class="modal-body" id="detailBody"></div>
-  </div>
-</div>
-
-<!-- ADD POST MODAL -->
+<!-- POST MODAL -->
 <div class="post-modal" id="postModal">
   <div class="post-sheet">
     <div class="post-header">
@@ -841,10 +769,10 @@ body {
     <div class="post-form">
       <div class="form-group">
         <label class="form-label">মেলার নাম *</label>
-        <input class="form-input" id="f_name" placeholder="মেলার সম্পূর্ণ নাম লিখুন" required>
+        <input class="form-input" id="f_name" placeholder="মেলার সম্পূর্ণ নাম">
       </div>
       <div class="form-group">
-        <label class="form-label">মেলার ধরন / ক্যাটাগরি *</label>
+        <label class="form-label">মেলার ধরন *</label>
         <select class="form-select" id="f_cat">
           <option value="">নির্বাচন করুন</option>
           <option value="কৃষি">🌾 কৃষি মেলা</option>
@@ -852,23 +780,16 @@ body {
           <option value="সাংস্কৃতিক">🎭 সাংস্কৃতিক মেলা</option>
           <option value="বইমেলা">📚 বইমেলা</option>
           <option value="খাবার">🍽️ খাবার মেলা</option>
-          <option value="প্রযুক্তি">💻 প্রযুক্তি মেলা</option>
-          <option value="পোশাক">👗 পোশাক মেলা</option>
-          <option value="অন্যান্য">🎪 অন্যান্য</option>
         </select>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">বিভাগ *</label>
-          <select class="form-select" id="f_div" onchange="loadFormDist()">
-            <option value="">বিভাগ</option>
-          </select>
+          <select class="form-select" id="f_div" onchange="loadFormDist()"><option value="">বিভাগ</option></select>
         </div>
         <div class="form-group">
           <label class="form-label">জেলা *</label>
-          <select class="form-select" id="f_dist" onchange="loadFormUpazila()">
-            <option value="">জেলা</option>
-          </select>
+          <select class="form-select" id="f_dist" onchange="loadFormUpazila()"><option value="">জেলা</option></select>
         </div>
       </div>
       <div class="form-row">
@@ -877,8 +798,14 @@ body {
           <select class="form-select" id="f_upazila"><option value="">উপজেলা</option></select>
         </div>
         <div class="form-group">
-          <label class="form-label">সুনির্দিষ্ট স্থান</label>
+          <label class="form-label">স্থান</label>
           <input class="form-input" id="f_place" placeholder="মাঠ/ভবন/এলাকা">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">লোকেশন লিংক</label>
+          <input class="form-input" id="f_location_link" placeholder="গুগল ম্যাপ লিংক (ঐচ্ছিক)">
         </div>
       </div>
       <div class="form-row">
@@ -892,21 +819,59 @@ body {
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">মেলার বিস্তারিত বিবরণ</label>
-        <textarea class="form-textarea" id="f_desc" placeholder="মেলা সম্পর্কে বিস্তারিত লিখুন..."></textarea>
+        <label class="form-label">বিস্তারিত বিবরণ</label>
+        <textarea class="form-textarea" id="f_desc" rows="3" placeholder="মেলা সম্পর্কে বিস্তারিত লিখুন..."></textarea>
       </div>
       <div class="form-group">
         <label class="form-label">যোগাযোগ নম্বর</label>
-        <input class="form-input" id="f_phone" placeholder="01XXXXXXXXX" type="tel">
-      </div>
-      <div class="form-group">
-        <label class="form-label">ওয়েবসাইট / ফেসবুক লিঙ্ক</label>
-        <input class="form-input" id="f_link" placeholder="https://..." type="url">
+        <input class="form-input" id="f_phone" placeholder="01XXXXXXXXX">
       </div>
       <button class="submit-btn" onclick="submitPost()">
         <i class="fa fa-paper-plane"></i> মেলা পোস্ট করুন
       </button>
     </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="review-modal" id="reviewModal">
+  <div class="review-box">
+    <div class="review-header">
+      <h3>⭐ রেটিং ও রিভিউ দিন</h3>
+      <button onclick="closeReviewModal()" style="background:none; border:none; color:var(--silver); font-size:18px;"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="review-body">
+      <div class="review-stars" id="reviewStars">
+        ★★★★★
+      </div>
+      <textarea class="review-textarea" id="reviewText" placeholder="আপনার মতামত লিখুন..."></textarea>
+      <button class="review-submit" onclick="submitReview()">রিভিউ পোস্ট করুন</button>
+      <div id="reviewList" class="review-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAP MODAL -->
+<div class="map-modal" id="mapModal">
+  <div class="map-container">
+    <div class="map-header">
+      <span>🗺️ মেলার অবস্থান</span>
+      <button onclick="closeMapModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div id="locationMap" style="height: 250px;"></div>
+    <div class="map-address" id="mapAddress"></div>
+  </div>
+</div>
+
+<!-- PROMO DIALOG -->
+<div class="promo-dialog" id="promoDialog">
+  <div class="promo-box">
+    <h3>🚀 প্রোমো বুস্ট</h3>
+    <p>আপনার মেলাকে সবার উপরে দেখান!</p>
+    <div class="promo-price">⭐ ৫০ পয়েন্ট</div>
+    <p style="font-size:11px;">৭ দিন পর্যন্ত মেলা উপরে থাকবে</p>
+    <button class="promo-btn" onclick="confirmPromo()">বুস্ট করুন</button>
+    <button class="promo-btn promo-cancel" onclick="closePromoDialog()">পরে হবে</button>
   </div>
 </div>
 
@@ -918,238 +883,150 @@ body {
       <button class="modal-close" onclick="toggleHelp()"><i class="fa fa-times"></i></button>
     </div>
     <div class="help-contact">
-      <div class="contact-label">📞 অ্যাডমিনের সাথে যোগাযোগ করুন</div>
-      <div class="contact-num" id="helpContactNum">01XXXXXXXXX</div>
-      <div class="contact-label" style="margin-top:4px">সমস্যা বা পরামর্শের জন্য কল করুন</div>
+      <div class="contact-num" id="helpContactNum">০১৯৯৯-৮৮৮৭৭৭</div>
+      <div style="font-size:11px; margin-top:4px;">সমস্যা বা পরামর্শের জন্য কল করুন</div>
     </div>
-    <div class="help-faq" id="helpFaqList">
+    <div class="help-faq">
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">মেলা পোস্ট করব কীভাবে? <i class="fa fa-chevron-down"></i></div>
         <div class="faq-a">নিচের + বাটনে ক্লিক করে মেলার সমস্ত তথ্য পূরণ করুন এবং "মেলা পোস্ট করুন" বাটনে চাপুন।</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">মেলা সার্চ করব কীভাবে? <i class="fa fa-chevron-down"></i></div>
-        <div class="faq-a">উপরের সার্চ বারে মেলার নাম বা স্থান লিখুন। অথবা বিভাগ/জেলা/উপজেলা সিলেক্ট করে খুঁজুন।</div>
+        <div class="faq-q" onclick="toggleFaq(this)">রেটিং ও রিভিউ দেব কীভাবে? <i class="fa fa-chevron-down"></i></div>
+        <div class="faq-a">মেলার কার্ডে ⭐ আইকনে ক্লিক করে রেটিং ও রিভিউ দিতে পারেন।</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">মেলা ফেভারিট করব কীভাবে? <i class="fa fa-chevron-down"></i></div>
-        <div class="faq-a">মেলার কার্ডে বুকমার্ক আইকনে ক্লিক করলে সেটি আপনার প্রোফাইলে সেভ হবে।</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">আমার পোস্ট মুছব কীভাবে? <i class="fa fa-chevron-down"></i></div>
-        <div class="faq-a">আপনার পোস্টের ⋮ মেনুতে ক্লিক করুন এবং "মুছুন" অপশন সিলেক্ট করুন।</div>
+        <div class="faq-q" onclick="toggleFaq(this)">মেলা প্রোমো বুস্ট কী? <i class="fa fa-chevron-down"></i></div>
+        <div class="faq-a">প্রোমো বুস্ট করলে আপনার মেলা সবার উপরে সোনালী বর্ডার সহ দেখাবে।</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ACTIVE USERS MODAL -->
-<div class="active-modal" id="activeModal">
-  <div class="active-box">
-    <div style="text-align:right;margin-bottom:10px"><button onclick="closeActiveModal()" style="background:none;border:none;color:var(--silver);font-size:18px;cursor:pointer"><i class="fa fa-times"></i></button></div>
-    <div class="active-title">📊 ব্যবহারকারীর পরিসংখ্যান</div>
-    <div class="active-stat"><span class="active-stat-label">🟢 এখন অ্যাক্টিভ</span><span class="active-stat-val" id="statNow">৪৭</span></div>
-    <div class="active-stat"><span class="active-stat-label">📅 আজকে মোট</span><span class="active-stat-val" id="statToday">১২৩</span></div>
-    <div class="active-stat"><span class="active-stat-label">📆 এই সপ্তাহে</span><span class="active-stat-val" id="statWeek">৮৪৫</span></div>
-    <div class="active-stat"><span class="active-stat-label">📊 এই মাসে</span><span class="active-stat-val" id="statMonth">৩,২৪১</span></div>
-    <div class="active-stat"><span class="active-stat-label">👥 মোট নিবন্ধিত</span><span class="active-stat-val" id="statTotal">১২,৫৬৭</span></div>
+<div class="modal-overlay" id="activeModal" style="display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
+  <div class="active-box" style="background:linear-gradient(135deg,#0a1f3c,#050f20); border:1px solid rgba(0,230,118,0.3); border-radius:20px; padding:20px; width:90%; max-width:350px;">
+    <div style="text-align:right;"><button onclick="closeActiveModal()" style="background:none; border:none; color:var(--silver); font-size:18px;"><i class="fa fa-times"></i></button></div>
+    <div class="active-title" style="font-size:18px; font-weight:700; color:var(--green); text-align:center;">📊 ব্যবহারকারীর পরিসংখ্যান</div>
+    <div class="active-stat" style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06);"><span>🟢 এখন অ্যাক্টিভ</span><span id="statNow">৪৭</span></div>
+    <div class="active-stat" style="display:flex; justify-content:space-between; padding:12px 0;"><span>👥 মোট নিবন্ধিত</span><span id="statTotal">১২,৫৬৭</span></div>
   </div>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- Firebase & App Scripts -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where, serverTimestamp, increment, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
-
+<script>
 // ============================================================
-// FIREBASE CONFIG - Replace with your real config from bd-mela-firebase.json
+// DEMO DATA (Firebase এর জায়গায়)
 // ============================================================
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const provider = new GoogleAuthProvider();
-
 let currentUser = null;
-let divisionsData = {};
 let allMelas = [];
 let userSaved = [];
+let currentReviewMelaId = null;
+let currentMapMela = null;
+let currentPromoMelaId = null;
+let userPoints = 100; // প্রোমো বুস্টের জন্য পয়েন্ট
 
-// ============================================================
-// PARTICLES
-// ============================================================
-function createParticles() {
-  const colors = ['#00e676','#ffd700','#ce93d8','#ff1744','#ffea00'];
-  for(let i=0; i<15; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.cssText = `
-      left:${Math.random()*100}vw;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      animation-duration:${5+Math.random()*10}s;
-      animation-delay:${Math.random()*5}s;
-      opacity:${0.3+Math.random()*0.5};
-      width:${2+Math.random()*4}px;
-      height:${2+Math.random()*4}px;
-    `;
-    document.body.appendChild(p);
-  }
+// ডেমো মেলা ডাটা
+function getDemoMelas() {
+  const today = new Date();
+  const fmt = d => d.toISOString().split('T')[0];
+  const add = (d, n) => { const r=new Date(d); r.setDate(r.getDate()+n); return r; };
+  return [
+    { id:'1', name:'ঢাকা আন্তর্জাতিক বাণিজ্য মেলা', category:'বাণিজ্য', division:'ঢাকা', district:'ঢাকা', upazila:'শেরেবাংলা', place:'বঙ্গবন্ধু আন্তর্জাতিক সম্মেলন কেন্দ্র', locationLink:'https://maps.google.com/?q=23.7779,90.3994', startDate:fmt(add(today,-5)), endDate:fmt(add(today,25)), description:'বাংলাদেশের সবচেয়ে বড় বাণিজ্য মেলা। দেশি-বিদেশি পণ্যের বিশাল সমাহার।', phone:'01711-XXXXXX', ratings:{}, reviews:[], likes:145, comments:[], promo:true, promoExpiry:add(today,10).toISOString(), posterName:'আহমেদ আলী', posterPhoto:'', createdAt:add(today,-5) },
+    { id:'2', name:'রাজশাহী কৃষি মেলা ২০২৫', category:'কৃষি', division:'রাজশাহী', district:'রাজশাহী', upazila:'রাজশাহী সদর', place:'রাজশাহী কলেজ মাঠ', locationLink:'https://maps.google.com/?q=24.3745,88.6042', startDate:fmt(add(today,5)), endDate:fmt(add(today,12)), description:'কৃষি ও কৃষি প্রযুক্তির সমন্বয়ে এক অনন্য মেলা। কৃষকদের জন্য বিশেষ সুযোগ।', phone:'01812-XXXXXX', ratings:{}, reviews:[], likes:89, comments:[], promo:false, posterName:'করিম উদ্দীন', posterPhoto:'', createdAt:add(today,-2) },
+    { id:'3', name:'চট্টগ্রাম সাংস্কৃতিক মেলা', category:'সাংস্কৃতিক', division:'চট্টগ্রাম', district:'চট্টগ্রাম', upazila:'চট্টগ্রাম সদর', place:'এম.এ. আজিজ স্টেডিয়াম', locationLink:'https://maps.google.com/?q=22.3384,91.8316', startDate:fmt(add(today,-2)), endDate:fmt(add(today,3)), description:'চট্টগ্রামের ঐতিহ্যবাহী সাংস্কৃতিক মেলা। নৃত্য, সঙ্গীত ও হস্তশিল্পের আয়োজন।', phone:'01911-XXXXXX', ratings:{}, reviews:[], likes:203, comments:[], promo:false, posterName:'রহিমা বেগম', posterPhoto:'', createdAt:add(today,-7) },
+    { id:'4', name:'একুশে বইমেলা ২০২৫', category:'বইমেলা', division:'ঢাকা', district:'ঢাকা', upazila:'ধানমন্ডি', place:'বাংলা একাডেমি প্রাঙ্গণ', locationLink:'https://maps.google.com/?q=23.7647,90.3865', startDate:fmt(add(today,15)), endDate:fmt(add(today,45)), description:'বাংলাদেশের সবচেয়ে প্রতীক্ষিত বইমেলা। শত শত প্রকাশক ও লেখকের সমাগম।', phone:'01611-XXXXXX', ratings:{}, reviews:[], likes:512, comments:[], promo:false, posterName:'জাহানারা ইসলাম', posterPhoto:'', createdAt:add(today,-1) },
+  ];
 }
-createParticles();
 
-// ============================================================
-// AUTH
-// ============================================================
-window.signInWithGoogle = async function() {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch(e) {
-    // Demo mode fallback
-    demoLogin();
-  }
+// বিভাগ ডাটা
+const divisionsData = {
+  "ঢাকা": { districts: { "ঢাকা": { upazilas: ["মিরপুর","সাভার","কেরানীগঞ্জ","গুলশান","ধানমন্ডি"] }, "গাজীপুর": { upazilas: ["গাজীপুর সদর","কালিয়াকৈর"] }, "নারায়ণগঞ্জ": { upazilas: ["নারায়ণগঞ্জ সদর","সোনারগাঁও"] } } },
+  "চট্টগ্রাম": { districts: { "চট্টগ্রাম": { upazilas: ["চট্টগ্রাম সদর","হাটহাজারী","রাউজান"] }, "কক্সবাজার": { upazilas: ["কক্সবাজার সদর","উখিয়া"] } } },
+  "রাজশাহী": { districts: { "রাজশাহী": { upazilas: ["রাজশাহী সদর","পবা","চারঘাট"] }, "নওগাঁ": { upazilas: ["নওগাঁ সদর","বদলগাছি"] } } },
+  "খুলনা": { districts: { "খুলনা": { upazilas: ["খুলনা সদর","ডুমুরিয়া"] }, "বাগেরহাট": { upazilas: ["বাগেরহাট সদর","মোংলা"] } } },
+  "বরিশাল": { districts: { "বরিশাল": { upazilas: ["বরিশাল সদর","বানারীপাড়া"] } } },
+  "সিলেট": { districts: { "সিলেট": { upazilas: ["সিলেট সদর","গোলাপগঞ্জ"] } } },
+  "রংপুর": { districts: { "রংপুর": { upazilas: ["রংপুর সদর","গঙ্গাচড়া"] } } },
+  "ময়মনসিংহ": { districts: { "ময়মনসিংহ": { upazilas: ["ময়মনসিংহ সদর","ফুলবাড়িয়া"] } } }
 };
 
-function demoLogin() {
-  const demoUser = { displayName:'ডেমো ব্যবহারকারী', email:'demo@demo.com', photoURL:null, uid:'demo123' };
+// ============================================================
+// AUTH FUNCTIONS
+// ============================================================
+window.signInWithGoogle = function() {
+  // ডেমো লগইন (Firebase ছাড়া)
+  const demoUser = { displayName:'রাফি আহমেদ', email:'rafi@example.com', photoURL:'https://ui-avatars.com/api/?name=Rafi&background=00c853&color=000&bold=true', uid:'demo123' };
   onUserLoggedIn(demoUser);
-}
-
-window.signOut = async function() {
-  await fbSignOut(auth);
-  location.reload();
+  document.getElementById('authOverlay').style.display = 'none';
 };
 
-onAuthStateChanged(auth, user => {
-  if(user) { onUserLoggedIn(user); }
-  else { document.getElementById('authOverlay').style.display='flex'; }
-});
+window.signOut = function() {
+  currentUser = null;
+  document.getElementById('authOverlay').style.display = 'flex';
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('fabBtn').style.display = 'none';
+  document.getElementById('bottomNav').style.display = 'none';
+};
 
 function onUserLoggedIn(user) {
   currentUser = user;
-  document.getElementById('authOverlay').style.display='none';
-  document.getElementById('mainApp').style.display='block';
-  document.getElementById('fabBtn').style.display='flex';
-  document.getElementById('bottomNav').style.display='flex';
-  const ava = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=00c853&color=000&bold=true`;
+  document.getElementById('mainApp').style.display = 'block';
+  document.getElementById('fabBtn').style.display = 'flex';
+  document.getElementById('bottomNav').style.display = 'flex';
+  const ava = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=00c853&color=000`;
   document.getElementById('userAvatarHeader').src = ava;
   document.getElementById('profileBigAva').src = ava;
   document.getElementById('profileName').textContent = user.displayName || 'ব্যবহারকারী';
   document.getElementById('profileEmail').textContent = user.email || '';
-  loadDivisions();
   loadMelas();
-  loadUserData();
-  setupNotifications();
-  updateLiveCount();
-  startSlider();
-}
-
-// ============================================================
-// DIVISIONS DATA
-// ============================================================
-async function loadDivisions() {
-  try {
-    const res = await fetch('divisions.json');
-    divisionsData = await res.json();
-  } catch(e) {
-    // Fallback demo data
-    divisionsData = {
-      "ঢাকা": { districts: { "ঢাকা": { upazilas: ["মিরপুর","সাভার","কেরানীগঞ্জ","গুলশান","ধানমন্ডি"] }, "গাজীপুর": { upazilas: ["গাজীপুর সদর","কালিয়াকৈর"] }, "নারায়ণগঞ্জ": { upazilas: ["নারায়ণগঞ্জ সদর","সোনারগাঁও"] } } },
-      "চট্টগ্রাম": { districts: { "চট্টগ্রাম": { upazilas: ["চট্টগ্রাম সদর","হাটহাজারী","রাউজান"] }, "কক্সবাজার": { upazilas: ["কক্সবাজার সদর","উখিয়া"] } } },
-      "রাজশাহী": { districts: { "রাজশাহী": { upazilas: ["রাজশাহী সদর","পবা","চারঘাট"] }, "নওগাঁ": { upazilas: ["নওগাঁ সদর","বদলগাছি"] } } },
-      "খুলনা": { districts: { "খুলনা": { upazilas: ["খুলনা সদর","ডুমুরিয়া"] }, "বাগেরহাট": { upazilas: ["বাগেরহাট সদর","মোংলা"] } } },
-      "বরিশাল": { districts: { "বরিশাল": { upazilas: ["বরিশাল সদর","বানারীপাড়া"] } } },
-      "সিলেট": { districts: { "সিলেট": { upazilas: ["সিলেট সদর","গোলাপগঞ্জ"] } } },
-      "রংপুর": { districts: { "রংপুর": { upazilas: ["রংপুর সদর","গঙ্গাচড়া"] } } },
-      "ময়মনসিংহ": { districts: { "ময়মনসিংহ": { upazilas: ["ময়মনসিংহ সদর","ফুলবাড়িয়া"] } } }
-    };
-  }
   populateDivSelects();
+  startSlider();
+  updateLiveCount();
 }
 
+// ============================================================
+// DIVISIONS
+// ============================================================
 function populateDivSelects() {
   const divs = Object.keys(divisionsData);
-  ['divSelect','f_div'].forEach(id => {
-    const sel = document.getElementById(id);
-    divs.forEach(d => sel.add(new Option(d, d)));
-  });
+  const divSelect = document.getElementById('divSelect');
+  divSelect.innerHTML = '<option value="">সকল বিভাগ</option>';
+  divs.forEach(d => divSelect.add(new Option(d, d)));
+  
+  const fDiv = document.getElementById('f_div');
+  fDiv.innerHTML = '<option value="">বিভাগ</option>';
+  divs.forEach(d => fDiv.add(new Option(d, d)));
 }
-
-window.filterByLocation = function() {
-  const div = document.getElementById('divSelect').value;
-  const dist = document.getElementById('distSelect').value;
-  const upazila = document.getElementById('upazilaSelect').value;
-  if(div && divisionsData[div]) {
-    const distSel = document.getElementById('distSelect');
-    const prevDist = distSel.value;
-    distSel.innerHTML = '<option value="">সকল জেলা</option>';
-    Object.keys(divisionsData[div].districts||{}).forEach(d => distSel.add(new Option(d,d)));
-    if(prevDist) distSel.value = prevDist;
-  }
-  renderAllMelas();
-};
 
 window.loadFormDist = function() {
   const div = document.getElementById('f_div').value;
   const distSel = document.getElementById('f_dist');
   distSel.innerHTML = '<option value="">জেলা</option>';
   if(div && divisionsData[div]) {
-    Object.keys(divisionsData[div].districts||{}).forEach(d => distSel.add(new Option(d,d)));
+    Object.keys(divisionsData[div].districts).forEach(d => distSel.add(new Option(d, d)));
   }
 };
+
 window.loadFormUpazila = function() {
   const div = document.getElementById('f_div').value;
   const dist = document.getElementById('f_dist').value;
   const sel = document.getElementById('f_upazila');
   sel.innerHTML = '<option value="">উপজেলা</option>';
   if(div && dist && divisionsData[div]?.districts?.[dist]) {
-    (divisionsData[div].districts[dist].upazilas||[]).forEach(u => sel.add(new Option(u,u)));
+    divisionsData[div].districts[dist].upazilas.forEach(u => sel.add(new Option(u, u)));
   }
 };
 
 // ============================================================
-// MELA DATA
+// MELAS LOAD & RENDER
 // ============================================================
-async function loadMelas() {
-  try {
-    const q = query(collection(db,'melas'), orderBy('createdAt','desc'));
-    onSnapshot(q, snap => {
-      allMelas = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-      renderAllMelas();
-      updateMarquee();
-    });
-  } catch(e) {
-    // Demo melas
-    allMelas = getDemoMelas();
-    renderAllMelas();
-    updateMarquee();
-  }
-}
-
-function getDemoMelas() {
-  const today = new Date();
-  const fmt = d => d.toISOString().split('T')[0];
-  const add = (d, n) => { const r=new Date(d); r.setDate(r.getDate()+n); return r; };
-  return [
-    { id:'1', name:'ঢাকা আন্তর্জাতিক বাণিজ্য মেলা', category:'বাণিজ্য', division:'ঢাকা', district:'ঢাকা', upazila:'শেরেবাংলা', place:'বঙ্গবন্ধু আন্তর্জাতিক সম্মেলন কেন্দ্র', startDate:fmt(add(today,-5)), endDate:fmt(add(today,25)), description:'বাংলাদেশের সবচেয়ে বড় বাণিজ্য মেলা। দেশি-বিদেশি পণ্যের বিশাল সমাহার।', phone:'01711-XXXXXX', website:'', likes:145, comments:[], posterName:'আহমেদ আলী', posterPhoto:'', createdAt:{ toDate:()=>add(today,-5) } },
-    { id:'2', name:'রাজশাহী কৃষি মেলা ২০২৫', category:'কৃষি', division:'রাজশাহী', district:'রাজশাহী', upazila:'রাজশাহী সদর', place:'রাজশাহী কলেজ মাঠ', startDate:fmt(add(today,5)), endDate:fmt(add(today,12)), description:'কৃষি ও কৃষি প্রযুক্তির সমন্বয়ে এক অনন্য মেলা। কৃষকদের জন্য বিশেষ সুযোগ।', phone:'01812-XXXXXX', website:'', likes:89, comments:[], posterName:'করিম উদ্দীন', posterPhoto:'', createdAt:{ toDate:()=>add(today,-2) } },
-    { id:'3', name:'চট্টগ্রাম সাংস্কৃতিক মেলা', category:'সাংস্কৃতিক', division:'চট্টগ্রাম', district:'চট্টগ্রাম', upazila:'চট্টগ্রাম সদর', place:'এম.এ. আজিজ স্টেডিয়াম', startDate:fmt(add(today,-2)), endDate:fmt(add(today,3)), description:'চট্টগ্রামের ঐতিহ্যবাহী সাংস্কৃতিক মেলা। নৃত্য, সঙ্গীত ও হস্তশিল্পের আয়োজন।', phone:'01911-XXXXXX', website:'', likes:203, comments:[], posterName:'রহিমা বেগম', posterPhoto:'', createdAt:{ toDate:()=>add(today,-7) } },
-    { id:'4', name:'একুশে বইমেলা ২০২৫', category:'বইমেলা', division:'ঢাকা', district:'ঢাকা', upazila:'ধানমন্ডি', place:'বাংলা একাডেমি প্রাঙ্গণ', startDate:fmt(add(today,15)), endDate:fmt(add(today,45)), description:'বাংলাদেশের সবচেয়ে প্রতীক্ষিত বইমেলা। শত শত প্রকাশক ও লেখকের সমাগম।', phone:'01611-XXXXXX', website:'https://banglaacademy.org.bd', likes:512, comments:[], posterName:'জাহানারা ইসলাম', posterPhoto:'', createdAt:{ toDate:()=>add(today,-1) } },
-    { id:'5', name:'সিলেট ঐতিহ্য মেলা', category:'সাংস্কৃতিক', division:'সিলেট', district:'সিলেট', upazila:'সিলেট সদর', place:'সিলেট জিমনেসিয়াম মাঠ', startDate:fmt(add(today,-10)), endDate:fmt(add(today,-5)), description:'সিলেটের ঐতিহ্য ও সংস্কৃতির এক অপূর্ব সমাহার।', phone:'01511-XXXXXX', website:'', likes:67, comments:[], posterName:'নুরুল আমিন', posterPhoto:'', createdAt:{ toDate:()=>add(today,-15) } },
-    { id:'6', name:'ময়মনসিংহ খাদ্য মেলা', category:'খাবার', division:'ময়মনসিংহ', district:'ময়মনসিংহ', upazila:'ময়মনসিংহ সদর', place:'ময়মনসিংহ টাউন হল মাঠ', startDate:fmt(today), endDate:fmt(add(today,7)), description:'বাংলাদেশের বিভিন্ন অঞ্চলের ঐতিহ্যবাহী খাবারের মেলা।', phone:'01711-YYYYYY', website:'', likes:178, comments:[], posterName:'ফারিদা খানম', posterPhoto:'', createdAt:{ toDate:()=>today } },
-  ];
+function loadMelas() {
+  allMelas = getDemoMelas();
+  renderAllMelas();
+  updateMarquee();
 }
 
 function getMelaStatus(mela) {
@@ -1173,9 +1050,12 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('bn-BD', {day:'2-digit', month:'short'});
 }
 
-function getCatColor(cat) {
-  const map = { 'কৃষি':'cat-agriculture','বাণিজ্য':'cat-business','সাংস্কৃতিক':'cat-cultural','বইমেলা':'cat-book','খাবার':'cat-food' };
-  return map[cat] || 'cat-business';
+function getAvgRating(mela) {
+  const ratings = mela.ratings || {};
+  const values = Object.values(ratings);
+  if(values.length === 0) return 0;
+  const sum = values.reduce((a,b)=>a+b,0);
+  return (sum/values.length).toFixed(1);
 }
 
 function renderAllMelas() {
@@ -1183,7 +1063,7 @@ function renderAllMelas() {
   const div = document.getElementById('divSelect').value;
   const dist = document.getElementById('distSelect').value;
   const upazila = document.getElementById('upazilaSelect').value;
-
+  
   let filtered = allMelas.filter(m => {
     if(search && !JSON.stringify(m).toLowerCase().includes(search)) return false;
     if(div && m.division !== div) return false;
@@ -1191,47 +1071,56 @@ function renderAllMelas() {
     if(upazila && m.upazila !== upazila) return false;
     return true;
   });
-
-  const live = filtered.filter(m => getMelaStatus(m)==='live');
-  const soon = filtered.filter(m => getMelaStatus(m)==='soon');
-  const all  = filtered;
-
-  renderGrid('liveMelaGrid', live);
-  renderGrid('upcomingMelaGrid', soon);
-  renderGrid('allMelaGrid', all);
-}
-
-function renderGrid(gridId, melas) {
-  const grid = document.getElementById(gridId);
-  if(!melas.length) { grid.innerHTML = `<div style="grid-column:span 2;text-align:center;color:var(--silver);padding:20px;font-size:13px">কোনো মেলা পাওয়া যায়নি</div>`; return; }
-  grid.innerHTML = melas.map(m => createCard(m)).join('');
+  
+  // প্রোমো বুস্টেড মেলা উপরে দেখাবে
+  filtered.sort((a,b) => {
+    if(a.promo && (!b.promo || new Date(a.promoExpiry) > new Date())) return -1;
+    if(b.promo && (!a.promo || new Date(b.promoExpiry) > new Date())) return 1;
+    return 0;
+  });
+  
+  const grid = document.getElementById('allMelaGrid');
+  if(filtered.length === 0) {
+    grid.innerHTML = '<div style="grid-column:span 2;text-align:center;padding:20px;">কোনো মেলা পাওয়া যায়নি</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(m => createCard(m)).join('');
+  renderSavedList();
 }
 
 function createCard(m) {
   const status = getMelaStatus(m);
-  const dur = getDuration(m);
   const statusClass = {live:'status-live',soon:'status-soon',ended:'status-ended'}[status];
   const statusText = {live:'🟢 চলমান',soon:'⏰ আসছে',ended:'⬛ শেষ'}[status];
   const liked = m.likedBy && m.likedBy.includes(currentUser?.uid);
   const saved = userSaved.includes(m.id);
-  const catEmoji = {কৃষি:'🌾',বাণিজ্য:'💼',সাংস্কৃতিক:'🎭',বইমেলা:'📚',খাবার:'🍽️'}[m.category]||'🎪';
-
-  return `<div class="mela-card" onclick="openDetail('${m.id}')">
+  const avgRating = getAvgRating(m);
+  const ratingCount = Object.keys(m.ratings || {}).length;
+  const isPromo = m.promo && new Date(m.promoExpiry) > new Date();
+  
+  return `<div class="mela-card ${isPromo ? 'promo' : ''}" onclick="openDetail('${m.id}')">
+    ${isPromo ? '<div class="promo-badge"><i class="fa fa-rocket"></i> প্রোমো বুস্টেড</div>' : ''}
     <button class="card-dropdown-btn" onclick="event.stopPropagation();toggleDropdown('dd${m.id}')">⋮</button>
     <div class="card-dropdown" id="dd${m.id}">
       <div class="dd-item" onclick="event.stopPropagation();openDetail('${m.id}')"><i class="fa fa-eye"></i> বিস্তারিত</div>
       <div class="dd-item" onclick="event.stopPropagation();shareMela('${m.id}')"><i class="fa fa-share-alt"></i> শেয়ার করুন</div>
+      <div class="dd-item" onclick="event.stopPropagation();openPromoDialog('${m.id}')"><i class="fa fa-rocket"></i> প্রোমো বুস্ট</div>
       ${m.posterId===currentUser?.uid ? `<div class="dd-item" style="color:var(--red)" onclick="event.stopPropagation();deleteMela('${m.id}')"><i class="fa fa-trash"></i> মুছুন</div>` : ''}
     </div>
     <div class="card-header">
-      <div><span class="card-cat ${getCatColor(m.category)}">${catEmoji} ${m.category||'মেলা'}</span></div>
+      <div><span class="card-cat" style="background:rgba(0,200,83,0.15);">${m.category||'মেলা'}</span></div>
       <div class="card-title">${m.name}</div>
-      <div class="card-loc"><i class="fa fa-map-marker-alt"></i>${m.district||''}, ${m.division||''}</div>
+      <div class="card-loc"><i class="fa fa-map-marker-alt"></i> ${m.district}, ${m.division}</div>
+      <div class="rating-stars">
+        ${renderStars(avgRating)}
+        <span class="rating-count">(${avgRating})</span>
+        <span class="review-count" onclick="event.stopPropagation();openReviewModal('${m.id}')">📝 ${ratingCount} রিভিউ</span>
+      </div>
     </div>
     <div class="card-dates">
       <div class="date-item"><span class="date-label">শুরু</span><span class="date-val">${formatDate(m.startDate)}</span></div>
       <div class="date-item"><span class="date-label">শেষ</span><span class="date-val">${formatDate(m.endDate)}</span></div>
-      <div class="date-item"><span class="date-label">মেয়াদ</span><span class="date-val">${dur} দিন</span></div>
+      <div class="date-item"><span class="date-label">মেয়াদ</span><span class="date-val">${getDuration(m)} দিন</span></div>
     </div>
     <div class="card-footer">
       <div class="card-actions">
@@ -1244,249 +1133,324 @@ function createCard(m) {
         <button class="act-btn ${saved?'saved':''}" onclick="event.stopPropagation();toggleSave('${m.id}')">
           <i class="fa fa-bookmark"></i>
         </button>
+        <button class="act-btn" onclick="event.stopPropagation();showLocationMap('${m.id}')">
+          <i class="fa fa-map"></i>
+        </button>
       </div>
       <div class="card-status ${statusClass}">${statusText}</div>
     </div>
   </div>`;
 }
 
+function renderStars(rating) {
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating % 1 >= 0.5;
+  let stars = '';
+  for(let i=1; i<=5; i++) {
+    if(i <= fullStars) stars += '<i class="fa fa-star" style="color:var(--gold);"></i>';
+    else if(i === fullStars+1 && hasHalf) stars += '<i class="fa fa-star-half-alt" style="color:var(--gold);"></i>';
+    else stars += '<i class="fa fa-star" style="color:#555;"></i>';
+  }
+  return stars;
+}
+
 // ============================================================
-// LIKE / SAVE / COMMENT
+// RATING & REVIEW
 // ============================================================
-window.toggleLike = async function(id) {
-  if(!currentUser) return;
-  const mela = allMelas.find(m=>m.id===id);
+window.openReviewModal = function(melaId) {
+  currentReviewMelaId = melaId;
+  const mela = allMelas.find(m => m.id === melaId);
   if(!mela) return;
-  try {
-    const ref = doc(db,'melas',id);
-    const liked = mela.likedBy && mela.likedBy.includes(currentUser.uid);
-    await updateDoc(ref, liked
-      ? { likes: increment(-1), likedBy: arrayRemove(currentUser.uid) }
-      : { likes: increment(1), likedBy: arrayUnion(currentUser.uid) }
-    );
-  } catch(e) {
-    const mela = allMelas.find(m=>m.id===id);
-    if(mela) { mela.likes = (mela.likes||0)+(mela.liked?-1:1); mela.liked=!mela.liked; renderAllMelas(); }
+  
+  // রিভিউ লিস্ট দেখানো
+  const reviews = mela.reviews || [];
+  const reviewListHtml = reviews.map(r => `
+    <div class="review-item">
+      <div class="review-item-name">${r.name}</div>
+      <div class="review-item-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      <div class="review-item-text">${r.text || ''}</div>
+    </div>
+  `).join('');
+  document.getElementById('reviewList').innerHTML = reviewListHtml || '<div style="text-align:center;color:var(--silver);">কোনো রিভিউ নেই</div>';
+  
+  // স্টার সিলেক্ট
+  const starContainer = document.getElementById('reviewStars');
+  starContainer.innerHTML = '';
+  for(let i=1; i<=5; i++) {
+    const star = document.createElement('i');
+    star.className = 'fa fa-star review-star';
+    star.style.fontSize = '28px';
+    star.style.cursor = 'pointer';
+    star.style.color = '#555';
+    star.dataset.rating = i;
+    star.onmouseover = () => highlightStars(i);
+    star.onmouseout = () => resetStars(0);
+    star.onclick = () => selectRating(i);
+    starContainer.appendChild(star);
+  }
+  
+  document.getElementById('reviewModal').classList.add('open');
+};
+
+let selectedRating = 0;
+function highlightStars(rating) {
+  const stars = document.querySelectorAll('#reviewStars .review-star');
+  stars.forEach((star, idx) => {
+    star.style.color = idx < rating ? 'var(--gold)' : '#555';
+  });
+}
+function resetStars(rating) {
+  const stars = document.querySelectorAll('#reviewStars .review-star');
+  stars.forEach((star, idx) => {
+    star.style.color = idx < selectedRating ? 'var(--gold)' : '#555';
+  });
+}
+function selectRating(rating) {
+  selectedRating = rating;
+  resetStars(rating);
+}
+
+window.submitReview = function() {
+  if(selectedRating === 0) {
+    showToast('⭐ দয়া করে রেটিং দিন');
+    return;
+  }
+  const reviewText = document.getElementById('reviewText').value.trim();
+  const mela = allMelas.find(m => m.id === currentReviewMelaId);
+  if(mela) {
+    if(!mela.ratings) mela.ratings = {};
+    mela.ratings[currentUser.uid] = selectedRating;
+    if(!mela.reviews) mela.reviews = [];
+    mela.reviews.push({
+      uid: currentUser.uid,
+      name: currentUser.displayName,
+      rating: selectedRating,
+      text: reviewText,
+      time: Date.now()
+    });
+    showToast('⭐ রিভিউ দেওয়ার জন্য ধন্যবাদ!');
+  }
+  closeReviewModal();
+  renderAllMelas();
+};
+
+window.closeReviewModal = function() {
+  document.getElementById('reviewModal').classList.remove('open');
+  selectedRating = 0;
+  document.getElementById('reviewText').value = '';
+};
+
+// ============================================================
+// LOCATION MAP
+// ============================================================
+window.showLocationMap = function(melaId) {
+  const mela = allMelas.find(m => m.id === melaId);
+  if(!mela) return;
+  currentMapMela = mela;
+  document.getElementById('mapModal').classList.add('open');
+  document.getElementById('mapAddress').innerHTML = `<i class="fa fa-location-dot"></i> ${mela.place}, ${mela.upazila}, ${mela.district}, ${mela.division}`;
+  
+  // Leaflet Map
+  setTimeout(() => {
+    const mapContainer = document.getElementById('locationMap');
+    if(mapContainer._leaflet_id) {
+      mapContainer.innerHTML = '';
+    }
+    let lat = 23.7779, lng = 90.3994;
+    if(mela.locationLink && mela.locationLink.includes('q=')) {
+      const coords = mela.locationLink.split('q=')[1].split(',');
+      if(coords.length === 2) {
+        lat = parseFloat(coords[0]);
+        lng = parseFloat(coords[1]);
+      }
+    }
+    const map = L.map('locationMap').setView([lat, lng], 13);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+    }).addTo(map);
+    L.marker([lat, lng]).addTo(map).bindPopup(`<b>${mela.name}</b><br>${mela.place}`).openPopup();
+  }, 100);
+};
+
+window.closeMapModal = function() {
+  document.getElementById('mapModal').classList.remove('open');
+};
+
+// ============================================================
+// PROMO BOOST
+// ============================================================
+window.openPromoDialog = function(melaId) {
+  currentPromoMelaId = melaId;
+  document.getElementById('promoDialog').classList.add('open');
+};
+
+window.closePromoDialog = function() {
+  document.getElementById('promoDialog').classList.remove('open');
+  currentPromoMelaId = null;
+};
+
+window.confirmPromo = function() {
+  if(userPoints < 50) {
+    showToast('⚠️ আপনার পর্যাপ্ত পয়েন্ট নেই!');
+    closePromoDialog();
+    return;
+  }
+  const mela = allMelas.find(m => m.id === currentPromoMelaId);
+  if(mela) {
+    userPoints -= 50;
+    mela.promo = true;
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 7);
+    mela.promoExpiry = expiry.toISOString();
+    showToast('🚀 আপনার মেলা প্রোমো বুস্ট হয়েছে!');
+  }
+  closePromoDialog();
+  renderAllMelas();
+};
+
+// ============================================================
+// LIKE, SAVE, DELETE
+// ============================================================
+window.toggleLike = function(id) {
+  const mela = allMelas.find(m => m.id === id);
+  if(mela) {
+    if(mela.likedBy && mela.likedBy.includes(currentUser.uid)) {
+      mela.likedBy = mela.likedBy.filter(uid => uid !== currentUser.uid);
+      mela.likes = (mela.likes || 0) - 1;
+    } else {
+      if(!mela.likedBy) mela.likedBy = [];
+      mela.likedBy.push(currentUser.uid);
+      mela.likes = (mela.likes || 0) + 1;
+    }
+    renderAllMelas();
   }
 };
 
-window.toggleSave = async function(id) {
-  if(!currentUser) return;
+window.toggleSave = function(id) {
   const idx = userSaved.indexOf(id);
-  if(idx>-1) userSaved.splice(idx,1); else userSaved.push(id);
-  showToast(idx>-1 ? '❌ সেভ বাতিল করা হয়েছে' : '⭐ মেলা সেভ হয়েছে');
+  if(idx > -1) {
+    userSaved.splice(idx, 1);
+    showToast('❌ সেভ বাতিল');
+  } else {
+    userSaved.push(id);
+    showToast('⭐ মেলা সেভ হয়েছে');
+  }
   renderAllMelas();
-  renderSavedList();
-  try {
-    await updateDoc(doc(db,'users',currentUser.uid), { saved: userSaved });
-  } catch(e) {}
 };
 
-async function loadUserData() {
-  try {
-    const snap = await getDoc(doc(db,'users',currentUser.uid));
-    if(snap.exists()) { userSaved = snap.data().saved || []; }
-  } catch(e) {}
-  renderSavedList();
-}
+window.deleteMela = function(id) {
+  if(confirm('মেলা পোস্টটি মুছবেন?')) {
+    allMelas = allMelas.filter(m => m.id !== id);
+    renderAllMelas();
+    showToast('🗑️ মুছে ফেলা হয়েছে');
+  }
+};
 
 function renderSavedList() {
-  const saved = allMelas.filter(m=>userSaved.includes(m.id));
+  const saved = allMelas.filter(m => userSaved.includes(m.id));
   const el = document.getElementById('savedList');
-  document.getElementById('mySaveCount').textContent = saved.length;
-  el.innerHTML = saved.map(m=>`<div class="saved-card" onclick="openDetail('${m.id}')">
+  el.innerHTML = saved.map(m => `<div class="saved-card" onclick="openDetail('${m.id}')">
     <div class="saved-title">${m.name}</div>
-    <div class="saved-info"><i class="fa fa-map-marker-alt" style="color:var(--green)"></i> ${m.district||''} • ${formatDate(m.startDate)}</div>
-  </div>`).join('') || '<div style="color:var(--silver);font-size:13px">কোনো সেভড মেলা নেই</div>';
-  const myPosts = allMelas.filter(m=>m.posterId===currentUser?.uid);
-  document.getElementById('myPostCount').textContent = myPosts.length;
+    <div class="saved-info"><i class="fa fa-map-marker-alt"></i> ${m.district}</div>
+  </div>`).join('') || '<div style="color:var(--silver);padding:10px;">কোনো সেভড মেলা নেই</div>';
 }
 
 // ============================================================
 // POST DETAIL
 // ============================================================
 window.openDetail = function(id) {
-  const m = allMelas.find(x=>x.id===id);
+  const m = allMelas.find(x => x.id === id);
   if(!m) return;
+  document.getElementById('detailModal').classList.add('open');
   document.getElementById('detailTitle').textContent = m.name;
   document.getElementById('detailBody').innerHTML = `
-    <div class="poster-info">
-      <img class="poster-ava" src="${m.posterPhoto||`https://ui-avatars.com/api/?name=${encodeURIComponent(m.posterName||'U')}&background=00c853&color=000`}">
-      <div><div class="poster-name">${m.posterName||'অজ্ঞাত'}</div><div class="poster-time">${m.createdAt?.toDate ? new Date(m.createdAt.toDate()).toLocaleDateString('bn-BD') : ''}</div></div>
+    <div class="poster-info" style="display:flex; align-items:center; gap:10px; padding:12px; background:rgba(0,230,118,0.05); border-radius:12px; margin-bottom:12px;">
+      <img class="poster-ava" src="${m.posterPhoto||'https://ui-avatars.com/api/?name='+encodeURIComponent(m.posterName||'U')}" style="width:40px; height:40px; border-radius:50%;">
+      <div><div class="poster-name" style="color:var(--green);">${m.posterName||'অজ্ঞাত'}</div><div class="poster-time" style="font-size:11px; color:var(--silver);">${new Date(m.createdAt).toLocaleDateString('bn-BD')}</div></div>
     </div>
-    <div class="info-row"><div class="info-icon"><i class="fa fa-tag"></i></div><div class="info-content"><div class="info-label">ক্যাটাগরি</div><div class="info-val">${m.category||'—'}</div></div></div>
-    <div class="info-row"><div class="info-icon"><i class="fa fa-map-marker-alt"></i></div><div class="info-content"><div class="info-label">স্থান</div><div class="info-val">${[m.place,m.upazila,m.district,m.division].filter(Boolean).join(', ')}</div></div></div>
-    <div class="info-row"><div class="info-icon"><i class="fa fa-calendar-alt"></i></div><div class="info-content"><div class="info-label">তারিখ</div><div class="info-val">${formatDate(m.startDate)} — ${formatDate(m.endDate)}</div></div></div>
-    ${m.phone?`<div class="info-row"><div class="info-icon"><i class="fa fa-phone"></i></div><div class="info-content"><div class="info-label">যোগাযোগ</div><div class="info-val"><a href="tel:${m.phone}" style="color:var(--green)">${m.phone}</a></div></div></div>`:''}
-    ${m.website?`<div class="info-row"><div class="info-icon"><i class="fa fa-link"></i></div><div class="info-content"><div class="info-label">ওয়েবসাইট</div><div class="info-val"><a href="${m.website}" target="_blank" style="color:var(--gold)">${m.website}</a></div></div></div>`:''}
-    ${m.description?`<hr class="modal-divider"><div style="font-size:13px;color:var(--text-main);line-height:1.8">${m.description}</div>`:''}
-    <hr class="modal-divider">
+    <div class="info-row" style="display:flex; gap:10px; margin-bottom:12px;"><div class="info-icon" style="width:32px;"><i class="fa fa-tag"></i></div><div><div class="info-label">ক্যাটাগরি</div><div>${m.category}</div></div></div>
+    <div class="info-row" style="display:flex; gap:10px; margin-bottom:12px;"><div class="info-icon" style="width:32px;"><i class="fa fa-map-marker-alt"></i></div><div><div class="info-label">স্থান</div><div>${[m.place,m.upazila,m.district,m.division].filter(Boolean).join(', ')}</div></div></div>
+    <div class="info-row" style="display:flex; gap:10px; margin-bottom:12px;"><div class="info-icon" style="width:32px;"><i class="fa fa-calendar"></i></div><div><div class="info-label">তারিখ</div><div>${formatDate(m.startDate)} — ${formatDate(m.endDate)}</div></div></div>
+    ${m.phone?`<div class="info-row" style="display:flex; gap:10px; margin-bottom:12px;"><div class="info-icon" style="width:32px;"><i class="fa fa-phone"></i></div><div><div class="info-label">যোগাযোগ</div><div><a href="tel:${m.phone}" style="color:var(--green)">${m.phone}</a></div></div></div>`:''}
+    ${m.description?`<hr style="border-color:rgba(255,255,255,0.1); margin:12px 0;"><div style="font-size:13px; line-height:1.6;">${m.description}</div>`:''}
+    <hr style="border-color:rgba(255,255,255,0.1); margin:12px 0;">
     <div class="comment-section">
-      <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">💬 মন্তব্য (${(m.comments||[]).length})</div>
-      <div class="comment-input-row">
-        <input class="comment-input" id="commentInput_${id}" placeholder="মন্তব্য করুন...">
-        <button class="comment-send" onclick="submitComment('${id}')"><i class="fa fa-paper-plane"></i></button>
+      <div style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:10px;">💬 মন্তব্য (${(m.comments||[]).length})</div>
+      <div class="comment-input-row" style="display:flex; gap:8px; margin-bottom:10px;">
+        <input class="comment-input" id="commentInput_${id}" placeholder="মন্তব্য করুন..." style="flex:1; background:rgba(0,230,118,0.05); border:1px solid rgba(0,230,118,0.2); border-radius:20px; padding:8px 14px; color:white;">
+        <button class="comment-send" onclick="submitComment('${id}')" style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--green-dark),var(--green)); border:none; cursor:pointer;"><i class="fa fa-paper-plane"></i></button>
       </div>
       <div id="commentList_${id}">
-        ${(m.comments||[]).map(c=>`<div class="comment-item">
-          <img class="com-ava" src="${c.photo||`https://ui-avatars.com/api/?name=${encodeURIComponent(c.name||'U')}&background=00c853&color=000`}">
-          <div class="com-bubble"><div class="com-name">${c.name}</div><div class="com-text">${c.text}</div></div>
-        </div>`).join('')}
+        ${(m.comments||[]).map(c=>`<div class="comment-item" style="display:flex; gap:8px; margin-bottom:8px;"><img class="com-ava" src="${c.photo||'https://ui-avatars.com/api/?name='+encodeURIComponent(c.name||'U')}" style="width:28px; height:28px; border-radius:50%;"><div class="com-bubble" style="background:rgba(0,230,118,0.05); border-radius:10px; padding:6px 10px; flex:1;"><div class="com-name" style="font-size:11px; color:var(--green);">${c.name}</div><div class="com-text" style="font-size:12px;">${c.text}</div></div></div>`).join('')}
       </div>
     </div>`;
-  document.getElementById('detailModal').classList.add('open');
 };
 
-window.closeDetail = function() { document.getElementById('detailModal').classList.remove('open'); };
+window.closeDetail = function() {
+  document.getElementById('detailModal').classList.remove('open');
+};
 
-window.submitComment = async function(id) {
+window.submitComment = function(id) {
   const input = document.getElementById(`commentInput_${id}`);
   const text = input.value.trim();
   if(!text || !currentUser) return;
-  const comment = { name:currentUser.displayName||'ব্যবহারকারী', photo:currentUser.photoURL||'', text, uid:currentUser.uid, time:Date.now() };
-  input.value = '';
-  try {
-    await updateDoc(doc(db,'melas',id), { comments: arrayUnion(comment) });
-  } catch(e) {
-    const m = allMelas.find(x=>x.id===id);
-    if(m) { m.comments = [...(m.comments||[]), comment]; openDetail(id); }
+  const mela = allMelas.find(m => m.id === id);
+  if(mela) {
+    if(!mela.comments) mela.comments = [];
+    mela.comments.push({
+      name: currentUser.displayName,
+      photo: currentUser.photoURL,
+      text: text,
+      uid: currentUser.uid,
+      time: Date.now()
+    });
+    showToast('💬 মন্তব্য যোগ হয়েছে');
   }
-  showToast('✅ মন্তব্য যোগ হয়েছে');
+  input.value = '';
+  openDetail(id);
 };
 
 // ============================================================
-// SUBMIT POST
+// POST SUBMIT
 // ============================================================
 window.openPostModal = function() { document.getElementById('postModal').classList.add('open'); };
 window.closePostModal = function() { document.getElementById('postModal').classList.remove('open'); };
 
-window.submitPost = async function() {
+window.submitPost = function() {
   const name = document.getElementById('f_name').value.trim();
   const cat = document.getElementById('f_cat').value;
   const div = document.getElementById('f_div').value;
   const dist = document.getElementById('f_dist').value;
   const upazila = document.getElementById('f_upazila').value;
   const place = document.getElementById('f_place').value.trim();
+  const locationLink = document.getElementById('f_location_link').value.trim();
   const start = document.getElementById('f_start').value;
   const end = document.getElementById('f_end').value;
   const desc = document.getElementById('f_desc').value.trim();
   const phone = document.getElementById('f_phone').value.trim();
-  const website = document.getElementById('f_link').value.trim();
-
-  if(!name||!cat||!div||!dist||!start||!end) { showToast('❌ তারকা চিহ্নিত তথ্য পূরণ করুন'); return; }
-
-  const mela = { name,category:cat,division:div,district:dist,upazila,place,startDate:start,endDate:end,description:desc,phone,website,likes:0,likedBy:[],comments:[],posterId:currentUser.uid,posterName:currentUser.displayName||'ব্যবহারকারী',posterPhoto:currentUser.photoURL||'',createdAt:serverTimestamp() };
-
-  try {
-    await addDoc(collection(db,'melas'), mela);
-    showToast('🎉 মেলা পোস্ট হয়েছে!');
-    closePostModal();
-    ['f_name','f_cat','f_div','f_dist','f_upazila','f_place','f_start','f_end','f_desc','f_phone','f_link'].forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; });
-  } catch(e) {
-    allMelas.unshift({...mela, id:'local_'+Date.now(), createdAt:{toDate:()=>new Date()}});
-    renderAllMelas();
-    showToast('🎉 মেলা পোস্ট হয়েছে!');
-    closePostModal();
+  
+  if(!name || !cat || !div || !dist || !start || !end) {
+    showToast('❌ তারকা চিহ্নিত তথ্য পূরণ করুন');
+    return;
   }
+  
+  const newMela = {
+    id: 'mela_' + Date.now(),
+    name, category: cat, division: div, district: dist, upazila, place,
+    locationLink: locationLink || `https://maps.google.com/?q=23.7779,90.3994`,
+    startDate: start, endDate: end, description: desc, phone,
+    ratings: {}, reviews: [], likes: 0, likedBy: [], comments: [],
+    promo: false, posterId: currentUser.uid, posterName: currentUser.displayName,
+    posterPhoto: currentUser.photoURL, createdAt: new Date()
+  };
+  
+  allMelas.unshift(newMela);
+  renderAllMelas();
+  showToast('🎉 মেলা পোস্ট হয়েছে!');
+  closePostModal();
+  document.getElementById('f_name').value = '';
+  document.getElementById('f_desc').value = '';
 };
-
-// ============================================================
-// DELETE
-// ============================================================
-window.deleteMela = async function(id) {
-  if(!confirm('এই মেলা পোস্টটি মুছবেন?')) return;
-  try { await deleteDoc(doc(db,'melas',id)); showToast('🗑️ মুছে ফেলা হয়েছে'); }
-  catch(e) { allMelas = allMelas.filter(m=>m.id!==id); renderAllMelas(); showToast('🗑️ মুছে ফেলা হয়েছে'); }
-};
-
-// ============================================================
-// NOTIFICATIONS
-// ============================================================
-function setupNotifications() {
-  const notifs = [
-    { title:'নতুন মেলা', sub:'ঢাকায় নতুন বাণিজ্য মেলা শুরু হচ্ছে', time:'২ ঘণ্টা আগে', unread:true },
-    { title:'আপনার পোস্টে লাইক', sub:'কেউ আপনার মেলা পোস্টে লাইক দিয়েছেন', time:'৫ ঘণ্টা আগে', unread:true },
-    { title:'মেলা শেষ হচ্ছে', sub:'রাজশাহী কৃষি মেলা আগামীকাল শেষ', time:'১ দিন আগে', unread:true },
-  ];
-  document.getElementById('notifList').innerHTML = notifs.map(n=>`
-    <div class="notif-item ${n.unread?'unread':''}">
-      <div class="notif-title">${n.title}</div>
-      <div class="notif-sub">${n.sub}</div>
-      <div class="notif-time">${n.time}</div>
-    </div>`).join('');
-}
-
-window.toggleNotif = function() {
-  const p = document.getElementById('notifPanel');
-  p.classList.toggle('open');
-  document.getElementById('notifBadge').style.display='none';
-};
-
-// ============================================================
-// SLIDER
-// ============================================================
-let sliderIdx = 0;
-function startSlider() {
-  setInterval(()=>{
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
-    slides[sliderIdx].classList.remove('active');
-    dots[sliderIdx].classList.remove('active');
-    sliderIdx = (sliderIdx+1)%slides.length;
-    slides[sliderIdx].classList.add('active');
-    dots[sliderIdx].classList.add('active');
-  }, 4000);
-}
-window.goSlide = function(i) {
-  document.querySelectorAll('.slide').forEach((s,j)=>s.classList.toggle('active',j===i));
-  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===i));
-  sliderIdx=i;
-};
-
-// ============================================================
-// SEARCH / FILTER
-// ============================================================
-window.searchMela = function() { renderAllMelas(); };
-window.filterCat = function(cat) {
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  event.target.classList.add('active');
-  const grid = document.getElementById('allMelaGrid');
-  const today = new Date(); today.setHours(0,0,0,0);
-  let filtered = [...allMelas];
-  if(cat==='চলমান') filtered = allMelas.filter(m=>getMelaStatus(m)==='live');
-  else if(cat==='শীঘ্রই') filtered = allMelas.filter(m=>getMelaStatus(m)==='soon');
-  else if(cat==='এক মাস') filtered = allMelas.filter(m=>getDuration(m)>=28);
-  else if(cat==='১৫ দিন') filtered = allMelas.filter(m=>getDuration(m)>=14&&getDuration(m)<28);
-  else if(cat==='৭ দিন') filtered = allMelas.filter(m=>getDuration(m)>=7&&getDuration(m)<14);
-  else if(cat==='৩ দিন') filtered = allMelas.filter(m=>getDuration(m)<=3);
-  else if(cat!=='সব') filtered = allMelas.filter(m=>m.category===cat);
-  renderGrid('allMelaGrid', filtered);
-};
-
-// ============================================================
-// MARQUEE UPDATE
-// ============================================================
-function updateMarquee() {
-  const live = allMelas.filter(m=>getMelaStatus(m)==='live');
-  if(!live.length) return;
-  document.getElementById('marqueeText').textContent = live.map(m=>`🎪 ${m.name} • ${m.district}`).join(' • ') + ' • ';
-}
-
-// ============================================================
-// LIVE USER COUNT
-// ============================================================
-function updateLiveCount() {
-  const count = Math.floor(30 + Math.random()*100);
-  document.getElementById('liveCount').textContent = count;
-  setInterval(()=>{
-    const c = parseInt(document.getElementById('liveCount').textContent)||30;
-    const diff = Math.floor(Math.random()*6)-3;
-    document.getElementById('liveCount').textContent = Math.max(10, c+diff);
-  }, 5000);
-}
-
-window.showActiveUsers = function() { document.getElementById('activeModal').classList.add('open'); };
-window.closeActiveModal = function() { document.getElementById('activeModal').classList.remove('open'); };
 
 // ============================================================
 // UI HELPERS
@@ -1496,21 +1460,99 @@ window.toggleHelp = function() { document.getElementById('helpOverlay').classLis
 window.toggleDropdown = function(id) { document.querySelectorAll('.card-dropdown').forEach(d=>{if(d.id!==id)d.classList.remove('open')}); document.getElementById(id)?.classList.toggle('open'); };
 window.toggleFaq = function(el) { el.nextElementSibling.classList.toggle('open'); };
 window.setNav = function(el, tab) { document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); el.classList.add('active'); };
-window.shareMela = function(id) { const m=allMelas.find(x=>x.id===id); if(navigator.share){ navigator.share({title:m?.name, text:`${m?.name} - ${m?.district}` }); } else showToast('📋 লিঙ্ক কপি হয়েছে'); };
+window.shareMela = function(id) { showToast('📋 লিঙ্ক কপি হয়েছে'); };
+window.showActiveUsers = function() { document.getElementById('activeModal').style.display = 'flex'; };
+window.closeActiveModal = function() { document.getElementById('activeModal').style.display = 'none'; };
+window.filterByLocation = function() { renderAllMelas(); };
+window.searchMela = function() { renderAllMelas(); };
+window.filterCat = function(cat) {
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  if(event && event.target) event.target.classList.add('active');
+  renderAllMelas();
+};
+
+function updateMarquee() {
+  const live = allMelas.filter(m => getMelaStatus(m) === 'live');
+  if(live.length) {
+    document.getElementById('marqueeText').textContent = live.map(m => `🎪 ${m.name} • ${m.district}`).join(' • ') + ' • ';
+  }
+}
+
+function updateLiveCount() {
+  const count = Math.floor(30 + Math.random() * 100);
+  document.getElementById('liveCount').textContent = count;
+  setInterval(() => {
+    const c = parseInt(document.getElementById('liveCount').textContent) || 30;
+    document.getElementById('liveCount').textContent = Math.max(10, c + Math.floor(Math.random() * 6) - 3);
+  }, 5000);
+}
+
+let sliderIdx = 0;
+function startSlider() {
+  setInterval(() => {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    if(slides.length === 0) return;
+    slides[sliderIdx].classList.remove('active');
+    dots[sliderIdx]?.classList.remove('active');
+    sliderIdx = (sliderIdx + 1) % slides.length;
+    slides[sliderIdx].classList.add('active');
+    dots[sliderIdx]?.classList.add('active');
+  }, 4000);
+}
+window.goSlide = function(i) {
+  document.querySelectorAll('.slide').forEach((s,j)=>s.classList.toggle('active',j===i));
+  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+  sliderIdx = i;
+};
+
+window.toggleNotif = function() {
+  const p = document.getElementById('notifPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('notifBadge').style.display = 'none';
+};
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Particles
+function createParticles() {
+  const colors = ['#00e676','#ffd700','#ce93d8','#ff1744','#ffea00'];
+  for(let i=0; i<15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}vw; background:${colors[Math.floor(Math.random()*colors.length)]}; animation-duration:${5+Math.random()*10}s; animation-delay:${Math.random()*5}s; opacity:${0.3+Math.random()*0.5}; width:${2+Math.random()*4}px; height:${2+Math.random()*4}px;`;
+    document.body.appendChild(p);
+  }
+}
+createParticles();
+
+// Notifications demo
+document.getElementById('notifList').innerHTML = `
+  <div class="notif-item unread" style="padding:10px;"><div class="notif-title">নতুন মেলা পোস্ট</div><div class="notif-sub">ঢাকায় নতুন বাণিজ্য মেলা শুরু হয়েছে</div></div>
+  <div class="notif-item" style="padding:10px;"><div class="notif-title">আপনার পোস্টে লাইক</div><div class="notif-sub">কেউ আপনার মেলা পোস্টে লাইক দিয়েছেন</div></div>
+`;
 
 document.addEventListener('click', e => {
   if(!e.target.closest('.card-dropdown') && !e.target.closest('.card-dropdown-btn'))
     document.querySelectorAll('.card-dropdown').forEach(d=>d.classList.remove('open'));
   if(!e.target.closest('.notif-panel') && !e.target.closest('[onclick*="toggleNotif"]'))
-    document.getElementById('notifPanel')?.classList.remove('open');
+    document.getElementById('notifPanel').style.display = 'none';
 });
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2500);
-}
-
+// Demo login trigger
+setTimeout(() => {
+  if(!currentUser) {
+    // Auto demo login for testing
+    const demoUser = { displayName:'রাফি আহমেদ', email:'rafi@example.com', photoURL:'https://ui-avatars.com/api/?name=Rafi&background=00c853&color=000&bold=true', uid:'demo123' };
+    onUserLoggedIn(demoUser);
+    document.getElementById('authOverlay').style.display = 'none';
+  }
+}, 1000);
 </script>
 </body>
 </html>
