@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>বাংলাদেশ মেলা - ইউজার প্যানেল</title>
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
     <style>
@@ -20,15 +17,12 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
         body {
             background: #f5f5f5;
             color: #1a1a1a;
         }
-        
-        /* হেডার */
         .header {
-            background: #ffffff;
+            background: white;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             padding: 15px 20px;
             position: sticky;
@@ -40,17 +34,8 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-        
-        .logo h1 {
-            font-size: 1.5rem;
-            color: #1a1a1a;
-        }
-        .logo p {
-            font-size: 0.75rem;
-            color: #666;
-        }
-        
-        /* বাটন */
+        .logo h1 { font-size: 1.5rem; color: #1a1a1a; }
+        .logo p { font-size: 0.75rem; color: #666; }
         .btn {
             padding: 8px 18px;
             border-radius: 8px;
@@ -58,21 +43,8 @@
             background: white;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: all 0.2s;
         }
-        .btn:hover {
-            background: #f0f0f0;
-        }
-        .btn-primary {
-            background: #1a1a1a;
-            color: white;
-            border: none;
-        }
-        .btn-primary:hover {
-            background: #333;
-        }
-        
-        /* সার্চ বক্স */
+        .btn-primary { background: #1a1a1a; color: white; border: none; }
         .search-box {
             background: white;
             border: 1px solid #ddd;
@@ -81,26 +53,13 @@
             display: flex;
             gap: 12px;
             margin: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .search-box input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-            background: transparent;
-        }
-        .search-box i {
-            color: #888;
-        }
-        
-        /* বিভাগ চিপস */
+        .search-box input { flex: 1; border: none; outline: none; font-size: 1rem; background: transparent; }
         .chip-container {
             display: flex;
             gap: 10px;
             overflow-x: auto;
             padding: 0 20px 10px 20px;
-            margin-bottom: 10px;
         }
         .chip {
             background: white;
@@ -110,15 +69,8 @@
             font-size: 0.85rem;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.2s;
         }
-        .chip.active {
-            background: #1a1a1a;
-            color: white;
-            border-color: #1a1a1a;
-        }
-        
-        /* ক্যাটাগরি ট্যাব */
+        .chip.active { background: #1a1a1a; color: white; border-color: #1a1a1a; }
         .cat-container {
             display: flex;
             gap: 12px;
@@ -130,26 +82,16 @@
             background: none;
             border: none;
             padding: 8px 0;
-            font-size: 0.9rem;
             cursor: pointer;
             color: #666;
             border-bottom: 2px solid transparent;
         }
-        .cat-btn.active {
-            color: #1a1a1a;
-            border-bottom-color: #1a1a1a;
-            font-weight: 500;
-        }
-        
-        /* স্লাইডার */
-        .slider-section {
-            margin: 20px;
-        }
+        .cat-btn.active { color: #1a1a1a; border-bottom-color: #1a1a1a; font-weight: 500; }
         .slider-container {
             display: flex;
             gap: 15px;
             overflow-x: auto;
-            padding: 10px 0;
+            padding: 10px 20px;
         }
         .slider-item {
             min-width: 260px;
@@ -157,24 +99,8 @@
             border-radius: 16px;
             overflow: hidden;
             cursor: pointer;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
-        .slider-item img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            display: block;
-        }
-        .slider-item .placeholder {
-            height: 140px;
-            background: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-        }
-        
-        /* মার্কি */
+        .slider-item img { width: 100%; height: 140px; object-fit: cover; }
         .marquee {
             background: #1a1a1a;
             color: white;
@@ -184,16 +110,8 @@
             overflow: hidden;
             white-space: nowrap;
         }
-        .marquee p {
-            display: inline-block;
-            animation: scroll 20s linear infinite;
-        }
-        @keyframes scroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        /* পোস্ট কার্ড */
+        .marquee p { display: inline-block; animation: scroll 20s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .post-card {
             background: white;
             border-radius: 16px;
@@ -202,42 +120,13 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             border: 1px solid #eee;
         }
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .post-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        .post-cat {
-            background: #f0f0f0;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
-        .post-location {
-            color: #666;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-        .post-date {
-            color: #888;
-            font-size: 0.8rem;
-            margin-bottom: 12px;
-        }
-        .post-desc {
-            color: #333;
-            margin-bottom: 15px;
-            line-height: 1.4;
-        }
-        .post-actions {
-            display: flex;
-            gap: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 12px;
-        }
+        .post-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .post-title { font-size: 1.2rem; font-weight: 600; }
+        .post-cat { background: #f0f0f0; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; }
+        .post-location { color: #666; font-size: 0.85rem; margin-bottom: 10px; }
+        .post-date { color: #888; font-size: 0.8rem; margin-bottom: 12px; }
+        .post-desc { color: #333; margin-bottom: 15px; line-height: 1.4; }
+        .post-actions { display: flex; gap: 20px; border-top: 1px solid #eee; padding-top: 12px; }
         .action-btn {
             background: none;
             border: none;
@@ -246,16 +135,9 @@
             align-items: center;
             gap: 6px;
             color: #555;
-            font-size: 0.9rem;
         }
-        .action-btn.liked {
-            color: #e74c3c;
-        }
-        .action-btn.saved {
-            color: #f39c12;
-        }
-        
-        /* কমেন্ট সেকশন */
+        .action-btn.liked { color: #e74c3c; }
+        .action-btn.saved { color: #f39c12; }
         .comments-section {
             margin-top: 15px;
             background: #f9f9f9;
@@ -263,36 +145,10 @@
             padding: 12px;
             display: none;
         }
-        .comment-input {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .comment-input input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-        }
-        .comment-input button {
-            padding: 8px 18px;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-        }
-        .comment-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-            font-size: 0.85rem;
-        }
-        .comment-item strong {
-            color: #1a1a1a;
-        }
-        
-        /* ফ্লোটিং বাটন */
+        .comment-input { display: flex; gap: 8px; margin-bottom: 12px; }
+        .comment-input input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 25px; }
+        .comment-input button { padding: 8px 18px; background: #1a1a1a; color: white; border: none; border-radius: 25px; }
+        .comment-item { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 0.85rem; }
         .fab {
             position: fixed;
             bottom: 25px;
@@ -311,11 +167,6 @@
             font-size: 1.4rem;
             z-index: 99;
         }
-        .fab:hover {
-            background: #333;
-        }
-        
-        /* মডাল */
         .modal {
             display: none;
             position: fixed;
@@ -337,18 +188,12 @@
             border-radius: 24px;
             padding: 25px;
         }
-        .modal-content h3 {
-            margin-bottom: 15px;
-        }
-        .modal-content input,
-        .modal-content select,
-        .modal-content textarea {
+        .modal-content input, .modal-content select, .modal-content textarea {
             width: 100%;
             padding: 12px;
             margin-bottom: 12px;
             border: 1px solid #ddd;
             border-radius: 12px;
-            font-size: 0.9rem;
         }
         .modal-content button {
             width: 100%;
@@ -358,15 +203,8 @@
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            font-size: 1rem;
         }
-        .modal-content button.cancel {
-            background: #ccc;
-            color: #333;
-            margin-top: 8px;
-        }
-        
-        /* সাপোর্ট ড্রপডাউন */
+        .modal-content button.cancel { background: #ccc; color: #333; margin-top: 8px; }
         .support-dropdown {
             position: absolute;
             top: 60px;
@@ -376,41 +214,13 @@
             border-radius: 16px;
             padding: 15px;
             width: 260px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: none;
             z-index: 200;
         }
-        .support-dropdown.show {
-            display: block;
-        }
-        
-        /* লোডার */
-        .loader {
-            text-align: center;
-            padding: 40px;
-            color: #888;
-        }
-        
-        /* ফুটার */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #888;
-            font-size: 0.75rem;
-            border-top: 1px solid #eee;
-            margin-top: 20px;
-        }
-        
-        /* রেসপন্সিভ */
-        @media (max-width: 600px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .post-title {
-                font-size: 1rem;
-            }
-        }
+        .support-dropdown.show { display: block; }
+        .loader { text-align: center; padding: 40px; color: #888; }
+        .footer { text-align: center; padding: 20px; color: #888; font-size: 0.75rem; border-top: 1px solid #eee; margin-top: 20px; }
+        @media (max-width: 600px) { .header { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -430,33 +240,25 @@
                 <li>🔍 সার্চ দিয়ে মেলা খুঁজুন</li>
                 <li>📝 নিচের + বাটন চেপে পোস্ট করুন</li>
                 <li>❤️ লাইক | 💬 কমেন্ট | ⭐ সেভ</li>
-                <li>📌 ক্যাটাগরি ও বিভাগ ফিল্টার</li>
             </ul>
             <button id="closeSupport" class="btn" style="width:100%; margin-top:12px;">বন্ধ</button>
         </div>
     </div>
 </div>
 
-<!-- সার্চ -->
 <div class="search-box">
     <i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, উপজেলা লিখুন...">
 </div>
 
-<!-- বিভাগ চিপস -->
 <div id="divisionContainer" class="chip-container"></div>
 
-<!-- স্লাইডার -->
-<div class="slider-section">
-    <div id="imageSlider" class="slider-container"></div>
-</div>
+<div id="imageSlider" class="slider-container"></div>
 
-<!-- মার্কি -->
 <div class="marquee">
-    <p>🎉 স্বাগতম বাংলাদেশ মেলায়! এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
+    <p>🎉 স্বাগতম বাংলাদেশ মেলায়! পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
 </div>
 
-<!-- ক্যাটাগরি -->
 <div class="cat-container">
     <button data-cat="all" class="cat-btn active">সব মেলা</button>
     <button data-cat="চলমান" class="cat-btn">🎪 চলমান</button>
@@ -465,7 +267,6 @@
     <button data-cat="সাপ্তাহিক" class="cat-btn">🛒 সাপ্তাহিক</button>
 </div>
 
-<!-- পোস্ট কন্টেইনার -->
 <div id="postsContainer">
     <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
 </div>
@@ -474,12 +275,8 @@
     <p>বাংলাদেশ মেলা - দেশের মেলার হাব</p>
 </div>
 
-<!-- ফ্লোটিং বাটন -->
-<button id="createPostBtn" class="fab">
-    <i class="fa-solid fa-plus"></i>
-</button>
+<button id="createPostBtn" class="fab"><i class="fa-solid fa-plus"></i></button>
 
-<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলার তথ্য দিন</h3>
@@ -504,7 +301,7 @@
 </div>
 
 <script>
-    // ==================== FIREBASE কনফিগারেশন ====================
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
         authDomain: "all-hadith-a68fa.firebaseapp.com",
@@ -520,18 +317,17 @@
     const db = firebase.database();
     const provider = new firebase.auth.GoogleAuthProvider();
     
-    // Global Variables
     let currentUser = null;
     let activeCategory = "all";
     let searchText = "";
     let selectedDivision = "";
     let divisionsData = [];
     
-    // গুগল লগইন
+    // Google Login
     auth.onAuthStateChanged(async (user) => {
         if (user) {
             currentUser = user;
-            console.log("লগইন সফল:", user.displayName);
+            console.log("Login Success:", user.displayName);
             await loadDivisions();
             await loadSliderImages();
             await loadContactNumber();
@@ -540,23 +336,25 @@
             try {
                 await auth.signInWithPopup(provider);
             } catch(err) {
-                console.error("লগইন এরর:", err);
-                document.getElementById("postsContainer").innerHTML = '<div class="loader" style="color:red;">লগইন ব্যর্থ, রিফ্রেশ করুন</div>';
+                console.error(err);
+                document.getElementById("postsContainer").innerHTML = '<div class="loader" style="color:red;">Login Failed, Refresh</div>';
             }
         }
     });
     
-    // divisions.json লোড
+    // Load divisions.json
     async function loadDivisions() {
         try {
             const response = await fetch('divisions.json');
-            if (!response.ok) throw new Error('divisions.json পাওয়া যায়নি');
+            if (!response.ok) throw new Error('divisions.json not found');
             const data = await response.json();
             divisionsData = data.divisions;
             displayDivisions(divisionsData);
             updatePostDivisionSelect();
+            console.log("divisions.json loaded successfully");
         } catch(error) {
-            console.error("divisions.json লোড ব্যর্থ:", error);
+            console.error("divisions.json load error:", error);
+            // Fallback data
             divisionsData = [
                 { name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] },
                 { name: "চট্টগ্রাম", districts: [{ name: "চট্টগ্রাম", upazilas: ["চট্টগ্রাম সদর"] }] }
@@ -622,28 +420,28 @@
         const upazilas = district?.upazilas || [];
         const upazilaSelect = document.getElementById("postUpazila");
         upazilaSelect.innerHTML = "";
-        upazilas.forEach(up => {
-            const opt = document.createElement("option");
-            opt.value = up;
-            opt.innerText = up;
-            upazilaSelect.appendChild(opt);
-        });
         if(upazilas.length === 0) {
             const opt = document.createElement("option");
             opt.value = "";
             opt.innerText = "কোন থানা/উপজেলা নেই";
             upazilaSelect.appendChild(opt);
+        } else {
+            upazilas.forEach(up => {
+                const opt = document.createElement("option");
+                opt.value = up;
+                opt.innerText = up;
+                upazilaSelect.appendChild(opt);
+            });
         }
     }
     
-    // স্লাইডার লোড
     async function loadSliderImages() {
         try {
             const snapshot = await db.ref('settings/imageSlider/images').once('value');
             const images = snapshot.val() || [];
             const container = document.getElementById("imageSlider");
             if(images.length === 0) {
-                container.innerHTML = '<div class="slider-item"><div class="placeholder">🌟 প্রোমো স্লাইডার আসছে</div></div>';
+                container.innerHTML = '<div class="slider-item"><div style="height:140px; display:flex; align-items:center; justify-content:center; background:#e0e0e0;">🌟 স্লাইডার আসছে</div></div>';
                 return;
             }
             container.innerHTML = images.map(img => `
@@ -651,20 +449,18 @@
                     <img src="${img.url}" onerror="this.src='https://placehold.co/400x200?text=No+Image'">
                 </div>
             `).join('');
-        } catch(e) { console.error("স্লাইডার এরর:", e); }
+        } catch(e) { console.error("Slider error:", e); }
     }
     
-    // কন্টাক্ট নম্বর লোড
     async function loadContactNumber() {
         try {
             const snapshot = await db.ref('settings/contact/number').once('value');
             if(snapshot.exists()) {
                 document.getElementById("contactNumber").innerText = snapshot.val();
             }
-        } catch(e) { console.error("কন্টাক্ট এরর:", e); }
+        } catch(e) { console.error("Contact error:", e); }
     }
     
-    // পোস্ট লোড
     async function loadPosts() {
         try {
             const snapshot = await db.ref('posts').once('value');
@@ -687,8 +483,8 @@
             });
             renderPosts(filtered);
         } catch(e) {
-            console.error("পোস্ট লোড এরর:", e);
-            document.getElementById("postsContainer").innerHTML = '<div class="loader" style="color:red;">পোস্ট লোড করতে সমস্যা</div>';
+            console.error("Posts load error:", e);
+            document.getElementById("postsContainer").innerHTML = '<div class="loader" style="color:red;">Posts load failed</div>';
         }
     }
     
@@ -805,7 +601,7 @@
         loadPosts();
     };
     
-    // ইভেন্ট লিসেনার
+    // Event Listeners
     document.getElementById("searchInput").addEventListener("input", (e) => {
         searchText = e.target.value;
         loadPosts();
