@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>এডমিন | বাংলাদেশ মেলা</title>
+    <title>এডমিন প্যানেল | বাংলাদেশ মেলা</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: monospace; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', monospace; }
         body { background: #0b0f19; color: #eee; padding: 24px; }
         .card { background: #141c2c; border-radius: 24px; padding: 22px; margin-bottom: 28px; border: 1px solid #ffd96640; }
         input, textarea { background: #1e2a3a; border: 1px solid #ffd96680; color: white; padding: 12px; border-radius: 40px; width: 100%; margin: 8px 0; }
@@ -18,57 +18,60 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 12px; border-bottom: 1px solid #2a3448; text-align: left; }
         img { border-radius: 16px; max-width: 60px; }
+        h2 { margin-bottom: 15px; color: #ffd966; }
     </style>
 </head>
 <body>
     <div class="card" style="background: linear-gradient(135deg,#1f2a3e,#0f1522);">
         <h1><i class="fa-solid fa-crown"></i> এডমিন প্যানেল</h1>
-        <p>স্লাইডার | কন্টাক্ট | পোস্ট ডিলিট | ইউজার ব্লক</p>
+        <p>স্লাইডার কন্ট্রোল | কন্টাক্ট নম্বর | পোস্ট ডিলিট | ইউজার ব্লক</p>
     </div>
 
     <div class="card">
         <h2><i class="fa-regular fa-images"></i> স্লাইডার ইমেজ কন্ট্রোল</h2>
-        <input type="text" id="slideUrl" placeholder="ইমেজ URL">
-        <input type="text" id="slideLink" placeholder="ক্লিক লিংক">
-        <button id="addSlideBtn">+ স্লাইড যোগ</button>
+        <input type="text" id="slideUrl" placeholder="ইমেজ URL (যেমন: https://example.com/photo.jpg)">
+        <input type="text" id="slideLink" placeholder="ক্লিক করলে লিংক (যেমন: https://facebook.com/mela)">
+        <button id="addSlideBtn"><i class="fa-solid fa-plus"></i> স্লাইড যোগ করুন</button>
         <div id="slidesList" style="margin-top: 20px;"></div>
     </div>
 
     <div class="card">
-        <h2><i class="fa-solid fa-phone"></i> কন্টাক্ট নম্বর</h2>
-        <input type="text" id="newContactNumber" placeholder="হটলাইন নম্বর">
-        <button id="updateContactBtn">আপডেট</button>
+        <h2><i class="fa-solid fa-phone"></i> কন্টাক্ট নম্বর পরিবর্তন</h2>
+        <input type="text" id="newContactNumber" placeholder="হটলাইন নম্বর (যেমন: ০১৯৯৯-৮৮৮৭৭৭)">
+        <button id="updateContactBtn">আপডেট করুন</button>
     </div>
 
     <div class="card">
-        <h2><i class="fa-solid fa-ban"></i> ইউজার ব্লক</h2>
-        <input type="email" id="blockEmail" placeholder="ইমেইল">
-        <button id="blockUserBtn" class="danger-btn">ব্লক</button>
+        <h2><i class="fa-solid fa-ban"></i> ইউজার ব্লক (ইমেইল দিয়ে)</h2>
+        <input type="email" id="blockEmail" placeholder="ইমেইল লিখুন">
+        <button id="blockUserBtn" class="danger-btn">ব্লক করুন</button>
     </div>
 
     <div class="card">
-        <h2><i class="fa-regular fa-newspaper"></i> সব পোস্ট</h2>
+        <h2><i class="fa-regular fa-newspaper"></i> সব পোস্ট (ডিলিট অপশন সহ)</h2>
         <div id="allPostsTable"></div>
     </div>
 
     <script>
+        // Firebase কনফিগারেশন (আপনার দেওয়া তথ্য)
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
+            authDomain: "all-hadith-a68fa.firebaseapp.com",
+            databaseURL: "https://all-hadith-a68fa-default-rtdb.firebaseio.com",
+            projectId: "all-hadith-a68fa",
+            storageBucket: "all-hadith-a68fa.firebasestorage.app",
+            messagingSenderId: "124928027736",
+            appId: "1:124928027736:android:f4d9a9a9ed667150ca2e2d"
         };
         
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.database();
         
+        // গুগল লগইন
         auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => {
             loadDashboard();
-        });
+        }).catch(e => console.error(e));
         
         async function loadDashboard() {
             await loadSlides();
@@ -80,12 +83,15 @@
             const snapshot = await db.ref('settings/imageSlider/images').once('value');
             const slides = snapshot.val() || [];
             const container = document.getElementById("slidesList");
-            if(slides.length === 0) { container.innerHTML = "<p>কোনো স্লাইড নেই</p>"; return; }
+            if(slides.length === 0) { 
+                container.innerHTML = "<p>কোনো স্লাইড নেই। উপরে যোগ করুন।</p>"; 
+                return; 
+            }
             container.innerHTML = slides.map((slide, idx) => `
                 <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px; background: #0f1622; padding: 12px; border-radius: 24px;">
-                    <img src="${slide.url}" width="60" height="60">
-                    <span style="flex:1;">${slide.link.substring(0, 50)}</span>
-                    <button onclick="deleteSlide(${idx})" class="danger-btn">ডিলিট</button>
+                    <img src="${slide.url}" width="60" height="60" onerror="this.src='https://placehold.co/60x60'">
+                    <span style="flex:1; font-size: 12px; overflow: hidden;">${slide.link.substring(0, 50)}</span>
+                    <button onclick="deleteSlide(${idx})" class="danger-btn" style="padding: 8px 16px;">ডিলিট</button>
                 </div>
             `).join('');
         }
@@ -99,9 +105,12 @@
         };
         
         document.getElementById("addSlideBtn").onclick = async () => {
-            const url = document.getElementById("slideUrl").value;
-            const link = document.getElementById("slideLink").value;
-            if(!url || !link) { alert("URL ও লিংক দিন"); return; }
+            const url = document.getElementById("slideUrl").value.trim();
+            const link = document.getElementById("slideLink").value.trim();
+            if(!url || !link) { 
+                alert("URL ও লিংক দুটোই দিন!"); 
+                return; 
+            }
             const snapshot = await db.ref('settings/imageSlider/images').once('value');
             let slides = snapshot.val() || [];
             slides.push({ url, link });
@@ -109,47 +118,65 @@
             document.getElementById("slideUrl").value = "";
             document.getElementById("slideLink").value = "";
             loadSlides();
+            alert("স্লাইড যোগ হয়েছে!");
         };
         
         async function loadContact() {
             const snapshot = await db.ref('settings/contact/number').once('value');
-            if(snapshot.exists()) document.getElementById("newContactNumber").value = snapshot.val();
+            if(snapshot.exists()) {
+                document.getElementById("newContactNumber").value = snapshot.val();
+            }
         }
         
         document.getElementById("updateContactBtn").onclick = async () => {
-            const num = document.getElementById("newContactNumber").value;
+            const num = document.getElementById("newContactNumber").value.trim();
+            if(!num) { alert("নম্বর দিন"); return; }
             await db.ref('settings/contact/number').set(num);
             alert("নম্বর আপডেট হয়েছে!");
         };
         
         async function loadPosts() {
             const snapshot = await db.ref('posts').once('value');
-            let html = "<table> hilab<th>মেলার নাম</th><th>বিভাগ</th><th>ইউজার</th><th>অ্যাকশন</th></tr>";
+            let html = "<table><tr><th>মেলার নাম</th><th>বিভাগ</th><th>জেলা</th><th>ইউজার</th><th>অ্যাকশন</th></tr>";
             snapshot.forEach(child => {
                 const data = child.val();
                 html += `<tr>
-                    <td>${data.title}</td>
-                    <td>${data.division}</td>
-                    <td>${data.uid?.substring(0,12)}...</td>
-                    <td><button onclick="deletePost('${child.key}')" class="danger-btn">ডিলিট</button></td>
+                    <td>${escapeHtml(data.title || 'N/A')}</td>
+                    <td>${escapeHtml(data.division || 'N/A')}</td>
+                    <td>${escapeHtml(data.district || 'N/A')}</td>
+                    <td>${data.uid?.substring(0, 12)}...</td>
+                    <td><button onclick="deletePost('${child.key}')" class="danger-btn" style="padding: 6px 12px;">ডিলিট</button></td>
                 </tr>`;
             });
             html += "</table>";
-            document.getElementById("allPostsTable").innerHTML = html;
+            document.getElementById("allPostsTable").innerHTML = html || "<p>কোনো পোস্ট নেই</p>";
+        }
+        
+        function escapeHtml(str) {
+            if(!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if(m === '&') return '&amp;';
+                if(m === '<') return '&lt;';
+                if(m === '>') return '&gt;';
+                return m;
+            });
         }
         
         window.deletePost = async (postId) => {
             if(confirm("পোস্ট ডিলিট করবেন?")) {
                 await db.ref(`posts/${postId}`).remove();
                 loadPosts();
+                alert("পোস্ট ডিলিট হয়েছে!");
             }
         };
         
         document.getElementById("blockUserBtn").onclick = async () => {
-            const email = document.getElementById("blockEmail").value;
-            if(!email) return;
-            await db.ref(`bannedUsers/${email.replace(/\./g, ',')}`).set(true);
+            const email = document.getElementById("blockEmail").value.trim();
+            if(!email) { alert("ইমেইল দিন"); return; }
+            const safeEmail = email.replace(/\./g, ',');
+            await db.ref(`bannedUsers/${safeEmail}`).set(true);
             alert(`${email} ব্লক করা হয়েছে।`);
+            document.getElementById("blockEmail").value = "";
         };
     </script>
 </body>
