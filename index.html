@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>বাংলাদেশ মেলা - ইউজার প্যানেল</title>
+    <title>বাংলাদেশ মেলা - হোম</title>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -36,15 +36,32 @@
         }
         .logo h1 { font-size: 1.5rem; color: #1a1a1a; }
         .logo p { font-size: 0.75rem; color: #666; }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .logout-btn {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
         .btn {
             padding: 8px 18px;
             border-radius: 8px;
             border: 1px solid #ddd;
             background: white;
             cursor: pointer;
-            font-size: 0.9rem;
         }
-        .btn-primary { background: #1a1a1a; color: white; border: none; }
         .search-box {
             background: white;
             border: 1px solid #ddd;
@@ -230,18 +247,23 @@
         <h1>🇧🇩 বাংলাদেশ মেলা</h1>
         <p>দেশের মেলার ঠিকানা</p>
     </div>
-    <div style="position: relative;">
-        <button id="supportBtn" class="btn"><i class="fa-regular fa-circle-question"></i> সাপোর্ট</button>
-        <div id="supportDropdown" class="support-dropdown">
-            <p><i class="fa-solid fa-phone"></i> <strong>হটলাইন:</strong> <span id="contactNumber">০১৯৯৯-৮৮৮৭৭৭</span></p>
-            <hr style="margin: 10px 0;">
-            <p><strong>📌 কিভাবে ব্যবহার করবেন:</strong></p>
-            <ul style="margin-left: 18px; font-size: 0.8rem;">
-                <li>🔍 সার্চ দিয়ে মেলা খুঁজুন</li>
-                <li>📝 নিচের + বাটন চেপে পোস্ট করুন</li>
-                <li>❤️ লাইক | 💬 কমেন্ট | ⭐ সেভ</li>
-            </ul>
-            <button id="closeSupport" class="btn" style="width:100%; margin-top:12px;">বন্ধ</button>
+    <div class="user-info" id="userInfo" style="display: none;">
+        <img id="userAvatar" class="user-avatar" src="">
+        <span id="userName"></span>
+        <button id="logoutBtn" class="logout-btn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
+        <div style="position: relative;">
+            <button id="supportBtn" class="btn"><i class="fa-regular fa-circle-question"></i></button>
+            <div id="supportDropdown" class="support-dropdown">
+                <p><i class="fa-solid fa-phone"></i> <strong>হটলাইন:</strong> <span id="contactNumber">০১৯৯৯-৮৮৮৭৭৭</span></p>
+                <hr style="margin: 10px 0;">
+                <p><strong>📌 কিভাবে ব্যবহার করবেন:</strong></p>
+                <ul style="margin-left: 18px; font-size: 0.8rem;">
+                    <li>🔍 সার্চ দিয়ে মেলা খুঁজুন</li>
+                    <li>📝 + বাটন চেপে পোস্ট করুন</li>
+                    <li>❤️ লাইক | 💬 কমেন্ট | ⭐ সেভ</li>
+                </ul>
+                <button id="closeSupport" class="btn" style="width:100%; margin-top:12px;">বন্ধ</button>
+            </div>
         </div>
     </div>
 </div>
@@ -252,7 +274,6 @@
 </div>
 
 <div id="divisionContainer" class="chip-container"></div>
-
 <div id="imageSlider" class="slider-container"></div>
 
 <div class="marquee">
@@ -301,7 +322,6 @@
 </div>
 
 <script>
-    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
         authDomain: "all-hadith-a68fa.firebaseapp.com",
@@ -315,7 +335,6 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database();
-    const provider = new firebase.auth.GoogleAuthProvider();
     
     let currentUser = null;
     let activeCategory = "all";
@@ -323,23 +342,28 @@
     let selectedDivision = "";
     let divisionsData = [];
     
-    // Google Login
+    // লগইন চেক - লগইন না থাকলে লগইন পেজে পাঠাবে
     auth.onAuthStateChanged(async (user) => {
-        if (user) {
-            currentUser = user;
-            console.log("Login Success:", user.displayName);
-            await loadDivisions();
-            await loadSliderImages();
-            await loadContactNumber();
-            loadPosts();
-        } else {
-            try {
-                await auth.signInWithPopup(provider);
-            } catch(err) {
-                console.error(err);
-                document.getElementById("postsContainer").innerHTML = '<div class="loader" style="color:red;">Login Failed, Refresh</div>';
-            }
+        if (!user) {
+            window.location.href = "login.html";
+            return;
         }
+        
+        currentUser = user;
+        document.getElementById("userInfo").style.display = "flex";
+        document.getElementById("userAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User");
+        document.getElementById("userName").innerText = user.displayName?.split(" ")[0] || "User";
+        
+        await loadDivisions();
+        await loadSliderImages();
+        await loadContactNumber();
+        loadPosts();
+    });
+    
+    // লগআউট
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await auth.signOut();
+        window.location.href = "login.html";
     });
     
     // Load divisions.json
@@ -351,10 +375,9 @@
             divisionsData = data.divisions;
             displayDivisions(divisionsData);
             updatePostDivisionSelect();
-            console.log("divisions.json loaded successfully");
+            console.log("divisions.json loaded");
         } catch(error) {
             console.error("divisions.json load error:", error);
-            // Fallback data
             divisionsData = [
                 { name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] },
                 { name: "চট্টগ্রাম", districts: [{ name: "চট্টগ্রাম", upazilas: ["চট্টগ্রাম সদর"] }] }
@@ -484,7 +507,7 @@
             renderPosts(filtered);
         } catch(e) {
             console.error("Posts load error:", e);
-            document.getElementById("postsContainer").innerHTML = '<div class="loader" style="color:red;">Posts load failed</div>';
+            document.getElementById("postsContainer").innerHTML = '<div class="loader" style="color:red;">পোস্ট লোড করতে সমস্যা</div>';
         }
     }
     
@@ -601,7 +624,6 @@
         loadPosts();
     };
     
-    // Event Listeners
     document.getElementById("searchInput").addEventListener("input", (e) => {
         searchText = e.target.value;
         loadPosts();
