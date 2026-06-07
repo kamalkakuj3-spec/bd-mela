@@ -1,0 +1,91 @@
+<!-- admin.html - অ্যাডমিন প্যানেল -->
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অ্যাডমিন প্যানেল - বাংলাদেশ মেলা</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body { background: #0a0a1a; color: white; font-family: monospace; padding: 20px; }
+        .admin-card { background: #161c2c; border-radius: 24px; padding: 20px; margin-bottom: 20px; border-left: 6px solid gold; }
+        input, textarea, button { margin: 6px 0; padding: 8px; border-radius: 20px; width: 100%; }
+        button { background: gold; font-weight: bold; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { border-bottom: 1px solid #333; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h1>⚙️ অ্যাডমিন কন্ট্রোল প্যানেল</h1>
+    <div class="admin-card">
+        <h3>📸 ইমেজ স্লাইডার কন্ট্রোল (URL + লিংক)</h3>
+        <input type="text" id="imgUrl" placeholder="ছবির URL">
+        <input type="text" id="imgLink" placeholder="ক্লিক করলে যাবে লিংক (পোস্ট আইডি বা ওয়েব)">
+        <button id="addSlide">স্লাইড যোগ করুন</button>
+        <div id="slidesList"></div>
+    </div>
+    <div class="admin-card">
+        <h3>📞 কন্টাক্ট নম্বর পরিবর্তন করুন</h3>
+        <input type="text" id="newContact" placeholder="নতুন হটলাইন নম্বর">
+        <button id="updateContact">আপডেট করুন</button>
+    </div>
+    <div class="admin-card">
+        <h3>📋 সব পোস্ট (ডিলিট/ইউজার ব্লক)</h3>
+        <input type="text" id="blockEmail" placeholder="ব্লক করতে ইমেইল লিখুন">
+        <button id="blockUser">ইউজার ব্লক</button>
+        <div id="allPostsAdmin"></div>
+    </div>
+    <script>
+        const firebaseConfig = { /* একই কনফিগারেশন যা ইউজার প্যানেলে ব্যবহার করবেন */ apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT.firebaseapp.com", projectId: "YOUR_PROJECT_ID" };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => { loadAdminData(); });
+
+        async function loadAdminData() {
+            let sliderSnap = await db.collection("settings").doc("imageSlider").get();
+            let slides = sliderSnap.exists ? sliderSnap.data().images : [];
+            document.getElementById("slidesList").innerHTML = slides.map((s,i)=>`<p>${i+1}. <img src="${s.url}" width="50"> <a href="${s.link}">লিংক</a> <button onclick="deleteSlide(${i})">ডিলিট</button></p>`).join("");
+            let contactSnap = await db.collection("settings").doc("contact").get();
+            if(contactSnap.exists) document.getElementById("newContact").value = contactSnap.data().number;
+            let postsSnap = await db.collection("posts").orderBy("createdAt","desc").get();
+            let html = "<table><tr><th>মেলার নাম</th><th>ইউজার</th><th>অ্যাকশন</th></tr>";
+            postsSnap.forEach(doc => {
+                html += `<tr><td>${doc.data().title}</td><td>${doc.data().uid}</td><td><button onclick="deletePost('${doc.id}')">ডিলিট পোস্ট</button></td></tr>`;
+            });
+            html += "</table>";
+            document.getElementById("allPostsAdmin").innerHTML = html;
+        }
+        window.deleteSlide = async (idx) => {
+            let ref = db.collection("settings").doc("imageSlider");
+            let data = (await ref.get()).data().images;
+            data.splice(idx,1);
+            await ref.set({ images: data });
+            loadAdminData();
+        };
+        document.getElementById("addSlide").onclick = async () => {
+            let url = document.getElementById("imgUrl").value, link = document.getElementById("imgLink").value;
+            let ref = db.collection("settings").doc("imageSlider");
+            let existing = (await ref.get()).data()?.images || [];
+            existing.push({ url, link });
+            await ref.set({ images: existing });
+            loadAdminData();
+        };
+        document.getElementById("updateContact").onclick = async () => {
+            let num = document.getElementById("newContact").value;
+            await db.collection("settings").doc("contact").set({ number: num });
+            alert("হটলাইন আপডেট!");
+        };
+        window.deletePost = async (id) => { await db.collection("posts").doc(id).delete(); loadAdminData(); };
+        document.getElementById("blockUser").onclick = async () => {
+            let email = document.getElementById("blockEmail").value;
+            await db.collection("bannedUsers").doc(email).set({ banned: true });
+            alert(`${email} ব্লক করা হয়েছে।`);
+        };
+    </script>
+</body>
+</html>

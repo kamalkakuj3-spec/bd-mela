@@ -1,0 +1,419 @@
+<!-- index.html - ইউজার প্যানেল -->
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>বাংলাদেশ মেলা - দেশের মেলার ঠিকানা</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* গেমিং থ্রিডি ইফেক্ট */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 15px rgba(255,215,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 25px rgba(255,215,0,0.4);
+        }
+
+        /* নিওন বাটন */
+        .neon-btn {
+            background: linear-gradient(45deg, #ffd966, #ffb347);
+            border: none;
+            color: #1e1e2a;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 12px #ffb347;
+        }
+        .neon-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px #ffaa33;
+        }
+
+        /* অ্যানিমেটেড টেক্সট */
+        .marquee {
+            background: linear-gradient(90deg, #2a1e3a, #1e2a3a);
+            padding: 12px;
+            border-radius: 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #ffecb3;
+            font-weight: bold;
+            margin: 15px 0;
+            border-left: 4px solid gold;
+        }
+        .marquee p {
+            display: inline-block;
+            animation: scrollText 18s linear infinite;
+            padding-left: 100%;
+        }
+        @keyframes scrollText {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* অ্যানিমেশন */
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 2px gold; }
+            100% { text-shadow: 0 0 20px #ffaa44; }
+        }
+        .gold-glow {
+            animation: glowPulse 1.5s infinite alternate;
+        }
+
+        /* স্ক্রলবার */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(45deg, gold, #ff884d); border-radius: 10px; }
+
+        .search-box {
+            background: rgba(0,0,0,0.6);
+            border-radius: 60px;
+            padding: 8px 20px;
+            display: flex;
+            gap: 12px;
+            backdrop-filter: blur(8px);
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+        }
+        .category-chip {
+            background: rgba(255,215,0,0.2);
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255,215,0,0.5);
+        }
+        .active-cat {
+            background: gold;
+            color: black;
+            font-weight: bold;
+            border-color: white;
+        }
+        .post-card {
+            background: linear-gradient(145deg, #101624, #0b0f1a);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 18px;
+            border-right: 3px solid #ffd966;
+        }
+        .like-btn, .save-btn, .comment-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .liked { color: #ff4d4d; text-shadow: 0 0 5px red; }
+        .saved { color: #ffd966; text-shadow: 0 0 5px gold; }
+        .comments-section {
+            background: #0a0e18;
+            border-radius: 20px;
+            margin-top: 12px;
+            padding: 12px;
+        }
+        .support-dropdown {
+            background: #1e1b2c;
+            border-radius: 20px;
+            padding: 12px 18px;
+            position: absolute;
+            right: 20px;
+            top: 70px;
+            width: 260px;
+            z-index: 1000;
+            display: none;
+            border: 1px solid gold;
+        }
+        .show-dropdown { display: block; }
+    </style>
+</head>
+<body>
+    <div style="max-width: 650px; margin: 0 auto; padding: 16px;">
+        <!-- হেডার -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+            <h1 style="background: linear-gradient(135deg,#FFD966,#B8860B); -webkit-background-clip:text; background-clip:text; color:transparent;">🇧🇩 বাংলাদেশ মেলা</h1>
+            <div style="position: relative;">
+                <button id="supportBtn" class="neon-btn" style="padding: 10px 14px;"><i class="fa-regular fa-circle-question"></i> সাপোর্ট</button>
+                <div id="supportDropdown" class="support-dropdown">
+                    <p><i class="fa-solid fa-phone"></i> হটলাইন: <span id="contactNumber">০১৯৯৯-৮৮৮৭৭৭</span></p>
+                    <p><i class="fa-regular fa-file-lines"></i> <strong>কীভাবে ব্যবহার করবেন?</strong></p>
+                    <ul style="margin-left: 20px; font-size: 13px;">
+                        <li>🔍 সার্চ দিয়ে মেলা খুঁজুন</li>
+                        <li>📝 পোস্ট করুন (লেখা)</li>
+                        <li>❤️ লাইক/💬 কমেন্ট/⭐ সেভ করুন</li>
+                        <li>📌 চলমান/আসন্ন অনুযায়ী সাজানো</li>
+                    </ul>
+                    <button id="closeSupport" style="margin-top:8px; background:#333; border:none; color:white; padding:4px 12px; border-radius:20px;">বন্ধ করুন</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- সার্চ বার + ফিল্টার -->
+        <div class="search-box glass-card" style="margin: 15px 0;">
+            <i class="fa-solid fa-search" style="margin-top:12px;"></i>
+            <input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ, উপজেলা লিখুন...">
+        </div>
+        <div style="display: flex; gap: 10px; overflow-x: auto; margin: 12px 0;" id="divisionFilter">
+            <!-- বিভাগ বাটন ডাইনামিক -->
+        </div>
+
+        <!-- ইমেজ স্লাইডার (শুধু এডমিনের ইউআরএল) -->
+        <div class="glass-card" style="padding: 10px; margin: 15px 0; overflow-x: auto; display: flex; gap: 12px; scroll-snap-type: x mandatory;" id="imageSlider">
+            <!-- স্লাইডার ছবি এখানে লোড হবে -->
+        </div>
+
+        <!-- চলন্ত লেখা -->
+        <div class="marquee"><p>🎉 স্বাগতম বাংলাদেশ মেলায়! এখানে সারা দেশের মেলার খবর পাবেন || মেলা পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p></div>
+
+        <!-- ক্যাটাগরি: চলমান, আসন্ন, সাপ্তাহিক ইত্যাদি -->
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0;" id="categoryTabs">
+            <button data-cat="all" class="category-chip active-cat">সব মেলা</button>
+            <button data-cat="চলমান" class="category-chip">চলমান</button>
+            <button data-cat="আসন্ন" class="category-chip">আসন্ন (৭দিন)</button>
+            <button data-cat="পনেরোদিন" class="category-chip">১৫ দিনের মেলা</button>
+            <button data-cat="সাপ্তাহিক" class="category-chip">সাপ্তাহিক হাট</button>
+        </div>
+
+        <!-- পোস্ট লিস্ট দেখাবে -->
+        <div id="postsContainer"></div>
+
+        <!-- ফ্লোটিং + পোস্ট বাটন -->
+        <button id="createPostBtn" class="neon-btn" style="position: fixed; bottom: 20px; right: 20px; border-radius: 50px; width: auto; z-index: 99;"><i class="fa-regular fa-pen-to-square"></i> নতুন পোস্ট</button>
+    </div>
+
+    <!-- পোস্ট মডাল -->
+    <div id="postModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(6px); align-items:center; justify-content:center; z-index:10000;">
+        <div class="glass-card" style="width:90%; max-width:500px; padding:20px;">
+            <h3>📢 নতুন মেলার তথ্য লিখুন</h3>
+            <input type="text" id="postTitle" placeholder="মেলার নাম" style="width:100%; margin:10px 0; padding:12px; border-radius:30px; border:none;"><br>
+            <select id="postDivision" style="width:100%; padding:12px; border-radius:30px; margin:10px 0;"></select>
+            <select id="postDistrict" style="width:100%; padding:12px; border-radius:30px; margin:10px 0;"></select>
+            <input type="text" id="postUpazila" placeholder="উপজেলা/থানা"><br>
+            <input type="date" id="startDate" placeholder="শুরুর তারিখ"><br>
+            <input type="date" id="endDate" placeholder="শেষ তারিখ"><br>
+            <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
+            <select id="postCat" style="width:100%; margin:10px 0; padding:10px;">
+                <option value="চলমান">চলমান</option>
+                <option value="আসন্ন">আসন্ন (৭দিনের মধ্যে)</option>
+                <option value="পনেরোদিন">১৫ দিনের মেলা</option>
+                <option value="সাপ্তাহিক">সাপ্তাহিক</option>
+            </select>
+            <button id="submitPost" class="neon-btn">পোস্ট করুন</button>
+            <button id="closeModal" style="background:gray; margin-top:10px;">বাতিল</button>
+        </div>
+    </div>
+
+    <script>
+        // ------------------------ Firebase কনফিগারেশন (আপনার নিজের বসাবেন) -----------------
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "YOUR_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        let currentUser = null;
+        let currentFilter = "all";
+        let searchKeyword = "";
+        let currentDivision = "";
+
+        // গুগল সাইন ইন অটোমেটিক
+        auth.onAuthStateChanged(async (user) => {
+            if(user) {
+                currentUser = user;
+                document.getElementById("supportBtn").style.display = "flex";
+                await loadDivisionsFromJSON();
+                await loadSliderImages();
+                loadPosts();
+            } else {
+                await auth.signInWithPopup(provider);
+            }
+        });
+
+        async function loadDivisionsFromJSON() {
+            try {
+                const res = await fetch("divisions.json");
+                const data = await res.json();
+                const divisionContainer = document.getElementById("divisionFilter");
+                divisionContainer.innerHTML = `<button data-div="" class="category-chip active-cat">সব বিভাগ</button>`;
+                data.divisions.forEach(div => {
+                    let btn = document.createElement("button");
+                    btn.innerText = div.name;
+                    btn.classList.add("category-chip");
+                    btn.dataset.div = div.name;
+                    btn.onclick = () => { currentDivision = div.name; loadPosts(); };
+                    divisionContainer.appendChild(btn);
+                });
+            } catch(e) { console.warn("divisions.json লোড ব্যর্থ"); }
+        }
+
+        // স্লাইডার ইমেজ (এডমিন কন্ট্রোল করা ডকুমেন্ট)
+        async function loadSliderImages() {
+            const sliderRef = await db.collection("settings").doc("imageSlider").get();
+            if(sliderRef.exists) {
+                let images = sliderRef.data().images || [];
+                let sliderHtml = "";
+                images.forEach(img => {
+                    sliderHtml += `<div style="min-width:280px; scroll-snap-align:start;"><img src="${img.url}" style="width:100%; border-radius:24px; height:150px; object-fit:cover;" onclick="window.location.href='${img.link}'"></div>`;
+                });
+                document.getElementById("imageSlider").innerHTML = sliderHtml || "<p>প্রোমো স্লাইডার খালি</p>";
+            }
+        }
+
+        // পোস্ট লোডিং + রিয়েলটাইম লাইক কমেন্ট
+        function loadPosts() {
+            let query = db.collection("posts").orderBy("createdAt", "desc");
+            if(currentDivision && currentDivision !== "") query = query.where("division", "==", currentDivision);
+            query.get().then(snapshot => {
+                let posts = [];
+                snapshot.forEach(doc => posts.push({id:doc.id, ...doc.data()}));
+                // ফিল্টারিং ক্যাটাগরি ও সার্চ
+                let filtered = posts.filter(p => {
+                    if(currentFilter !== "all" && p.category !== currentFilter) return false;
+                    if(searchKeyword && !(p.title.includes(searchKeyword) || p.district.includes(searchKeyword) || p.upazila.includes(searchKeyword) || p.division.includes(searchKeyword))) return false;
+                    return true;
+                });
+                renderPosts(filtered);
+            });
+        }
+
+        async function renderPosts(posts) {
+            const container = document.getElementById("postsContainer");
+            container.innerHTML = "";
+            for(let post of posts) {
+                let likedByUser = post.likes && post.likes[currentUser?.uid];
+                let savedByUser = post.savedBy && post.savedBy[currentUser?.uid];
+                let commentCount = post.comments ? Object.keys(post.comments).length : 0;
+                let postDiv = document.createElement("div");
+                postDiv.className = "post-card";
+                postDiv.innerHTML = `
+                    <div style="display:flex; justify-content:space-between;"><h3>🎪 ${post.title}</h3><small>${post.division} > ${post.district}</small></div>
+                    <p>📍 ${post.upazila} | 📅 ${post.startDate} to ${post.endDate}</p>
+                    <p>${post.description}</p>
+                    <div style="display:flex; gap:18px; margin-top:12px;">
+                        <button class="like-btn" data-id="${post.id}"><i class="fa-${likedByUser ? 'solid' : 'regular'} fa-heart"></i> <span class="like-count">${Object.keys(post.likes || {}).length}</span></button>
+                        <button class="comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span>${commentCount}</span></button>
+                        <button class="save-btn" data-id="${post.id}"><i class="fa-${savedByUser ? 'solid' : 'regular'} fa-bookmark"></i> সেভ</button>
+                    </div>
+                    <div id="comments-${post.id}" style="display:none;" class="comments-section">
+                        <div id="commentList-${post.id}"></div>
+                        <input type="text" id="newComment-${post.id}" placeholder="কমেন্ট লিখুন..." style="width:80%; border-radius:20px; padding:8px;"><button onclick="addComment('${post.id}')">পোস্ট</button>
+                    </div>
+                `;
+                container.appendChild(postDiv);
+                // কমেন্ট টগল
+                postDiv.querySelector(".comment-btn").onclick = () => {
+                    let commentBox = document.getElementById(`comments-${post.id}`);
+                    commentBox.style.display = commentBox.style.display === "none" ? "block" : "none";
+                    if(commentBox.style.display === "block") loadComments(post.id);
+                };
+                postDiv.querySelector(".like-btn").onclick = () => toggleLike(post.id);
+                postDiv.querySelector(".save-btn").onclick = () => toggleSave(post.id);
+            }
+        }
+
+        async function toggleLike(postId) {
+            if(!currentUser) return;
+            const postRef = db.collection("posts").doc(postId);
+            const doc = await postRef.get();
+            let likes = doc.data().likes || {};
+            if(likes[currentUser.uid]) delete likes[currentUser.uid];
+            else likes[currentUser.uid] = true;
+            await postRef.update({ likes });
+            loadPosts();
+        }
+        async function toggleSave(postId) {
+            if(!currentUser) return;
+            const userRef = db.collection("users").doc(currentUser.uid);
+            const userDoc = await userRef.get();
+            let saved = userDoc.data()?.savedPosts || [];
+            if(saved.includes(postId)) saved = saved.filter(id => id !== postId);
+            else saved.push(postId);
+            await userRef.set({ savedPosts: saved }, { merge: true });
+            loadPosts();
+        }
+        async function addComment(postId) {
+            let commentText = document.getElementById(`newComment-${postId}`).value;
+            if(!commentText) return;
+            const postRef = db.collection("posts").doc(postId);
+            const comments = (await postRef.get()).data().comments || {};
+            const commentId = Date.now();
+            comments[commentId] = { uid: currentUser.uid, name: currentUser.displayName, text: commentText, time: new Date() };
+            await postRef.update({ comments });
+            loadComments(postId);
+            document.getElementById(`newComment-${postId}`).value = "";
+        }
+        async function loadComments(postId) {
+            const post = await db.collection("posts").doc(postId).get();
+            let comments = post.data().comments || {};
+            let container = document.getElementById(`commentList-${postId}`);
+            if(container) container.innerHTML = Object.values(comments).map(c => `<p><strong>${c.name}</strong>: ${c.text}</p>`).join("");
+        }
+
+        document.getElementById("searchInput").addEventListener("input", (e) => { searchKeyword = e.target.value; loadPosts(); });
+        document.getElementById("createPostBtn").onclick = () => document.getElementById("postModal").style.display = "flex";
+        document.getElementById("closeModal").onclick = () => document.getElementById("postModal").style.display = "none";
+        document.getElementById("submitPost").onclick = async () => {
+            let title = document.getElementById("postTitle").value;
+            let division = document.getElementById("postDivision").value;
+            let district = document.getElementById("postDistrict").value;
+            let upazila = document.getElementById("postUpazila").value;
+            let startDate = document.getElementById("startDate").value;
+            let endDate = document.getElementById("endDate").value;
+            let desc = document.getElementById("postDesc").value;
+            let cat = document.getElementById("postCat").value;
+            await db.collection("posts").add({ title, division, district, upazila, startDate, endDate, description:desc, category:cat, createdAt: firebase.firestore.FieldValue.serverTimestamp(), likes:{}, comments:{}, uid:currentUser.uid });
+            loadPosts();
+            document.getElementById("postModal").style.display = "none";
+        };
+        // সাপোর্ট ড্রপডাউন
+        document.getElementById("supportBtn").onclick = () => document.getElementById("supportDropdown").classList.toggle("show-dropdown");
+        document.getElementById("closeSupport").onclick = () => document.getElementById("supportDropdown").classList.remove("show-dropdown");
+
+        window.addComment = addComment;
+        window.loadComments = loadComments;
+        window.toggleLike = toggleLike;
+        window.toggleSave = toggleSave;
+    </script>
+</body>
+</html>
