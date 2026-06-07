@@ -238,12 +238,12 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             transition: all 0.2s;
             cursor: pointer;
+            position: relative;
         }
         .news-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
         
-        /* নিউজ হেডার */
         .news-header {
             padding: 16px 16px 8px 16px;
             border-bottom: 1px solid #f0f0f0;
@@ -276,8 +276,14 @@
             font-size: 0.65rem;
             margin-right: 3px;
         }
+        .anonymous-badge {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            color: #666;
+        }
         
-        /* নিউজ বডি */
         .news-body {
             padding: 12px 16px;
         }
@@ -288,7 +294,6 @@
             margin-bottom: 12px;
         }
         
-        /* লোকেশন ও তারিখের তথ্য */
         .news-info-grid {
             display: flex;
             flex-wrap: wrap;
@@ -311,7 +316,6 @@
             font-size: 0.85rem;
         }
         
-        /* নিউজ ফুটার (অ্যাকশন বাটন) */
         .news-footer {
             display: flex;
             align-items: center;
@@ -361,7 +365,6 @@
             background: #f0f0f0;
         }
         
-        /* নিউজ স্ট্যাটাস ব্যাজ */
         .news-status {
             display: inline-block;
             font-size: 0.65rem;
@@ -374,7 +377,6 @@
         .status-soon { background: #fff8e1; color: #f57c00; }
         .status-ended { background: #f5f5f5; color: #888; }
         
-        /* কমেন্ট সেকশন */
         .comments-section {
             display: none;
             background: #f8f9fa;
@@ -413,7 +415,6 @@
             color: #00c853;
         }
         
-        /* ইমোজি রিয়েকশন পপআপ */
         .reaction-popup {
             position: fixed;
             bottom: 50%;
@@ -441,7 +442,6 @@
             transform: scale(1.2);
         }
         
-        /* ড্রপডাউন */
         .card-dropdown {
             display: none;
             position: absolute;
@@ -450,6 +450,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 200;
             min-width: 130px;
+            right: 16px;
+            margin-top: -40px;
         }
         .card-dropdown.open {
             display: block;
@@ -466,7 +468,6 @@
             background: #f5f5f5;
         }
         
-        /* মডাল */
         .modal {
             display: none;
             position: fixed;
@@ -520,8 +521,23 @@
             font-size: 10px;
             color: #888;
         }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+        }
+        .checkbox-group label {
+            font-size: 0.85rem;
+            color: #555;
+            margin: 0;
+        }
         
-        /* প্রোফাইল ড্রপডাউন */
         .profile-dropdown {
             position: absolute;
             top: 60px;
@@ -546,7 +562,6 @@
             cursor: pointer;
         }
         
-        /* হেল্প ড্রপডাউন */
         .help-dropdown {
             position: absolute;
             top: 60px;
@@ -562,7 +577,6 @@
         }
         .help-dropdown.show { display: block; }
         
-        /* নিচের মেনু বার */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -658,6 +672,7 @@
         <li>❤️ লাইকে ইমোজি রিয়েকশন দিন</li>
         <li>📍 গুগল ম্যাপ লিংক দিতে পারেন (ঐচ্ছিক)</li>
         <li>💬 কমেন্ট করুন | ⭐ সেভ করুন</li>
+        <li>🕵️ "বেনামে পোস্ট করুন" চেক করলে নাম গোপন থাকবে</li>
     </ul>
     <button id="closeHelp" style="margin-top:10px; padding:6px; background:#eee; border:none; border-radius:20px; cursor:pointer;">বন্ধ করুন</button>
 </div>
@@ -724,7 +739,7 @@
 <!-- বিভাগ ফিল্টার চিপস -->
 <div id="divisionContainer" class="chip-container"></div>
 
-<!-- পোস্ট গ্রিড (নিউজ স্টাইল) -->
+<!-- পোস্ট গ্রিড -->
 <div class="section-title" style="padding: 0 16px; margin-bottom: 12px;">
     <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
 </div>
@@ -756,7 +771,7 @@
     </button>
 </div>
 
-<!-- পোস্ট মডাল -->
+<!-- পোস্ট মডাল (বেনামে চেকবক্স সহ) -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলা পোস্ট করুন</h3>
@@ -781,6 +796,13 @@
             <option value="১৫ দিন">১৫ দিনের মেলা</option>
             <option value="সাপ্তাহিক">সাপ্তাহিক</option>
         </select>
+        
+        <!-- বেনামে পোস্ট করার চেকবক্স -->
+        <div class="checkbox-group">
+            <input type="checkbox" id="anonymousPost">
+            <label for="anonymousPost">🕵️ বেনামে পোস্ট করুন (নাম গোপন রাখুন)</label>
+        </div>
+        
         <button id="submitPost">পোস্ট করুন</button>
         <button class="cancel" id="closeModal">বাতিল</button>
     </div>
@@ -838,6 +860,7 @@
     let bannerInterval = null;
     let currentEditPostId = null;
     let showingMyPosts = false;
+    let allPosts = [];
     
     const reactionEmojis = [
         { code: "like", emoji: "❤️", type: "like" },
@@ -1039,11 +1062,11 @@
     
     async function loadPosts() {
         const snapshot = await db.ref('posts').once('value');
-        const posts = [];
-        snapshot.forEach(child => { posts.push({ id: child.key, ...child.val() }); });
-        posts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+        allPosts = [];
+        snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); });
+        allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         
-        let filtered = posts.filter(post => {
+        let filtered = allPosts.filter(post => {
             if(activeCategory !== "all" && post.category !== activeCategory) return false;
             if(selectedDivision && post.division !== selectedDivision) return false;
             if(searchText) {
@@ -1071,6 +1094,14 @@
         if(!dateStr) return '';
         const d = new Date(dateStr);
         return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' });
+    }
+    
+    // নাম দেখানোর ফাংশন (বেনামে চেক করলে "🕵️ বেনামে" দেখাবে)
+    function getDisplayName(post) {
+        if(post.isAnonymous) {
+            return { name: '🕵️ বেনামে', isAnonymous: true };
+        }
+        return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false };
     }
     
     function showReactionPopup(btnElement, postId) {
@@ -1126,6 +1157,7 @@
             const isMyPost = (post.uid === currentUser?.uid);
             const commentCount = post.comments ? Object.keys(post.comments).length : 0;
             const status = getStatusText(post);
+            const displayInfo = getDisplayName(post);
             
             let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">`;
             if(userReaction) {
@@ -1154,6 +1186,11 @@
             }
             actionButtons += `</div>`;
             
+            // নামের HTML (বেনামে হলে আলাদা স্টাইল)
+            const nameHtml = displayInfo.isAnonymous 
+                ? `<span class="anonymous-badge"><i class="fa-regular fa-user-secret"></i> ${displayInfo.name}</span>`
+                : `<span><i class="fa-regular fa-user"></i> ${escapeHtml(displayInfo.name)}</span>`;
+            
             const card = document.createElement("div");
             card.className = "news-card";
             card.setAttribute("data-id", post.id);
@@ -1165,7 +1202,7 @@
                     </div>
                     <div class="news-title">${escapeHtml(post.title)}</div>
                     <div class="news-meta">
-                        <span><i class="fa-regular fa-user"></i> ${escapeHtml(post.posterName || 'অজ্ঞাত')}</span>
+                        ${nameHtml}
                         <span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
                     </div>
                 </div>
@@ -1181,7 +1218,7 @@
                     ${actionButtons}
                     <button class="card-dropdown-btn" onclick="event.stopPropagation();toggleDropdown('dd${post.id}')" style="background:none; border:none; cursor:pointer; color:#888;"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 </div>
-                <div class="card-dropdown" id="dd${post.id}" style="position: absolute; right: 16px; margin-top: -40px;">
+                <div class="card-dropdown" id="dd${post.id}">
                     <div class="dd-item" onclick="event.stopPropagation();openDetail('${post.id}')"><i class="fa-regular fa-eye"></i> বিস্তারিত</div>
                     <div class="dd-item" onclick="event.stopPropagation();shareMela('${post.id}')"><i class="fa-regular fa-share-from-square"></i> শেয়ার</div>
                 </div>
@@ -1360,6 +1397,7 @@
     document.getElementById("closeEditModal").onclick = () => document.getElementById("editPostModal").style.display = "none";
     document.getElementById("updatePostBtn").onclick = () => updatePost();
     
+    // Submit Post - বেনামে অপশন সহ
     document.getElementById("submitPost").onclick = async () => {
         const title = document.getElementById("postTitle").value.trim();
         const division = document.getElementById("postDivision").value;
@@ -1370,23 +1408,36 @@
         const end = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
         const cat = document.getElementById("postCategory").value;
+        const isAnonymous = document.getElementById("anonymousPost").checked;
         
         if(!title || !division || !district) { alert("মেলার নাম, বিভাগ ও জেলা দিন!"); return; }
         
-        await db.ref('posts').push({ 
+        // পোস্ট ডাটা তৈরি
+        const postData = { 
             title, division, district, upazila, 
             locationLink: locationLink || "",
             startDate: start, endDate: end, 
             description: desc, category: cat, 
-            createdAt: Date.now(), uid: currentUser.uid,
-            posterName: currentUser.displayName,
-            email: currentUser.email
-        });
+            createdAt: Date.now(), 
+            uid: currentUser.uid,
+            email: currentUser.email,
+            isAnonymous: isAnonymous
+        };
+        
+        // বেনামে না হলে নাম সংরক্ষণ করবে, বেনামে হলে নাম সংরক্ষণ করবে না (শুধু isAnonymous = true)
+        if(!isAnonymous) {
+            postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+        } else {
+            postData.posterName = null; // বেনামে পোস্টে নাম থাকবে না
+        }
+        
+        await db.ref('posts').push(postData);
         
         document.getElementById("postModal").style.display = "none";
         document.getElementById("postTitle").value = "";
         document.getElementById("postDesc").value = "";
         document.getElementById("postLocationLink").value = "";
+        document.getElementById("anonymousPost").checked = false;
         loadPosts();
         showToast("✅ মেলা পোস্ট হয়েছে!");
     };
