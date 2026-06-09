@@ -340,6 +340,102 @@
             margin-top: 4px;
         }
         
+        /* ========== বিলবোর্ড স্লাইডার (সাদা-গোল্ডেন থিম) ========== */
+        .billboard {
+            width: 100%;
+            max-width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #ffffff;
+            overflow: hidden;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(212, 175, 55, 0.3);
+            margin: 12px 16px;
+            border-radius: 20px;
+        }
+        .billboard-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .billboard-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .billboard-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .billboard-slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+        .billboard-card {
+            background: #ffffff;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 25px;
+        }
+        .billboard-tag {
+            display: inline-block;
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .billboard-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #b8860b, #d4af37, #ffd700);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            padding: 0 15px;
+        }
+        .billboard-desc {
+            font-size: 1rem;
+            color: #6b6b6b;
+            line-height: 1.5;
+            padding: 0 20px;
+            max-width: 90%;
+            font-weight: 500;
+        }
+        @media (max-width: 550px) {
+            .billboard-title { font-size: 1.2rem; padding: 0 10px; margin-bottom: 12px; }
+            .billboard-desc { font-size: 0.85rem; padding: 0 15px; }
+            .billboard-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
+        }
+        @media (max-width: 400px) {
+            .billboard-title { font-size: 1rem; }
+            .billboard-desc { font-size: 0.75rem; }
+        }
+        
         /* অটো স্লাইডার */
         .slider-card {
             background: white;
@@ -386,6 +482,29 @@
             background: #1a1a1a;
             width: 16px;
             border-radius: 4px;
+        }
+        
+        /* চলন্ত লেখা */
+        .marquee-card {
+            padding: 12px 16px;
+            margin: 0;
+        }
+        .marquee {
+            background: #1a1a1a;
+            color: white;
+            padding: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            border-radius: 20px;
+        }
+        .marquee p {
+            display: inline-block;
+            animation: scrollText 25s linear infinite;
+            font-size: 0.8rem;
+        }
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
         
         /* লাইভ মার্কি */
@@ -983,11 +1102,67 @@
 <!-- লাইভ মার্কি -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;"><div class="live-marquee-container"><div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div><div class="live-scrolling-area"><div class="live-marquee-text" id="liveMarqueeText"></div></div></div></div>
 
-<!-- পোস্ট গ্রিড -->
-<div class="section-title" style="padding:0 16px; margin-bottom:12px;"><h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3></div>
-<div id="postsContainer" class="posts-grid"><div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div></div>
+<!-- ========== বিলবোর্ড স্লাইডার (সর্বশেষ মেলার খবরের উপরে) ========== -->
+<div class="billboard">
+    <div class="billboard-screen">
+        <div class="billboard-content" id="billboardContainer">
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">✨ গোল্ডেন অফার ✨</div>
+                    <div class="billboard-title">ভোটারদের জন্য ৩০% প্রিমিয়াম ছাড়!</div>
+                    <div class="billboard-desc">ভোটের রশিদ দেখিয়ে নিকটস্থ গোল্ড পার্টনার স্টোরে বিশেষ সোনালি মূল্যছাড়। সীমিত সময়!</div>
+                </div>
+            </div>
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">📢 সিলভার ব্রেকিং</div>
+                    <div class="billboard-title">৫৮% ভোটগ্রহণ সম্পন্ন</div>
+                    <div class="billboard-desc">শান্তিপূর্ণ ও উৎসবমুখর পরিবেশে ভোট চলছে। লাইভ ট্র্যাকিং ও স্বচ্ছ পরিসংখ্যান দেখুন।</div>
+                </div>
+            </div>
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">🎤 লিডারশিপ মেসেজ</div>
+                    <div class="billboard-title">আপনার ভোট গড়ে নতুন ঠিকানা</div>
+                    <div class="billboard-desc">বিকেল ৫টার আগে ভোটকেন্দ্রে পৌঁছান। প্রতিটি ভোট গণ্য হবে — গণতন্ত্রের স্বর্ণশিখরে পৌঁছাই একসাথে।</div>
+                </div>
+            </div>
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">🍵 রুপালি সেবা</div>
+                    <div class="billboard-title">বিনামূল্যে প্রিমিয়াম ঠান্ডা পানি</div>
+                    <div class="billboard-desc">প্রতি বুথে সহায়তা ডেস্ক ও চেয়ার ব্যবস্থা। প্রয়োজনে কল করুন ১০৯০০ — সিলভার কেয়ার টিম ২৪/৭</div>
+                </div>
+            </div>
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">⚠️ গোল্ডেন নির্দেশিকা</div>
+                    <div class="billboard-title">গুজব এড়িয়ে চলুন, সত্যকে আলিঙ্গন করুন</div>
+                    <div class="billboard-desc">অফিসিয়াল সূত্র ও নির্বাচন কমিশনের বার্তা ছাড়া কোনো খবরই বিশ্বাস করবেন না।</div>
+                </div>
+            </div>
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">🏆 প্রিমিয়াম র্যাফেল ড্র</div>
+                    <div class="billboard-title">ভোট দিয়ে জিতুন সোনালী পুরস্কার</div>
+                    <div class="billboard-desc">প্রতি কেন্দ্রে স্মার্টফোন, সাইকেল ও সিলভার কয়েন! আপনার ভোট মূল্যবান — লাকি ড্রয়ের অংশ হন।</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- নিচের মেনু বার (৫টি আইকন) -->
+<!-- পোস্ট গ্রিড টাইটেল -->
+<div class="section-title" style="padding:0 16px; margin-bottom:12px;">
+    <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
+</div>
+
+<!-- মেলার কার্ড গ্রিড -->
+<div id="postsContainer" class="posts-grid">
+    <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
+</div>
+
+<!-- নিচের মেনু বার -->
 <div class="bottom-nav">
     <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
@@ -1023,6 +1198,7 @@
 </div>
 
 <script>
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
         authDomain: "all-hadith-a68fa.firebaseapp.com",
@@ -1051,6 +1227,27 @@
     let bannerInterval = null;
     let allPosts = [];
     let selectedDivision = "", selectedDistrict = "", selectedUpazila = "";
+    
+    // বিলবোর্ড স্লাইডার
+    let billboardInterval;
+    let currentBillboardIndex = 0;
+    const billboardSlides = document.querySelectorAll('.billboard-slide');
+    
+    function startBillboardSlideshow() {
+        if (billboardInterval) clearInterval(billboardInterval);
+        billboardInterval = setInterval(() => {
+            if (billboardSlides.length > 0) {
+                billboardSlides[currentBillboardIndex].classList.remove('active');
+                currentBillboardIndex = (currentBillboardIndex + 1) % billboardSlides.length;
+                billboardSlides[currentBillboardIndex].classList.add('active');
+            }
+        }, 3000);
+    }
+    
+    if (billboardSlides.length > 0) {
+        billboardSlides[0].classList.add('active');
+        startBillboardSlideshow();
+    }
     
     auth.onAuthStateChanged(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
