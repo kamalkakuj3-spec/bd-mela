@@ -10,82 +10,21 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', 'Segoe UI', sans-serif;
-        }
-        
-        :root {
-            --green: #00e676;
-            --green-dark: #00c853;
-            --green-glow: rgba(0,230,118,0.3);
-            --gold: #ffd700;
-            --gold-dark: #ffaa00;
-            --gold-glow: rgba(255,215,0,0.3);
-            --silver: #c0c0c0;
-            --purple: #ce93d8;
-            --purple-dark: #9c27b0;
-            --purple-glow: rgba(206,147,216,0.3);
-            --red: #ff1744;
-            --yellow: #ffea00;
-            --white: #ffffff;
-            --bg-dark: #050a14;
-            --bg-card: rgba(10,20,40,0.85);
-            --bg-card2: rgba(15,30,60,0.9);
-            --border-glow: rgba(0,230,118,0.4);
-            --text-main: #e8f5e9;
-            --text-sub: #a5d6a7;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
         }
         
         body {
-            background: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
+            background: #0a0f1a;
+            color: #fff;
             padding-bottom: 70px;
         }
-        
-        /* ===== ANIMATED BACKGROUND ===== */
-        .bg-canvas {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            z-index: 0; pointer-events: none; overflow: hidden;
-        }
-        .bg-grid {
-            position: absolute; inset: 0;
-            background-image:
-                linear-gradient(rgba(0,230,118,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,230,118,0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridMove 20s linear infinite;
-        }
-        @keyframes gridMove { 0%{transform:translateY(0)} 100%{transform:translateY(40px)} }
-        
-        .bg-orb {
-            position: absolute; border-radius: 50%;
-            filter: blur(80px); opacity: 0.15; animation: orbFloat 8s ease-in-out infinite;
-        }
-        .orb1 { width:400px; height:400px; background:radial-gradient(var(--green), transparent); top:-100px; left:-100px; animation-delay:0s; }
-        .orb2 { width:300px; height:300px; background:radial-gradient(var(--gold), transparent); top:30%; right:-80px; animation-delay:3s; }
-        .orb3 { width:350px; height:350px; background:radial-gradient(var(--purple), transparent); bottom:-80px; left:30%; animation-delay:5s; }
-        @keyframes orbFloat { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.1) translate(10px,-10px)} }
-        
-        /* ===== PARTICLES ===== */
-        .particle {
-            position: fixed; width: 3px; height: 3px; border-radius: 50%;
-            pointer-events: none; z-index: 1; animation: particleFly linear infinite;
-        }
-        @keyframes particleFly {
-            0% { transform: translateY(100vh) rotate(0deg); opacity:1; }
-            100% { transform: translateY(-100px) rotate(720deg); opacity:0; }
-        }
-        
-        /* ===== MAIN APP ===== */
-        #mainApp { position: relative; z-index: 2; }
         
         /* হেডার */
         .app-header {
@@ -109,19 +48,19 @@
         .menu-icon {
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--green);
+            color: #00e676;
         }
         .logo-area h1 {
             font-size: 1.3rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--green), var(--gold));
+            background: linear-gradient(135deg, #00e676, #ffd700);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .logo-area p {
             font-size: 0.55rem;
-            color: var(--silver);
+            color: #c0c0c0;
         }
         .header-icons {
             display: flex;
@@ -130,10 +69,10 @@
         }
         .header-icons i {
             font-size: 1.2rem;
-            color: var(--silver);
+            color: #c0c0c0;
             cursor: pointer;
         }
-        .header-icons i:hover { color: var(--green); }
+        .header-icons i:hover { color: #00e676; }
         
         /* লাইভ ইউজার কাউন্ট */
         .live-users {
@@ -145,14 +84,14 @@
             border: 1px solid rgba(0,230,118,0.3);
             border-radius: 20px;
             font-size: 12px;
-            color: var(--green);
+            color: #00e676;
             cursor: pointer;
         }
         .live-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--green);
+            background: #00e676;
             animation: livePulse 1s ease-in-out infinite;
         }
         @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
@@ -180,7 +119,7 @@
             align-items: center;
         }
         .search-box i {
-            color: var(--green);
+            color: #00e676;
         }
         .search-box input {
             flex: 1;
@@ -188,7 +127,7 @@
             background: transparent;
             outline: none;
             font-size: 0.9rem;
-            color: var(--text-main);
+            color: #fff;
         }
         .search-box input::placeholder { color: rgba(255,255,255,0.35); }
         
@@ -203,11 +142,11 @@
             flex: 1;
             background: rgba(0,0,0,0.4);
             border: 1px solid rgba(0,230,118,0.2);
-            color: var(--text-main);
+            color: #fff;
             border-radius: 20px;
             padding: 8px 12px;
             font-size: 12px;
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'Inter', sans-serif;
             outline: none;
             cursor: pointer;
         }
@@ -215,7 +154,7 @@
         
         /* অটো স্লাইডার */
         .slider-card {
-            background: var(--bg-card);
+            background: rgba(10,20,40,0.85);
             border-radius: 20px;
             margin: 12px 16px;
             overflow: hidden;
@@ -256,7 +195,7 @@
             cursor: pointer;
         }
         .dot.active {
-            background: var(--gold);
+            background: #ffd700;
             width: 16px;
             border-radius: 4px;
         }
@@ -284,6 +223,74 @@
             100% { transform: translateX(-100%); }
         }
         
+        /* ========== নতুন UI 1: লাইভ কাউন্টার + ট্রেন্ড (স্ট্যাটিস্টিক্স কার্ড প্রতিস্থাপন) ========== */
+        .live-stats-card {
+            background: linear-gradient(135deg, rgba(20,25,40,0.9), rgba(10,15,25,0.95));
+            border-radius: 24px;
+            margin: 12px 16px;
+            padding: 20px;
+            border: 1px solid rgba(0,230,118,0.15);
+        }
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .stats-title {
+            font-size: 14px;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .live-badge {
+            font-size: 10px;
+            background: rgba(0,230,118,0.2);
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: #00e676;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .live-counter {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .main-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #00e676);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .trend.up { background: rgba(0,230,118,0.15); color: #00e676; }
+        .trend.down { background: rgba(255,23,68,0.15); color: #ff1744; }
+        .stats-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 12px;
+            color: #666;
+        }
+        /* ========== পরিবর্তন শেষ ========== */
+        
         /* লাইভ মার্কি */
         .live-marquee-card {
             padding: 8px 16px;
@@ -301,7 +308,7 @@
         .live-marquee-label {
             display: block;
             text-align: center;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
             color: #000;
             padding: 6px 12px;
             border-radius: 30px;
@@ -342,7 +349,7 @@
             0% { opacity: 0; transform: translateY(30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-        .live-marquee-content i { color: var(--gold); margin-right: 8px; }
+        .live-marquee-content i { color: #ffd700; margin-right: 8px; }
         
         /* ক্যাটাগরি আইকন */
         .header-category-icon {
@@ -356,8 +363,8 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .header-category-icon i { font-size: 1.1rem; color: var(--green); }
-        .header-category-icon:hover { background: var(--green); }
+        .header-category-icon i { font-size: 1.1rem; color: #00e676; }
+        .header-category-icon:hover { background: #00e676; }
         .header-category-icon:hover i { color: #000; }
         
         /* ক্যাটাগরি ড্রপডাউন */
@@ -383,43 +390,10 @@
             align-items: center;
             gap: 10px;
             font-size: 0.85rem;
-            color: var(--text-main);
+            color: #fff;
         }
-        .category-dropdown .cat-item:hover { background: rgba(0,230,118,0.1); color: var(--green); }
-        .category-dropdown .cat-item i { width: 24px; color: var(--green); }
-        
-        /* স্ট্যাটিস্টিক্স কার্ড */
-        .stats-card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            margin: 12px 16px;
-            padding: 16px;
-            border: 1px solid rgba(0,230,118,0.15);
-        }
-        .stats-title {
-            font-size: 0.8rem;
-            color: var(--silver);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .stats-grid {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-        }
-        .stat-item { flex: 1; }
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--green);
-        }
-        .stat-label {
-            font-size: 0.7rem;
-            color: var(--silver);
-            margin-top: 4px;
-        }
+        .category-dropdown .cat-item:hover { background: rgba(0,230,118,0.1); color: #00e676; }
+        .category-dropdown .cat-item i { width: 24px; color: #00e676; }
         
         /* ক্যাটাগরি চিপস */
         .cat-chips-section {
@@ -442,15 +416,15 @@
             font-size: 0.75rem;
             cursor: pointer;
             white-space: nowrap;
-            color: var(--silver);
+            color: #c0c0c0;
             transition: all 0.3s;
         }
         .chip.active, .chip:hover {
-            background: linear-gradient(135deg, var(--green-dark), var(--green));
+            background: linear-gradient(135deg, #00c853, #00e676);
             color: #000;
             font-weight: 700;
-            border-color: var(--green);
-            box-shadow: 0 0 12px var(--green-glow);
+            border-color: #00e676;
+            box-shadow: 0 0 12px rgba(0,230,118,0.3);
         }
         
         /* বিভাগ চিপস */
@@ -469,9 +443,8 @@
             padding: 0 16px;
         }
         
-        /* মেলা কার্ড */
         .mela-card {
-            background: var(--bg-card);
+            background: rgba(10,20,40,0.85);
             border: 1px solid rgba(0,230,118,0.15);
             border-radius: 14px;
             overflow: hidden;
@@ -481,7 +454,7 @@
         }
         .mela-card:hover {
             transform: translateY(-3px);
-            border-color: var(--green);
+            border-color: #00e676;
             box-shadow: 0 8px 25px rgba(0,230,118,0.15);
         }
         .card-header { padding: 10px 10px 6px; background: linear-gradient(135deg, rgba(0,230,118,0.08), rgba(255,215,0,0.05)); }
@@ -494,15 +467,9 @@
             margin-bottom: 5px;
             letter-spacing: 0.5px;
         }
-        .cat-agriculture { background: rgba(0,200,83,0.15); color: #69f0ae; border-color: rgba(0,200,83,0.3); }
-        .cat-business { background: rgba(255,215,0,0.15); color: var(--gold); border-color: rgba(255,215,0,0.3); }
-        .cat-cultural { background: rgba(206,147,216,0.15); color: var(--purple); border-color: rgba(206,147,216,0.3); }
-        .cat-book { background: rgba(100,181,246,0.15); color: #64b5f6; border-color: rgba(100,181,246,0.3); }
-        .cat-food { background: rgba(255,138,101,0.15); color: #ff8a65; border-color: rgba(255,138,101,0.3); }
-        
-        .card-title { font-size: 13px; font-weight: 700; color: var(--gold); line-height: 1.3; }
-        .card-loc { font-size: 11px; color: var(--silver); margin-top: 3px; }
-        .card-loc i { color: var(--green); margin-right: 3px; }
+        .card-title { font-size: 13px; font-weight: 700; color: #ffd700; line-height: 1.3; }
+        .card-loc { font-size: 11px; color: #c0c0c0; margin-top: 3px; }
+        .card-loc i { color: #00e676; margin-right: 3px; }
         .card-dates {
             display: flex;
             justify-content: space-between;
@@ -511,8 +478,8 @@
             font-size: 10px;
         }
         .date-item { text-align: center; }
-        .date-label { color: var(--silver); display: block; font-size: 9px; }
-        .date-val { color: var(--green-dark); font-weight: 700; }
+        .date-label { color: #c0c0c0; display: block; font-size: 9px; }
+        .date-val { color: #00c853; font-weight: 700; }
         .card-footer {
             display: flex;
             align-items: center;
@@ -522,28 +489,28 @@
         .card-actions { display: flex; gap: 10px; }
         .act-btn {
             font-size: 11px;
-            color: var(--silver);
+            color: #c0c0c0;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 3px;
             background: none;
             border: none;
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'Inter', sans-serif;
             transition: all 0.2s;
         }
-        .act-btn:hover { color: var(--gold); }
-        .act-btn.liked { color: var(--red); }
-        .act-btn.saved { color: var(--gold); }
+        .act-btn:hover { color: #ffd700; }
+        .act-btn.liked { color: #ff1744; }
+        .act-btn.saved { color: #ffd700; }
         .card-status {
             font-size: 9px;
             padding: 2px 7px;
             border-radius: 10px;
             font-weight: 700;
         }
-        .status-live { background: rgba(0,230,118,0.15); color: var(--green); border: 1px solid var(--green); }
-        .status-soon { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid var(--gold); }
-        .status-ended { background: rgba(255,255,255,0.05); color: var(--silver); border: 1px solid rgba(255,255,255,0.2); }
+        .status-live { background: rgba(0,230,118,0.15); color: #00e676; border: 1px solid #00e676; }
+        .status-soon { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700; }
+        .status-ended { background: rgba(255,255,255,0.05); color: #c0c0c0; border: 1px solid rgba(255,255,255,0.2); }
         
         /* ড্রপডাউন মেনু */
         .card-dropdown-btn {
@@ -552,7 +519,7 @@
             right: 8px;
             background: rgba(0,0,0,0.4);
             border: none;
-            color: var(--silver);
+            color: #c0c0c0;
             width: 22px;
             height: 22px;
             border-radius: 50%;
@@ -585,9 +552,9 @@
             display: flex;
             align-items: center;
             gap: 7px;
-            color: var(--text-main);
+            color: #fff;
         }
-        .dd-item:hover { background: rgba(0,230,118,0.1); color: var(--green); }
+        .dd-item:hover { background: rgba(0,230,118,0.1); color: #00e676; }
         
         /* ডিটেইল মোডাল */
         .modal-overlay {
@@ -615,41 +582,9 @@
         @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
         .modal-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin: 12px auto 0; }
         .modal-header { padding: 16px; display: flex; justify-content: space-between; align-items: flex-start; }
-        .modal-title { font-size: 20px; font-weight: 700; color: var(--gold); }
-        .modal-close { background: none; border: none; color: var(--silver); font-size: 20px; cursor: pointer; }
+        .modal-title { font-size: 20px; font-weight: 700; color: #ffd700; }
+        .modal-close { background: none; border: none; color: #c0c0c0; font-size: 20px; cursor: pointer; }
         .modal-body { padding: 0 16px 16px; }
-        .info-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
-        .info-icon {
-            width: 32px; height: 32px; border-radius: 8px;
-            background: rgba(0,230,118,0.1);
-            display: flex; align-items: center; justify-content: center;
-            color: var(--green); font-size: 14px; flex-shrink: 0;
-        }
-        .info-content { flex: 1; }
-        .info-label { font-size: 10px; color: var(--silver); }
-        .info-val { font-size: 14px; color: var(--text-main); }
-        .modal-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 12px 0; }
-        .poster-info { display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(0,230,118,0.05); border-radius: 10px; margin-bottom: 12px; }
-        .poster-ava { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--green); object-fit: cover; }
-        .poster-name { font-size: 13px; font-weight: 600; color: var(--green); }
-        .poster-time { font-size: 11px; color: var(--silver); }
-        .comment-section { margin-top: 10px; }
-        .comment-input-row { display: flex; gap: 8px; margin-bottom: 10px; }
-        .comment-input {
-            flex: 1; background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.2);
-            border-radius: 20px; padding: 8px 14px; color: var(--text-main);
-            font-family: 'Hind Siliguri', sans-serif; font-size: 13px; outline: none;
-        }
-        .comment-send {
-            width: 36px; height: 36px; border-radius: 50%; border: none;
-            background: linear-gradient(135deg, var(--green-dark), var(--green));
-            color: #000; cursor: pointer; font-size: 14px;
-        }
-        .comment-item { display: flex; gap: 8px; margin-bottom: 10px; }
-        .com-ava { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--green); flex-shrink: 0; object-fit: cover; }
-        .com-bubble { background: rgba(0,230,118,0.05); border-radius: 10px; padding: 6px 10px; flex: 1; }
-        .com-name { font-size: 11px; color: var(--green); font-weight: 600; }
-        .com-text { font-size: 12px; color: var(--text-main); }
         
         /* পোস্ট মডাল */
         .post-modal {
@@ -664,24 +599,24 @@
             border-bottom: none; animation: slideUp 0.3s ease;
         }
         .post-header { padding: 16px; border-bottom: 1px solid rgba(0,230,118,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .post-header-title { font-size: 18px; font-weight: 700; background: linear-gradient(90deg,var(--green),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .post-header-title { font-size: 18px; font-weight: 700; background: linear-gradient(90deg,#00e676,#ffd700); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         .post-form { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
         .form-group { display: flex; flex-direction: column; gap: 4px; }
-        .form-label { font-size: 12px; color: var(--green); font-weight: 600; }
+        .form-label { font-size: 12px; color: #00e676; font-weight: 600; }
         .form-input, .form-textarea, .form-select {
             background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.2);
-            border-radius: 10px; padding: 10px 14px; color: var(--text-main);
-            font-family: 'Hind Siliguri', sans-serif; font-size: 14px; outline: none;
+            border-radius: 10px; padding: 10px 14px; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 14px; outline: none;
         }
-        .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--green); box-shadow: 0 0 10px var(--green-glow); }
+        .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #00e676; box-shadow: 0 0 10px rgba(0,230,118,0.3); }
         .form-textarea { resize: vertical; min-height: 80px; }
         .form-select option { background: #0a1628; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .submit-btn {
-            background: linear-gradient(135deg,var(--green-dark),var(--green));
+            background: linear-gradient(135deg,#00c853,#00e676);
             border: none; border-radius: 50px; padding: 14px; color: #000;
             font-size: 16px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 20px var(--green-glow); transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0,230,118,0.4); transition: all 0.3s;
         }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,230,118,0.4); }
         
@@ -713,8 +648,8 @@
         }
         .nav-item .ni { font-size: 20px; color: rgba(255,255,255,0.35); transition: all 0.3s; }
         .nav-item .nl { font-size: 10px; color: rgba(255,255,255,0.35); transition: all 0.3s; }
-        .nav-item.active .ni { color: var(--green); filter: drop-shadow(0 0 6px var(--green)); }
-        .nav-item.active .nl { color: var(--green); }
+        .nav-item.active .ni { color: #00e676; filter: drop-shadow(0 0 6px #00e676); }
+        .nav-item.active .nl { color: #00e676; }
         
         /* সাইড ড্রয়ার */
         .side-drawer {
@@ -740,12 +675,12 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            border: 3px solid var(--gold);
+            border: 3px solid #ffd700;
             margin-bottom: 10px;
-            box-shadow: 0 0 20px var(--gold-glow);
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
         }
-        .drawer-name { font-size: 1.1rem; font-weight: 600; color: var(--gold); }
-        .drawer-email { font-size: 0.7rem; opacity: 0.8; color: var(--silver); }
+        .drawer-name { font-size: 1.1rem; font-weight: 600; color: #ffd700; }
+        .drawer-email { font-size: 0.7rem; opacity: 0.8; color: #c0c0c0; }
         .drawer-menu { padding: 20px; }
         .drawer-item {
             display: flex;
@@ -754,9 +689,9 @@
             padding: 12px 0;
             cursor: pointer;
             border-bottom: 1px solid rgba(255,255,255,0.06);
-            color: var(--text-main);
+            color: #fff;
         }
-        .drawer-item:hover { color: var(--green); }
+        .drawer-item:hover { color: #00e676; }
         .drawer-item i { width: 24px; font-size: 1.1rem; }
         .drawer-overlay {
             position: fixed;
@@ -770,88 +705,15 @@
         }
         .drawer-overlay.show { display: block; }
         
-        /* নোটিফিকেশন প্যানেল */
-        .notif-panel {
-            display: none;
-            position: fixed;
-            top: 60px;
-            right: 8px;
-            width: 300px;
-            max-height: 70vh;
-            background: #0a1f3c;
-            border: 1px solid rgba(0,230,118,0.2);
-            border-radius: 16px;
-            z-index: 300;
-            overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            animation: fadeDown 0.2s ease;
-        }
-        .notif-panel.open { display: block; }
-        @keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
-        .notif-header { padding: 12px 14px; border-bottom: 1px solid rgba(0,230,118,0.1); font-size: 14px; font-weight: 700; color: var(--green); }
-        .notif-item { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s; }
-        .notif-item:hover { background: rgba(0,230,118,0.05); }
-        .notif-item.unread { background: rgba(0,230,118,0.03); }
-        .notif-title { font-size: 13px; color: var(--text-main); font-weight: 600; }
-        .notif-sub { font-size: 11px; color: var(--silver); margin-top: 2px; }
-        .notif-time { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 3px; }
-        
-        /* হেল্প প্যানেল */
-        .help-overlay {
-            display: none; position: fixed; inset: 0; z-index: 700;
-            background: rgba(0,0,0,0.85); align-items: flex-end; justify-content: center;
-        }
-        .help-overlay.open { display: flex; }
-        .help-sheet {
-            width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
-            background: linear-gradient(180deg,#0d1f40,#050f20);
-            border-radius: 24px 24px 0 0; border: 1px solid rgba(255,215,0,0.3);
-            border-bottom: none; animation: slideUp 0.3s ease;
-        }
-        .help-header { padding: 16px; border-bottom: 1px solid rgba(255,215,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .help-header-title { font-size: 18px; font-weight: 700; color: var(--gold); }
-        .help-contact { padding: 14px 16px; background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; margin: 12px 16px; }
-        .contact-label { font-size: 11px; color: var(--silver); }
-        .contact-num { font-size: 20px; font-weight: 700; color: var(--gold); }
-        .help-faq { padding: 0 16px 16px; }
-        .faq-item { border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
-        .faq-q { padding: 12px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-main); }
-        .faq-q:hover { background: rgba(255,255,255,0.03); }
-        .faq-a { display: none; padding: 0 14px 12px; font-size: 12px; color: var(--silver); line-height: 1.6; }
-        .faq-a.open { display: block; }
-        
-        /* অ্যাক্টিভ ইউজার মোডাল */
-        .active-modal {
-            display: none; position: fixed; inset: 0; z-index: 500;
-            background: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 16px;
-        }
-        .active-modal.open { display: flex; }
-        .active-box {
-            background: linear-gradient(135deg,#0a1f3c,#050f20);
-            border: 1px solid rgba(0,230,118,0.3);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 380px;
-            padding: 20px;
-        }
-        .active-title { font-size: 18px; font-weight: 700; color: var(--green); margin-bottom: 16px; text-align: center; }
-        .active-stat {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .active-stat:last-child { border: none; }
-        .active-stat-label { font-size: 13px; color: var(--silver); }
-        .active-stat-val { font-size: 20px; font-weight: 700; color: var(--gold); }
-        
-        .loader { text-align: center; padding: 40px; color: var(--silver); }
+        .loader { text-align: center; padding: 40px; color: #c0c0c0; }
         .toast {
             position: fixed;
             bottom: 90px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
             background: linear-gradient(135deg, #0d2040, #0a1628);
-            border: 1px solid var(--green);
-            color: var(--green);
+            border: 1px solid #00e676;
+            color: #00e676;
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 13px;
@@ -860,27 +722,19 @@
             transition: all 0.3s;
             pointer-events: none;
             white-space: nowrap;
-            box-shadow: 0 4px 20px var(--green-glow);
+            box-shadow: 0 4px 20px rgba(0,230,118,0.4);
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         
         @media (max-width: 500px) {
             .posts-grid { grid-template-columns: 1fr; }
-            .stats-number { font-size: 1.4rem; }
+            .main-number { font-size: 36px; }
             .live-marquee-content { font-size: 0.8rem; }
             .live-marquee-content-wrapper { height: 60px; }
         }
     </style>
 </head>
 <body>
-
-<!-- অ্যানিমেটেড ব্যাকগ্রাউন্ড -->
-<div class="bg-canvas">
-    <div class="bg-grid"></div>
-    <div class="bg-orb orb1"></div>
-    <div class="bg-orb orb2"></div>
-    <div class="bg-orb orb3"></div>
-</div>
 
 <div id="mainApp">
 
@@ -920,12 +774,12 @@
     <div class="header-icons">
         <div class="live-users" onclick="showActiveUsers()">
             <div class="live-dot"></div>
-            <span id="liveCount">৪৭</span>
+            <span id="liveCount">47</span>
         </div>
         <div class="header-category-icon" id="headerCategoryIcon">
             <i class="fa-solid fa-th-large"></i>
         </div>
-        <i class="fa-regular fa-bell" id="notifIcon" onclick="toggleNotif()"></i>
+        <i class="fa-regular fa-bell" id="notifIcon"></i>
     </div>
 </div>
 
@@ -947,15 +801,15 @@
     </div>
 </div>
 
-<!-- লোকেশন ফিল্টার (নতুন) -->
+<!-- লোকেশন ফিল্টার -->
 <div class="loc-filter">
-    <select class="loc-select" id="divSelect" onchange="filterByLocation()">
+    <select class="loc-select" id="divSelect">
         <option value="">সকল বিভাগ</option>
     </select>
-    <select class="loc-select" id="distSelect" onchange="filterByLocation()">
+    <select class="loc-select" id="distSelect">
         <option value="">সকল জেলা</option>
     </select>
-    <select class="loc-select" id="upazilaSelect" onchange="filterByLocation()">
+    <select class="loc-select" id="upazilaSelect">
         <option value="">উপজেলা</option>
     </select>
 </div>
@@ -979,16 +833,28 @@
     </div>
 </div>
 
-<!-- স্ট্যাটিস্টিক্স কার্ড -->
-<div class="stats-card">
-    <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
-    <div class="stats-grid">
-        <div class="stat-item"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div>
+<!-- ========== নতুন UI 1: লাইভ কাউন্টার + ট্রেন্ড (লাইভ প্রিভিউ - পরিসংখ্যান প্রতিস্থাপন) ========== -->
+<div class="live-stats-card">
+    <div class="stats-header">
+        <div class="stats-title">
+            <i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান
+        </div>
+        <div class="live-badge">
+            <span class="live-dot"></span> লাইভ
+        </div>
+    </div>
+    <div class="live-counter">
+        <span class="main-number" id="liveViewers">1,247</span>
+        <div class="trend up" id="trendBadge"><i class="fa-solid fa-arrow-up"></i> +12.5%</div>
+    </div>
+    <div class="stats-footer">
+        <span>📊 চলমান মেলা: <strong id="statLive">0</strong></span>
+        <span>⏰ আসন্ন মেলা: <strong id="statSoon">0</strong></span>
+        <span>✅ সমাপ্ত মেলা: <strong id="statEnded">0</strong></span>
+        <span>💬 মোট রিভিউ: <strong id="statReviews">0</strong></span>
     </div>
 </div>
+<!-- ========== পরিবর্তন শেষ ========== -->
 
 <!-- লাইভ মার্কি -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
@@ -1012,7 +878,6 @@
         <div class="chip" data-cat="কৃষি">🌾 কৃষি</div>
         <div class="chip" data-cat="বাণিজ্য">💼 বাণিজ্য</div>
         <div class="chip" data-cat="সাংস্কৃতিক">🎭 সাংস্কৃতিক</div>
-        <div class="chip" data-cat="বইমেলা">📚 বইমেলা</div>
     </div>
 </div>
 
@@ -1021,14 +886,14 @@
 
 <!-- পোস্ট গ্রিড -->
 <div class="section-title" style="padding: 0 16px; margin-bottom: 12px;">
-    <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
+    <h3 style="color: #00e676;"><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
 </div>
 
 <div id="postsContainer" class="posts-grid">
     <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
 </div>
 
-<!-- নিচের মেনু বার (নতুন) -->
+<!-- বটম নেভ -->
 <div class="bottom-nav">
     <button class="nav-item active" id="navHome" onclick="setNav(this,'home')">
         <i class="ni fa fa-home"></i>
@@ -1039,7 +904,7 @@
         <span class="nl">খুঁজুন</span>
     </button>
     <button class="nav-item" onclick="openPostModal()">
-        <i class="ni fa fa-plus-circle" style="font-size:28px;color:var(--green)"></i>
+        <i class="ni fa fa-plus-circle" style="font-size:28px;color:#00e676"></i>
         <span class="nl">পোস্ট</span>
     </button>
     <button class="nav-item" id="navSaved" onclick="setNav(this,'saved')">
@@ -1076,14 +941,14 @@
             </div>
             <div class="form-group"><label class="form-label">বিস্তারিত বিবরণ</label><textarea class="form-textarea" id="postDesc" rows="3" placeholder="মেলা সম্পর্কে বিস্তারিত লিখুন..."></textarea></div>
             <div class="checkbox-group" style="display:flex;align-items:center;gap:8px;margin:10px 0">
-                <input type="checkbox" id="anonymousPost"><label for="anonymousPost" style="color:var(--silver)">🕵️ বেনামে পোস্ট করুন</label>
+                <input type="checkbox" id="anonymousPost"><label for="anonymousPost" style="color:#c0c0c0">🕵️ বেনামে পোস্ট করুন</label>
             </div>
             <button class="submit-btn" onclick="submitPost()"><i class="fa fa-paper-plane"></i> মেলা পোস্ট করুন</button>
         </div>
     </div>
 </div>
 
-<!-- ডিটেইল মোডাল (নতুন) -->
+<!-- ডিটেইল মোডাল -->
 <div class="modal-overlay" id="detailModal">
     <div class="modal-sheet">
         <div class="modal-handle"></div>
@@ -1092,45 +957,6 @@
             <button class="modal-close" onclick="closeDetail()"><i class="fa fa-times"></i></button>
         </div>
         <div class="modal-body" id="detailBody"></div>
-    </div>
-</div>
-
-<!-- নোটিফিকেশন প্যানেল (নতুন) -->
-<div class="notif-panel" id="notifPanel">
-    <div class="notif-header">🔔 নোটিফিকেশন</div>
-    <div id="notifList"></div>
-</div>
-
-<!-- হেল্প প্যানেল (নতুন) -->
-<div class="help-overlay" id="helpOverlay">
-    <div class="help-sheet">
-        <div class="help-header">
-            <div class="help-header-title">💛 সাহায্য ও যোগাযোগ</div>
-            <button class="modal-close" onclick="toggleHelp()"><i class="fa fa-times"></i></button>
-        </div>
-        <div class="help-contact">
-            <div class="contact-label">📞 অ্যাডমিনের সাথে যোগাযোগ করুন</div>
-            <div class="contact-num">০১৭XXXXXXXX</div>
-            <div class="contact-label" style="margin-top:4px">সমস্যা বা পরামর্শের জন্য কল করুন</div>
-        </div>
-        <div class="help-faq">
-            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">মেলা পোস্ট করব কীভাবে? <i class="fa fa-chevron-down"></i></div><div class="faq-a">নিচের + বাটনে ক্লিক করে মেলার সমস্ত তথ্য পূরণ করুন এবং "মেলা পোস্ট করুন" বাটনে চাপুন।</div></div>
-            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">মেলা সার্চ করব কীভাবে? <i class="fa fa-chevron-down"></i></div><div class="faq-a">উপরের সার্চ বারে মেলার নাম বা স্থান লিখুন। অথবা বিভাগ/জেলা/উপজেলা সিলেক্ট করে খুঁজুন।</div></div>
-            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">মেলা ফেভারিট করব কীভাবে? <i class="fa fa-chevron-down"></i></div><div class="faq-a">মেলার কার্ডে বুকমার্ক আইকনে ক্লিক করলে সেটি আপনার প্রোফাইলে সেভ হবে।</div></div>
-        </div>
-    </div>
-</div>
-
-<!-- অ্যাক্টিভ ইউজার মোডাল (নতুন) -->
-<div class="active-modal" id="activeModal">
-    <div class="active-box">
-        <div style="text-align:right;margin-bottom:10px"><button onclick="closeActiveModal()" style="background:none;border:none;color:var(--silver);font-size:18px;cursor:pointer"><i class="fa fa-times"></i></button></div>
-        <div class="active-title">📊 ব্যবহারকারীর পরিসংখ্যান</div>
-        <div class="active-stat"><span class="active-stat-label">🟢 এখন অ্যাক্টিভ</span><span class="active-stat-val" id="statNow">৪৭</span></div>
-        <div class="active-stat"><span class="active-stat-label">📅 আজকে মোট</span><span class="active-stat-val" id="statToday">১২৩</span></div>
-        <div class="active-stat"><span class="active-stat-label">📆 এই সপ্তাহে</span><span class="active-stat-val" id="statWeek">৮৪৫</span></div>
-        <div class="active-stat"><span class="active-stat-label">📊 এই মাসে</span><span class="active-stat-val" id="statMonth">৩,২৪১</span></div>
-        <div class="active-stat"><span class="active-stat-label">👥 মোট নিবন্ধিত</span><span class="active-stat-val" id="statTotal">১২,৫৬৭</span></div>
     </div>
 </div>
 
@@ -1166,32 +992,14 @@
     let bannerImages = [];
     let currentBannerIndex = 0;
     let bannerInterval = null;
-    let currentEditPostId = null;
     let showingMyPosts = false;
     let allPosts = [];
     let liveMarqueeInterval = null;
     let currentLiveIndex = 0;
     let liveMelasList = [];
     
-    // পার্টিকেল তৈরি
-    function createParticles() {
-        const colors = ['#00e676','#ffd700','#ce93d8','#ff1744'];
-        for(let i=0; i<20; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.cssText = `
-                left:${Math.random()*100}vw;
-                background:${colors[Math.floor(Math.random()*colors.length)]};
-                animation-duration:${5+Math.random()*10}s;
-                animation-delay:${Math.random()*5}s;
-                opacity:${0.2+Math.random()*0.5};
-                width:${2+Math.random()*4}px;
-                height:${2+Math.random()*4}px;
-            `;
-            document.body.appendChild(p);
-        }
-    }
-    createParticles();
+    // লাইভ ভিউয়ার্স ভেরিয়েবল
+    let liveViewersCount = 1247;
     
     const reactionEmojis = [
         { code: "like", emoji: "❤️", type: "like" },
@@ -1214,9 +1022,29 @@
         await loadSavedPosts();
         loadPosts();
         startAutoSlide();
-        updateLiveCount();
-        setupNotifications();
+        startLiveViewerUpdate();
     });
+    
+    function startLiveViewerUpdate() {
+        setInterval(() => {
+            let change = Math.floor(Math.random() * 50) - 20;
+            liveViewersCount = Math.max(300, liveViewersCount + change);
+            updateLiveStats();
+        }, 3000);
+    }
+    
+    function updateLiveStats() {
+        document.getElementById('liveViewers').innerText = liveViewersCount.toLocaleString();
+        let percentChange = ((liveViewersCount - 1108) / 1108 * 100).toFixed(1);
+        let trendElem = document.getElementById('trendBadge');
+        if (percentChange >= 0) {
+            trendElem.innerHTML = `<i class="fa-solid fa-arrow-up"></i> +${percentChange}%`;
+            trendElem.className = 'trend up';
+        } else {
+            trendElem.innerHTML = `<i class="fa-solid fa-arrow-down"></i> ${percentChange}%`;
+            trendElem.className = 'trend down';
+        }
+    }
     
     async function loadCategoriesFromJSON() {
         try {
@@ -1229,8 +1057,7 @@
                 { name: "চলমান", icon: "🟢" }, { name: "আসন্ন", icon: "⏰" },
                 { name: "১৫ দিন", icon: "📅" }, { name: "সাপ্তাহিক", icon: "🛒" },
                 { name: "৩ দিন", icon: "🔥" }, { name: "কৃষি", icon: "🌾" },
-                { name: "বাণিজ্য", icon: "💼" }, { name: "সাংস্কৃতিক", icon: "🎭" },
-                { name: "বইমেলা", icon: "📚" }
+                { name: "বাণিজ্য", icon: "💼" }, { name: "সাংস্কৃতিক", icon: "🎭" }
             ];
         }
         const catSelect = document.getElementById("postCategory");
@@ -1246,11 +1073,6 @@
     function getCategoryIcon(catName) {
         const cat = categoriesList.find(c => c.name === catName);
         return cat ? cat.icon : '🎪';
-    }
-    
-    function getCatColorClass(cat) {
-        const map = { 'কৃষি':'cat-agriculture','বাণিজ্য':'cat-business','সাংস্কৃতিক':'cat-cultural','বইমেলা':'cat-book' };
-        return map[cat] || 'cat-business';
     }
     
     function startAutoSlide() {
@@ -1324,10 +1146,6 @@
         divSelect.innerHTML = '<option value="">সকল বিভাগ</option>';
         divs.forEach(d => divSelect.add(new Option(d, d)));
     }
-    
-    window.filterByLocation = function() {
-        loadPosts();
-    };
     
     function displayDivisions() {
         const container = document.getElementById("divisionContainer");
@@ -1524,7 +1342,6 @@
             const status = getStatusText(post);
             const displayInfo = getDisplayName(post);
             const duration = getDuration(post);
-            const catColorClass = getCatColorClass(post.category);
             
             let likeButtonHtml = `<button class="act-btn like-btn" onclick="event.stopPropagation();showReactionPopup(this, '${post.id}')">${userReaction ? userReaction.emoji : '<i class="fa fa-heart"></i>'} <span>${reactionCount}</span></button>`;
             
@@ -1536,10 +1353,10 @@
                 <div class="card-dropdown" id="dd${post.id}">
                     <div class="dd-item" onclick="event.stopPropagation();openDetail('${post.id}')"><i class="fa fa-eye"></i> বিস্তারিত</div>
                     <div class="dd-item" onclick="event.stopPropagation();shareMela('${post.id}')"><i class="fa fa-share-alt"></i> শেয়ার করুন</div>
-                    ${isMyPost ? `<div class="dd-item" style="color:var(--red)" onclick="event.stopPropagation();deletePost('${post.id}')"><i class="fa fa-trash"></i> মুছুন</div>` : ''}
+                    ${isMyPost ? `<div class="dd-item" style="color:#ff1744" onclick="event.stopPropagation();deletePost('${post.id}')"><i class="fa fa-trash"></i> মুছুন</div>` : ''}
                 </div>
                 <div class="card-header">
-                    <div><span class="card-cat ${catColorClass}">${getCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div>
+                    <div><span class="card-cat">${getCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div>
                     <div class="card-title">${escapeHtml(post.title)}</div>
                     <div class="card-loc"><i class="fa fa-map-marker-alt"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div>
                 </div>
@@ -1568,24 +1385,24 @@
         const displayInfo = getDisplayName(post);
         document.getElementById('detailTitle').textContent = post.title;
         document.getElementById('detailBody').innerHTML = `
-            <div class="poster-info">
-                <img class="poster-ava" src="${currentUser?.photoURL || 'https://ui-avatars.com/api/?name=U&background=00c853&color=000'}">
-                <div><div class="poster-name">${displayInfo.name}</div><div class="poster-time">${new Date(post.createdAt).toLocaleDateString('bn-BD')}</div></div>
+            <div class="poster-info" style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(0,230,118,0.05);border-radius:10px;margin-bottom:12px">
+                <img class="poster-ava" style="width:36px;height:36px;border-radius:50%;border:2px solid #00e676" src="${currentUser?.photoURL || 'https://ui-avatars.com/api/?name=U&background=00e676&color=000'}">
+                <div><div class="poster-name" style="font-size:13px;font-weight:600;color:#00e676">${displayInfo.name}</div><div class="poster-time" style="font-size:11px;color:#c0c0c0">${new Date(post.createdAt).toLocaleDateString('bn-BD')}</div></div>
             </div>
-            <div class="info-row"><div class="info-icon"><i class="fa fa-tag"></i></div><div class="info-content"><div class="info-label">ক্যাটাগরি</div><div class="info-val">${post.category || '—'}</div></div></div>
+            <div class="info-row" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px"><div class="info-icon" style="width:32px;height:32px;border-radius:8px;background:rgba(0,230,118,0.1);display:flex;align-items:center;justify-content:center;color:#00e676"><i class="fa fa-tag"></i></div><div class="info-content"><div class="info-label" style="font-size:10px;color:#c0c0c0">ক্যাটাগরি</div><div class="info-val" style="font-size:14px;color:#fff">${post.category || '—'}</div></div></div>
             <div class="info-row"><div class="info-icon"><i class="fa fa-map-marker-alt"></i></div><div class="info-content"><div class="info-label">স্থান</div><div class="info-val">${escapeHtml(post.district)}, ${escapeHtml(post.division)}${post.upazila ? ', ' + escapeHtml(post.upazila) : ''}</div></div></div>
             <div class="info-row"><div class="info-icon"><i class="fa fa-calendar-alt"></i></div><div class="info-content"><div class="info-label">তারিখ</div><div class="info-val">${formatDate(post.startDate)} — ${formatDate(post.endDate)}</div></div></div>
-            ${post.locationLink ? `<div class="info-row"><div class="info-icon"><i class="fa fa-map"></i></div><div class="info-content"><div class="info-label">গুগল ম্যাপ</div><div class="info-val"><a href="${post.locationLink}" target="_blank" style="color:var(--gold)">ম্যাপে দেখুন</a></div></div></div>` : ''}
-            ${post.description ? `<hr class="modal-divider"><div style="font-size:13px;color:var(--text-main);line-height:1.8">${escapeHtml(post.description)}</div>` : ''}
-            <hr class="modal-divider">
+            ${post.locationLink ? `<div class="info-row"><div class="info-icon"><i class="fa fa-map"></i></div><div class="info-content"><div class="info-label">গুগল ম্যাপ</div><div class="info-val"><a href="${post.locationLink}" target="_blank" style="color:#ffd700">ম্যাপে দেখুন</a></div></div></div>` : ''}
+            ${post.description ? `<hr style="border-color:rgba(255,255,255,0.08);margin:12px 0"><div style="font-size:13px;color:#ddd;line-height:1.8">${escapeHtml(post.description)}</div>` : ''}
+            <hr style="border-color:rgba(255,255,255,0.08);margin:12px 0">
             <div class="comment-section">
-                <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">💬 মন্তব্য (${post.comments ? Object.keys(post.comments).length : 0})</div>
-                <div class="comment-input-row">
-                    <input class="comment-input" id="commentInput_${id}" placeholder="মন্তব্য করুন...">
-                    <button class="comment-send" onclick="submitComment('${id}')"><i class="fa fa-paper-plane"></i></button>
+                <div style="font-size:13px;font-weight:700;color:#00e676;margin-bottom:10px">💬 মন্তব্য (${post.comments ? Object.keys(post.comments).length : 0})</div>
+                <div class="comment-input-row" style="display:flex;gap:8px;margin-bottom:10px">
+                    <input class="comment-input" id="commentInput_${id}" placeholder="মন্তব্য করুন..." style="flex:1;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:20px;padding:8px 14px;color:#fff;font-family:'Inter',sans-serif;font-size:13px;outline:none">
+                    <button class="comment-send" onclick="submitComment('${id}')" style="width:36px;height:36px;border-radius:50%;border:none;background:linear-gradient(135deg,#00c853,#00e676);color:#000;cursor:pointer"><i class="fa fa-paper-plane"></i></button>
                 </div>
                 <div id="commentList_${id}">
-                    ${post.comments ? Object.entries(post.comments).map(([key, c]) => `<div class="comment-item"><img class="com-ava" src="https://ui-avatars.com/api/?name=${encodeURIComponent(c.name||'U')}&background=00c853&color=000"><div class="com-bubble"><div class="com-name">${escapeHtml(c.name)}</div><div class="com-text">${escapeHtml(c.text)}</div></div></div>`).join('') : ''}
+                    ${post.comments ? Object.entries(post.comments).map(([key, c]) => `<div class="comment-item" style="display:flex;gap:8px;margin-bottom:10px"><img class="com-ava" style="width:28px;height:28px;border-radius:50%;border:1px solid #00e676;object-fit:cover" src="https://ui-avatars.com/api/?name=${encodeURIComponent(c.name||'U')}&background=00e676&color=000"><div class="com-bubble" style="background:rgba(0,230,118,0.05);border-radius:10px;padding:6px 10px;flex:1"><div class="com-name" style="font-size:11px;color:#00e676;font-weight:600">${escapeHtml(c.name)}</div><div class="com-text" style="font-size:12px;color:#ddd">${escapeHtml(c.text)}</div></div></div>`).join('') : ''}
                 </div>
             </div>`;
         document.getElementById('detailModal').classList.add('open');
@@ -1669,6 +1486,9 @@
     async function showMyPosts() { showingMyPosts = true; currentView = "home"; await loadPosts(); document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active")); document.getElementById("navHome").classList.add("active"); closeDrawer(); }
     function openPostModal() { document.getElementById("postModal").classList.add("open"); closeDrawer(); }
     function closePostModal() { document.getElementById("postModal").classList.remove("open"); }
+    function toggleSearch() { document.getElementById("searchWrapper").classList.toggle("show"); if(document.getElementById("searchWrapper").classList.contains("show")) document.getElementById("searchInput").focus(); }
+    function setNav(el, tab) { document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); el.classList.add('active'); if(tab === 'saved') { currentView = "saved"; showingMyPosts = false; loadPosts(); } else if(tab === 'home') { currentView = "home"; showingMyPosts = false; loadPosts(); } }
+    window.showActiveUsers = function() { showToast('📊 লাইভ দর্শক: ' + liveViewersCount); };
     
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
@@ -1686,42 +1506,19 @@
     document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
         chip.addEventListener("click", () => { activeCategory = chip.dataset.cat; document.querySelectorAll("#catChipsContainer .chip").forEach(c => c.classList.remove("active")); chip.classList.add("active"); loadPosts(); });
     });
-    function toggleSearch() { document.getElementById("searchWrapper").classList.toggle("show"); if(document.getElementById("searchWrapper").classList.contains("show")) document.getElementById("searchInput").focus(); }
     document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); setNav(document.getElementById("navHome"),'home'); };
     document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); setNav(document.getElementById("navSaved"),'saved'); };
-    function setNav(el, tab) { document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); el.classList.add('active'); }
+    document.getElementById("navProfileBtn").onclick = openDrawer;
+    document.getElementById("navSearchBtn").onclick = toggleSearch;
     document.getElementById("searchInput").addEventListener("input", (e) => { searchText = e.target.value; loadPosts(); });
-    document.getElementById("closeModal")?.addEventListener("click", closePostModal);
     
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
     function showToast(msg) { const toast = document.getElementById("toast"); toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2500); }
-    
-    // নতুন ফাংশন
-    function updateLiveCount() {
-        const count = Math.floor(30 + Math.random()*100);
-        document.getElementById('liveCount').textContent = count;
-        setInterval(()=>{
-            const c = parseInt(document.getElementById('liveCount').textContent)||30;
-            const diff = Math.floor(Math.random()*6)-3;
-            document.getElementById('liveCount').textContent = Math.max(10, c+diff);
-        }, 5000);
-    }
-    window.showActiveUsers = function() { document.getElementById('activeModal').classList.add('open'); };
-    window.closeActiveModal = function() { document.getElementById('activeModal').classList.remove('open'); };
-    window.toggleNotif = function() { document.getElementById('notifPanel').classList.toggle('open'); };
-    window.toggleHelp = function() { document.getElementById('helpOverlay').classList.toggle('open'); };
-    window.toggleFaq = function(el) { el.nextElementSibling.classList.toggle('open'); };
-    
-    function setupNotifications() {
-        const notifList = document.getElementById('notifList');
-        if(notifList) notifList.innerHTML = `<div class="notif-item unread"><div class="notif-title">নতুন মেলা</div><div class="notif-sub">ঢাকায় নতুন বাণিজ্য মেলা শুরু হচ্ছে</div><div class="notif-time">২ ঘণ্টা আগে</div></div><div class="notif-item unread"><div class="notif-title">আপনার পোস্টে লাইক</div><div class="notif-sub">কেউ আপনার মেলা পোস্টে লাইক দিয়েছেন</div><div class="notif-time">৫ ঘণ্টা আগে</div></div>`;
-    }
     
     window.onclick = (e) => {
         if(e.target === document.getElementById("postModal")) closePostModal();
         if(e.target === document.getElementById("detailModal")) closeDetail();
         if(!e.target.closest('.app-header') && !e.target.closest('#headerCategoryIcon')) document.getElementById("categoryDropdown")?.classList.remove("show");
-        if(!e.target.closest('.notif-panel') && !e.target.closest('[onclick*="toggleNotif"]')) document.getElementById('notifPanel')?.classList.remove('open');
     };
 </script>
 </body>
