@@ -285,6 +285,72 @@
             cursor: pointer;
         }
         
+        /* ========== সেভড আইটেম প্যানেল ========== */
+        .saved-items-panel {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            left: 16px;
+            right: 16px;
+            background: white;
+            border-radius: 24px;
+            padding: 16px;
+            z-index: 300;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .saved-items-panel.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        .saved-items-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 12px;
+        }
+        .saved-items-panel-header h4 {
+            font-size: 14px;
+            color: #2e7d32;
+        }
+        
+        /* ========== পিকনিক স্পট প্যানেল ========== */
+        .spots-panel {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            left: 16px;
+            right: 16px;
+            background: white;
+            border-radius: 24px;
+            padding: 16px;
+            z-index: 300;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .spots-panel.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        .spots-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 12px;
+        }
+        .spots-panel-header h4 {
+            font-size: 14px;
+            color: #2e7d32;
+        }
+        
         /* অটো স্লাইডার */
         .slider-card {
             background: white;
@@ -438,12 +504,25 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
         
+        .spot-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            border-left: 4px solid #ff9800;
+        }
+        .spot-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        
         .news-header {
             padding: 16px 16px 8px 16px;
             border-bottom: 1px solid #f0f0f0;
         }
         
-        /* ক্যাটাগরি স্টাইল */
         .news-category {
             display: inline-block;
             font-size: 0.7rem;
@@ -460,8 +539,11 @@
             background: #fff3e0;
             color: #f57c00;
         }
+        .news-category.spot-cat {
+            background: #fff3e0;
+            color: #ff9800;
+        }
         
-        /* মেলার নামের শুরুতে স্ট্যাটাস ব্যাজ */
         .title-badge {
             display: inline-block;
             font-size: 0.7rem;
@@ -706,48 +788,6 @@
         .drawer-item:hover { color: #00c853; }
         .drawer-item i { width: 24px; font-size: 1.1rem; }
         
-        /* সেভড পোস্ট সেকশন ড্রয়ারে */
-        .drawer-saved-section {
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #f0f0f0;
-        }
-        .drawer-saved-title {
-            font-size: 12px;
-            color: #2e7d32;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .drawer-saved-list {
-            max-height: 250px;
-            overflow-y: auto;
-        }
-        .saved-card-item {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 10px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            border: 1px solid #e0e0e0;
-        }
-        .saved-card-item:hover {
-            background: #e8f5e9;
-            border-color: #2e7d32;
-        }
-        .saved-card-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-        .saved-card-loc {
-            font-size: 11px;
-            color: #888;
-            margin-top: 4px;
-        }
-        
         .drawer-overlay {
             position: fixed;
             top: 0;
@@ -815,7 +855,7 @@
             margin: 10px 0;
         }
         
-        /* ========== নিচের মেনু বার (৫টি আইকন) ========== */
+        /* ========== নিচের মেনু বার (৭টি আইকন) ========== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -825,9 +865,10 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 8px 16px;
+            padding: 8px 12px;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
             z-index: 200;
+            flex-wrap: wrap;
         }
         .nav-item {
             display: flex;
@@ -838,9 +879,9 @@
             border: none;
             cursor: pointer;
             color: #aaa;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
         }
-        .nav-item i { font-size: 1.3rem; }
+        .nav-item i { font-size: 1.2rem; }
         .nav-item.active { color: #1a1a1a; }
         .nav-center {
             background: #1a1a1a;
@@ -854,6 +895,29 @@
             margin-top: -20px;
         }
         .nav-center i { font-size: 1.5rem; color: white; }
+        
+        .saved-item-card, .spot-item-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+        .saved-item-card:hover, .spot-item-card:hover {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+        .saved-item-title, .spot-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .saved-item-loc, .spot-item-loc {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+        }
         
         .loader { text-align: center; padding: 40px; color: #888; }
         .toast {
@@ -875,12 +939,14 @@
         
         @media (max-width: 500px) {
             .news-title { font-size: 1.4rem; }
-            .stats-number { font-size: 1.4rem; }
+            .stats-number { font-size: 1.2rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
-            .stat-number { font-size: 1.2rem; }
-            .time-category-grid, .topic-category-grid { grid-template-columns: 1fr; }
+            .nav-item { font-size: 0.5rem; }
+            .nav-item i { font-size: 1rem; }
+            .nav-center { width: 42px; height: 42px; margin-top: -16px; }
+            .nav-center i { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -893,30 +959,12 @@
         <i class="fa-solid fa-times" onclick="closeTimeCategoryPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
     <div class="time-category-grid" id="timeCategoryGrid">
-        <div class="time-category-item" data-cat="all">
-            <span class="time-category-icon">🎪</span>
-            <span class="time-category-name">সব মেলা</span>
-        </div>
-        <div class="time-category-item" data-cat="চলমান">
-            <span class="time-category-icon">🟢</span>
-            <span class="time-category-name">চলমান মেলা</span>
-        </div>
-        <div class="time-category-item" data-cat="৩০ দিন">
-            <span class="time-category-icon">📅</span>
-            <span class="time-category-name">৩০ দিনের মেলা</span>
-        </div>
-        <div class="time-category-item" data-cat="১৫ দিন">
-            <span class="time-category-icon">📆</span>
-            <span class="time-category-name">১৫ দিনের মেলা</span>
-        </div>
-        <div class="time-category-item" data-cat="সাপ্তাহিক">
-            <span class="time-category-icon">⚡</span>
-            <span class="time-category-name">৭ দিনের মেলা</span>
-        </div>
-        <div class="time-category-item" data-cat="৩ দিন">
-            <span class="time-category-icon">🔥</span>
-            <span class="time-category-name">৩ দিনের মেলা</span>
-        </div>
+        <div class="time-category-item" data-cat="all"><span class="time-category-icon">🎪</span><span class="time-category-name">সব মেলা</span></div>
+        <div class="time-category-item" data-cat="চলমান"><span class="time-category-icon">🟢</span><span class="time-category-name">চলমান মেলা</span></div>
+        <div class="time-category-item" data-cat="৩০ দিন"><span class="time-category-icon">📅</span><span class="time-category-name">৩০ দিনের মেলা</span></div>
+        <div class="time-category-item" data-cat="১৫ দিন"><span class="time-category-icon">📆</span><span class="time-category-name">১৫ দিনের মেলা</span></div>
+        <div class="time-category-item" data-cat="সাপ্তাহিক"><span class="time-category-icon">⚡</span><span class="time-category-name">৭ দিনের মেলা</span></div>
+        <div class="time-category-item" data-cat="৩ দিন"><span class="time-category-icon">🔥</span><span class="time-category-name">৩ দিনের মেলা</span></div>
     </div>
     <button class="apply-filter-btn" onclick="applyTimeCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
     <button class="reset-filter-btn" onclick="resetTimeCategoryFilter()">সব রিসেট</button>
@@ -928,11 +976,27 @@
         <h4><i class="fa-solid fa-th-large"></i> বিষয় নির্বাচন করুন</h4>
         <i class="fa-solid fa-times" onclick="closeTopicCategoryPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
-    <div class="topic-category-grid" id="topicCategoryGrid">
-        <div style="text-align:center; padding:20px;">লোড হচ্ছে...</div>
-    </div>
+    <div class="topic-category-grid" id="topicCategoryGrid"><div style="text-align:center; padding:20px;">লোড হচ্ছে...</div></div>
     <button class="apply-filter-btn" onclick="applyTopicCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
     <button class="reset-filter-btn" onclick="resetTopicCategoryFilter()">সব রিসেট</button>
+</div>
+
+<!-- সেভড আইটেম প্যানেল -->
+<div class="saved-items-panel" id="savedItemsPanel">
+    <div class="saved-items-panel-header">
+        <h4><i class="fa-regular fa-bookmark"></i> সেভ করা মেলা</h4>
+        <i class="fa-solid fa-times" onclick="closeSavedItemsPanel()" style="cursor:pointer;color:#999;"></i>
+    </div>
+    <div id="savedItemsList" style="max-height:60vh; overflow-y:auto;"></div>
+</div>
+
+<!-- পিকনিক স্পট প্যানেল -->
+<div class="spots-panel" id="spotsPanel">
+    <div class="spots-panel-header">
+        <h4><i class="fa-regular fa-tree"></i> পিকনিক স্পট</h4>
+        <i class="fa-solid fa-times" onclick="closeSpotsPanel()" style="cursor:pointer;color:#999;"></i>
+    </div>
+    <div id="spotsList" style="max-height:60vh; overflow-y:auto;"></div>
 </div>
 
 <!-- সাইড ড্রয়ার -->
@@ -944,211 +1008,97 @@
         <div class="drawer-email" id="drawerEmail"></div>
     </div>
     <div class="drawer-menu">
-        <div class="drawer-item" onclick="closeDrawer(); showMyPosts()">
-            <i class="fa-regular fa-user"></i>
-            <span>আমার পোস্ট</span>
-        </div>
-        <div class="drawer-item" onclick="closeDrawer(); openPostModal()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            <span>নতুন পোস্ট</span>
-        </div>
-        <div class="drawer-item" id="logoutDrawerBtn">
-            <i class="fa-solid fa-sign-out-alt"></i>
-            <span>লগআউট</span>
-        </div>
-        
-        <!-- সেভড পোস্ট সেকশন -->
-        <div class="drawer-saved-section">
-            <div class="drawer-saved-title">
-                <i class="fa-regular fa-bookmark"></i> সেভ করা মেলা
-            </div>
-            <div class="drawer-saved-list" id="drawerSavedList">
-                <div style="font-size: 12px; color: #888; padding: 8px 0;">লোড হচ্ছে...</div>
-            </div>
-        </div>
+        <div class="drawer-item" onclick="closeDrawer(); showMyPosts()"><i class="fa-regular fa-user"></i><span>আমার পোস্ট</span></div>
+        <div class="drawer-item" onclick="closeDrawer(); openPostModal()"><i class="fa-regular fa-pen-to-square"></i><span>নতুন পোস্ট</span></div>
+        <div class="drawer-item" id="logoutDrawerBtn"><i class="fa-solid fa-sign-out-alt"></i><span>লগআউট</span></div>
     </div>
 </div>
 
 <!-- হেডার -->
 <div class="app-header">
-    <div class="logo-area">
-        <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
-        <div>
-            <h1>বাংলাদেশ মেলা</h1>
-            <p>দেশের মেলার ঠিকানা</p>
-        </div>
-    </div>
-    <div class="header-icons">
-        <i class="fa-regular fa-bell" id="notifIcon"></i>
-    </div>
+    <div class="logo-area"><i class="fa-solid fa-bars menu-icon" id="menuIcon"></i><div><h1>বাংলাদেশ মেলা</h1><p>দেশের মেলার ঠিকানা</p></div></div>
+    <div class="header-icons"><i class="fa-regular fa-bell" id="notifIcon"></i></div>
 </div>
 
-<!-- ========== সার্চ + ফিল্টার সেকশন ========== -->
+<!-- সার্চ + ফিল্টার সেকশন -->
 <div class="search-filter-section" id="searchFilterSection">
-    <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ লিখুন...">
-    </div>
+    <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ লিখুন..."></div>
     <div class="filter-row">
-        <select id="divisionFilter" class="filter-select">
-            <option value="">সব বিভাগ</option>
-        </select>
-        <select id="districtFilter" class="filter-select">
-            <option value="">সব জেলা</option>
-        </select>
-        <select id="upazilaFilter" class="filter-select">
-            <option value="">সব উপজেলা</option>
-        </select>
+        <select id="divisionFilter" class="filter-select"><option value="">সব বিভাগ</option></select>
+        <select id="districtFilter" class="filter-select"><option value="">সব জেলা</option></select>
+        <select id="upazilaFilter" class="filter-select"><option value="">সব উপজেলা</option></select>
         <button class="clear-filter" onclick="clearAllFilters()" title="সব ফিল্টার রিসেট"><i class="fa-regular fa-eraser"></i></button>
     </div>
 </div>
 
 <!-- চলন্ত লেখা -->
-<div class="marquee-card" style="padding:12px 16px;">
-    <div class="marquee" style="background:#1a1a1a;color:white;padding:10px;border-radius:20px;overflow:hidden;white-space:nowrap;">
-        <p style="display:inline-block;animation:scrollText 25s linear infinite;font-size:0.8rem;">🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
-    </div>
-</div>
-
-<style>
-    @keyframes scrollText {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(-100%); }
-    }
-</style>
+<div class="marquee-card" style="padding:12px 16px;"><div class="marquee" style="background:#1a1a1a;color:white;padding:10px;border-radius:20px;overflow:hidden;white-space:nowrap;"><p style="display:inline-block;animation:scrollText 25s linear infinite;font-size:0.8rem;">🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p></div></div>
+<style>@keyframes scrollText{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>
 
 <!-- অটো স্লাইডার -->
-<div class="slider-card">
-    <div class="banner-slider">
-        <div class="banner-container" id="bannerContainer">
-            <div class="banner-item">
-                <img src="https://placehold.co/600x180?text=Loading..." alt="Banner">
-            </div>
-        </div>
-        <div class="banner-dots" id="bannerDots"></div>
-    </div>
-</div>
+<div class="slider-card"><div class="banner-slider"><div class="banner-container" id="bannerContainer"><div class="banner-item"><img src="https://placehold.co/600x180?text=Loading..." alt="Banner"></div></div><div class="banner-dots" id="bannerDots"></div></div></div>
 
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
-<div class="stats-card">
-    <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
-    <div class="stats-grid">
-        <div class="stat-item" onclick="filterByStatus('live')">
-            <div class="stat-number" id="statLive">0</div>
-            <div class="stat-label">চলমান মেলা</div>
-        </div>
-        <div class="stat-item" onclick="filterByStatus('soon')">
-            <div class="stat-number" id="statSoon">0</div>
-            <div class="stat-label">আসন্ন মেলা</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="statEnded">0</div>
-            <div class="stat-label">সমাপ্ত মেলা</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="statReviews">0</div>
-            <div class="stat-label">মোট রিভিউ</div>
-        </div>
-    </div>
-</div>
+<div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
 
 <!-- লাইভ মার্কি -->
-<div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
-    <div class="live-marquee-container">
-        <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
-        <div class="live-scrolling-area">
-            <div class="live-marquee-text" id="liveMarqueeText"></div>
-        </div>
-    </div>
-</div>
+<div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;"><div class="live-marquee-container"><div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div><div class="live-scrolling-area"><div class="live-marquee-text" id="liveMarqueeText"></div></div></div></div>
 
 <!-- পোস্ট গ্রিড -->
-<div class="section-title" style="padding: 0 16px; margin-bottom: 12px;">
-    <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
-</div>
+<div class="section-title" style="padding:0 16px; margin-bottom:12px;"><h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3></div>
+<div id="postsContainer" class="posts-grid"><div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div></div>
 
-<div id="postsContainer" class="posts-grid">
-    <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
-</div>
-
-<!-- ========== নিচের মেনু বার (৫টি আইকন) ========== -->
+<!-- নিচের মেনু বার (৭টি আইকন) -->
 <div class="bottom-nav">
     <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
+    <button class="nav-item" id="navSavedBtn"><i class="fa-regular fa-bookmark"></i><span>সেভ</span></button>
     <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
-    <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়কাল</span></button>
+    <button class="nav-item" id="navSpotsBtn"><i class="fa-regular fa-tree"></i><span>স্পট</span></button>
+    <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়</span></button>
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
-<!-- পোস্ট মডাল -->
+<!-- পোস্ট মডাল (মেলা ও স্পট দুই ধরনের) -->
 <div id="postModal" class="modal">
     <div class="modal-content">
-        <h3>📝 নতুন মেলা পোস্ট করুন</h3>
-        <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
-        <select id="postDivision" required></select>
-        <select id="postDistrict" required></select>
-        <select id="postUpazila"></select>
-        
-        <!-- ক্যাটাগরি (বিষয়ভিত্তিক) (বাধ্যতামূলক) -->
-        <div class="form-group">
-            <label class="form-label">🏷️ মেলার ক্যাটাগরি * <span style="color:#dc3545;">(বাধ্যতামূলক)</span></label>
-            <select id="postTopicCategory" class="form-select" required>
-                <option value="">-- নির্বাচন করুন --</option>
+        <h3>📝 নতুন পোস্ট করুন</h3>
+        <div class="form-group"><label class="form-label">পোস্টের ধরন *</label>
+            <select id="postType" class="form-select" required onchange="togglePostTypeFields()">
+                <option value="mela">🎪 মেলা</option>
+                <option value="spot">🏕️ পিকনিক স্পট</option>
             </select>
         </div>
         
-        <!-- সময়কাল (বাধ্যতামূলক) -->
-        <div class="form-group">
-            <label class="form-label">📋 মেলার সময়কাল * <span style="color:#dc3545;">(বাধ্যতামূলক)</span></label>
-            <select id="postTimeCategory" class="form-select" required>
-                <option value="">-- নির্বাচন করুন --</option>
-                <option value="৩০ দিন">📅 ৩০ দিনের মেলা</option>
-                <option value="১৫ দিন">📆 ১৫ দিনের মেলা</option>
-                <option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option>
-                <option value="৩ দিন">🔥 ৩ দিনের মেলা</option>
-                <option value="অন্যান্য">🎪 অন্যান্য</option>
-            </select>
+        <!-- মেলার ফিল্ড -->
+        <div id="melaFields">
+            <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
+            <select id="postDivision" required></select>
+            <select id="postDistrict" required></select>
+            <select id="postUpazila"></select>
+            <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="postTopicCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option></select></div>
+            <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
+            <div style="display: flex; gap: 10px;"><input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%" required><input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%" required></div>
         </div>
         
-        <div class="form-group">
-            <label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label>
-            <input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994">
+        <!-- পিকনিক স্পটের ফিল্ড -->
+        <div id="spotFields" style="display:none;">
+            <input type="text" id="spotName" placeholder="স্থানের নাম *" required>
+            <select id="spotDivision" required></select>
+            <select id="spotDistrict" required></select>
+            <select id="spotUpazila"></select>
+            <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক *</label><input class="form-input" id="spotLocationLink" placeholder="https://maps.google.com/?q=..."></div>
+            <div class="form-group"><label class="form-label">🖼️ ছবির লিংক (ঐচ্ছিক)</label><input class="form-input" id="spotImageUrl" placeholder="https://..."></div>
         </div>
-        <div style="display: flex; gap: 10px;">
-            <input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%" required>
-            <input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%" required>
-        </div>
+        
         <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
-        <div class="checkbox-group">
-            <input type="checkbox" id="anonymousPost">
-            <label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label>
-        </div>
+        <div class="checkbox-group"><input type="checkbox" id="anonymousPost"><label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
         <button id="submitPost">পোস্ট করুন</button>
         <button class="cancel" id="closeModal">বাতিল</button>
     </div>
 </div>
 
-<!-- এডিট পোস্ট মডাল -->
-<div id="editPostModal" class="modal">
-    <div class="modal-content">
-        <h3>✏️ পোস্ট এডিট করুন</h3>
-        <input type="text" id="editPostTitle" placeholder="মেলার নাম">
-        <select id="editPostDivision"></select>
-        <select id="editPostDistrict"></select>
-        <input type="text" id="editPostUpazila" placeholder="উপজেলা">
-        <select id="editPostCategory"></select>
-        <div style="display: flex; gap: 10px;">
-            <input type="date" id="editStartDate" style="width:50%">
-            <input type="date" id="editEndDate" style="width:50%">
-        </div>
-        <textarea id="editPostDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
-        <button id="updatePostBtn">আপডেট করুন</button>
-        <button class="cancel" id="closeEditModal">বাতিল</button>
-    </div>
-</div>
-
 <script>
-    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
         authDomain: "all-hadith-a68fa.firebaseapp.com",
@@ -1175,37 +1125,30 @@
     let bannerImages = [];
     let currentBannerIndex = 0;
     let bannerInterval = null;
-    let currentEditPostId = null;
-    let showingMyPosts = false;
     let allPosts = [];
-    
-    let selectedDivision = "";
-    let selectedDistrict = "";
-    let selectedUpazila = "";
-    
-    const reactionEmojis = [
-        { code: "like", emoji: "❤️", type: "like" },
-        { code: "love", emoji: "😍", type: "love" },
-        { code: "care", emoji: "🥰", type: "care" },
-        { code: "haha", emoji: "😂", type: "haha" },
-        { code: "wow", emoji: "😮", type: "wow" }
-    ];
+    let allSpots = [];
+    let selectedDivision = "", selectedDistrict = "", selectedUpazila = "";
     
     auth.onAuthStateChanged(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
         currentUser = user;
-        
         document.getElementById("drawerName").innerText = currentUser.displayName || "User";
         document.getElementById("drawerEmail").innerText = currentUser.email || "";
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
-        
         await loadDivisions();
         await loadCategoriesFromJSON();
         await loadSliderImages();
         await loadSavedPosts();
         loadPosts();
+        loadSpots();
         startAutoSlide();
     });
+    
+    function togglePostTypeFields() {
+        const type = document.getElementById('postType').value;
+        document.getElementById('melaFields').style.display = type === 'mela' ? 'block' : 'none';
+        document.getElementById('spotFields').style.display = type === 'spot' ? 'block' : 'none';
+    }
     
     async function loadCategoriesFromJSON() {
         try {
@@ -1214,875 +1157,204 @@
             const data = await response.json();
             categoriesList = data.categories || [];
         } catch(e) {
-            console.error("Error loading categories:", e);
-            categoriesList = [
-                { name: "কৃষি মেলা", icon: "🌾" }, { name: "বাণিজ্য মেলা", icon: "💼" },
-                { name: "সাংস্কৃতিক মেলা", icon: "🎭" }, { name: "বইমেলা", icon: "📚" },
-                { name: "খাবার মেলা", icon: "🍽️" }, { name: "অন্যান্য", icon: "🎪" }
-            ];
+            categoriesList = [{ name: "কৃষি মেলা", icon: "🌾" }, { name: "বাণিজ্য মেলা", icon: "💼" }, { name: "সাংস্কৃতিক মেলা", icon: "🎭" }, { name: "বইমেলা", icon: "📚" }, { name: "খাবার মেলা", icon: "🍽️" }, { name: "অন্যান্য", icon: "🎪" }];
         }
-        
-        // বিষয় ক্যাটাগরি প্যানেল পপুলেট
         const grid = document.getElementById('topicCategoryGrid');
         if(grid) {
-            grid.innerHTML = categoriesList.map(cat => `
-                <div class="topic-category-item" data-cat="${cat.name}">
-                    <span class="topic-category-icon">${cat.icon}</span>
-                    <span class="topic-category-name">${cat.name}</span>
-                    <i class="fa-regular fa-square" style="color:#ccc;"></i>
-                </div>
-            `).join('');
-            
+            grid.innerHTML = categoriesList.map(cat => `<div class="topic-category-item" data-cat="${cat.name}"><span class="topic-category-icon">${cat.icon}</span><span class="topic-category-name">${cat.name}</span><i class="fa-regular fa-square"></i></div>`).join('');
             document.querySelectorAll('.topic-category-item').forEach(item => {
                 item.addEventListener('click', () => {
                     const catName = item.dataset.cat;
                     const index = selectedTopicCategories.indexOf(catName);
-                    if (index === -1) {
-                        selectedTopicCategories.push(catName);
-                        item.classList.add('selected');
-                        item.querySelector('i').className = 'fa-regular fa-check-square';
-                    } else {
-                        selectedTopicCategories.splice(index, 1);
-                        item.classList.remove('selected');
-                        item.querySelector('i').className = 'fa-regular fa-square';
-                    }
+                    if (index === -1) { selectedTopicCategories.push(catName); item.classList.add('selected'); item.querySelector('i').className = 'fa-regular fa-check-square';
+                    } else { selectedTopicCategories.splice(index, 1); item.classList.remove('selected'); item.querySelector('i').className = 'fa-regular fa-square'; }
                 });
             });
         }
-        
-        // পোস্ট ফর্মের ক্যাটাগরি ড্রপডাউন পপুলেট
         const topicSelect = document.getElementById('postTopicCategory');
-        if(topicSelect && categoriesList.length) {
-            topicSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + 
-                categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
-        }
+        if(topicSelect) topicSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
     }
     
-    function getTopicCategoryIcon(catName) {
-        const cat = categoriesList.find(c => c.name === catName);
-        return cat ? cat.icon : '🎪';
-    }
+    function getTopicCategoryIcon(catName) { const cat = categoriesList.find(c => c.name === catName); return cat ? cat.icon : '🎪'; }
+    function getTimeCategoryIcon(catName) { const icons = {'৩০ দিন':'📅','১৫ দিন':'📆','সাপ্তাহিক':'⚡','৩ দিন':'🔥','অন্যান्य':'🎪','চলমান':'🟢','আসন্ন':'⏰'}; return icons[catName] || '📆'; }
     
-    function getTimeCategoryIcon(catName) {
-        const icons = {
-            '৩০ দিন': '📅',
-            '১৫ দিন': '📆',
-            'সাপ্তাহিক': '⚡',
-            '৩ দিন': '🔥',
-            'অন্যান্য': '🎪',
-            'চলমান': '🟢',
-            'আসন্ন': '⏰'
-        };
-        return icons[catName] || '📆';
-    }
+    function openSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.add('show'); loadSavedItemsList(); }
+    function closeSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.remove('show'); }
+    function openSpotsPanel() { document.getElementById('spotsPanel').classList.add('show'); loadSpotsList(); }
+    function closeSpotsPanel() { document.getElementById('spotsPanel').classList.remove('show'); }
+    function openTimeCategoryPanel() { document.getElementById('timeCategoryPanel').classList.add('show'); }
+    function closeTimeCategoryPanel() { document.getElementById('timeCategoryPanel').classList.remove('show'); }
+    function openTopicCategoryPanel() { document.getElementById('topicCategoryPanel').classList.add('show'); }
+    function closeTopicCategoryPanel() { document.getElementById('topicCategoryPanel').classList.remove('show'); }
     
-    function openTimeCategoryPanel() {
-        document.getElementById('timeCategoryPanel').classList.add('show');
-    }
+    function applyTimeCategoryFilter() { const selected = document.querySelector('.time-category-item.selected'); if(selected) selectedTimeCategory = selected.dataset.cat; loadPosts(); closeTimeCategoryPanel(); showToast(`⏰ ${selectedTimeCategory === 'all' ? 'সব মেলা' : selectedTimeCategory + ' দেখানো হচ্ছে'}`); }
+    function resetTimeCategoryFilter() { selectedTimeCategory = "all"; document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected')); document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected'); loadPosts(); showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে'); }
+    function applyTopicCategoryFilter() { loadPosts(); closeTopicCategoryPanel(); showToast(`${selectedTopicCategories.length}টি বিষয় নির্বাচিত হয়েছে`); }
+    function resetTopicCategoryFilter() { selectedTopicCategories = []; document.querySelectorAll('.topic-category-item').forEach(i => { i.classList.remove('selected'); i.querySelector('i').className = 'fa-regular fa-square'; }); loadPosts(); showToast('সব বিষয় ফিল্টার রিসেট হয়েছে'); }
+    function filterByStatus(status) { statusFilter = status; loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
     
-    function closeTimeCategoryPanel() {
-        document.getElementById('timeCategoryPanel').classList.remove('show');
-    }
-    
-    function applyTimeCategoryFilter() {
-        const selected = document.querySelector('.time-category-item.selected');
-        if (selected) {
-            selectedTimeCategory = selected.dataset.cat;
-        }
-        loadPosts();
-        closeTimeCategoryPanel();
-        showToast(`⏰ ${selectedTimeCategory === 'all' ? 'সব মেলা' : selectedTimeCategory + ' দেখানো হচ্ছে'}`);
-    }
-    
-    function resetTimeCategoryFilter() {
-        selectedTimeCategory = "all";
-        document.querySelectorAll('.time-category-item').forEach(item => {
-            item.classList.remove('selected');
-        });
-        const defaultItem = document.querySelector('.time-category-item[data-cat="all"]');
-        if (defaultItem) defaultItem.classList.add('selected');
-        loadPosts();
-        showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে');
-    }
-    
-    function openTopicCategoryPanel() {
-        document.getElementById('topicCategoryPanel').classList.add('show');
-    }
-    
-    function closeTopicCategoryPanel() {
-        document.getElementById('topicCategoryPanel').classList.remove('show');
-    }
-    
-    function applyTopicCategoryFilter() {
-        loadPosts();
-        closeTopicCategoryPanel();
-        showToast(`${selectedTopicCategories.length}টি বিষয় নির্বাচিত হয়েছে`);
-    }
-    
-    function resetTopicCategoryFilter() {
-        selectedTopicCategories = [];
-        document.querySelectorAll('.topic-category-item').forEach(item => {
-            item.classList.remove('selected');
-            item.querySelector('i').className = 'fa-regular fa-square';
-        });
-        loadPosts();
-        showToast('সব বিষয় ফিল্টার রিসেট হয়েছে');
-    }
-    
-    function filterByStatus(status) {
-        statusFilter = status;
-        loadPosts();
-        showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে');
-    }
-    
-    function startAutoSlide() {
-        if(bannerInterval) clearInterval(bannerInterval);
-        bannerInterval = setInterval(() => {
-            if(bannerImages.length > 1) {
-                currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length;
-                slideToBanner(currentBannerIndex);
-            }
-        }, 4000);
-    }
-    
-    function slideToBanner(index) {
-        const container = document.getElementById("bannerContainer");
-        if(container && bannerImages.length > 0) {
-            container.style.transform = `translateX(-${index * 100}%)`;
-            document.querySelectorAll(".dot").forEach((dot, i) => {
-                dot.classList.toggle("active", i === index);
-            });
-        }
-    }
+    function startAutoSlide() { if(bannerInterval) clearInterval(bannerInterval); bannerInterval = setInterval(() => { if(bannerImages.length > 1) { currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length; slideToBanner(currentBannerIndex); } }, 4000); }
+    function slideToBanner(index) { const container = document.getElementById("bannerContainer"); if(container && bannerImages.length > 0) { container.style.transform = `translateX(-${index * 100}%)`; document.querySelectorAll(".dot").forEach((dot, i) => { dot.classList.toggle("active", i === index); }); } }
     
     async function loadSliderImages() {
-        try {
-            const snapshot = await db.ref('settings/imageSlider/images').once('value');
-            let images = snapshot.val() || [];
-            if(images.length === 0) {
-                images = [{ url: "https://placehold.co/600x180/e0e0e0/666?text=Bangladesh+Mela", link: "#" }];
-            }
-            bannerImages = images;
-            const container = document.getElementById("bannerContainer");
-            const dotsContainer = document.getElementById("bannerDots");
-            container.innerHTML = images.map((img, idx) => `
-                <div class="banner-item" onclick="window.open('${img.link}', '_blank')">
-                    <img src="${img.url}" onerror="this.src='https://placehold.co/600x180/e0e0e0/666?text=Image+Not+Found'">
-                </div>
-            `).join('');
-            dotsContainer.innerHTML = images.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join('');
-            document.querySelectorAll(".dot").forEach((dot, i) => {
-                dot.onclick = () => {
-                    currentBannerIndex = i;
-                    slideToBanner(i);
-                };
-            });
-            container.style.display = "flex";
-            container.style.transition = "transform 0.5s ease-in-out";
-            startAutoSlide();
-        } catch(e) { console.error("Banner error:", e); }
+        try { const snapshot = await db.ref('settings/imageSlider/images').once('value'); let images = snapshot.val() || []; if(images.length === 0) images = [{ url: "https://placehold.co/600x180/e0e0e0/666?text=Bangladesh+Mela", link: "#" }]; bannerImages = images; const container = document.getElementById("bannerContainer"); const dotsContainer = document.getElementById("bannerDots"); container.innerHTML = images.map((img, idx) => `<div class="banner-item" onclick="window.open('${img.link}', '_blank')"><img src="${img.url}" onerror="this.src='https://placehold.co/600x180/e0e0e0/666?text=Image+Not+Found'"></div>`).join(''); dotsContainer.innerHTML = images.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join(''); document.querySelectorAll(".dot").forEach((dot, i) => { dot.onclick = () => { currentBannerIndex = i; slideToBanner(i); }; }); container.style.display = "flex"; container.style.transition = "transform 0.5s ease-in-out"; startAutoSlide(); } catch(e) { console.error("Banner error:", e); }
     }
     
     async function loadDivisions() {
-        try {
-            const response = await fetch('divisions.json');
-            const data = await response.json();
-            divisionsData = data.divisions;
-            populateDivisionFilter();
-            updatePostDivisionSelect();
-            updateEditDivisionSelect();
-        } catch(e) {
-            divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }];
-            populateDivisionFilter();
-            updatePostDivisionSelect();
-            updateEditDivisionSelect();
-        }
+        try { const response = await fetch('divisions.json'); const data = await response.json(); divisionsData = data.divisions; populateDivisionFilter(); updatePostDivisionSelect(); } catch(e) { divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }]; populateDivisionFilter(); updatePostDivisionSelect(); }
     }
     
     function populateDivisionFilter() {
-        const divSelect = document.getElementById("divisionFilter");
-        divSelect.innerHTML = '<option value="">সব বিভাগ</option>';
-        divisionsData.forEach(div => {
-            const opt = document.createElement("option");
-            opt.value = div.name;
-            opt.innerText = div.name;
-            divSelect.appendChild(opt);
-        });
-        
-        divSelect.onchange = function() {
-            selectedDivision = this.value;
-            selectedDistrict = "";
-            selectedUpazila = "";
-            updateDistrictFilter();
-            updateUpazilaFilter();
-            loadPosts();
-        };
-        
-        document.getElementById("districtFilter").onchange = function() {
-            selectedDistrict = this.value;
-            selectedUpazila = "";
-            updateUpazilaFilter();
-            loadPosts();
-        };
-        
-        document.getElementById("upazilaFilter").onchange = function() {
-            selectedUpazila = this.value;
-            loadPosts();
-        };
+        const divSelect = document.getElementById("divisionFilter"); const spotDivSelect = document.getElementById("spotDivision");
+        divSelect.innerHTML = '<option value="">সব বিভাগ</option>'; spotDivSelect.innerHTML = '<option value="">বিভাগ</option>';
+        divisionsData.forEach(div => { divSelect.add(new Option(div.name, div.name)); spotDivSelect.add(new Option(div.name, div.name)); });
+        divSelect.onchange = function() { selectedDivision = this.value; selectedDistrict = ""; selectedUpazila = ""; updateDistrictFilter(); updateUpazilaFilter(); loadPosts(); };
+        document.getElementById("districtFilter").onchange = function() { selectedDistrict = this.value; selectedUpazila = ""; updateUpazilaFilter(); loadPosts(); };
+        document.getElementById("upazilaFilter").onchange = function() { selectedUpazila = this.value; loadPosts(); };
+        document.getElementById("spotDivision").onchange = function() { const div = this.value; const distSelect = document.getElementById("spotDistrict"); distSelect.innerHTML = '<option value="">জেলা</option>'; const division = divisionsData.find(d => d.name === div); if(division && division.districts) division.districts.forEach(dist => distSelect.add(new Option(dist.name, dist.name))); };
+        document.getElementById("spotDistrict").onchange = function() { const div = document.getElementById("spotDivision").value; const dist = this.value; const upazilaSelect = document.getElementById("spotUpazila"); upazilaSelect.innerHTML = '<option value="">উপজেলা</option>'; const division = divisionsData.find(d => d.name === div); const district = division?.districts?.find(d => d.name === dist); if(district && district.upazilas) district.upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); };
     }
     
-    function updateDistrictFilter() {
-        const districtSelect = document.getElementById("districtFilter");
-        districtSelect.innerHTML = '<option value="">সব জেলা</option>';
-        
-        if (selectedDivision) {
-            const division = divisionsData.find(d => d.name === selectedDivision);
-            if (division && division.districts) {
-                division.districts.forEach(dist => {
-                    const opt = document.createElement("option");
-                    opt.value = dist.name;
-                    opt.innerText = dist.name;
-                    districtSelect.appendChild(opt);
-                });
-            }
-        }
-    }
+    function updateDistrictFilter() { const districtSelect = document.getElementById("districtFilter"); districtSelect.innerHTML = '<option value="">সব জেলা</option>'; if(selectedDivision) { const division = divisionsData.find(d => d.name === selectedDivision); if(division && division.districts) division.districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); } }
+    function updateUpazilaFilter() { const upazilaSelect = document.getElementById("upazilaFilter"); upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>'; if(selectedDivision && selectedDistrict) { const division = divisionsData.find(d => d.name === selectedDivision); const district = division?.districts?.find(d => d.name === selectedDistrict); if(district && district.upazilas) district.upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); } }
     
-    function updateUpazilaFilter() {
-        const upazilaSelect = document.getElementById("upazilaFilter");
-        upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>';
-        
-        if (selectedDivision && selectedDistrict) {
-            const division = divisionsData.find(d => d.name === selectedDivision);
-            const district = division?.districts?.find(d => d.name === selectedDistrict);
-            if (district && district.upazilas) {
-                district.upazilas.forEach(up => {
-                    const opt = document.createElement("option");
-                    opt.value = up;
-                    opt.innerText = up;
-                    upazilaSelect.appendChild(opt);
-                });
-            }
-        }
-    }
+    function updatePostDivisionSelect() { const divSelect = document.getElementById("postDivision"); divSelect.innerHTML = ""; divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name); divSelect.onchange = () => updatePostDistricts(divSelect.value); }
+    function updatePostDistricts(divisionName) { const division = divisionsData.find(d => d.name === divisionName); const districts = division?.districts || []; const districtSelect = document.getElementById("postDistrict"); districtSelect.innerHTML = ""; districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); if(districts.length > 0) updatePostUpazilas(divisionName, districts[0].name); districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value); }
+    function updatePostUpazilas(divisionName, districtName) { const division = divisionsData.find(d => d.name === divisionName); const district = division?.districts?.find(d => d.name === districtName); const upazilas = district?.upazilas || []; const upazilaSelect = document.getElementById("postUpazila"); upazilaSelect.innerHTML = ""; if(upazilas.length === 0) upazilaSelect.add(new Option("কোন থানা/উপজেলা নেই", "")); else upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); }
     
-    function clearAllFilters() {
-        document.getElementById("divisionFilter").value = "";
-        document.getElementById("districtFilter").innerHTML = '<option value="">সব জেলা</option>';
-        document.getElementById("upazilaFilter").innerHTML = '<option value="">সব উপজেলা</option>';
-        document.getElementById("searchInput").value = "";
-        selectedDivision = "";
-        selectedDistrict = "";
-        selectedUpazila = "";
-        searchText = "";
-        statusFilter = "all";
-        selectedTimeCategory = "all";
-        selectedTopicCategories = [];
-        resetTimeCategoryFilter();
-        resetTopicCategoryFilter();
-        loadPosts();
-        showToast("সব ফিল্টার রিসেট হয়েছে");
-    }
+    async function loadSavedPosts() { const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value'); savedPostsIds = snapshot.val() || []; }
     
-    function updatePostDivisionSelect() {
-        const divSelect = document.getElementById("postDivision");
-        divSelect.innerHTML = "";
-        divisionsData.forEach(div => {
-            const opt = document.createElement("option");
-            opt.value = div.name;
-            opt.innerText = div.name;
-            divSelect.appendChild(opt);
-        });
-        if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name);
-        divSelect.onchange = () => updatePostDistricts(divSelect.value);
-    }
-    
-    function updateEditDivisionSelect() {
-        const divSelect = document.getElementById("editPostDivision");
-        divSelect.innerHTML = "";
-        divisionsData.forEach(div => {
-            const opt = document.createElement("option");
-            opt.value = div.name;
-            opt.innerText = div.name;
-            divSelect.appendChild(opt);
-        });
-        if(divisionsData.length > 0) {
-            updateEditDistricts(divisionsData[0].name);
-        }
-        divSelect.onchange = () => updateEditDistricts(divSelect.value);
-    }
-    
-    function updateEditDistricts(divisionName) {
-        const division = divisionsData.find(d => d.name === divisionName);
-        const districts = division?.districts || [];
-        const districtSelect = document.getElementById("editPostDistrict");
-        districtSelect.innerHTML = "";
-        districts.forEach(dist => {
-            const opt = document.createElement("option");
-            opt.value = dist.name;
-            opt.innerText = dist.name;
-            districtSelect.appendChild(opt);
-        });
-    }
-    
-    function updatePostDistricts(divisionName) {
-        const division = divisionsData.find(d => d.name === divisionName);
-        const districts = division?.districts || [];
-        const districtSelect = document.getElementById("postDistrict");
-        districtSelect.innerHTML = "";
-        districts.forEach(dist => {
-            const opt = document.createElement("option");
-            opt.value = dist.name;
-            opt.innerText = dist.name;
-            districtSelect.appendChild(opt);
-        });
-        if(districts.length > 0) updatePostUpazilas(divisionName, districts[0].name);
-        districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value);
-    }
-    
-    function updatePostUpazilas(divisionName, districtName) {
-        const division = divisionsData.find(d => d.name === divisionName);
-        const district = division?.districts?.find(d => d.name === districtName);
-        const upazilas = district?.upazilas || [];
-        const upazilaSelect = document.getElementById("postUpazila");
-        upazilaSelect.innerHTML = "";
-        if(upazilas.length === 0) {
-            const opt = document.createElement("option");
-            opt.value = "";
-            opt.innerText = "কোন থানা/উপজেলা নেই";
-            upazilaSelect.appendChild(opt);
-        } else {
-            upazilas.forEach(up => {
-                const opt = document.createElement("option");
-                opt.value = up;
-                opt.innerText = up;
-                upazilaSelect.appendChild(opt);
-            });
-        }
-    }
-    
-    async function loadSavedPosts() {
-        const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value');
-        savedPostsIds = snapshot.val() || [];
-    }
-    
-    function getStatusText(post) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const start = new Date(post.startDate);
-        const end = new Date(post.endDate);
-        start.setHours(0, 0, 0, 0);
-        end.setHours(0, 0, 0, 0);
-        if(end < today) return { text: 'সমাপ্ত', type: 'ended' };
-        if(start <= today && end >= today) return { text: 'চলমান', type: 'live' };
-        return { text: 'আসন্ন', type: 'soon' };
-    }
-    
-    function formatDate(dateStr) {
-        if(!dateStr) return '';
-        const d = new Date(dateStr);
-        return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' });
-    }
-    
-    function getDisplayName(post) {
-        if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true };
-        return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false };
-    }
+    function getStatusText(post) { const today = new Date(); today.setHours(0,0,0,0); const start = new Date(post.startDate); const end = new Date(post.endDate); start.setHours(0,0,0,0); end.setHours(0,0,0,0); if(end < today) return { text: 'সমাপ্ত', type: 'ended' }; if(start <= today && end >= today) return { text: 'চলমান', type: 'live' }; return { text: 'আসন্ন', type: 'soon' }; }
+    function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
+    function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
     async function loadPosts() {
-        const snapshot = await db.ref('posts').once('value');
-        allPosts = [];
-        snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); });
-        allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-        
+        const snapshot = await db.ref('posts').once('value'); allPosts = []; snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); }); allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         let filtered = allPosts.filter(post => {
-            if(statusFilter !== "all") {
-                const postStatus = getStatusText(post).type;
-                if(postStatus !== statusFilter) return false;
-            }
+            if(statusFilter !== "all") { const postStatus = getStatusText(post).type; if(postStatus !== statusFilter) return false; }
             if(selectedTimeCategory !== "all" && post.category !== selectedTimeCategory) return false;
-            if(selectedTopicCategories.length > 0) {
-                if(!selectedTopicCategories.includes(post.topicCategory)) return false;
-            }
+            if(selectedTopicCategories.length > 0 && !selectedTopicCategories.includes(post.topicCategory)) return false;
             if(selectedDivision && post.division !== selectedDivision) return false;
             if(selectedDistrict && post.district !== selectedDistrict) return false;
             if(selectedUpazila && post.upazila !== selectedUpazila) return false;
-            if(searchText) {
-                const s = searchText.toLowerCase();
-                return (post.title?.toLowerCase().includes(s) || 
-                        post.district?.toLowerCase().includes(s) || 
-                        post.division?.toLowerCase().includes(s));
-            }
+            if(searchText) { const s = searchText.toLowerCase(); return (post.title?.toLowerCase().includes(s) || post.district?.toLowerCase().includes(s) || post.division?.toLowerCase().includes(s)); }
             return true;
         });
-        
-        if(currentView === "saved") filtered = filtered.filter(post => savedPostsIds.includes(post.id));
-        if(showingMyPosts) filtered = filtered.filter(post => post.uid === currentUser.uid);
         renderPosts(filtered);
         updateStatistics();
         updateLiveMarquee();
-        loadSavedPostsToDrawer();
     }
     
-    function updateStatistics() {
-        const live = allPosts.filter(p => getStatusText(p).type === 'live').length;
-        const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length;
-        const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length;
-        let reviewCount = 0;
-        allPosts.forEach(p => {
-            if(p.comments) reviewCount += Object.keys(p.comments).length;
-        });
-        document.getElementById("statLive").innerText = live;
-        document.getElementById("statSoon").innerText = soon;
-        document.getElementById("statEnded").innerText = ended;
-        document.getElementById("statReviews").innerText = reviewCount;
-    }
+    async function loadSpots() { const snapshot = await db.ref('spots').once('value'); allSpots = []; snapshot.forEach(child => { allSpots.push({ id: child.key, ...child.val() }); }); allSpots.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0)); }
     
-    function updateLiveMarquee() {
-        const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
-        const container = document.getElementById("liveMarqueeContainer");
-        const textElem = document.getElementById("liveMarqueeText");
-        
-        if(liveMelas.length === 0) {
-            container.style.display = "none";
-            return;
-        }
-        container.style.display = "block";
-        const text = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join('  •  ');
-        textElem.innerHTML = text;
-    }
+    function updateStatistics() { const live = allPosts.filter(p => getStatusText(p).type === 'live').length; const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length; const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length; let reviewCount = 0; allPosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); document.getElementById("statLive").innerText = live; document.getElementById("statSoon").innerText = soon; document.getElementById("statEnded").innerText = ended; document.getElementById("statReviews").innerText = reviewCount; }
+    function updateLiveMarquee() { const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live'); const container = document.getElementById("liveMarqueeContainer"); const textElem = document.getElementById("liveMarqueeText"); if(liveMelas.length === 0) { container.style.display = "none"; return; } container.style.display = "block"; textElem.innerHTML = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join('  •  '); }
     
-    function showReactionPopup(btnElement, postId) {
-        const existingPopup = document.querySelector('.reaction-popup');
-        if(existingPopup) existingPopup.remove();
-        const popup = document.createElement('div');
-        popup.className = 'reaction-popup';
-        reactionEmojis.forEach(reaction => {
-            const emojiSpan = document.createElement('span');
-            emojiSpan.className = 'reaction-emoji';
-            emojiSpan.textContent = reaction.emoji;
-            emojiSpan.onclick = (e) => {
-                e.stopPropagation();
-                setReaction(postId, reaction.type, reaction.emoji);
-                popup.remove();
-            };
-            popup.appendChild(emojiSpan);
-        });
-        document.body.appendChild(popup);
-        setTimeout(() => {
-            document.addEventListener('click', function removePopup(e) {
-                if(!popup.contains(e.target)) {
-                    popup.remove();
-                    document.removeEventListener('click', removePopup);
-                }
-            });
-        }, 100);
-    }
+    function loadSavedItemsList() { const container = document.getElementById('savedItemsList'); if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="openPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div></div>`).join(''); }
     
-    async function setReaction(postId, reactionType, reactionEmoji) {
-        const reactionRef = db.ref(`posts/${postId}/reactions/${currentUser.uid}`);
-        await reactionRef.set({ type: reactionType, emoji: reactionEmoji, timestamp: Date.now() });
-        loadPosts();
-    }
+    function loadSpotsList() { const container = document.getElementById('spotsList'); if(allSpots.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">🏕️ কোনো পিকনিক স্পট যোগ করা হয়নি</div>'; return; } container.innerHTML = allSpots.map(spot => `<div class="spot-item-card" onclick="openSpotDetail('${spot.id}'); closeSpotsPanel();"><div class="saved-item-title">${escapeHtml(spot.name)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(spot.district)}, ${escapeHtml(spot.division)}</div></div>`).join(''); }
+    
+    window.openPostDetail = function(id) { const post = allPosts.find(p => p.id === id); if(!post) return; showToast(`📄 ${post.title} - বিস্তারিত দেখুন`); };
+    window.openSpotDetail = function(id) { const spot = allSpots.find(s => s.id === id); if(!spot) return; showToast(`🏕️ ${spot.name} - বিস্তারিত দেখুন`); };
     
     async function renderPosts(posts) {
-        const container = document.getElementById("postsContainer");
-        if(posts.length === 0) {
-            container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>';
-            return;
-        }
-        container.innerHTML = "";
-        
+        const container = document.getElementById("postsContainer"); if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; } container.innerHTML = "";
         for(const post of posts) {
-            const reactions = post.reactions || {};
-            const reactionCount = Object.keys(reactions).length;
-            const userReaction = reactions[currentUser?.uid];
-            const isSaved = savedPostsIds.includes(post.id);
-            const isMyPost = (post.uid === currentUser?.uid);
-            const commentCount = post.comments ? Object.keys(post.comments).length : 0;
-            const status = getStatusText(post);
-            const displayInfo = getDisplayName(post);
-            
-            let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">`;
-            if(userReaction) {
-                likeButtonHtml += `${userReaction.emoji} <span class="count">${reactionCount}</span>`;
-            } else {
-                likeButtonHtml += `<i class="fa-regular fa-thumbs-up"></i> <span class="count">${reactionCount}</span>`;
-            }
-            likeButtonHtml += `</button>`;
-            
-            let actionButtons = `
-                <div class="news-actions">
-                    ${likeButtonHtml}
-                    <button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button>
-                    <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>
-            `;
-            if(post.locationLink) {
-                actionButtons += `<button class="action-btn map-btn" data-link="${post.locationLink}"><i class="fa-regular fa-map"></i> ম্যাপ</button>`;
-            }
-            if(isMyPost) {
-                actionButtons += `
-                    <button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button>
-                    <button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>
-                `;
-            }
+            const reactions = post.reactions || {}; const reactionCount = Object.keys(reactions).length; const userReaction = reactions[currentUser?.uid]; const isSaved = savedPostsIds.includes(post.id); const isMyPost = (post.uid === currentUser?.uid); const commentCount = post.comments ? Object.keys(post.comments).length : 0; const status = getStatusText(post); const displayInfo = getDisplayName(post);
+            let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">${userReaction ? userReaction.emoji : '<i class="fa-regular fa-thumbs-up"></i>'} <span class="count">${reactionCount}</span></button>`;
+            let actionButtons = `<div class="news-actions">${likeButtonHtml}<button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button><button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>`;
+            if(post.locationLink) actionButtons += `<button class="action-btn map-btn" data-link="${post.locationLink}"><i class="fa-regular fa-map"></i> ম্যাপ</button>`;
+            if(isMyPost) actionButtons += `<button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button><button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>`;
             actionButtons += `</div>`;
-            
-            const statusBadgeHtml = status.type === 'live' 
-                ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>`
-                : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
-            
-            const posterHtml = `
-                <div class="poster-info">
-                    ${displayInfo.isAnonymous ? 
-                        `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : 
-                        `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`
-                    }
-                    <span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
-                </div>
-            `;
-            
-            const card = document.createElement("div");
-            card.className = "news-card";
-            card.setAttribute("data-id", post.id);
-            card.innerHTML = `
-                <div class="news-header">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                            <span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span>
-                            <span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span>
-                        </div>
-                    </div>
-                    <div class="news-title">
-                        ${statusBadgeHtml}
-                        ${escapeHtml(post.title)}
-                    </div>
-                </div>
-                <div class="news-body">
-                    <div class="news-info-grid">
-                        <div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div>
-                        <div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
-                    </div>
-                    <div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">
-                        ${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}
-                    </div>
-                    ${posterHtml}
-                    <div id="comments-${post.id}" class="comments-section"></div>
-                </div>
-                <div class="news-footer">
-                    ${actionButtons}
-                </div>
-            `;
+            const statusBadgeHtml = status.type === 'live' ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>` : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
+            const posterHtml = `<div class="poster-info">${displayInfo.isAnonymous ? `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`}<span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span></div>`;
+            const card = document.createElement("div"); card.className = "news-card"; card.setAttribute("data-id", post.id);
+            card.innerHTML = `<div class="news-header"><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span><span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div></div><div class="news-title">${statusBadgeHtml}${escapeHtml(post.title)}</div></div><div class="news-body"><div class="news-info-grid"><div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div><div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div></div><div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>${posterHtml}<div id="comments-${post.id}" class="comments-section"></div></div><div class="news-footer">${actionButtons}</div>`;
             container.appendChild(card);
-            
-            const descElem = card.querySelector(".news-description");
-            const fullText = descElem.dataset.fulltext;
-            descElem.onclick = (e) => {
-                e.stopPropagation();
-                if(descElem.classList.contains("expanded")) {
-                    descElem.classList.remove("expanded");
-                    descElem.innerText = fullText.substring(0, 150) + (fullText.length > 150 ? '...' : '');
-                } else {
-                    descElem.classList.add("expanded");
-                    descElem.innerText = fullText;
-                }
-            };
-            
-            const likeBtn = card.querySelector(".like-btn");
-            if(likeBtn) likeBtn.onclick = (e) => { e.stopPropagation(); showReactionPopup(likeBtn, post.id); };
-            const saveBtn = card.querySelector(".save-btn");
-            if(saveBtn) saveBtn.onclick = () => toggleSave(post.id);
-            const commentBtn = card.querySelector(".comment-btn");
-            if(commentBtn) commentBtn.onclick = () => {
-                const commentDiv = document.getElementById(`comments-${post.id}`);
-                if(commentDiv.style.display === "none" || !commentDiv.style.display) {
-                    commentDiv.style.display = "block";
-                    loadComments(post.id, commentDiv);
-                } else {
-                    commentDiv.style.display = "none";
-                }
-            };
-            const editBtn = card.querySelector(".edit-btn");
-            if(editBtn) editBtn.onclick = () => openEditModal(post);
-            const deleteBtn = card.querySelector(".delete-btn");
-            if(deleteBtn) deleteBtn.onclick = () => deletePost(post.id);
-            const mapBtn = card.querySelector(".map-btn");
-            if(mapBtn) {
-                mapBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    window.open(mapBtn.dataset.link, '_blank');
-                };
-            }
-            card.onclick = () => openDetail(post.id);
+            const descElem = card.querySelector(".news-description"); const fullText = descElem.dataset.fulltext; descElem.onclick = (e) => { e.stopPropagation(); if(descElem.classList.contains("expanded")) { descElem.classList.remove("expanded"); descElem.innerText = fullText.substring(0,150)+(fullText.length>150?'...':''); } else { descElem.classList.add("expanded"); descElem.innerText = fullText; } };
+            card.querySelector(".like-btn")?.addEventListener("click", (e) => { e.stopPropagation(); showReactionPopup(card.querySelector(".like-btn"), post.id); });
+            card.querySelector(".save-btn")?.addEventListener("click", () => toggleSave(post.id));
+            card.querySelector(".comment-btn")?.addEventListener("click", () => { const commentDiv = document.getElementById(`comments-${post.id}`); if(commentDiv.style.display === "none" || !commentDiv.style.display) { commentDiv.style.display = "block"; loadComments(post.id, commentDiv); } else { commentDiv.style.display = "none"; } });
+            card.querySelector(".edit-btn")?.addEventListener("click", () => openEditModal(post));
+            card.querySelector(".delete-btn")?.addEventListener("click", () => deletePost(post.id));
+            card.querySelector(".map-btn")?.addEventListener("click", (e) => { e.stopPropagation(); window.open(e.currentTarget.dataset.link, '_blank'); });
+            card.onclick = () => openPostDetail(post.id);
         }
     }
     
-    window.openDetail = function(id) {
-        const post = allPosts.find(p => p.id === id);
-        if(!post) return;
-        showToast(`📄 ${post.title} - বিস্তারিত দেখুন`);
-    };
+    function showReactionPopup(btn, postId) { const existing = document.querySelector('.reaction-popup'); if(existing) existing.remove(); const popup = document.createElement('div'); popup.className = 'reaction-popup'; const emojis = [{emoji:"❤️",type:"like"},{emoji:"😍",type:"love"},{emoji:"🥰",type:"care"},{emoji:"😂",type:"haha"},{emoji:"😮",type:"wow"}]; emojis.forEach(r => { const span = document.createElement('span'); span.className = 'reaction-emoji'; span.textContent = r.emoji; span.onclick = (e) => { e.stopPropagation(); setReaction(postId, r.type, r.emoji); popup.remove(); }; popup.appendChild(span); }); document.body.appendChild(popup); setTimeout(() => { document.addEventListener('click', function remove(e) { if(!popup.contains(e.target)) { popup.remove(); document.removeEventListener('click', remove); } }); }, 100); }
+    async function setReaction(postId, type, emoji) { await db.ref(`posts/${postId}/reactions/${currentUser.uid}`).set({ type, emoji, timestamp: Date.now() }); loadPosts(); }
+    async function loadComments(postId, container) { const snapshot = await db.ref(`posts/${postId}/comments`).once('value'); const comments = snapshot.val() || {}; let html = `<div class="comment-input"><input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন..."><button onclick="window.addComment('${postId}')">পোস্ট</button></div><div id="commentList-${postId}">`; for(let [key, val] of Object.entries(comments)) html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`; html += `</div>`; container.innerHTML = html; }
+    window.addComment = async (postId) => { const text = document.getElementById(`newCom-${postId}`).value.trim(); if(!text) return; await db.ref(`posts/${postId}/comments/${Date.now()}`).set({ uid: currentUser.uid, name: currentUser.displayName, text, time: Date.now() }); loadPosts(); };
     
-    async function loadComments(postId, container) {
-        const snapshot = await db.ref(`posts/${postId}/comments`).once('value');
-        const comments = snapshot.val() || {};
-        let html = `
-            <div class="comment-input">
-                <input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন...">
-                <button onclick="window.addComment('${postId}')">পোস্ট</button>
-            </div>
-            <div id="commentList-${postId}">
-        `;
-        for(let [key, val] of Object.entries(comments)) {
-            html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`;
-        }
-        html += `</div>`;
-        container.innerHTML = html;
-    }
-    
-    window.addComment = async (postId) => {
-        const commentText = document.getElementById(`newCom-${postId}`).value;
-        if(!commentText.trim()) return;
-        const commentId = Date.now();
-        await db.ref(`posts/${postId}/comments/${commentId}`).set({
-            uid: currentUser.uid,
-            name: currentUser.displayName,
-            text: commentText,
-            time: Date.now()
-        });
-        loadPosts();
-    };
-    
-    function openEditModal(post) {
-        currentEditPostId = post.id;
-        document.getElementById("editPostTitle").value = post.title || "";
-        document.getElementById("editPostDivision").value = post.division || "";
-        updateEditDistricts(post.division);
-        setTimeout(() => {
-            document.getElementById("editPostDistrict").value = post.district || "";
-        }, 100);
-        document.getElementById("editPostUpazila").value = post.upazila || "";
-        document.getElementById("editStartDate").value = post.startDate || "";
-        document.getElementById("editEndDate").value = post.endDate || "";
-        document.getElementById("editPostDesc").value = post.description || "";
-        document.getElementById("editPostCategory").value = post.category || "";
-        document.getElementById("editPostModal").style.display = "flex";
-    }
-    
-    async function updatePost() {
-        if(!currentEditPostId) return;
-        const updatedData = {
-            title: document.getElementById("editPostTitle").value,
-            division: document.getElementById("editPostDivision").value,
-            district: document.getElementById("editPostDistrict").value,
-            upazila: document.getElementById("editPostUpazila").value,
-            startDate: document.getElementById("editStartDate").value,
-            endDate: document.getElementById("editEndDate").value,
-            description: document.getElementById("editPostDesc").value,
-            category: document.getElementById("editPostCategory").value,
-            updatedAt: Date.now()
-        };
-        await db.ref(`posts/${currentEditPostId}`).update(updatedData);
-        document.getElementById("editPostModal").style.display = "none";
-        loadPosts();
-        if(showingMyPosts) showMyPosts();
-    }
-    
-    async function deletePost(postId) {
-        if(confirm("পোস্টটি ডিলিট করতে চান?")) {
-            await db.ref(`posts/${postId}`).remove();
-            loadPosts();
-            if(showingMyPosts) showMyPosts();
-        }
-    }
-    
+    function openEditModal(post) { currentEditPostId = post.id; document.getElementById("editPostTitle").value = post.title || ""; document.getElementById("editPostDivision").value = post.division || ""; document.getElementById("editPostModal").style.display = "flex"; }
+    async function deletePost(postId) { if(confirm("পোস্টটি ডিলিট করতে চান?")) { await db.ref(`posts/${postId}`).remove(); loadPosts(); } }
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+    async function toggleSave(postId) { const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); const snap = await userRef.once('value'); let saved = snap.val() || []; if(saved.includes(postId)) saved = saved.filter(id => id !== postId); else saved.push(postId); await userRef.set(saved); savedPostsIds = saved; loadPosts(); showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল'); }
+    function openDrawer() { document.getElementById("sideDrawer").classList.add("open"); document.getElementById("drawerOverlay").classList.add("show"); }
+    function closeDrawer() { document.getElementById("sideDrawer").classList.remove("open"); document.getElementById("drawerOverlay").classList.remove("show"); }
+    function openPostModal() { document.getElementById("postModal").style.display = "flex"; closeDrawer(); togglePostTypeFields(); }
+    function closePostModal() { document.getElementById("postModal").style.display = "none"; }
     
-    async function toggleSave(postId) {
-        const userRef = db.ref(`users/${currentUser.uid}/savedPosts`);
-        const snap = await userRef.once('value');
-        let saved = snap.val() || [];
-        if(saved.includes(postId)) saved = saved.filter(id => id !== postId);
-        else saved.push(postId);
-        await userRef.set(saved);
-        savedPostsIds = saved;
-        loadPosts();
-        showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল');
-    }
-    
-    async function loadSavedPostsToDrawer() {
-        const savedListContainer = document.getElementById('drawerSavedList');
-        if (!savedListContainer) return;
-        
-        if (!savedPostsIds.length) {
-            savedListContainer.innerHTML = '<div style="font-size: 12px; color: #888; padding: 8px 0;">😢 কোনো সেভড মেলা নেই</div>';
-            return;
-        }
-        
-        const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id));
-        
-        if (savedPosts.length === 0) {
-            savedListContainer.innerHTML = '<div style="font-size: 12px; color: #888; padding: 8px 0;">😢 কোনো সেভড মেলা নেই</div>';
-            return;
-        }
-        
-        savedListContainer.innerHTML = savedPosts.map(post => `
-            <div class="saved-card-item" onclick="openDetail('${post.id}'); closeDrawer();">
-                <div class="saved-card-title">${escapeHtml(post.title)}</div>
-                <div class="saved-card-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div>
-            </div>
-        `).join('');
-    }
-    
-    function openDrawer() {
-        document.getElementById("sideDrawer").classList.add("open");
-        document.getElementById("drawerOverlay").classList.add("show");
-        loadSavedPostsToDrawer();
-    }
-    
-    function closeDrawer() {
-        document.getElementById("sideDrawer").classList.remove("open");
-        document.getElementById("drawerOverlay").classList.remove("show");
-    }
-    
-    async function showMyPosts() {
-        showingMyPosts = true;
-        currentView = "home";
-        statusFilter = "all";
-        selectedTimeCategory = "all";
-        selectedTopicCategories = [];
-        await loadPosts();
-        document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
-        document.getElementById("navHome").classList.add("active");
-        closeDrawer();
-    }
-    
-    function openPostModal() {
-        document.getElementById("postModal").style.display = "flex";
-        closeDrawer();
-    }
-    
-    function closePostModal() {
-        document.getElementById("postModal").style.display = "none";
-    }
-    
-    // ইভেন্ট লিসেনার
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
-    document.getElementById("logoutDrawerBtn").onclick = async () => { 
-        await auth.signOut(); 
-        window.location.href = "login.html"; 
-    };
-    
-    document.getElementById("navSearchBtn").onclick = () => {
-        document.getElementById("searchFilterSection").classList.toggle("show");
-        if(document.getElementById("searchFilterSection").classList.contains("show")) {
-            document.getElementById("searchInput").focus();
-        }
-    };
-    
+    document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
+    document.getElementById("navSearchBtn").onclick = () => { document.getElementById("searchFilterSection").classList.toggle("show"); if(document.getElementById("searchFilterSection").classList.contains("show")) document.getElementById("searchInput").focus(); };
+    document.getElementById("navSavedBtn").onclick = openSavedItemsPanel;
+    document.getElementById("navSpotsBtn").onclick = openSpotsPanel;
     document.getElementById("navTimeCategory").onclick = openTimeCategoryPanel;
     document.getElementById("navTopicCategory").onclick = openTopicCategoryPanel;
-    
-    document.getElementById("navHome").onclick = () => { 
-        currentView = "home"; 
-        showingMyPosts = false; 
-        statusFilter = "all";
-        selectedTimeCategory = "all";
-        selectedTopicCategories = [];
-        loadPosts(); 
-        updateNavActive(); 
-    };
+    document.getElementById("navHome").onclick = () => { currentView = "home"; statusFilter = "all"; selectedTimeCategory = "all"; selectedTopicCategories = []; loadPosts(); document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active")); document.getElementById("navHome").classList.add("active"); };
     document.getElementById("navCreate").onclick = openPostModal;
-    
-    document.querySelectorAll('.time-category-item').forEach(item => {
-        item.addEventListener('click', () => {
-            document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected'));
-            item.classList.add('selected');
-        });
-    });
-    
-    const defaultTimeItem = document.querySelector('.time-category-item[data-cat="all"]');
-    if (defaultTimeItem) defaultTimeItem.classList.add('selected');
-    
-    document.getElementById("searchInput").addEventListener("input", (e) => { 
-        searchText = e.target.value; 
-        loadPosts(); 
-    });
-    
+    document.getElementById("searchInput").addEventListener("input", (e) => { searchText = e.target.value; loadPosts(); });
     document.getElementById("closeModal").onclick = closePostModal;
-    document.getElementById("closeEditModal").onclick = () => document.getElementById("editPostModal").style.display = "none";
-    document.getElementById("updatePostBtn").onclick = updatePost;
-    
-    function updateNavActive() {
-        document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
-        document.getElementById("navHome").classList.add("active");
-    }
+    document.querySelectorAll('.time-category-item').forEach(i => { i.addEventListener('click', () => { document.querySelectorAll('.time-category-item').forEach(t => t.classList.remove('selected')); i.classList.add('selected'); }); });
+    document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected');
     
     document.getElementById("submitPost").onclick = async () => {
-        const title = document.getElementById("postTitle").value.trim();
-        const division = document.getElementById("postDivision").value;
-        const district = document.getElementById("postDistrict").value;
-        const upazila = document.getElementById("postUpazila").value;
-        const locationLink = document.getElementById("postLocationLink").value.trim();
-        const start = document.getElementById("startDate").value;
-        const end = document.getElementById("endDate").value;
-        const desc = document.getElementById("postDesc").value;
-        const topicCat = document.getElementById("postTopicCategory").value;
-        const timeCat = document.getElementById("postTimeCategory").value;
-        const isAnonymous = document.getElementById("anonymousPost").checked;
-        
-        if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
-        if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
-        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
-        
-        const postData = { 
-            title, division, district, upazila, 
-            locationLink: locationLink || "",
-            startDate: start, endDate: end, 
-            description: desc, 
-            category: timeCat,
-            topicCategory: topicCat,
-            createdAt: Date.now(), 
-            uid: currentUser.uid,
-            email: currentUser.email,
-            isAnonymous: isAnonymous
-        };
-        
-        if(!isAnonymous) {
-            postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+        const type = document.getElementById('postType').value;
+        if(type === 'mela') {
+            const title = document.getElementById("postTitle").value.trim();
+            const division = document.getElementById("postDivision").value;
+            const district = document.getElementById("postDistrict").value;
+            const upazila = document.getElementById("postUpazila").value;
+            const locationLink = document.getElementById("postLocationLink").value.trim();
+            const start = document.getElementById("startDate").value;
+            const end = document.getElementById("endDate").value;
+            const desc = document.getElementById("postDesc").value;
+            const topicCat = document.getElementById("postTopicCategory").value;
+            const timeCat = document.getElementById("postTimeCategory").value;
+            const isAnonymous = document.getElementById("anonymousPost").checked;
+            if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
+            if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
+            if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
+            const postData = { title, division, district, upazila, locationLink: locationLink || "", startDate: start, endDate: end, description: desc, category: timeCat, topicCategory: topicCat, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous, type: 'mela' };
+            if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+            await db.ref('posts').push(postData);
+            showToast("✅ মেলা পোস্ট হয়েছে!");
         } else {
-            postData.posterName = null;
+            const name = document.getElementById("spotName").value.trim();
+            const division = document.getElementById("spotDivision").value;
+            const district = document.getElementById("spotDistrict").value;
+            const upazila = document.getElementById("spotUpazila").value;
+            const locationLink = document.getElementById("spotLocationLink").value.trim();
+            const imageUrl = document.getElementById("spotImageUrl").value.trim();
+            const desc = document.getElementById("postDesc").value;
+            const isAnonymous = document.getElementById("anonymousPost").checked;
+            if(!name || !division || !district || !locationLink) { alert("স্থানের নাম, বিভাগ, জেলা ও গুগল ম্যাপ লিংক দিন!"); return; }
+            const spotData = { name, division, district, upazila, locationLink, imageUrl: imageUrl || "", description: desc, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous, type: 'spot' };
+            if(!isAnonymous) spotData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+            await db.ref('spots').push(spotData);
+            showToast("🏕️ পিকনিক স্পট পোস্ট হয়েছে!");
+            loadSpots();
         }
-        
-        await db.ref('posts').push(postData);
-        
         closePostModal();
-        document.getElementById("postTitle").value = "";
-        document.getElementById("postDesc").value = "";
-        document.getElementById("postLocationLink").value = "";
-        document.getElementById("anonymousPost").checked = false;
-        document.getElementById("startDate").value = "";
-        document.getElementById("endDate").value = "";
-        document.getElementById("postTopicCategory").value = "";
-        document.getElementById("postTimeCategory").value = "";
+        document.getElementById("postTitle").value = ""; document.getElementById("postDesc").value = ""; document.getElementById("postLocationLink").value = ""; document.getElementById("anonymousPost").checked = false; document.getElementById("startDate").value = ""; document.getElementById("endDate").value = ""; document.getElementById("postTopicCategory").value = ""; document.getElementById("postTimeCategory").value = ""; document.getElementById("spotName").value = ""; document.getElementById("spotLocationLink").value = ""; document.getElementById("spotImageUrl").value = "";
         loadPosts();
-        showToast("✅ মেলা পোস্ট হয়েছে!");
     };
     
-    function showToast(msg) {
-        const toast = document.getElementById("toast");
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2500);
-    }
-    
-    window.onclick = (e) => {
-        if(e.target === document.getElementById("postModal")) closePostModal();
-        if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
-        if(e.target === document.getElementById("timeCategoryPanel")) closeTimeCategoryPanel();
-        if(e.target === document.getElementById("topicCategoryPanel")) closeTopicCategoryPanel();
-    };
+    function showToast(msg) { const toast = document.getElementById("toast"); toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2500); }
+    window.onclick = (e) => { if(e.target === document.getElementById("postModal")) closePostModal(); };
 </script>
 </body>
 </html>
