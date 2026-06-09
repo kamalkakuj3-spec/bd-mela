@@ -44,7 +44,7 @@
             transform: translateY(-100%);
         }
         
-        /* স্ক্রল ডাউন হলে দেখাবে এমন মার্কি (হেডারের জায়গায়) */
+        /* স্ক্রল আপ করলে হেডারের জায়গায় দেখাবে এমন মার্কি */
         .scroll-marquee {
             position: fixed;
             top: 0;
@@ -97,9 +97,22 @@
             animation-play-state: paused;
         }
         
-        /* মূল পেজের কন্টেন্ট - হেডারের জন্য padding */
-        .main-padding {
-            padding-top: 60px;
+        /* ইমেজ স্লাইডারের উপরের মার্কি (স্বাভাবিক অবস্থায়) */
+        .top-marquee-wrapper {
+            background: #ffffff;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            margin-top: 60px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .top-marquee-wrapper.hide-marquee {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
         }
         
         .logo-area {
@@ -144,7 +157,6 @@
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.3s ease;
             border-bottom: none;
-            margin-top: 60px;
         }
         .search-filter-section.show {
             max-height: 150px;
@@ -199,13 +211,6 @@
             padding: 0 8px;
         }
         
-        /* ইমেজ স্লাইডারের উপরের মার্কি (স্বাভাবিক অবস্থায়) */
-        .top-marquee-wrapper {
-            background: #ffffff;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
         /* অটো স্লাইডার */
         .slider-card {
             background: white;
@@ -254,7 +259,7 @@
             border-radius: 4px;
         }
         
-        /* লাইভ মার্কি (চলমান মেলা) */
+        /* লাইভ মার্কি (চলমান মেলা) - গতি কম করা হয়েছে */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
@@ -289,7 +294,7 @@
         }
         .live-marquee-text {
             display: inline-block;
-            animation: scrollLeft 20s linear infinite;
+            animation: scrollLeftSlow 40s linear infinite;
             color: #333;
             font-size: 0.9rem;
             font-weight: 500;
@@ -298,7 +303,7 @@
             color: #2e7d32;
             margin: 0 4px;
         }
-        @keyframes scrollLeft {
+        @keyframes scrollLeftSlow {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
@@ -962,7 +967,7 @@
     </div>
 </div>
 
-<!-- ইমেজ স্লাইডারের উপরের মার্কি (স্বাভাবিক অবস্থায়) -->
+<!-- ইমেজ স্লাইডারের উপরের চলন্ত লেখা (স্বাভাবিক অবস্থায়) -->
 <div class="top-marquee-wrapper" id="normalMarquee">
     <div class="marquee-container">
         <div class="marquee">
@@ -999,12 +1004,12 @@
     </div>
 </div>
 
-<!-- লাইভ মার্কি (চলমান মেলা) -->
-<div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
+<!-- লাইভ মার্কি (চলমান মেলা) - ডিফল্ট লেখা সহ -->
+<div class="live-marquee-card">
     <div class="live-marquee-container">
         <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
         <div class="live-scrolling-area">
-            <div class="live-marquee-text" id="liveMarqueeText">🔴 বৈশাখী মেলা - ঢাকা, ঢাকা  •  🔴 নবান্ন মেলা - রাজশাহী, রাজশাহী</div>
+            <div class="live-marquee-text" id="liveMarqueeText">🔴 চলমান মেলার নামগুলি দেখে নিন...</div>
         </div>
     </div>
 </div>
@@ -1140,6 +1145,33 @@
         startAutoSlide();
     });
     
+    // স্ক্রল ইফেক্ট
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 60) {
+            // স্ক্রল ডাউন (নিচের দিকে) - হেডার লুকাও, স্ক্রল মার্কি দেখাও, নরমাল মার্কি লুকাও
+            header.classList.add('hide');
+            scrollMarquee.classList.add('show');
+            normalMarquee.style.opacity = '0';
+            normalMarquee.style.visibility = 'hidden';
+        } else if (scrollTop < lastScrollTop && scrollTop < lastScrollTop) {
+            // স্ক্রল আপ (উপরের দিকে) - হেডার দেখাও, স্ক্রল মার্কি লুকাও, নরমাল মার্কি দেখাও
+            header.classList.remove('hide');
+            scrollMarquee.classList.remove('show');
+            normalMarquee.style.opacity = '1';
+            normalMarquee.style.visibility = 'visible';
+        }
+        
+        // পেজের একদম উপরে চলে গেলে নরমাল মার্কি দেখাবে
+        if (scrollTop <= 10) {
+            normalMarquee.style.opacity = '1';
+            normalMarquee.style.visibility = 'visible';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+    
     // ড্রয়ারে সেভড পোস্ট লোড করার ফাংশন
     async function loadSavedPostsToDrawer() {
         const savedListContainer = document.getElementById('drawerSavedList');
@@ -1150,7 +1182,6 @@
             return;
         }
         
-        // সেভড আইডি অনুযায়ী পোস্ট খুঁজে বের করা
         const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id));
         
         if (savedPosts.length === 0) {
@@ -1172,30 +1203,6 @@
         document.getElementById("drawerOverlay").classList.add("show");
         loadSavedPostsToDrawer();
     }
-    
-    // স্ক্রল ইফেক্ট
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop && scrollTop > 60) {
-            header.classList.add('hide');
-            scrollMarquee.classList.add('show');
-            normalMarquee.style.opacity = '0';
-            normalMarquee.style.visibility = 'hidden';
-        } else if (scrollTop < lastScrollTop) {
-            header.classList.remove('hide');
-            scrollMarquee.classList.remove('show');
-            normalMarquee.style.opacity = '1';
-            normalMarquee.style.visibility = 'visible';
-        }
-        
-        if (scrollTop <= 10) {
-            normalMarquee.style.opacity = '1';
-            normalMarquee.style.visibility = 'visible';
-        }
-        
-        lastScrollTop = scrollTop;
-    });
     
     async function loadCategoriesFromJSON() {
         try {
@@ -1519,13 +1526,12 @@
     
     function updateLiveMarquee() {
         const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
-        const container = document.getElementById("liveMarqueeContainer");
         const textElem = document.getElementById("liveMarqueeText");
+        
         if(liveMelas.length === 0) {
-            container.style.display = "none";
+            textElem.innerHTML = "🔴 চলমান মেলার নামগুলি দেখে নিন...";
             return;
         }
-        container.style.display = "block";
         const text = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join('  •  ');
         textElem.innerHTML = text;
     }
@@ -1824,7 +1830,7 @@
         });
     });
     
-    // সার্চ বার টগল - শুধুমাত্র সার্চ সেকশন টগল হবে, মার্কি নয়
+    // সার্চ বার টগল
     document.getElementById("navSearchBtn").onclick = () => {
         document.getElementById("searchFilterSection").classList.toggle("show");
         if(document.getElementById("searchFilterSection").classList.contains("show")) {
