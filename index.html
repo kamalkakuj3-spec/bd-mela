@@ -144,6 +144,7 @@
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.3s ease;
             border-bottom: none;
+            margin-top: 60px;
         }
         .search-filter-section.show {
             max-height: 150px;
@@ -683,6 +684,44 @@
         }
         .drawer-item:hover { color: #00c853; }
         .drawer-item i { width: 24px; font-size: 1.1rem; }
+        
+        /* সেভড পোস্ট সেকশন ড্রয়ারে */
+        .drawer-saved-section {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .drawer-saved-title {
+            font-size: 12px;
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .drawer-saved-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .drawer-saved-item {
+            font-size: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .drawer-saved-item:hover {
+            color: #2e7d32;
+        }
+        .drawer-saved-item i {
+            font-size: 10px;
+            color: #f39c12;
+        }
+        
         .drawer-overlay {
             position: fixed;
             top: 0;
@@ -863,6 +902,16 @@
             <i class="fa-solid fa-sign-out-alt"></i>
             <span>লগআউট</span>
         </div>
+        
+        <!-- সেভড পোস্ট সেকশন -->
+        <div class="drawer-saved-section">
+            <div class="drawer-saved-title">
+                <i class="fa-regular fa-bookmark"></i> সেভ করা মেলা
+            </div>
+            <div class="drawer-saved-list" id="drawerSavedList">
+                <div style="font-size: 12px; color: #888; padding: 8px 0;">লোড হচ্ছে...</div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -893,7 +942,7 @@
     <div class="cat-item" data-cat="৩ দিন"><i class="fa-solid fa-hourglass-half"></i> ৩ দিনের</div>
 </div>
 
-<!-- ========== সার্চ + ফিল্টার সেকশন (শুরুতে হাইড) ========== -->
+<!-- ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে) ========== -->
 <div class="search-filter-section" id="searchFilterSection">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -912,7 +961,6 @@
         <button class="clear-filter" onclick="clearAllFilters()" title="সব ফিল্টার রিসেট"><i class="fa-regular fa-eraser"></i></button>
     </div>
 </div>
-<!-- ========== ফিল্টার সেকশন শেষ ========== -->
 
 <!-- ইমেজ স্লাইডারের উপরের মার্কি (স্বাভাবিক অবস্থায়) -->
 <div class="top-marquee-wrapper" id="normalMarquee">
@@ -1092,25 +1140,55 @@
         startAutoSlide();
     });
     
+    // ড্রয়ারে সেভড পোস্ট লোড করার ফাংশন
+    async function loadSavedPostsToDrawer() {
+        const savedListContainer = document.getElementById('drawerSavedList');
+        if (!savedListContainer) return;
+        
+        if (!savedPostsIds.length) {
+            savedListContainer.innerHTML = '<div style="font-size: 12px; color: #888; padding: 8px 0;">😢 কোনো সেভড মেলা নেই</div>';
+            return;
+        }
+        
+        // সেভড আইডি অনুযায়ী পোস্ট খুঁজে বের করা
+        const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id));
+        
+        if (savedPosts.length === 0) {
+            savedListContainer.innerHTML = '<div style="font-size: 12px; color: #888; padding: 8px 0;">😢 কোনো সেভড মেলা নেই</div>';
+            return;
+        }
+        
+        savedListContainer.innerHTML = savedPosts.map(post => `
+            <div class="drawer-saved-item" onclick="openDetail('${post.id}'); closeDrawer();">
+                <i class="fa-regular fa-bookmark"></i>
+                <div style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(post.title)}</div>
+            </div>
+        `).join('');
+    }
+    
+    // ড্রয়ার খোলার সময় সেভড লিস্ট আপডেট
+    function openDrawer() {
+        document.getElementById("sideDrawer").classList.add("open");
+        document.getElementById("drawerOverlay").classList.add("show");
+        loadSavedPostsToDrawer();
+    }
+    
     // স্ক্রল ইফেক্ট
     window.addEventListener('scroll', function() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
         if (scrollTop > lastScrollTop && scrollTop > 60) {
-            // স্ক্রল ডাউন (নিচের দিকে) - হেডার লুকাও, স্ক্রল মার্কি দেখাও
             header.classList.add('hide');
             scrollMarquee.classList.add('show');
             normalMarquee.style.opacity = '0';
             normalMarquee.style.visibility = 'hidden';
         } else if (scrollTop < lastScrollTop) {
-            // স্ক্রল আপ (উপরের দিকে) - হেডার দেখাও, স্ক্রল মার্কি লুকাও
             header.classList.remove('hide');
             scrollMarquee.classList.remove('show');
             normalMarquee.style.opacity = '1';
             normalMarquee.style.visibility = 'visible';
         }
         
-        // পেজের একদম উপরে চলে গেলে নরমাল মার্কি দেখাবে
         if (scrollTop <= 10) {
             normalMarquee.style.opacity = '1';
             normalMarquee.style.visibility = 'visible';
@@ -1421,6 +1499,7 @@
         renderPosts(filtered);
         updateStatistics();
         updateLiveMarquee();
+        loadSavedPostsToDrawer(); // ড্রয়ারের সেভড লিস্ট আপডেট
     }
     
     function updateStatistics() {
@@ -1706,11 +1785,6 @@
         showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল');
     }
     
-    function openDrawer() {
-        document.getElementById("sideDrawer").classList.add("open");
-        document.getElementById("drawerOverlay").classList.add("show");
-    }
-    
     function closeDrawer() {
         document.getElementById("sideDrawer").classList.remove("open");
         document.getElementById("drawerOverlay").classList.remove("show");
@@ -1750,7 +1824,7 @@
         });
     });
     
-    // সার্চ বার টগল
+    // সার্চ বার টগল - শুধুমাত্র সার্চ সেকশন টগল হবে, মার্কি নয়
     document.getElementById("navSearchBtn").onclick = () => {
         document.getElementById("searchFilterSection").classList.toggle("show");
         if(document.getElementById("searchFilterSection").classList.contains("show")) {
