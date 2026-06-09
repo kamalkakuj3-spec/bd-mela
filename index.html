@@ -71,7 +71,7 @@
             cursor: pointer;
         }
         
-        /* সার্চ বার (প্রাথমিকভাবে হাইডেন) */
+        /* সার্চ বার */
         .search-wrapper {
             background: white;
             padding: 0 16px;
@@ -105,7 +105,7 @@
         }
         
         /* অটো স্লাইডার */
-        .card {
+        .slider-card {
             background: white;
             border-radius: 20px;
             margin: 12px 16px;
@@ -152,9 +152,9 @@
             border-radius: 4px;
         }
         
-        /* চলন্ত লেখা (উপরে ও নিচে জিরো মার্জিন) */
+        /* চলন্ত লেখা (স্লাইডারের উপরে) */
         .marquee-card {
-            padding: 0;
+            padding: 12px 16px;
             margin: 0;
         }
         .marquee {
@@ -163,7 +163,7 @@
             padding: 10px;
             overflow: hidden;
             white-space: nowrap;
-            border-radius: 0;
+            border-radius: 20px;
         }
         .marquee p {
             display: inline-block;
@@ -175,55 +175,108 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* ক্যাটাগরি আইকন */
-        .categories {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 8px;
-            background: white;
-            margin: 12px 16px;
-            border-radius: 20px;
-        }
-        .category-item {
-            text-align: center;
-            cursor: pointer;
-        }
-        .category-icon {
+        /* ক্যাটাগরি আইকন (হেডার ডান পাশে) */
+        .header-category-icon {
             background: #f0f0f0;
-            width: 48px;
-            height: 48px;
-            border-radius: 24px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 4px;
+            cursor: pointer;
             transition: 0.2s;
         }
-        .category-icon i {
-            font-size: 1.3rem;
+        .header-category-icon i {
+            font-size: 1.1rem;
             color: #333;
         }
-        .category-item.active .category-icon {
+        .header-category-icon:hover {
             background: #1a1a1a;
         }
-        .category-item.active .category-icon i {
+        .header-category-icon:hover i {
             color: white;
         }
-        .category-item span {
-            font-size: 0.65rem;
-            color: #555;
+        
+        /* ক্যাটাগরি ড্রপডাউন (হেডার থেকে) */
+        .category-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background: white;
+            border-radius: 16px;
+            padding: 12px;
+            width: 180px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 200;
+            border: 1px solid #eee;
         }
-        .category-item.active span {
-            color: #1a1a1a;
-            font-weight: 500;
+        .category-dropdown.show {
+            display: block;
+        }
+        .category-dropdown .cat-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        .category-dropdown .cat-item:hover {
+            background: #f5f5f5;
+        }
+        .category-dropdown .cat-item i {
+            width: 24px;
+            color: #00c853;
         }
         
-        /* বিভাগ চিপস */
+        /* স্ট্যাটিস্টিক্স কার্ড */
+        .stats-card {
+            background: white;
+            border-radius: 20px;
+            margin: 12px 16px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .stats-title {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .stat-item {
+            flex: 1;
+        }
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 4px;
+        }
+        
+        /* ক্যাটাগরি চিপস (স্লাইডারের নিচে) */
+        .cat-chips-section {
+            padding: 0 16px;
+            margin: 8px 0;
+        }
         .chip-container {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding: 10px 16px;
+            padding: 8px 0;
         }
         .chip {
             background: white;
@@ -235,6 +288,14 @@
             white-space: nowrap;
         }
         .chip.active { background: #1a1a1a; color: white; border: none; }
+        
+        /* বিভাগ চিপস */
+        .division-chip-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 16px;
+        }
         
         /* নিউজ স্টাইল পোস্ট কার্ড */
         .posts-grid {
@@ -270,42 +331,33 @@
             letter-spacing: 0.5px;
             margin-bottom: 8px;
         }
-        /* মেলার নামের সাইজ ডবল করা হয়েছে */
         .news-title {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 700;
             line-height: 1.3;
             color: #1a1a1a;
             margin-bottom: 8px;
         }
-        .news-meta {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.7rem;
-            color: #888;
-            margin-top: 8px;
-        }
-        .news-meta i {
-            font-size: 0.65rem;
-            margin-right: 3px;
-        }
-        .anonymous-badge {
-            background: #f0f0f0;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.65rem;
-            color: #666;
-        }
         
         .news-body {
             padding: 12px 16px;
         }
+        
+        /* ডেসক্রিপশন - ৩ লাইনে সীমাবদ্ধ, ক্লিকযোগ্য */
         .news-description {
             font-size: 0.85rem;
             line-height: 1.5;
             color: #444;
             margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .news-description.expanded {
+            display: block;
+            -webkit-line-clamp: unset;
         }
         
         .news-info-grid {
@@ -328,6 +380,28 @@
             width: 24px;
             color: #00c853;
             font-size: 0.85rem;
+        }
+        
+        /* পোস্টার তথ্য (ডেসক্রিপশনের নিচে) */
+        .poster-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 0.7rem;
+            color: #888;
+        }
+        .poster-info i {
+            font-size: 0.7rem;
+        }
+        .anonymous-badge {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            color: #666;
         }
         
         .news-footer {
@@ -457,7 +531,7 @@
             transform: scale(1.2);
         }
         
-        /* সাইড ড্রয়ার (মেনু) */
+        /* সাইড ড্রয়ার */
         .side-drawer {
             position: fixed;
             top: 0;
@@ -597,21 +671,6 @@
             margin: 0;
         }
         
-        .help-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 15px;
-            background: white;
-            border-radius: 16px;
-            padding: 15px;
-            width: 260px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: none;
-            z-index: 200;
-            border: 1px solid #eee;
-        }
-        .help-dropdown.show { display: block; }
-        
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -677,14 +736,14 @@
         .toast.show { opacity: 1; }
         
         @media (max-width: 500px) {
-            .news-title { font-size: 1.3rem; }
-            .news-info-grid { gap: 8px; }
+            .news-title { font-size: 1.2rem; }
+            .stats-number { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- সাইড ড্রয়ার (মেনু) -->
+<!-- সাইড ড্রয়ার -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
@@ -700,10 +759,6 @@
         <div class="drawer-item" onclick="closeDrawer(); openPostModal()">
             <i class="fa-regular fa-pen-to-square"></i>
             <span>নতুন পোস্ট</span>
-        </div>
-        <div class="drawer-item" onclick="closeDrawer(); toggleHelp()">
-            <i class="fa-regular fa-circle-question"></i>
-            <span>সাহায্য</span>
         </div>
         <div class="drawer-item" id="logoutDrawerBtn">
             <i class="fa-solid fa-sign-out-alt"></i>
@@ -722,28 +777,36 @@
         </div>
     </div>
     <div class="header-icons">
+        <div class="header-category-icon" id="headerCategoryIcon">
+            <i class="fa-solid fa-th-large"></i>
+        </div>
         <i class="fa-regular fa-bell" id="notifIcon"></i>
-        <i class="fa-regular fa-circle-question" id="helpIcon"></i>
     </div>
 </div>
 
-<!-- হেল্প ড্রপডাউন -->
-<div id="helpDropdown" class="help-dropdown">
-    <p><i class="fa-solid fa-phone"></i> <strong>হটলাইন:</strong> <span id="contactNumber">০১৯৯৯-৮৮৮৭৭৭</span></p>
-    <hr style="margin: 8px 0;">
-    <p><strong>📌 কিভাবে ব্যবহার করবেন:</strong></p>
-    <ul style="margin-left: 18px; font-size: 0.75rem;">
-        <li>🔍 সার্চ করতে মেনু বারের 🔍 আইকনে ক্লিক করুন</li>
-        <li>📝 নিচের + বাটন চেপে পোস্ট করুন</li>
-        <li>❤️ লাইকে ইমোজি রিয়েকশন দিন</li>
-        <li>📍 গুগল ম্যাপ লিংক দিতে পারেন (ঐচ্ছিক)</li>
-        <li>💬 কমেন্ট করুন | ⭐ সেভ করুন</li>
-        <li>🕵️ "বেনামে পোস্ট করুন" চেক করলে নাম গোপন থাকবে</li>
-    </ul>
-    <button id="closeHelp" style="margin-top:10px; padding:6px; background:#eee; border:none; border-radius:20px; cursor:pointer;">বন্ধ করুন</button>
+<!-- ক্যাটাগরি ড্রপডাউন (হেডার থেকে) -->
+<div id="categoryDropdown" class="category-dropdown">
+    <div class="cat-item" data-cat="all">
+        <i class="fa-solid fa-house"></i> সব মেলা
+    </div>
+    <div class="cat-item" data-cat="চলমান">
+        <i class="fa-solid fa-calendar-check"></i> চলমান
+    </div>
+    <div class="cat-item" data-cat="আসন্ন">
+        <i class="fa-solid fa-clock"></i> আসন্ন
+    </div>
+    <div class="cat-item" data-cat="১৫ দিন">
+        <i class="fa-solid fa-calendar-week"></i> ১৫ দিনের
+    </div>
+    <div class="cat-item" data-cat="সাপ্তাহিক">
+        <i class="fa-solid fa-store"></i> সাপ্তাহিক
+    </div>
+    <div class="cat-item" data-cat="৩ দিন">
+        <i class="fa-solid fa-hourglass-half"></i> ৩ দিনের
+    </div>
 </div>
 
-<!-- সার্চ বার (প্রাথমিকভাবে হাইডেন) -->
+<!-- সার্চ বার -->
 <div class="search-wrapper" id="searchWrapper">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -751,8 +814,15 @@
     </div>
 </div>
 
+<!-- চলন্ত লেখা (স্লাইডারের উপরে) -->
+<div class="marquee-card">
+    <div class="marquee">
+        <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
+    </div>
+</div>
+
 <!-- অটো স্লাইডার -->
-<div class="card">
+<div class="slider-card">
     <div class="banner-slider">
         <div class="banner-container" id="bannerContainer">
             <div class="banner-item">
@@ -763,39 +833,43 @@
     </div>
 </div>
 
-<!-- চলন্ত লেখা (উপরে ও নিচে জিরো মার্জিন) -->
-<div class="marquee-card">
-    <div class="marquee">
-        <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
-    </div>
-</div>
-
-<!-- ক্যাটাগরি আইকন -->
-<div class="categories" id="categoryIcons">
-    <div class="category-item" data-cat="all">
-        <div class="category-icon"><i class="fa-solid fa-house"></i></div>
-        <span>সব</span>
-    </div>
-    <div class="category-item" data-cat="চলমান">
-        <div class="category-icon"><i class="fa-solid fa-calendar-check"></i></div>
-        <span>চলমান</span>
-    </div>
-    <div class="category-item" data-cat="আসন্ন">
-        <div class="category-icon"><i class="fa-solid fa-clock"></i></div>
-        <span>আসন্ন</span>
-    </div>
-    <div class="category-item" data-cat="১৫ দিন">
-        <div class="category-icon"><i class="fa-solid fa-calendar-week"></i></div>
-        <span>১৫ দিন</span>
-    </div>
-    <div class="category-item" data-cat="সাপ্তাহিক">
-        <div class="category-icon"><i class="fa-solid fa-store"></i></div>
-        <span>সাপ্তাহিক</span>
+<!-- ক্যাটাগরি চিপস (স্লাইডারের নিচে) -->
+<div class="cat-chips-section">
+    <div class="chip-container" id="catChipsContainer">
+        <div class="chip active" data-cat="all">সব মেলা</div>
+        <div class="chip" data-cat="চলমান">🟢 চলমান</div>
+        <div class="chip" data-cat="আসন্ন">⏰ আসন্ন</div>
+        <div class="chip" data-cat="১৫ দিন">📅 ১৫ দিন</div>
+        <div class="chip" data-cat="সাপ্তাহিক">🛒 সাপ্তাহিক</div>
+        <div class="chip" data-cat="৩ দিন">🔥 ৩ দিন</div>
     </div>
 </div>
 
 <!-- বিভাগ ফিল্টার চিপস -->
-<div id="divisionContainer" class="chip-container"></div>
+<div id="divisionContainer" class="division-chip-container"></div>
+
+<!-- স্ট্যাটিস্টিক্স কার্ড -->
+<div class="stats-card">
+    <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-number" id="statLive">0</div>
+            <div class="stat-label">চলমান মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statSoon">0</div>
+            <div class="stat-label">আসন্ন মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statEnded">0</div>
+            <div class="stat-label">সমাপ্ত মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statReviews">0</div>
+            <div class="stat-label">মোট রিভিউ</div>
+        </div>
+    </div>
+</div>
 
 <!-- পোস্ট গ্রিড -->
 <div class="section-title" style="padding: 0 16px; margin-bottom: 12px;">
@@ -838,6 +912,9 @@
         <select id="postDistrict"></select>
         <select id="postUpazila"></select>
         
+        <!-- ক্যাটাগরি সিলেক্ট (mela-category.json থেকে লোড হবে) -->
+        <select id="postCategory"></select>
+        
         <div class="form-group">
             <label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label>
             <input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994">
@@ -848,12 +925,6 @@
             <input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%">
         </div>
         <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
-        <select id="postCategory">
-            <option value="চলমান">চলমান</option>
-            <option value="আসন্ন">আসন্ন</option>
-            <option value="১৫ দিন">১৫ দিনের মেলা</option>
-            <option value="সাপ্তাহিক">সাপ্তাহিক</option>
-        </select>
         
         <div class="checkbox-group">
             <input type="checkbox" id="anonymousPost">
@@ -873,17 +944,12 @@
         <select id="editPostDivision"></select>
         <select id="editPostDistrict"></select>
         <input type="text" id="editPostUpazila" placeholder="উপজেলা">
+        <select id="editPostCategory"></select>
         <div style="display: flex; gap: 10px;">
             <input type="date" id="editStartDate" style="width:50%">
             <input type="date" id="editEndDate" style="width:50%">
         </div>
         <textarea id="editPostDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
-        <select id="editPostCategory">
-            <option value="চলমান">চলমান</option>
-            <option value="আসন্ন">আসন্ন</option>
-            <option value="১৫ দিন">১৫ দিনের মেলা</option>
-            <option value="সাপ্তাহিক">সাপ্তাহিক</option>
-        </select>
         <button id="updatePostBtn">আপডেট করুন</button>
         <button class="cancel" id="closeEditModal">বাতিল</button>
     </div>
@@ -910,6 +976,7 @@
     let searchText = "";
     let selectedDivision = "";
     let divisionsData = [];
+    let categoriesList = [];
     let savedPostsIds = [];
     let currentView = "home";
     let bannerImages = [];
@@ -933,26 +1000,61 @@
         if (!user) { window.location.href = "login.html"; return; }
         currentUser = user;
         
-        // ড্রয়ারে ইউজার তথ্য আপডেট
         document.getElementById("drawerName").innerText = currentUser.displayName || "User";
         document.getElementById("drawerEmail").innerText = currentUser.email || "";
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
         
         await loadDivisions();
+        await loadCategoriesFromJSON();
         await loadSliderImages();
-        await loadContactNumber();
         await loadSavedPosts();
         loadPosts();
         startAutoSlide();
     });
     
-    async function loadContactNumber() {
+    // mela-category.json থেকে ক্যাটাগরি লোড
+    async function loadCategoriesFromJSON() {
         try {
-            const snapshot = await db.ref('settings/contact/main').once('value');
-            if(snapshot.exists()) {
-                document.getElementById("contactNumber").innerText = snapshot.val();
-            }
-        } catch(e) { console.error("Contact error:", e); }
+            const response = await fetch('mela-category.json');
+            if (!response.ok) throw new Error('mela-category.json not found');
+            const data = await response.json();
+            categoriesList = data.categories || [];
+            
+            // পোস্ট মডালের ক্যাটাগরি সিলেক্ট পপুলেট
+            const catSelect = document.getElementById("postCategory");
+            const editCatSelect = document.getElementById("editPostCategory");
+            catSelect.innerHTML = "";
+            editCatSelect.innerHTML = "";
+            categoriesList.forEach(cat => {
+                const opt = document.createElement("option");
+                opt.value = cat.name;
+                opt.innerText = cat.icon + " " + cat.name;
+                catSelect.appendChild(opt);
+                
+                const opt2 = document.createElement("option");
+                opt2.value = cat.name;
+                opt2.innerText = cat.icon + " " + cat.name;
+                editCatSelect.appendChild(opt2);
+            });
+        } catch(e) {
+            console.error("mela-category.json load error:", e);
+            // ফালব্যাক ক্যাটাগরি
+            categoriesList = [
+                { name: "চলমান", icon: "🟢" },
+                { name: "আসন্ন", icon: "⏰" },
+                { name: "১৫ দিন", icon: "📅" },
+                { name: "সাপ্তাহিক", icon: "🛒" },
+                { name: "৩ দিন", icon: "🔥" }
+            ];
+            const catSelect = document.getElementById("postCategory");
+            catSelect.innerHTML = "";
+            categoriesList.forEach(cat => {
+                const opt = document.createElement("option");
+                opt.value = cat.name;
+                opt.innerText = cat.icon + " " + cat.name;
+                catSelect.appendChild(opt);
+            });
+        }
     }
     
     function startAutoSlide() {
@@ -1138,6 +1240,7 @@
         if(currentView === "saved") filtered = filtered.filter(post => savedPostsIds.includes(post.id));
         if(showingMyPosts) filtered = filtered.filter(post => post.uid === currentUser.uid);
         renderPosts(filtered);
+        updateStatistics();
     }
     
     function getStatusText(post) {
@@ -1160,6 +1263,21 @@
             return { name: '🕵️ বেনামে', isAnonymous: true };
         }
         return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false };
+    }
+    
+    function updateStatistics() {
+        const live = allPosts.filter(p => getStatusText(p).text === 'চলমান').length;
+        const soon = allPosts.filter(p => getStatusText(p).text === 'আসন্ন').length;
+        const ended = allPosts.filter(p => getStatusText(p).text === 'সমাপ্ত').length;
+        let reviewCount = 0;
+        allPosts.forEach(p => {
+            if(p.reviews) reviewCount += Object.keys(p.reviews).length;
+            if(p.ratings) reviewCount += Object.keys(p.ratings).length;
+        });
+        document.getElementById("statLive").innerText = live;
+        document.getElementById("statSoon").innerText = soon;
+        document.getElementById("statEnded").innerText = ended;
+        document.getElementById("statReviews").innerText = reviewCount;
     }
     
     function showReactionPopup(btnElement, postId) {
@@ -1244,9 +1362,16 @@
             }
             actionButtons += `</div>`;
             
-            const nameHtml = displayInfo.isAnonymous 
-                ? `<span class="anonymous-badge"><i class="fa-regular fa-user-secret"></i> ${displayInfo.name}</span>`
-                : `<span><i class="fa-regular fa-user"></i> ${escapeHtml(displayInfo.name)}</span>`;
+            // পোস্টার তথ্য HTML (ডেসক্রিপশনের নিচে)
+            const posterHtml = `
+                <div class="poster-info">
+                    ${displayInfo.isAnonymous ? 
+                        `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : 
+                        `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`
+                    }
+                    <span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
+                </div>
+            `;
             
             const card = document.createElement("div");
             card.className = "news-card";
@@ -1254,21 +1379,20 @@
             card.innerHTML = `
                 <div class="news-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="news-category">${post.category || 'মেলা'}</span>
+                        <span class="news-category">${getCategoryIcon(post.category)} ${post.category || 'মেলা'}</span>
                         <span class="news-status ${status.class}">${status.text}</span>
                     </div>
                     <div class="news-title">${escapeHtml(post.title)}</div>
-                    <div class="news-meta">
-                        ${nameHtml}
-                        <span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
-                    </div>
                 </div>
                 <div class="news-body">
                     <div class="news-info-grid">
                         <div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div>
                         <div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
                     </div>
-                    <div class="news-description">${escapeHtml(post.description || 'কোনো বিবরণ নেই')}</div>
+                    <div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">
+                        ${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}
+                    </div>
+                    ${posterHtml}
                     <div id="comments-${post.id}" class="comments-section"></div>
                 </div>
                 <div class="news-footer">
@@ -1276,6 +1400,20 @@
                 </div>
             `;
             container.appendChild(card);
+            
+            // ডেসক্রিপশন ক্লিক করলে সম্পূর্ণ দেখানো
+            const descElem = card.querySelector(".news-description");
+            const fullText = descElem.dataset.fulltext;
+            descElem.onclick = (e) => {
+                e.stopPropagation();
+                if(descElem.classList.contains("expanded")) {
+                    descElem.classList.remove("expanded");
+                    descElem.innerText = fullText.substring(0, 150) + (fullText.length > 150 ? '...' : '');
+                } else {
+                    descElem.classList.add("expanded");
+                    descElem.innerText = fullText;
+                }
+            };
             
             const likeBtn = card.querySelector(".like-btn");
             if(likeBtn) likeBtn.onclick = (e) => { e.stopPropagation(); showReactionPopup(likeBtn, post.id); };
@@ -1310,6 +1448,11 @@
             
             card.onclick = () => openDetail(post.id);
         }
+    }
+    
+    function getCategoryIcon(catName) {
+        const cat = categoriesList.find(c => c.name === catName);
+        return cat ? cat.icon : '🎪';
     }
     
     window.openDetail = function(id) {
@@ -1430,11 +1573,6 @@
         closeDrawer();
     }
     
-    function toggleHelp() {
-        document.getElementById("helpDropdown").classList.toggle("show");
-        closeDrawer();
-    }
-    
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
     document.getElementById("logoutDrawerBtn").onclick = async () => { 
@@ -1442,25 +1580,44 @@
         window.location.href = "login.html"; 
     };
     
-    document.getElementById("helpIcon").onclick = () => document.getElementById("helpDropdown").classList.toggle("show");
-    document.getElementById("closeHelp").onclick = () => document.getElementById("helpDropdown").classList.remove("show");
+    // হেডার ক্যাটাগরি আইকন ক্লিক
+    document.getElementById("headerCategoryIcon").onclick = () => {
+        document.getElementById("categoryDropdown").classList.toggle("show");
+    };
     
-    // সার্চ বার টগল (নিচের মেনুবারের সার্চ আইকনে ক্লিক করলে)
+    // ক্যাটাগরি ড্রপডাউন থেকে সিলেক্ট
+    document.querySelectorAll("#categoryDropdown .cat-item").forEach(item => {
+        item.addEventListener("click", () => {
+            const cat = item.dataset.cat;
+            activeCategory = cat;
+            // চিপসেও active দেখানো
+            document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
+                chip.classList.remove("active");
+                if(chip.dataset.cat === cat) chip.classList.add("active");
+            });
+            loadPosts();
+            document.getElementById("categoryDropdown").classList.remove("show");
+        });
+    });
+    
+    // চিপস থেকে ক্যাটাগরি সিলেক্ট
+    document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+            const cat = chip.dataset.cat;
+            activeCategory = cat;
+            document.querySelectorAll("#catChipsContainer .chip").forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
+            loadPosts();
+        });
+    });
+    
+    // সার্চ বার টগল
     document.getElementById("navSearchBtn").onclick = () => {
         document.getElementById("searchWrapper").classList.toggle("show");
         if(document.getElementById("searchWrapper").classList.contains("show")) {
             document.getElementById("searchInput").focus();
         }
     };
-    
-    document.querySelectorAll(".category-item").forEach(item => {
-        item.addEventListener("click", () => {
-            activeCategory = item.dataset.cat;
-            document.querySelectorAll(".category-item").forEach(i => i.classList.remove("active"));
-            item.classList.add("active");
-            loadPosts();
-        });
-    });
     
     document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); updateNavActive("home"); };
     document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
@@ -1531,8 +1688,8 @@
     window.onclick = (e) => {
         if(e.target === document.getElementById("postModal")) document.getElementById("postModal").style.display = "none";
         if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
-        if(!e.target.closest('.app-header') && !e.target.closest('#helpIcon')) {
-            document.getElementById("helpDropdown").classList.remove("show");
+        if(!e.target.closest('.app-header') && !e.target.closest('#headerCategoryIcon')) {
+            document.getElementById("categoryDropdown").classList.remove("show");
         }
     };
 </script>
