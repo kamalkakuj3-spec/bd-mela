@@ -65,6 +65,21 @@
             gap: 12px;
             align-items: center;
         }
+        .signin-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .signin-btn:hover {
+            background: #1b5e20;
+            transform: scale(1.02);
+        }
         .header-icons i {
             font-size: 1.2rem;
             color: #333;
@@ -511,29 +526,10 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* ========== লাইভ মার্কি (গ্যাপ ছাড়া, স্পিড কম) ========== */
+        /* ========== লাইভ মার্কি (গ্যাপ ছাড়া, স্পিড 50s) ========== */
         .live-marquee-wrapper {
-            margin: 0;
+            margin: 0 16px;
             padding: 0;
-        }
-        /* প্রমোশনাল বার */
-        .promo-bar {
-            background: linear-gradient(135deg, #2e7d32, #1b5e20);
-            color: white;
-            text-align: center;
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-        .promo-bar i {
-            margin-right: 6px;
-            color: #ffd700;
-        }
-        .promo-bar a {
-            color: #ffd700;
-            text-decoration: underline;
-            font-weight: 600;
         }
         .live-marquee-card {
             margin: 0;
@@ -581,7 +577,6 @@
             .live-badge { padding: 8px 12px; font-size: 0.7rem; }
             .live-marquee-text { font-size: 0.75rem; }
             .live-scrolling-area { padding: 8px 0; }
-            .promo-bar { font-size: 0.65rem; padding: 6px 8px; }
         }
         
         /* স্ট্যাটিস্টিক্স কার্ড */
@@ -980,7 +975,7 @@
             margin: 10px 0;
         }
         
-        /* ========== নিচের মেনু বার (৫টি আইকন) ========== */
+        /* ========== নিচের মেনু বার (৪টি আইকন) ========== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -1108,6 +1103,7 @@
 <div class="app-header">
     <div class="logo-area"><i class="fa-solid fa-bars menu-icon" id="menuIcon"></i><div><h1>বাংলাদেশ মেলা</h1><p>দেশের মেলার ঠিকানা</p></div></div>
     <div class="header-icons">
+        <button class="signin-btn" id="signinBtn"><i class="fa-regular fa-user"></i> সাইন ইন</button>
         <i class="fa-regular fa-bookmark" id="headerSavedIcon" style="cursor:pointer;"></i>
         <i class="fa-regular fa-bell" id="notifIcon"></i>
     </div>
@@ -1134,13 +1130,8 @@
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
 <div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
 
-<!-- ========== লাইভ মার্কি (প্রমোশনাল বার + চলমান মেলা) ========== -->
+<!-- ========== লাইভ মার্কি (ইমেজ স্লাইডারের মতো গ্যাপ সহ) ========== -->
 <div class="live-marquee-wrapper">
-    <!-- প্রমোশনাল বার -->
-    <div class="promo-bar">
-        <i class="fa-regular fa-bell"></i> 📢 মেলা সংক্রান্ত পোস্ট করার জন্য <strong>বিনামূল্যে একটি একাউন্ট ক্রিয়েট করুন</strong> <i class="fa-solid fa-arrow-right"></i>
-    </div>
-    <!-- চলমান মেলা মার্কি -->
     <div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;">
         <div class="live-marquee-container">
             <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
@@ -1261,6 +1252,11 @@
         loadPosts();
         startAutoSlide();
     });
+    
+    // সাইন ইন বাটনের কাজ
+    document.getElementById("signinBtn").onclick = () => {
+        window.location.href = "login.html";
+    };
     
     async function loadCategoriesFromJSON() {
         try {
