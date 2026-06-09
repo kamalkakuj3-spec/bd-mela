@@ -340,20 +340,18 @@
             margin-top: 4px;
         }
         
-        /* ========== বিলবোর্ড স্লাইডার (সাদা-গোল্ডেন থিম) ========== */
+        /* ========== বিলবোর্ড স্লাইডার (ইমেজ স্লাইডারের সাইজে) ========== */
         .billboard {
-            width: 100%;
-            max-width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #ffffff;
-            overflow: hidden;
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(212, 175, 55, 0.3);
-            margin: 12px 16px;
+            background: white;
             border-radius: 20px;
+            margin: 12px 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            position: relative;
         }
         .billboard-screen {
             width: 100%;
-            height: 100%;
+            height: 180px;
             background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
             position: relative;
             overflow: hidden;
@@ -378,6 +376,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            padding: 20px;
         }
         .billboard-slide.active {
             opacity: 1;
@@ -392,48 +391,53 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 25px;
+            padding: 15px;
+            border-radius: 16px;
         }
         .billboard-tag {
             display: inline-block;
             background: linear-gradient(115deg, #d4af37, #c49b2a);
-            padding: 6px 20px;
+            padding: 5px 15px;
             border-radius: 50px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: bold;
             color: #ffffff;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .billboard-title {
-            font-size: 1.6rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #b8860b, #d4af37, #ffd700);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 18px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
             line-height: 1.3;
-            padding: 0 15px;
+            padding: 0 10px;
         }
-        .billboard-desc {
-            font-size: 1rem;
+        .billboard-info {
+            font-size: 0.8rem;
             color: #6b6b6b;
             line-height: 1.5;
-            padding: 0 20px;
+            padding: 0 10px;
             max-width: 90%;
-            font-weight: 500;
+        }
+        .billboard-info i {
+            color: #d4af37;
+            margin-right: 5px;
+        }
+        .billboard-location {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 8px;
         }
         @media (max-width: 550px) {
-            .billboard-title { font-size: 1.2rem; padding: 0 10px; margin-bottom: 12px; }
-            .billboard-desc { font-size: 0.85rem; padding: 0 15px; }
-            .billboard-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
-        }
-        @media (max-width: 400px) {
+            .billboard-screen { height: 160px; }
             .billboard-title { font-size: 1rem; }
-            .billboard-desc { font-size: 0.75rem; }
+            .billboard-info { font-size: 0.7rem; }
+            .billboard-location { font-size: 0.65rem; }
+            .billboard-tag { font-size: 0.6rem; padding: 3px 12px; }
+            .billboard-slide { padding: 12px; }
         }
         
         /* অটো স্লাইডার */
@@ -1102,50 +1106,16 @@
 <!-- লাইভ মার্কি -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;"><div class="live-marquee-container"><div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div><div class="live-scrolling-area"><div class="live-marquee-text" id="liveMarqueeText"></div></div></div></div>
 
-<!-- ========== বিলবোর্ড স্লাইডার (সর্বশেষ মেলার খবরের উপরে) ========== -->
-<div class="billboard">
+<!-- ========== বিলবোর্ড স্লাইডার (ইমেজ স্লাইডারের সাইজে, চলমান মেলার তথ্য সহ) ========== -->
+<div class="billboard" id="billboardContainer">
     <div class="billboard-screen">
-        <div class="billboard-content" id="billboardContainer">
+        <div class="billboard-content" id="billboardSlidesWrapper">
             <div class="billboard-slide">
                 <div class="billboard-card">
-                    <div class="billboard-tag">✨ গোল্ডেন অফার ✨</div>
-                    <div class="billboard-title">ভোটারদের জন্য ৩০% প্রিমিয়াম ছাড়!</div>
-                    <div class="billboard-desc">ভোটের রশিদ দেখিয়ে নিকটস্থ গোল্ড পার্টনার স্টোরে বিশেষ সোনালি মূল্যছাড়। সীমিত সময়!</div>
-                </div>
-            </div>
-            <div class="billboard-slide">
-                <div class="billboard-card">
-                    <div class="billboard-tag">📢 সিলভার ব্রেকিং</div>
-                    <div class="billboard-title">৫৮% ভোটগ্রহণ সম্পন্ন</div>
-                    <div class="billboard-desc">শান্তিপূর্ণ ও উৎসবমুখর পরিবেশে ভোট চলছে। লাইভ ট্র্যাকিং ও স্বচ্ছ পরিসংখ্যান দেখুন।</div>
-                </div>
-            </div>
-            <div class="billboard-slide">
-                <div class="billboard-card">
-                    <div class="billboard-tag">🎤 লিডারশিপ মেসেজ</div>
-                    <div class="billboard-title">আপনার ভোট গড়ে নতুন ঠিকানা</div>
-                    <div class="billboard-desc">বিকেল ৫টার আগে ভোটকেন্দ্রে পৌঁছান। প্রতিটি ভোট গণ্য হবে — গণতন্ত্রের স্বর্ণশিখরে পৌঁছাই একসাথে।</div>
-                </div>
-            </div>
-            <div class="billboard-slide">
-                <div class="billboard-card">
-                    <div class="billboard-tag">🍵 রুপালি সেবা</div>
-                    <div class="billboard-title">বিনামূল্যে প্রিমিয়াম ঠান্ডা পানি</div>
-                    <div class="billboard-desc">প্রতি বুথে সহায়তা ডেস্ক ও চেয়ার ব্যবস্থা। প্রয়োজনে কল করুন ১০৯০০ — সিলভার কেয়ার টিম ২৪/৭</div>
-                </div>
-            </div>
-            <div class="billboard-slide">
-                <div class="billboard-card">
-                    <div class="billboard-tag">⚠️ গোল্ডেন নির্দেশিকা</div>
-                    <div class="billboard-title">গুজব এড়িয়ে চলুন, সত্যকে আলিঙ্গন করুন</div>
-                    <div class="billboard-desc">অফিসিয়াল সূত্র ও নির্বাচন কমিশনের বার্তা ছাড়া কোনো খবরই বিশ্বাস করবেন না।</div>
-                </div>
-            </div>
-            <div class="billboard-slide">
-                <div class="billboard-card">
-                    <div class="billboard-tag">🏆 প্রিমিয়াম র্যাফেল ড্র</div>
-                    <div class="billboard-title">ভোট দিয়ে জিতুন সোনালী পুরস্কার</div>
-                    <div class="billboard-desc">প্রতি কেন্দ্রে স্মার্টফোন, সাইকেল ও সিলভার কয়েন! আপনার ভোট মূল্যবান — লাকি ড্রয়ের অংশ হন।</div>
+                    <div class="billboard-tag">🎪 চলমান মেলা</div>
+                    <div class="billboard-title">লোড হচ্ছে...</div>
+                    <div class="billboard-info"><i class="fa-regular fa-calendar"></i> লোড হচ্ছে...</div>
+                    <div class="billboard-location"><i class="fa-solid fa-location-dot"></i> লোড হচ্ছে...</div>
                 </div>
             </div>
         </div>
@@ -1228,26 +1198,10 @@
     let allPosts = [];
     let selectedDivision = "", selectedDistrict = "", selectedUpazila = "";
     
-    // বিলবোর্ড স্লাইডার
+    // বিলবোর্ড স্লাইডার ভেরিয়েবল
     let billboardInterval;
     let currentBillboardIndex = 0;
-    const billboardSlides = document.querySelectorAll('.billboard-slide');
-    
-    function startBillboardSlideshow() {
-        if (billboardInterval) clearInterval(billboardInterval);
-        billboardInterval = setInterval(() => {
-            if (billboardSlides.length > 0) {
-                billboardSlides[currentBillboardIndex].classList.remove('active');
-                currentBillboardIndex = (currentBillboardIndex + 1) % billboardSlides.length;
-                billboardSlides[currentBillboardIndex].classList.add('active');
-            }
-        }, 3000);
-    }
-    
-    if (billboardSlides.length > 0) {
-        billboardSlides[0].classList.add('active');
-        startBillboardSlideshow();
-    }
+    let liveMelasForBillboard = [];
     
     auth.onAuthStateChanged(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
@@ -1337,6 +1291,53 @@
     function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
+    // বিলবোর্ড আপডেট করার ফাংশন
+    function updateBillboard() {
+        liveMelasForBillboard = allPosts.filter(p => getStatusText(p).type === 'live');
+        const wrapper = document.getElementById('billboardSlidesWrapper');
+        
+        if (liveMelasForBillboard.length === 0) {
+            wrapper.innerHTML = `<div class="billboard-slide active">
+                <div class="billboard-card">
+                    <div class="billboard-tag">🎪 চলমান মেলা</div>
+                    <div class="billboard-title">কোনো চলমান মেলা নেই</div>
+                    <div class="billboard-info"><i class="fa-regular fa-calendar"></i> -</div>
+                    <div class="billboard-location"><i class="fa-solid fa-location-dot"></i> -</div>
+                </div>
+            </div>`;
+            return;
+        }
+        
+        // স্লাইড তৈরি
+        wrapper.innerHTML = liveMelasForBillboard.map(mela => `
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">${getTopicCategoryIcon(mela.topicCategory)} ${mela.topicCategory || 'অন্যান্য'} | ${getTimeCategoryIcon(mela.category)} ${mela.category || 'মেলা'}</div>
+                    <div class="billboard-title">${escapeHtml(mela.title)}</div>
+                    <div class="billboard-info"><i class="fa-regular fa-calendar"></i> ${formatDate(mela.startDate)} - ${formatDate(mela.endDate)}</div>
+                    <div class="billboard-location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(mela.district)}, ${escapeHtml(mela.division)}</div>
+                </div>
+            </div>
+        `).join('');
+        
+        // স্লাইডশো শুরু
+        const slides = document.querySelectorAll('.billboard-slide');
+        if (slides.length > 0) {
+            if (billboardInterval) clearInterval(billboardInterval);
+            currentBillboardIndex = 0;
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[0].classList.add('active');
+            
+            billboardInterval = setInterval(() => {
+                const currentSlides = document.querySelectorAll('.billboard-slide');
+                if (currentSlides.length === 0) return;
+                currentSlides[currentBillboardIndex].classList.remove('active');
+                currentBillboardIndex = (currentBillboardIndex + 1) % currentSlides.length;
+                currentSlides[currentBillboardIndex].classList.add('active');
+            }, 4000);
+        }
+    }
+    
     async function loadPosts() {
         const snapshot = await db.ref('posts').once('value'); allPosts = []; snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); }); allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         let filtered = allPosts.filter(post => {
@@ -1352,6 +1353,7 @@
         renderPosts(filtered);
         updateStatistics();
         updateLiveMarquee();
+        updateBillboard(); // বিলবোর্ড আপডেট
     }
     
     function updateStatistics() { const live = allPosts.filter(p => getStatusText(p).type === 'live').length; const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length; const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length; let reviewCount = 0; allPosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); document.getElementById("statLive").innerText = live; document.getElementById("statSoon").innerText = soon; document.getElementById("statEnded").innerText = ended; document.getElementById("statReviews").innerText = reviewCount; }
