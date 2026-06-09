@@ -442,17 +442,26 @@
             padding: 16px 16px 8px 16px;
             border-bottom: 1px solid #f0f0f0;
         }
+        
+        /* ক্যাটাগরি স্টাইল */
         .news-category {
             display: inline-block;
             font-size: 0.7rem;
             font-weight: 600;
             padding: 4px 10px;
             border-radius: 20px;
-            background: #f0f0f0;
-            color: #555;
             margin-bottom: 8px;
         }
+        .news-category.topic-cat {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .news-category.time-cat {
+            background: #fff3e0;
+            color: #f57c00;
+        }
         
+        /* মেলার নামের শুরুতে স্ট্যাটাস ব্যাজ */
         .title-badge {
             display: inline-block;
             font-size: 0.7rem;
@@ -1071,7 +1080,7 @@
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
-<!-- ========== পোস্ট মডাল (সময়কাল + ক্যাটাগরি বাধ্যতামূলক) ========== -->
+<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলা পোস্ট করুন</h3>
@@ -1079,6 +1088,14 @@
         <select id="postDivision" required></select>
         <select id="postDistrict" required></select>
         <select id="postUpazila"></select>
+        
+        <!-- ক্যাটাগরি (বিষয়ভিত্তিক) (বাধ্যতামূলক) -->
+        <div class="form-group">
+            <label class="form-label">🏷️ মেলার ক্যাটাগরি * <span style="color:#dc3545;">(বাধ্যতামূলক)</span></label>
+            <select id="postTopicCategory" class="form-select" required>
+                <option value="">-- নির্বাচন করুন --</option>
+            </select>
+        </div>
         
         <!-- সময়কাল (বাধ্যতামূলক) -->
         <div class="form-group">
@@ -1090,14 +1107,6 @@
                 <option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option>
                 <option value="৩ দিন">🔥 ৩ দিনের মেলা</option>
                 <option value="অন্যান্য">🎪 অন্যান্য</option>
-            </select>
-        </div>
-        
-        <!-- ক্যাটাগরি (বিষয়ভিত্তিক) (বাধ্যতামূলক) -->
-        <div class="form-group">
-            <label class="form-label">🏷️ মেলার ক্যাটাগরি * <span style="color:#dc3545;">(বাধ্যতামূলক)</span></label>
-            <select id="postTopicCategory" class="form-select" required>
-                <option value="">-- নির্বাচন করুন --</option>
             </select>
         </div>
         
@@ -1247,6 +1256,24 @@
             topicSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + 
                 categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
         }
+    }
+    
+    function getTopicCategoryIcon(catName) {
+        const cat = categoriesList.find(c => c.name === catName);
+        return cat ? cat.icon : '🎪';
+    }
+    
+    function getTimeCategoryIcon(catName) {
+        const icons = {
+            '৩০ দিন': '📅',
+            '১৫ দিন': '📆',
+            'সাপ্তাহিক': '⚡',
+            '৩ দিন': '🔥',
+            'অন্যান্য': '🎪',
+            'চলমান': '🟢',
+            'আসন্ন': '⏰'
+        };
+        return icons[catName] || '📆';
     }
     
     function openTimeCategoryPanel() {
@@ -1720,8 +1747,11 @@
             card.setAttribute("data-id", post.id);
             card.innerHTML = `
                 <div class="news-header">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="news-category">${post.category || 'মেলা'}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span>
+                            <span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span>
+                        </div>
                     </div>
                     <div class="news-title">
                         ${statusBadgeHtml}
@@ -1998,13 +2028,13 @@
         const start = document.getElementById("startDate").value;
         const end = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
-        const timeCat = document.getElementById("postTimeCategory").value;
         const topicCat = document.getElementById("postTopicCategory").value;
+        const timeCat = document.getElementById("postTimeCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
         
         if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
-        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
         if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
+        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
         
         const postData = { 
             title, division, district, upazila, 
@@ -2034,8 +2064,8 @@
         document.getElementById("anonymousPost").checked = false;
         document.getElementById("startDate").value = "";
         document.getElementById("endDate").value = "";
-        document.getElementById("postTimeCategory").value = "";
         document.getElementById("postTopicCategory").value = "";
+        document.getElementById("postTimeCategory").value = "";
         loadPosts();
         showToast("✅ মেলা পোস্ট হয়েছে!");
     };
