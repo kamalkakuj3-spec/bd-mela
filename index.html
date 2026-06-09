@@ -175,20 +175,51 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* ========== নতুন লাইভ মার্কি CSS (গ্যাপ ছাড়া) ========== */
+        /* ========== ডিজাইন ৭: রিপল ওয়েভ মার্কি ========== */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
         }
         .live-marquee {
             background: #e8f5e9;
-            border-left: 6px solid #2e7d32;
             border-radius: 16px;
             position: relative;
             overflow: hidden;
         }
-        
-        /* চলন্ত লেখার কন্টেইনার - সম্পূর্ণ লাইন জুড়ে */
+        /* রিপল ওয়েভ এফেক্ট - 45° ডিগ্রি লাইন */
+        .live-marquee::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(45deg, rgba(46,125,50,0.12), rgba(46,125,50,0.12) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+        }
+        .fixed-badge {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+            background: #e8f5e9;
+        }
+        .fixed-badge span {
+            background: #2e7d32;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px 0 20px 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: 4px 4px 0 #a5d6a7;
+            white-space: nowrap;
+        }
+        .fixed-badge span i {
+            margin-right: 8px;
+        }
         .scrolling-wrapper {
             width: 100%;
             overflow: hidden;
@@ -202,7 +233,7 @@
             font-size: 1rem;
             font-weight: 500;
             color: #1a1a1a;
-            padding: 14px 0;
+            padding: 16px 0;
             letter-spacing: 0.3px;
             background: #e8f5e9;
         }
@@ -210,51 +241,15 @@
             color: #2e7d32;
             margin: 0 6px;
         }
-        
-        /* স্থির ব্যাজ - বাম পাশে সম্পূর্ণ মিশে যাবে, গ্যাপ ছাড়া */
-        .fixed-badge {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            padding-left: 0;
-            z-index: 10;
-            background: #e8f5e9;
-        }
-        .fixed-badge span {
-            background: #2e7d32;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            white-space: nowrap;
-        }
-        .fixed-badge span i {
-            margin-right: 8px;
-            font-size: 0.9rem;
-        }
-        
         @keyframes scrollTextMarquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
-
         @media (max-width: 600px) {
-            .scrolling-text {
-                font-size: 0.85rem;
-                padding: 12px 0;
-            }
-            .fixed-badge span {
-                font-size: 0.75rem;
-                padding: 8px 14px;
-            }
+            .scrolling-text { font-size: 0.85rem; padding: 12px 0; }
+            .fixed-badge span { font-size: 0.75rem; padding: 8px 16px; }
         }
-        /* ========== লাইভ মার্কি শেষ ========== */
+        /* ========== মার্কি শেষ ========== */
         
         /* ক্যাটাগরি আইকন (হেডার ডান পাশে) */
         .header-category-icon {
@@ -958,10 +953,10 @@
     </div>
 </div>
 
-<!-- ========== নতুন লাইভ মার্কি (গ্যাপ ছাড়া) ========== -->
+<!-- ========== ডিজাইন ৭: রিপল ওয়েভ মার্কি (গ্যাপ ছাড়া) ========== -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
     <div class="live-marquee">
-        <!-- স্থির ব্যাজ - বাম পাশে গ্যাপ ছাড়া -->
+        <!-- স্থির ব্যাজ - বাম পাশে -->
         <div class="fixed-badge">
             <span>
                 <i class="fa-regular fa-circle-play"></i> চলমান
@@ -1413,7 +1408,6 @@
         document.getElementById("statReviews").innerText = reviewCount;
     }
     
-    // আপডেটেড লাইভ মার্কি ফাংশন
     function updateLiveMarquee() {
         const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
         const container = document.getElementById("liveMarqueeContainer");
