@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>বাংলাদেশ মেলা - দেশের মেলার ঠিকানা</title>
     
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
@@ -24,6 +25,7 @@
             padding-bottom: 70px;
         }
         
+        /* হেডার */
         .app-header {
             background: white;
             padding: 12px 16px;
@@ -69,6 +71,7 @@
             cursor: pointer;
         }
         
+        /* সার্চ বার */
         .search-wrapper {
             background: white;
             padding: 0 16px;
@@ -90,6 +93,9 @@
             gap: 10px;
             align-items: center;
         }
+        .search-box i {
+            color: #888;
+        }
         .search-box input {
             flex: 1;
             border: none;
@@ -98,6 +104,7 @@
             font-size: 0.9rem;
         }
         
+        /* অটো স্লাইডার */
         .slider-card {
             background: white;
             border-radius: 20px;
@@ -145,6 +152,7 @@
             border-radius: 4px;
         }
         
+        /* চলন্ত লেখা (স্লাইডারের উপরে) */
         .marquee-card {
             padding: 12px 16px;
             margin: 0;
@@ -167,43 +175,64 @@
             100% { transform: translateX(-100%); }
         }
         
-        .live-marquee-card {
-            padding: 8px 16px;
-            margin: 0;
+        /* ক্যাটাগরি আইকন (হেডার ডান পাশে) */
+        .header-category-icon {
+            background: #f0f0f0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .live-marquee {
-            background: #e8f5e9;
-            border-left: 4px solid #2e7d32;
-            padding: 10px;
-            overflow: hidden;
-            white-space: nowrap;
-            border-radius: 12px;
+        .header-category-icon i {
+            font-size: 1.1rem;
+            color: #333;
         }
-        .live-marquee-label {
-            display: inline-block;
-            background: #2e7d32;
+        .header-category-icon:hover {
+            background: #1a1a1a;
+        }
+        .header-category-icon:hover i {
             color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-right: 12px;
-        }
-        .live-marquee-content {
-            display: inline-block;
-            animation: scrollLiveText 30s linear infinite;
-            font-size: 0.8rem;
-            color: #1a1a1a;
-        }
-        .live-marquee-content i {
-            color: #2e7d32;
-            margin: 0 4px;
-        }
-        @keyframes scrollLiveText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
         }
         
+        /* ক্যাটাগরি ড্রপডাউন (হেডার থেকে) */
+        .category-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background: white;
+            border-radius: 16px;
+            padding: 12px;
+            width: 180px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 200;
+            border: 1px solid #eee;
+        }
+        .category-dropdown.show {
+            display: block;
+        }
+        .category-dropdown .cat-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        .category-dropdown .cat-item:hover {
+            background: #f5f5f5;
+        }
+        .category-dropdown .cat-item i {
+            width: 24px;
+            color: #00c853;
+        }
+        
+        /* স্ট্যাটিস্টিক্স কার্ড */
         .stats-card {
             background: white;
             border-radius: 20px;
@@ -238,6 +267,7 @@
             margin-top: 4px;
         }
         
+        /* ক্যাটাগরি চিপস (স্লাইডারের নিচে) */
         .cat-chips-section {
             padding: 0 16px;
             margin: 8px 0;
@@ -259,6 +289,7 @@
         }
         .chip.active { background: #1a1a1a; color: white; border: none; }
         
+        /* বিভাগ চিপস */
         .division-chip-container {
             display: flex;
             gap: 8px;
@@ -266,6 +297,7 @@
             padding: 10px 16px;
         }
         
+        /* নিউজ স্টাইল পোস্ট কার্ড */
         .posts-grid {
             display: flex;
             flex-direction: column;
@@ -290,52 +322,20 @@
             padding: 16px 16px 8px 16px;
             border-bottom: 1px solid #f0f0f0;
         }
-        
-        .title-badge {
+        .news-category {
             display: inline-block;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 30px;
-            margin-right: 10px;
-            vertical-align: middle;
+            color: #00c853;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
-        .title-badge.live {
-            background: #2e7d32;
-            color: white;
-            animation: pulse 1.5s ease-in-out infinite;
-            box-shadow: 0 0 8px rgba(46,125,50,0.5);
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .title-badge.soon {
-            background: #f57c00;
-            color: white;
-        }
-        
         .news-title {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 700;
             line-height: 1.3;
             color: #1a1a1a;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .news-category {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: #f0f0f0;
-            color: #555;
             margin-bottom: 8px;
         }
         
@@ -343,8 +343,9 @@
             padding: 12px 16px;
         }
         
+        /* ডেসক্রিপশন - ৩ লাইনে সীমাবদ্ধ, ক্লিকযোগ্য */
         .news-description {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
             color: #444;
             margin-bottom: 12px;
@@ -372,15 +373,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #555;
         }
         .info-item i {
             width: 24px;
             color: #00c853;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
+        /* পোস্টার তথ্য (ডেসক্রিপশনের নিচে) */
         .poster-info {
             display: flex;
             align-items: center;
@@ -388,14 +390,17 @@
             margin-top: 12px;
             padding-top: 8px;
             border-top: 1px solid #f0f0f0;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #888;
+        }
+        .poster-info i {
+            font-size: 0.7rem;
         }
         .anonymous-badge {
             background: #f0f0f0;
             padding: 2px 8px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #666;
         }
         
@@ -414,7 +419,7 @@
         .action-btn {
             background: none;
             border: none;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #666;
             cursor: pointer;
             display: flex;
@@ -429,13 +434,13 @@
         .action-btn.liked { color: #e74c3c; }
         .action-btn.saved { color: #f39c12; }
         .action-btn .count {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
         
         .edit-btn, .delete-btn {
             background: none;
             border: none;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -448,6 +453,18 @@
         .edit-btn:hover, .delete-btn:hover {
             background: #f0f0f0;
         }
+        
+        .news-status {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .status-live { background: #e8f5e9; color: #2e7d32; }
+        .status-soon { background: #fff8e1; color: #f57c00; }
+        .status-ended { background: #f5f5f5; color: #888; }
         
         .comments-section {
             display: none;
@@ -466,7 +483,7 @@
             padding: 8px 12px;
             border: 1px solid #ddd;
             border-radius: 25px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             outline: none;
         }
         .comment-input button {
@@ -476,12 +493,12 @@
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
         .comment-item {
             padding: 8px 0;
             border-bottom: 1px solid #e0e0e0;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         .comment-item strong {
             color: #00c853;
@@ -514,6 +531,7 @@
             transform: scale(1.2);
         }
         
+        /* সাইড ড্রয়ার */
         .side-drawer {
             position: fixed;
             top: 0;
@@ -583,35 +601,6 @@
             display: block;
         }
         
-        .category-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 15px;
-            background: white;
-            border-radius: 16px;
-            padding: 12px;
-            width: 180px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: none;
-            z-index: 200;
-            border: 1px solid #eee;
-        }
-        .category-dropdown.show {
-            display: block;
-        }
-        .category-dropdown .cat-item {
-            padding: 10px 12px;
-            cursor: pointer;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-        }
-        .category-dropdown .cat-item:hover {
-            background: #f5f5f5;
-        }
-        
         .modal {
             display: none;
             position: fixed;
@@ -651,17 +640,36 @@
             cursor: pointer;
         }
         .modal-content button.cancel { background: #ccc; color: #333; margin-top: 8px; }
-        .form-group { margin-bottom: 8px; }
-        .form-label { font-size: 12px; font-weight: 600; color: #333; margin-bottom: 4px; display: block; }
-        .small-text { font-size: 10px; color: #888; }
+        .form-group {
+            margin-bottom: 8px;
+        }
+        .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .small-text {
+            font-size: 10px;
+            color: #888;
+        }
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 8px;
             margin: 10px 0;
         }
-        .checkbox-group input { width: 18px; height: 18px; margin: 0; }
-        .checkbox-group label { font-size: 0.85rem; color: #555; margin: 0; }
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+        }
+        .checkbox-group label {
+            font-size: 0.85rem;
+            color: #555;
+            margin: 0;
+        }
         
         .bottom-nav {
             position: fixed;
@@ -687,8 +695,12 @@
             color: #aaa;
             font-size: 0.6rem;
         }
-        .nav-item i { font-size: 1.3rem; }
-        .nav-item.active { color: #1a1a1a; }
+        .nav-item i {
+            font-size: 1.3rem;
+        }
+        .nav-item.active {
+            color: #1a1a1a;
+        }
         .nav-center {
             background: #1a1a1a;
             color: white;
@@ -700,7 +712,10 @@
             justify-content: center;
             margin-top: -20px;
         }
-        .nav-center i { font-size: 1.5rem; color: white; }
+        .nav-center i {
+            font-size: 1.5rem;
+            color: white;
+        }
         
         .loader { text-align: center; padding: 40px; color: #888; }
         .toast {
@@ -721,14 +736,14 @@
         .toast.show { opacity: 1; }
         
         @media (max-width: 500px) {
-            .news-title { font-size: 1.3rem; }
+            .news-title { font-size: 1.2rem; }
             .stats-number { font-size: 1.4rem; }
-            .title-badge { font-size: 0.6rem; padding: 3px 8px; }
         }
     </style>
 </head>
 <body>
 
+<!-- সাইড ড্রয়ার -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
@@ -738,17 +753,21 @@
     </div>
     <div class="drawer-menu">
         <div class="drawer-item" onclick="closeDrawer(); showMyPosts()">
-            <i class="fa-regular fa-user"></i> <span>আমার পোস্ট</span>
+            <i class="fa-regular fa-user"></i>
+            <span>আমার পোস্ট</span>
         </div>
         <div class="drawer-item" onclick="closeDrawer(); openPostModal()">
-            <i class="fa-regular fa-pen-to-square"></i> <span>নতুন পোস্ট</span>
+            <i class="fa-regular fa-pen-to-square"></i>
+            <span>নতুন পোস্ট</span>
         </div>
         <div class="drawer-item" id="logoutDrawerBtn">
-            <i class="fa-solid fa-sign-out-alt"></i> <span>লগআউট</span>
+            <i class="fa-solid fa-sign-out-alt"></i>
+            <span>লগআউট</span>
         </div>
     </div>
 </div>
 
+<!-- হেডার -->
 <div class="app-header">
     <div class="logo-area">
         <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
@@ -758,22 +777,36 @@
         </div>
     </div>
     <div class="header-icons">
-        <div class="header-category-icon" id="headerCategoryIcon" style="background: #f0f0f0; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <div class="header-category-icon" id="headerCategoryIcon">
             <i class="fa-solid fa-th-large"></i>
         </div>
         <i class="fa-regular fa-bell" id="notifIcon"></i>
     </div>
 </div>
 
+<!-- ক্যাটাগরি ড্রপডাউন (হেডার থেকে) -->
 <div id="categoryDropdown" class="category-dropdown">
-    <div class="cat-item" data-cat="all"><i class="fa-solid fa-house"></i> সব মেলা</div>
-    <div class="cat-item" data-cat="চলমান"><i class="fa-solid fa-calendar-check"></i> চলমান</div>
-    <div class="cat-item" data-cat="আসন্ন"><i class="fa-solid fa-clock"></i> আসন্ন</div>
-    <div class="cat-item" data-cat="১৫ দিন"><i class="fa-solid fa-calendar-week"></i> ১৫ দিনের</div>
-    <div class="cat-item" data-cat="সাপ্তাহিক"><i class="fa-solid fa-store"></i> সাপ্তাহিক</div>
-    <div class="cat-item" data-cat="৩ দিন"><i class="fa-solid fa-hourglass-half"></i> ৩ দিনের</div>
+    <div class="cat-item" data-cat="all">
+        <i class="fa-solid fa-house"></i> সব মেলা
+    </div>
+    <div class="cat-item" data-cat="চলমান">
+        <i class="fa-solid fa-calendar-check"></i> চলমান
+    </div>
+    <div class="cat-item" data-cat="আসন্ন">
+        <i class="fa-solid fa-clock"></i> আসন্ন
+    </div>
+    <div class="cat-item" data-cat="১৫ দিন">
+        <i class="fa-solid fa-calendar-week"></i> ১৫ দিনের
+    </div>
+    <div class="cat-item" data-cat="সাপ্তাহিক">
+        <i class="fa-solid fa-store"></i> সাপ্তাহিক
+    </div>
+    <div class="cat-item" data-cat="৩ দিন">
+        <i class="fa-solid fa-hourglass-half"></i> ৩ দিনের
+    </div>
 </div>
 
+<!-- সার্চ বার -->
 <div class="search-wrapper" id="searchWrapper">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -781,12 +814,14 @@
     </div>
 </div>
 
+<!-- চলন্ত লেখা (স্লাইডারের উপরে) -->
 <div class="marquee-card">
     <div class="marquee">
         <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
     </div>
 </div>
 
+<!-- অটো স্লাইডার -->
 <div class="slider-card">
     <div class="banner-slider">
         <div class="banner-container" id="bannerContainer">
@@ -798,23 +833,7 @@
     </div>
 </div>
 
-<div class="stats-card">
-    <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
-    <div class="stats-grid">
-        <div class="stat-item"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div>
-    </div>
-</div>
-
-<div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
-    <div class="live-marquee">
-        <span class="live-marquee-label">🔴 চলমান মেলা সমূহ</span>
-        <span class="live-marquee-content" id="liveMarqueeText"></span>
-    </div>
-</div>
-
+<!-- ক্যাটাগরি চিপস (স্লাইডারের নিচে) -->
 <div class="cat-chips-section">
     <div class="chip-container" id="catChipsContainer">
         <div class="chip active" data-cat="all">সব মেলা</div>
@@ -826,8 +845,33 @@
     </div>
 </div>
 
+<!-- বিভাগ ফিল্টার চিপস -->
 <div id="divisionContainer" class="division-chip-container"></div>
 
+<!-- স্ট্যাটিস্টিক্স কার্ড -->
+<div class="stats-card">
+    <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-number" id="statLive">0</div>
+            <div class="stat-label">চলমান মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statSoon">0</div>
+            <div class="stat-label">আসন্ন মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statEnded">0</div>
+            <div class="stat-label">সমাপ্ত মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statReviews">0</div>
+            <div class="stat-label">মোট রিভিউ</div>
+        </div>
+    </div>
+</div>
+
+<!-- পোস্ট গ্রিড -->
 <div class="section-title" style="padding: 0 16px; margin-bottom: 12px;">
     <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
 </div>
@@ -836,14 +880,30 @@
     <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
 </div>
 
+<!-- নিচের মেনু বার -->
 <div class="bottom-nav">
-    <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
-    <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
-    <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
-    <button class="nav-item" id="navSaved"><i class="fa-regular fa-bookmark"></i><span>সেভ</span></button>
-    <button class="nav-item" id="navProfileBtn"><i class="fa-regular fa-user"></i><span>প্রোফাইল</span></button>
+    <button class="nav-item active" id="navHome">
+        <i class="fa-solid fa-house"></i>
+        <span>হোম</span>
+    </button>
+    <button class="nav-item" id="navSearchBtn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>সার্চ</span>
+    </button>
+    <button class="nav-item nav-center" id="navCreate">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+    <button class="nav-item" id="navSaved">
+        <i class="fa-regular fa-bookmark"></i>
+        <span>সেভ</span>
+    </button>
+    <button class="nav-item" id="navProfileBtn">
+        <i class="fa-regular fa-user"></i>
+        <span>প্রোফাইল</span>
+    </button>
 </div>
 
+<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলা পোস্ট করুন</h3>
@@ -851,25 +911,32 @@
         <select id="postDivision"></select>
         <select id="postDistrict"></select>
         <select id="postUpazila"></select>
+        
+        <!-- ক্যাটাগরি সিলেক্ট (mela-category.json থেকে লোড হবে) -->
         <select id="postCategory"></select>
+        
         <div class="form-group">
             <label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label>
             <input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994">
         </div>
+        
         <div style="display: flex; gap: 10px;">
-            <input type="date" id="startDate" style="width:50%">
-            <input type="date" id="endDate" style="width:50%">
+            <input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%">
+            <input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%">
         </div>
         <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
+        
         <div class="checkbox-group">
             <input type="checkbox" id="anonymousPost">
             <label for="anonymousPost">🕵️ বেনামে পোস্ট করুন (নাম গোপন রাখুন)</label>
         </div>
+        
         <button id="submitPost">পোস্ট করুন</button>
         <button class="cancel" id="closeModal">বাতিল</button>
     </div>
 </div>
 
+<!-- এডিট পোস্ট মডাল -->
 <div id="editPostModal" class="modal">
     <div class="modal-content">
         <h3>✏️ পোস্ট এডিট করুন</h3>
@@ -889,6 +956,7 @@
 </div>
 
 <script>
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
         authDomain: "all-hadith-a68fa.firebaseapp.com",
@@ -931,9 +999,11 @@
     auth.onAuthStateChanged(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
         currentUser = user;
+        
         document.getElementById("drawerName").innerText = currentUser.displayName || "User";
         document.getElementById("drawerEmail").innerText = currentUser.email || "";
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
+        
         await loadDivisions();
         await loadCategoriesFromJSON();
         await loadSliderImages();
@@ -942,12 +1012,15 @@
         startAutoSlide();
     });
     
+    // mela-category.json থেকে ক্যাটাগরি লোড
     async function loadCategoriesFromJSON() {
         try {
             const response = await fetch('mela-category.json');
             if (!response.ok) throw new Error('mela-category.json not found');
             const data = await response.json();
             categoriesList = data.categories || [];
+            
+            // পোস্ট মডালের ক্যাটাগরি সিলেক্ট পপুলেট
             const catSelect = document.getElementById("postCategory");
             const editCatSelect = document.getElementById("editPostCategory");
             catSelect.innerHTML = "";
@@ -957,6 +1030,7 @@
                 opt.value = cat.name;
                 opt.innerText = cat.icon + " " + cat.name;
                 catSelect.appendChild(opt);
+                
                 const opt2 = document.createElement("option");
                 opt2.value = cat.name;
                 opt2.innerText = cat.icon + " " + cat.name;
@@ -964,16 +1038,23 @@
             });
         } catch(e) {
             console.error("mela-category.json load error:", e);
+            // ফালব্যাক ক্যাটাগরি
             categoriesList = [
-                { name: "চলমান", icon: "🟢" }, { name: "আসন্ন", icon: "⏰" },
-                { name: "১৫ দিন", icon: "📅" }, { name: "সাপ্তাহিক", icon: "🛒" }, { name: "৩ দিন", icon: "🔥" }
+                { name: "চলমান", icon: "🟢" },
+                { name: "আসন্ন", icon: "⏰" },
+                { name: "১৫ দিন", icon: "📅" },
+                { name: "সাপ্তাহিক", icon: "🛒" },
+                { name: "৩ দিন", icon: "🔥" }
             ];
+            const catSelect = document.getElementById("postCategory");
+            catSelect.innerHTML = "";
+            categoriesList.forEach(cat => {
+                const opt = document.createElement("option");
+                opt.value = cat.name;
+                opt.innerText = cat.icon + " " + cat.name;
+                catSelect.appendChild(opt);
+            });
         }
-    }
-    
-    function getCategoryIcon(catName) {
-        const cat = categoriesList.find(c => c.name === catName);
-        return cat ? cat.icon : '🎪';
     }
     
     function startAutoSlide() {
@@ -1080,7 +1161,9 @@
             opt.innerText = div.name;
             divSelect.appendChild(opt);
         });
-        if(divisionsData.length > 0) updateEditDistricts(divisionsData[0].name);
+        if(divisionsData.length > 0) {
+            updateEditDistricts(divisionsData[0].name);
+        }
         divSelect.onchange = () => updateEditDistricts(divSelect.value);
     }
     
@@ -1138,16 +1221,35 @@
         savedPostsIds = snapshot.val() || [];
     }
     
+    async function loadPosts() {
+        const snapshot = await db.ref('posts').once('value');
+        allPosts = [];
+        snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); });
+        allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+        
+        let filtered = allPosts.filter(post => {
+            if(activeCategory !== "all" && post.category !== activeCategory) return false;
+            if(selectedDivision && post.division !== selectedDivision) return false;
+            if(searchText) {
+                const s = searchText.toLowerCase();
+                return (post.title?.toLowerCase().includes(s) || post.district?.toLowerCase().includes(s) || post.division?.toLowerCase().includes(s));
+            }
+            return true;
+        });
+        
+        if(currentView === "saved") filtered = filtered.filter(post => savedPostsIds.includes(post.id));
+        if(showingMyPosts) filtered = filtered.filter(post => post.uid === currentUser.uid);
+        renderPosts(filtered);
+        updateStatistics();
+    }
+    
     function getStatusText(post) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const today = new Date(); today.setHours(0,0,0,0);
         const start = new Date(post.startDate);
         const end = new Date(post.endDate);
-        start.setHours(0, 0, 0, 0);
-        end.setHours(0, 0, 0, 0);
-        if(end < today) return { text: 'সমাপ্ত', class: 'status-ended', type: 'ended' };
-        if(start <= today && end >= today) return { text: 'চলমান', class: 'status-live', type: 'live' };
-        return { text: 'আসন্ন', class: 'status-soon', type: 'soon' };
+        if(end < today) return { text: 'সমাপ্ত', class: 'status-ended' };
+        if(start > today) return { text: 'আসন্ন', class: 'status-soon' };
+        return { text: 'চলমান', class: 'status-live' };
     }
     
     function formatDate(dateStr) {
@@ -1157,35 +1259,16 @@
     }
     
     function getDisplayName(post) {
-        if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true };
+        if(post.isAnonymous) {
+            return { name: '🕵️ বেনামে', isAnonymous: true };
+        }
         return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false };
     }
     
-    async function loadPosts() {
-        const snapshot = await db.ref('posts').once('value');
-        allPosts = [];
-        snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); });
-        allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-        let filtered = allPosts.filter(post => {
-            if(activeCategory !== "all" && post.category !== activeCategory) return false;
-            if(selectedDivision && post.division !== selectedDivision) return false;
-            if(searchText) {
-                const s = searchText.toLowerCase();
-                return (post.title?.toLowerCase().includes(s) || post.district?.toLowerCase().includes(s));
-            }
-            return true;
-        });
-        if(currentView === "saved") filtered = filtered.filter(post => savedPostsIds.includes(post.id));
-        if(showingMyPosts) filtered = filtered.filter(post => post.uid === currentUser.uid);
-        renderPosts(filtered);
-        updateStatistics();
-        updateLiveMarquee();
-    }
-    
     function updateStatistics() {
-        const live = allPosts.filter(p => getStatusText(p).type === 'live').length;
-        const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length;
-        const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length;
+        const live = allPosts.filter(p => getStatusText(p).text === 'চলমান').length;
+        const soon = allPosts.filter(p => getStatusText(p).text === 'আসন্ন').length;
+        const ended = allPosts.filter(p => getStatusText(p).text === 'সমাপ্ত').length;
         let reviewCount = 0;
         allPosts.forEach(p => {
             if(p.reviews) reviewCount += Object.keys(p.reviews).length;
@@ -1197,28 +1280,17 @@
         document.getElementById("statReviews").innerText = reviewCount;
     }
     
-    function updateLiveMarquee() {
-        const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
-        const container = document.getElementById("liveMarqueeContainer");
-        const textElem = document.getElementById("liveMarqueeText");
-        if(liveMelas.length === 0) {
-            container.style.display = "none";
-            return;
-        }
-        container.style.display = "block";
-        const text = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join(' • ');
-        textElem.innerHTML = text;
-    }
-    
     function showReactionPopup(btnElement, postId) {
         const existingPopup = document.querySelector('.reaction-popup');
         if(existingPopup) existingPopup.remove();
+        
         const popup = document.createElement('div');
         popup.className = 'reaction-popup';
         reactionEmojis.forEach(reaction => {
             const emojiSpan = document.createElement('span');
             emojiSpan.className = 'reaction-emoji';
             emojiSpan.textContent = reaction.emoji;
+            emojiSpan.title = reaction.code;
             emojiSpan.onclick = (e) => {
                 e.stopPropagation();
                 setReaction(postId, reaction.type, reaction.emoji);
@@ -1226,16 +1298,22 @@
             };
             popup.appendChild(emojiSpan);
         });
+        
         document.body.appendChild(popup);
+        
         setTimeout(() => {
             document.addEventListener('click', function removePopup(e) {
-                if(!popup.contains(e.target)) { popup.remove(); document.removeEventListener('click', removePopup); }
+                if(!popup.contains(e.target)) {
+                    popup.remove();
+                    document.removeEventListener('click', removePopup);
+                }
             });
         }, 100);
     }
     
     async function setReaction(postId, reactionType, reactionEmoji) {
-        await db.ref(`posts/${postId}/reactions/${currentUser.uid}`).set({ type: reactionType, emoji: reactionEmoji, timestamp: Date.now() });
+        const reactionRef = db.ref(`posts/${postId}/reactions/${currentUser.uid}`);
+        await reactionRef.set({ type: reactionType, emoji: reactionEmoji, timestamp: Date.now() });
         loadPosts();
     }
     
@@ -1246,6 +1324,7 @@
             return;
         }
         container.innerHTML = "";
+        
         for(const post of posts) {
             const reactions = post.reactions || {};
             const reactionCount = Object.keys(reactions).length;
@@ -1255,35 +1334,74 @@
             const commentCount = post.comments ? Object.keys(post.comments).length : 0;
             const status = getStatusText(post);
             const displayInfo = getDisplayName(post);
+            
             let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">`;
-            if(userReaction) likeButtonHtml += `${userReaction.emoji} <span class="count">${reactionCount}</span>`;
-            else likeButtonHtml += `<i class="fa-regular fa-thumbs-up"></i> <span class="count">${reactionCount}</span>`;
+            if(userReaction) {
+                likeButtonHtml += `${userReaction.emoji} <span class="count">${reactionCount}</span>`;
+            } else {
+                likeButtonHtml += `<i class="fa-regular fa-thumbs-up"></i> <span class="count">${reactionCount}</span>`;
+            }
             likeButtonHtml += `</button>`;
-            let actionButtons = `<div class="news-actions">${likeButtonHtml}<button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button><button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>`;
-            if(post.locationLink) actionButtons += `<button class="action-btn map-btn" data-link="${post.locationLink}"><i class="fa-regular fa-map"></i> ম্যাপ</button>`;
-            if(isMyPost) actionButtons += `<button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button><button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>`;
+            
+            let actionButtons = `
+                <div class="news-actions">
+                    ${likeButtonHtml}
+                    <button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button>
+                    <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>
+            `;
+            
+            if(post.locationLink) {
+                actionButtons += `<button class="action-btn map-btn" data-link="${post.locationLink}"><i class="fa-regular fa-map"></i> ম্যাপ</button>`;
+            }
+            
+            if(isMyPost) {
+                actionButtons += `
+                    <button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button>
+                    <button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>
+                `;
+            }
             actionButtons += `</div>`;
-            const statusBadgeHtml = status.type === 'live' ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>` : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
-            const posterHtml = `<div class="poster-info">${displayInfo.isAnonymous ? `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`}<span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span></div>`;
+            
+            // পোস্টার তথ্য HTML (ডেসক্রিপশনের নিচে)
+            const posterHtml = `
+                <div class="poster-info">
+                    ${displayInfo.isAnonymous ? 
+                        `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : 
+                        `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`
+                    }
+                    <span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
+                </div>
+            `;
+            
             const card = document.createElement("div");
             card.className = "news-card";
+            card.setAttribute("data-id", post.id);
             card.innerHTML = `
                 <div class="news-header">
-                    <div><span class="news-category">${getCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div>
-                    <div class="news-title">${statusBadgeHtml} ${escapeHtml(post.title)}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="news-category">${getCategoryIcon(post.category)} ${post.category || 'মেলা'}</span>
+                        <span class="news-status ${status.class}">${status.text}</span>
+                    </div>
+                    <div class="news-title">${escapeHtml(post.title)}</div>
                 </div>
                 <div class="news-body">
                     <div class="news-info-grid">
                         <div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div>
                         <div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
                     </div>
-                    <div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>
+                    <div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">
+                        ${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}
+                    </div>
                     ${posterHtml}
                     <div id="comments-${post.id}" class="comments-section"></div>
                 </div>
-                <div class="news-footer">${actionButtons}</div>
+                <div class="news-footer">
+                    ${actionButtons}
+                </div>
             `;
             container.appendChild(card);
+            
+            // ডেসক্রিপশন ক্লিক করলে সম্পূর্ণ দেখানো
             const descElem = card.querySelector(".news-description");
             const fullText = descElem.dataset.fulltext;
             descElem.onclick = (e) => {
@@ -1296,26 +1414,66 @@
                     descElem.innerText = fullText;
                 }
             };
-            card.querySelector(".like-btn")?.onclick = (e) => { e.stopPropagation(); showReactionPopup(card.querySelector(".like-btn"), post.id); };
-            card.querySelector(".save-btn")?.onclick = () => toggleSave(post.id);
-            card.querySelector(".comment-btn")?.onclick = () => {
+            
+            const likeBtn = card.querySelector(".like-btn");
+            if(likeBtn) likeBtn.onclick = (e) => { e.stopPropagation(); showReactionPopup(likeBtn, post.id); };
+            
+            const saveBtn = card.querySelector(".save-btn");
+            if(saveBtn) saveBtn.onclick = () => toggleSave(post.id);
+            
+            const commentBtn = card.querySelector(".comment-btn");
+            if(commentBtn) commentBtn.onclick = () => {
                 const commentDiv = document.getElementById(`comments-${post.id}`);
                 if(commentDiv.style.display === "none" || !commentDiv.style.display) {
                     commentDiv.style.display = "block";
                     loadComments(post.id, commentDiv);
-                } else commentDiv.style.display = "none";
+                } else {
+                    commentDiv.style.display = "none";
+                }
             };
-            card.querySelector(".edit-btn")?.onclick = () => openEditModal(post);
-            card.querySelector(".delete-btn")?.onclick = () => deletePost(post.id);
-            card.querySelector(".map-btn")?.onclick = (e) => { e.stopPropagation(); window.open(card.querySelector(".map-btn").dataset.link, '_blank'); };
+            
+            const editBtn = card.querySelector(".edit-btn");
+            if(editBtn) editBtn.onclick = () => openEditModal(post);
+            
+            const deleteBtn = card.querySelector(".delete-btn");
+            if(deleteBtn) deleteBtn.onclick = () => deletePost(post.id);
+            
+            const mapBtn = card.querySelector(".map-btn");
+            if(mapBtn) {
+                mapBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    window.open(mapBtn.dataset.link, '_blank');
+                };
+            }
+            
+            card.onclick = () => openDetail(post.id);
         }
     }
+    
+    function getCategoryIcon(catName) {
+        const cat = categoriesList.find(c => c.name === catName);
+        return cat ? cat.icon : '🎪';
+    }
+    
+    window.openDetail = function(id) {
+        const post = allPosts.find(p => p.id === id);
+        if(!post) return;
+        showToast(`📄 ${post.title} - বিস্তারিত দেখুন`);
+    };
     
     async function loadComments(postId, container) {
         const snapshot = await db.ref(`posts/${postId}/comments`).once('value');
         const comments = snapshot.val() || {};
-        let html = `<div class="comment-input"><input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন..."><button onclick="window.addComment('${postId}')">পোস্ট</button></div><div id="commentList-${postId}">`;
-        for(let [key, val] of Object.entries(comments)) html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`;
+        let html = `
+            <div class="comment-input">
+                <input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন...">
+                <button onclick="window.addComment('${postId}')">পোস্ট</button>
+            </div>
+            <div id="commentList-${postId}">
+        `;
+        for(let [key, val] of Object.entries(comments)) {
+            html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`;
+        }
         html += `</div>`;
         container.innerHTML = html;
     }
@@ -1323,7 +1481,13 @@
     window.addComment = async (postId) => {
         const commentText = document.getElementById(`newCom-${postId}`).value;
         if(!commentText.trim()) return;
-        await db.ref(`posts/${postId}/comments/${Date.now()}`).set({ uid: currentUser.uid, name: currentUser.displayName, text: commentText, time: Date.now() });
+        const commentId = Date.now();
+        await db.ref(`posts/${postId}/comments/${commentId}`).set({
+            uid: currentUser.uid,
+            name: currentUser.displayName,
+            text: commentText,
+            time: Date.now()
+        });
         loadPosts();
     };
     
@@ -1332,7 +1496,9 @@
         document.getElementById("editPostTitle").value = post.title || "";
         document.getElementById("editPostDivision").value = post.division || "";
         updateEditDistricts(post.division);
-        setTimeout(() => document.getElementById("editPostDistrict").value = post.district || "", 100);
+        setTimeout(() => {
+            document.getElementById("editPostDistrict").value = post.district || "";
+        }, 100);
         document.getElementById("editPostUpazila").value = post.upazila || "";
         document.getElementById("editStartDate").value = post.startDate || "";
         document.getElementById("editEndDate").value = post.endDate || "";
@@ -1343,7 +1509,7 @@
     
     async function updatePost() {
         if(!currentEditPostId) return;
-        await db.ref(`posts/${currentEditPostId}`).update({
+        const updatedData = {
             title: document.getElementById("editPostTitle").value,
             division: document.getElementById("editPostDivision").value,
             district: document.getElementById("editPostDistrict").value,
@@ -1353,14 +1519,19 @@
             description: document.getElementById("editPostDesc").value,
             category: document.getElementById("editPostCategory").value,
             updatedAt: Date.now()
-        });
+        };
+        await db.ref(`posts/${currentEditPostId}`).update(updatedData);
         document.getElementById("editPostModal").style.display = "none";
         loadPosts();
+        if(showingMyPosts) showMyPosts();
     }
     
     async function deletePost(postId) {
-        if(confirm("পোস্টটি ডিলিট করতে চান?")) await db.ref(`posts/${postId}`).remove();
-        loadPosts();
+        if(confirm("পোস্টটি ডিলিট করতে চান?")) {
+            await db.ref(`posts/${postId}`).remove();
+            loadPosts();
+            if(showingMyPosts) showMyPosts();
+        }
     }
     
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
@@ -1377,43 +1548,94 @@
         showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল');
     }
     
-    function openDrawer() { document.getElementById("sideDrawer").classList.add("open"); document.getElementById("drawerOverlay").classList.add("show"); }
-    function closeDrawer() { document.getElementById("sideDrawer").classList.remove("open"); document.getElementById("drawerOverlay").classList.remove("show"); }
-    async function showMyPosts() { showingMyPosts = true; currentView = "home"; await loadPosts(); document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active")); document.getElementById("navHome").classList.add("active"); closeDrawer(); }
-    function openPostModal() { document.getElementById("postModal").style.display = "flex"; closeDrawer(); }
+    // ড্রয়ার ফাংশন
+    function openDrawer() {
+        document.getElementById("sideDrawer").classList.add("open");
+        document.getElementById("drawerOverlay").classList.add("show");
+    }
+    
+    function closeDrawer() {
+        document.getElementById("sideDrawer").classList.remove("open");
+        document.getElementById("drawerOverlay").classList.remove("show");
+    }
+    
+    async function showMyPosts() {
+        showingMyPosts = true;
+        currentView = "home";
+        await loadPosts();
+        document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+        document.getElementById("navHome").classList.add("active");
+        closeDrawer();
+    }
+    
+    function openPostModal() {
+        document.getElementById("postModal").style.display = "flex";
+        closeDrawer();
+    }
     
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
-    document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
-    document.getElementById("headerCategoryIcon").onclick = () => document.getElementById("categoryDropdown").classList.toggle("show");
+    document.getElementById("logoutDrawerBtn").onclick = async () => { 
+        await auth.signOut(); 
+        window.location.href = "login.html"; 
+    };
+    
+    // হেডার ক্যাটাগরি আইকন ক্লিক
+    document.getElementById("headerCategoryIcon").onclick = () => {
+        document.getElementById("categoryDropdown").classList.toggle("show");
+    };
+    
+    // ক্যাটাগরি ড্রপডাউন থেকে সিলেক্ট
     document.querySelectorAll("#categoryDropdown .cat-item").forEach(item => {
         item.addEventListener("click", () => {
-            activeCategory = item.dataset.cat;
-            document.querySelectorAll("#catChipsContainer .chip").forEach(chip => chip.classList.remove("active"));
-            document.querySelector(`#catChipsContainer .chip[data-cat="${activeCategory}"]`)?.classList.add("active");
+            const cat = item.dataset.cat;
+            activeCategory = cat;
+            // চিপসেও active দেখানো
+            document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
+                chip.classList.remove("active");
+                if(chip.dataset.cat === cat) chip.classList.add("active");
+            });
             loadPosts();
             document.getElementById("categoryDropdown").classList.remove("show");
         });
     });
+    
+    // চিপস থেকে ক্যাটাগরি সিলেক্ট
     document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
         chip.addEventListener("click", () => {
-            activeCategory = chip.dataset.cat;
+            const cat = chip.dataset.cat;
+            activeCategory = cat;
             document.querySelectorAll("#catChipsContainer .chip").forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
             loadPosts();
         });
     });
-    document.getElementById("navSearchBtn").onclick = () => { document.getElementById("searchWrapper").classList.toggle("show"); if(document.getElementById("searchWrapper").classList.contains("show")) document.getElementById("searchInput").focus(); };
+    
+    // সার্চ বার টগল
+    document.getElementById("navSearchBtn").onclick = () => {
+        document.getElementById("searchWrapper").classList.toggle("show");
+        if(document.getElementById("searchWrapper").classList.contains("show")) {
+            document.getElementById("searchInput").focus();
+        }
+    };
+    
     document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); updateNavActive("home"); };
     document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
     document.getElementById("navCreate").onclick = () => document.getElementById("postModal").style.display = "flex";
     document.getElementById("navProfileBtn").onclick = openDrawer;
-    function updateNavActive(active) { document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active")); if(active === "home") document.getElementById("navHome").classList.add("active"); if(active === "saved") document.getElementById("navSaved").classList.add("active"); }
+    
+    function updateNavActive(active) {
+        document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+        if(active === "home") document.getElementById("navHome").classList.add("active");
+        if(active === "saved") document.getElementById("navSaved").classList.add("active");
+    }
+    
     document.getElementById("searchInput").addEventListener("input", (e) => { searchText = e.target.value; loadPosts(); });
     document.getElementById("closeModal").onclick = () => document.getElementById("postModal").style.display = "none";
     document.getElementById("closeEditModal").onclick = () => document.getElementById("editPostModal").style.display = "none";
     document.getElementById("updatePostBtn").onclick = () => updatePost();
     
+    // Submit Post
     document.getElementById("submitPost").onclick = async () => {
         const title = document.getElementById("postTitle").value.trim();
         const division = document.getElementById("postDivision").value;
@@ -1425,11 +1647,28 @@
         const desc = document.getElementById("postDesc").value;
         const cat = document.getElementById("postCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
+        
         if(!title || !division || !district) { alert("মেলার নাম, বিভাগ ও জেলা দিন!"); return; }
-        const postData = { title, division, district, upazila, locationLink: locationLink || "", startDate: start, endDate: end, description: desc, category: cat, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous: isAnonymous };
-        if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
-        else postData.posterName = null;
+        
+        const postData = { 
+            title, division, district, upazila, 
+            locationLink: locationLink || "",
+            startDate: start, endDate: end, 
+            description: desc, category: cat, 
+            createdAt: Date.now(), 
+            uid: currentUser.uid,
+            email: currentUser.email,
+            isAnonymous: isAnonymous
+        };
+        
+        if(!isAnonymous) {
+            postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+        } else {
+            postData.posterName = null;
+        }
+        
         await db.ref('posts').push(postData);
+        
         document.getElementById("postModal").style.display = "none";
         document.getElementById("postTitle").value = "";
         document.getElementById("postDesc").value = "";
@@ -1439,12 +1678,19 @@
         showToast("✅ মেলা পোস্ট হয়েছে!");
     };
     
-    function showToast(msg) { const toast = document.getElementById("toast"); toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2500); }
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2500);
+    }
     
     window.onclick = (e) => {
         if(e.target === document.getElementById("postModal")) document.getElementById("postModal").style.display = "none";
         if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
-        if(!e.target.closest('.app-header') && !e.target.closest('#headerCategoryIcon')) document.getElementById("categoryDropdown").classList.remove("show");
+        if(!e.target.closest('.app-header') && !e.target.closest('#headerCategoryIcon')) {
+            document.getElementById("categoryDropdown").classList.remove("show");
+        }
     };
 </script>
 </body>
