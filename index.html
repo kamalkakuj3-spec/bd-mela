@@ -25,7 +25,7 @@
             padding-bottom: 70px;
         }
         
-        /* হেডার */
+        /* হেডার - স্ক্রল ইফেক্টের জন্য fixed */
         .app-header {
             background: white;
             padding: 12px 16px;
@@ -33,10 +33,75 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #e0e0e0;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
+            transition: transform 0.3s ease;
         }
+        .app-header.hide {
+            transform: translateY(-100%);
+        }
+        
+        /* স্ক্রল ডাউন হলে দেখাবে এমন মার্কি (হেডারের জায়গায়) */
+        .scroll-marquee {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            z-index: 99;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .scroll-marquee.show {
+            transform: translateY(0);
+        }
+        
+        /* মার্কি স্টাইল (অরবিটাল ভেক্টর) */
+        .marquee-container {
+            width: 100%;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+        .marquee {
+            position: relative;
+            width: 100%;
+            overflow-x: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            font-weight: 800;
+            background: linear-gradient(90deg, #1A1A2E, #FF6A3D, #E94560, #1A1A2E);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: scrollLeftSmooth 18s linear infinite;
+            letter-spacing: -0.02em;
+        }
+        @keyframes scrollLeftSmooth {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-content span {
+            padding-right: 2.5rem;
+            display: inline-block;
+        }
+        .marquee:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        
+        /* মূল পেজের কন্টেন্ট - হেডারের জন্য padding */
+        .main-padding {
+            padding-top: 60px;
+        }
+        
         .logo-area {
             display: flex;
             align-items: center;
@@ -81,7 +146,7 @@
             border-bottom: none;
         }
         .search-filter-section.show {
-            max-height: 180px;
+            max-height: 150px;
             padding: 12px 16px;
             border-bottom: 1px solid #e0e0e0;
         }
@@ -124,11 +189,6 @@
         .filter-select:focus {
             border-color: #2e7d32;
         }
-        .thana-select {
-            background: #fff3e0;
-            border-color: #f57c00;
-            color: #e65100;
-        }
         .clear-filter {
             background: none;
             border: none;
@@ -137,7 +197,13 @@
             cursor: pointer;
             padding: 0 8px;
         }
-        /* ========== ফিল্টার সেকশন শেষ ========== */
+        
+        /* ইমেজ স্লাইডারের উপরের মার্কি (স্বাভাবিক অবস্থায়) */
+        .top-marquee-wrapper {
+            background: #ffffff;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
         
         /* অটো স্লাইডার */
         .slider-card {
@@ -187,35 +253,12 @@
             border-radius: 4px;
         }
         
-        /* চলন্ত লেখা (স্লাইডারের উপরে) */
-        .marquee-card {
-            padding: 12px 16px;
-            margin: 0;
-        }
-        .marquee {
-            background: #1a1a1a;
-            color: white;
-            padding: 10px;
-            overflow: hidden;
-            white-space: nowrap;
-            border-radius: 20px;
-        }
-        .marquee p {
-            display: inline-block;
-            animation: scrollText 25s linear infinite;
-            font-size: 0.8rem;
-        }
-        @keyframes scrollText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        /* স্টাইল ১০: কার্ড স্টাইলে ব্যাজ + মার্কি */
+        /* লাইভ মার্কি (চলমান মেলা) */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
         }
-        .marquee-container {
+        .live-marquee-container {
             background: white;
             border-radius: 16px;
             overflow: hidden;
@@ -223,7 +266,7 @@
             align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
-        .badge {
+        .live-badge {
             background: #2e7d32;
             color: white;
             padding: 12px 18px;
@@ -234,23 +277,23 @@
             align-items: center;
             gap: 6px;
         }
-        .badge i {
+        .live-badge i {
             font-size: 0.85rem;
         }
-        .scrolling-area {
+        .live-scrolling-area {
             flex: 1;
             overflow: hidden;
             white-space: nowrap;
             padding: 12px 0;
         }
-        .marquee-content {
+        .live-marquee-text {
             display: inline-block;
             animation: scrollLeft 20s linear infinite;
             color: #333;
             font-size: 0.9rem;
             font-weight: 500;
         }
-        .marquee-content i {
+        .live-marquee-text i {
             color: #2e7d32;
             margin: 0 4px;
         }
@@ -259,12 +302,12 @@
             100% { transform: translateX(-100%); }
         }
         @media (max-width: 600px) {
-            .badge { padding: 8px 12px; font-size: 0.7rem; }
-            .marquee-content { font-size: 0.75rem; }
-            .scrolling-area { padding: 8px 0; }
+            .live-badge { padding: 8px 12px; font-size: 0.7rem; }
+            .live-marquee-text { font-size: 0.75rem; }
+            .live-scrolling-area { padding: 8px 0; }
         }
         
-        /* ক্যাটাগরি আইকন (হেডার ডান পাশে) */
+        /* ক্যাটাগরি আইকন */
         .header-category-icon {
             background: #f0f0f0;
             width: 36px;
@@ -287,7 +330,7 @@
             color: white;
         }
         
-        /* ক্যাটাগরি ড্রপডাউন (হেডার থেকে) */
+        /* ক্যাটাগরি ড্রপডাউন */
         .category-dropdown {
             position: absolute;
             top: 60px;
@@ -785,6 +828,20 @@
 </head>
 <body>
 
+<!-- স্ক্রল মার্কি (হেডারের জায়গায় দেখাবে) -->
+<div class="scroll-marquee" id="scrollMarquee">
+    <div class="marquee-container">
+        <div class="marquee">
+            <div class="marquee-content">
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- সাইড ড্রয়ার -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="side-drawer" id="sideDrawer">
@@ -810,7 +867,7 @@
 </div>
 
 <!-- হেডার -->
-<div class="app-header">
+<div class="app-header" id="appHeader">
     <div class="logo-area">
         <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
         <div>
@@ -852,18 +909,22 @@
         <select id="upazilaFilter" class="filter-select">
             <option value="">সব উপজেলা</option>
         </select>
-        <select id="thanaFilter" class="filter-select thana-select" onchange="showComingSoon(this)">
-            <option value="">থানা নির্বাচন (আসছে)</option>
-        </select>
         <button class="clear-filter" onclick="clearAllFilters()" title="সব ফিল্টার রিসেট"><i class="fa-regular fa-eraser"></i></button>
     </div>
 </div>
 <!-- ========== ফিল্টার সেকশন শেষ ========== -->
 
-<!-- চলন্ত লেখা -->
-<div class="marquee-card">
-    <div class="marquee">
-        <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
+<!-- ইমেজ স্লাইডারের উপরের মার্কি (স্বাভাবিক অবস্থায়) -->
+<div class="top-marquee-wrapper" id="normalMarquee">
+    <div class="marquee-container">
+        <div class="marquee">
+            <div class="marquee-content">
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -892,10 +953,10 @@
 
 <!-- লাইভ মার্কি (চলমান মেলা) -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
-    <div class="marquee-container">
-        <div class="badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
-        <div class="scrolling-area">
-            <div class="marquee-content" id="liveMarqueeText">🔴 বৈশাখী মেলা - ঢাকা, ঢাকা  •  🔴 নবান্ন মেলা - রাজশাহী, রাজশাহী</div>
+    <div class="live-marquee-container">
+        <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
+        <div class="live-scrolling-area">
+            <div class="live-marquee-text" id="liveMarqueeText">🔴 বৈশাখী মেলা - ঢাকা, ঢাকা  •  🔴 নবান্ন মেলা - রাজশাহী, রাজশাহী</div>
         </div>
     </div>
 </div>
@@ -999,6 +1060,12 @@
     let selectedDistrict = "";
     let selectedUpazila = "";
     
+    // স্ক্রল ইফেক্টের জন্য ভেরিয়েবল
+    let lastScrollTop = 0;
+    const header = document.getElementById('appHeader');
+    const scrollMarquee = document.getElementById('scrollMarquee');
+    const normalMarquee = document.getElementById('normalMarquee');
+    
     const reactionEmojis = [
         { code: "like", emoji: "❤️", type: "like" },
         { code: "love", emoji: "😍", type: "love" },
@@ -1025,11 +1092,32 @@
         startAutoSlide();
     });
     
-    // Coming Soon ফাংশন
-    window.showComingSoon = function(selectElement) {
-        selectElement.value = "";
-        showToast("🏗️ থানা নির্বাচনের সুবিধা আসছে শীঘ্রই!");
-    };
+    // স্ক্রল ইফেক্ট
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 60) {
+            // স্ক্রল ডাউন (নিচের দিকে) - হেডার লুকাও, স্ক্রল মার্কি দেখাও
+            header.classList.add('hide');
+            scrollMarquee.classList.add('show');
+            normalMarquee.style.opacity = '0';
+            normalMarquee.style.visibility = 'hidden';
+        } else if (scrollTop < lastScrollTop) {
+            // স্ক্রল আপ (উপরের দিকে) - হেডার দেখাও, স্ক্রল মার্কি লুকাও
+            header.classList.remove('hide');
+            scrollMarquee.classList.remove('show');
+            normalMarquee.style.opacity = '1';
+            normalMarquee.style.visibility = 'visible';
+        }
+        
+        // পেজের একদম উপরে চলে গেলে নরমাল মার্কি দেখাবে
+        if (scrollTop <= 10) {
+            normalMarquee.style.opacity = '1';
+            normalMarquee.style.visibility = 'visible';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
     
     async function loadCategoriesFromJSON() {
         try {
@@ -1662,7 +1750,7 @@
         });
     });
     
-    // সার্চ বার টগল (মেনু বারের সার্চ বাটনে ক্লিক করলে)
+    // সার্চ বার টগল
     document.getElementById("navSearchBtn").onclick = () => {
         document.getElementById("searchFilterSection").classList.toggle("show");
         if(document.getElementById("searchFilterSection").classList.contains("show")) {
