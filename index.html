@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>বাংলাদেশ মেলা - দেশের মেলার ঠিকানা</title>
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
@@ -25,7 +24,6 @@
             padding-bottom: 70px;
         }
         
-        /* হেডার */
         .app-header {
             background: white;
             padding: 12px 16px;
@@ -71,7 +69,6 @@
             cursor: pointer;
         }
         
-        /* সার্চ বার */
         .search-wrapper {
             background: white;
             padding: 0 16px;
@@ -93,9 +90,6 @@
             gap: 10px;
             align-items: center;
         }
-        .search-box i {
-            color: #888;
-        }
         .search-box input {
             flex: 1;
             border: none;
@@ -104,7 +98,6 @@
             font-size: 0.9rem;
         }
         
-        /* অটো স্লাইডার */
         .slider-card {
             background: white;
             border-radius: 20px;
@@ -152,7 +145,6 @@
             border-radius: 4px;
         }
         
-        /* চলন্ত লেখা (স্লাইডারের উপরে) */
         .marquee-card {
             padding: 12px 16px;
             margin: 0;
@@ -175,7 +167,6 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* লাইভ মেলা চলন্ত লেখা (সর্বশেষ মেলার খবরের উপরে) */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
@@ -213,7 +204,6 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* স্ট্যাটিস্টিক্স কার্ড (স্লাইডারের নিচে) */
         .stats-card {
             background: white;
             border-radius: 20px;
@@ -248,7 +238,6 @@
             margin-top: 4px;
         }
         
-        /* ক্যাটাগরি চিপস (শুধু ক্যাটাগরি ফিল্টারের জন্য) */
         .cat-chips-section {
             padding: 0 16px;
             margin: 8px 0;
@@ -270,7 +259,6 @@
         }
         .chip.active { background: #1a1a1a; color: white; border: none; }
         
-        /* বিভাগ চিপস */
         .division-chip-container {
             display: flex;
             gap: 8px;
@@ -278,7 +266,6 @@
             padding: 10px 16px;
         }
         
-        /* নিউজ স্টাইল পোস্ট কার্ড */
         .posts-grid {
             display: flex;
             flex-direction: column;
@@ -304,7 +291,6 @@
             border-bottom: 1px solid #f0f0f0;
         }
         
-        /* মেলার নামের শুরুতে স্ট্যাটাস ব্যাজ */
         .title-badge {
             display: inline-block;
             font-size: 0.7rem;
@@ -342,7 +328,6 @@
             gap: 8px;
         }
         
-        /* ক্যাটাগরি ব্যাজ */
         .news-category {
             display: inline-block;
             font-size: 0.7rem;
@@ -358,7 +343,6 @@
             padding: 12px 16px;
         }
         
-        /* ডেসক্রিপশন */
         .news-description {
             font-size: 0.9rem;
             line-height: 1.5;
@@ -397,7 +381,6 @@
             font-size: 0.9rem;
         }
         
-        /* পোস্টার তথ্য */
         .poster-info {
             display: flex;
             align-items: center;
@@ -466,18 +449,6 @@
             background: #f0f0f0;
         }
         
-        .news-status {
-            display: inline-block;
-            font-size: 0.65rem;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-        .status-live { background: #e8f5e9; color: #2e7d32; }
-        .status-soon { background: #fff8e1; color: #f57c00; }
-        .status-ended { background: #f5f5f5; color: #888; }
-        
         .comments-section {
             display: none;
             background: #f8f9fa;
@@ -543,7 +514,6 @@
             transform: scale(1.2);
         }
         
-        /* সাইড ড্রয়ার */
         .side-drawer {
             position: fixed;
             top: 0;
@@ -613,7 +583,6 @@
             display: block;
         }
         
-        /* ক্যাটাগরি ড্রপডাউন (হেডার থেকে) */
         .category-dropdown {
             position: absolute;
             top: 60px;
@@ -760,7 +729,6 @@
 </head>
 <body>
 
-<!-- সাইড ড্রয়ার -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
@@ -770,21 +738,17 @@
     </div>
     <div class="drawer-menu">
         <div class="drawer-item" onclick="closeDrawer(); showMyPosts()">
-            <i class="fa-regular fa-user"></i>
-            <span>আমার পোস্ট</span>
+            <i class="fa-regular fa-user"></i> <span>আমার পোস্ট</span>
         </div>
         <div class="drawer-item" onclick="closeDrawer(); openPostModal()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            <span>নতুন পোস্ট</span>
+            <i class="fa-regular fa-pen-to-square"></i> <span>নতুন পোস্ট</span>
         </div>
         <div class="drawer-item" id="logoutDrawerBtn">
-            <i class="fa-solid fa-sign-out-alt"></i>
-            <span>লগআউট</span>
+            <i class="fa-solid fa-sign-out-alt"></i> <span>লগআউট</span>
         </div>
     </div>
 </div>
 
-<!-- হেডার -->
 <div class="app-header">
     <div class="logo-area">
         <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
@@ -801,7 +765,6 @@
     </div>
 </div>
 
-<!-- ক্যাটাগরি ড্রপডাউন -->
 <div id="categoryDropdown" class="category-dropdown">
     <div class="cat-item" data-cat="all"><i class="fa-solid fa-house"></i> সব মেলা</div>
     <div class="cat-item" data-cat="চলমান"><i class="fa-solid fa-calendar-check"></i> চলমান</div>
@@ -811,7 +774,6 @@
     <div class="cat-item" data-cat="৩ দিন"><i class="fa-solid fa-hourglass-half"></i> ৩ দিনের</div>
 </div>
 
-<!-- সার্চ বার -->
 <div class="search-wrapper" id="searchWrapper">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -819,14 +781,12 @@
     </div>
 </div>
 
-<!-- চলন্ত লেখা (স্লাইডারের উপরে) -->
 <div class="marquee-card">
     <div class="marquee">
         <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
     </div>
 </div>
 
-<!-- অটো স্লাইডার -->
 <div class="slider-card">
     <div class="banner-slider">
         <div class="banner-container" id="bannerContainer">
@@ -838,30 +798,16 @@
     </div>
 </div>
 
-<!-- স্ট্যাটিস্টিক্স কার্ড (স্লাইডারের নিচে) -->
 <div class="stats-card">
     <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
     <div class="stats-grid">
-        <div class="stat-item">
-            <div class="stat-number" id="statLive">0</div>
-            <div class="stat-label">চলমান মেলা</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="statSoon">0</div>
-            <div class="stat-label">আসন্ন মেলা</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="statEnded">0</div>
-            <div class="stat-label">সমাপ্ত মেলা</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="statReviews">0</div>
-            <div class="stat-label">মোট রিভিউ</div>
-        </div>
+        <div class="stat-item"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div>
+        <div class="stat-item"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div>
+        <div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div>
+        <div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div>
     </div>
 </div>
 
-<!-- লাইভ মেলা চলন্ত লেখা (সর্বশেষ মেলার খবরের উপরে) -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
     <div class="live-marquee">
         <span class="live-marquee-label">🔴 চলমান মেলা সমূহ</span>
@@ -869,7 +815,6 @@
     </div>
 </div>
 
-<!-- ক্যাটাগরি চিপস (শুধু ফিল্টারের জন্য) -->
 <div class="cat-chips-section">
     <div class="chip-container" id="catChipsContainer">
         <div class="chip active" data-cat="all">সব মেলা</div>
@@ -881,10 +826,8 @@
     </div>
 </div>
 
-<!-- বিভাগ ফিল্টার চিপস -->
 <div id="divisionContainer" class="division-chip-container"></div>
 
-<!-- পোস্ট গ্রিড -->
 <div class="section-title" style="padding: 0 16px; margin-bottom: 12px;">
     <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
 </div>
@@ -893,30 +836,14 @@
     <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
 </div>
 
-<!-- নিচের মেনু বার -->
 <div class="bottom-nav">
-    <button class="nav-item active" id="navHome">
-        <i class="fa-solid fa-house"></i>
-        <span>হোম</span>
-    </button>
-    <button class="nav-item" id="navSearchBtn">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <span>সার্চ</span>
-    </button>
-    <button class="nav-item nav-center" id="navCreate">
-        <i class="fa-solid fa-plus"></i>
-    </button>
-    <button class="nav-item" id="navSaved">
-        <i class="fa-regular fa-bookmark"></i>
-        <span>সেভ</span>
-    </button>
-    <button class="nav-item" id="navProfileBtn">
-        <i class="fa-regular fa-user"></i>
-        <span>প্রোফাইল</span>
-    </button>
+    <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
+    <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
+    <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
+    <button class="nav-item" id="navSaved"><i class="fa-regular fa-bookmark"></i><span>সেভ</span></button>
+    <button class="nav-item" id="navProfileBtn"><i class="fa-regular fa-user"></i><span>প্রোফাইল</span></button>
 </div>
 
-<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলা পোস্ট করুন</h3>
@@ -930,8 +857,8 @@
             <input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994">
         </div>
         <div style="display: flex; gap: 10px;">
-            <input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%">
-            <input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%">
+            <input type="date" id="startDate" style="width:50%">
+            <input type="date" id="endDate" style="width:50%">
         </div>
         <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
         <div class="checkbox-group">
@@ -943,7 +870,6 @@
     </div>
 </div>
 
-<!-- এডিট পোস্ট মডাল -->
 <div id="editPostModal" class="modal">
     <div class="modal-content">
         <h3>✏️ পোস্ট এডিট করুন</h3>
@@ -963,7 +889,6 @@
 </div>
 
 <script>
-    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
         authDomain: "all-hadith-a68fa.firebaseapp.com",
@@ -1006,11 +931,9 @@
     auth.onAuthStateChanged(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
         currentUser = user;
-        
         document.getElementById("drawerName").innerText = currentUser.displayName || "User";
         document.getElementById("drawerEmail").innerText = currentUser.email || "";
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
-        
         await loadDivisions();
         await loadCategoriesFromJSON();
         await loadSliderImages();
@@ -1025,7 +948,6 @@
             if (!response.ok) throw new Error('mela-category.json not found');
             const data = await response.json();
             categoriesList = data.categories || [];
-            
             const catSelect = document.getElementById("postCategory");
             const editCatSelect = document.getElementById("editPostCategory");
             catSelect.innerHTML = "";
@@ -1216,7 +1138,6 @@
         savedPostsIds = snapshot.val() || [];
     }
     
-    // সঠিক স্ট্যাটাস নির্ধারণ (আজকের তারিখের সাথে তুলনা)
     function getStatusText(post) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -1224,7 +1145,6 @@
         const end = new Date(post.endDate);
         start.setHours(0, 0, 0, 0);
         end.setHours(0, 0, 0, 0);
-        
         if(end < today) return { text: 'সমাপ্ত', class: 'status-ended', type: 'ended' };
         if(start <= today && end >= today) return { text: 'চলমান', class: 'status-live', type: 'live' };
         return { text: 'আসন্ন', class: 'status-soon', type: 'soon' };
@@ -1246,7 +1166,6 @@
         allPosts = [];
         snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); });
         allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-        
         let filtered = allPosts.filter(post => {
             if(activeCategory !== "all" && post.category !== activeCategory) return false;
             if(selectedDivision && post.division !== selectedDivision) return false;
@@ -1256,7 +1175,6 @@
             }
             return true;
         });
-        
         if(currentView === "saved") filtered = filtered.filter(post => savedPostsIds.includes(post.id));
         if(showingMyPosts) filtered = filtered.filter(post => post.uid === currentUser.uid);
         renderPosts(filtered);
@@ -1283,7 +1201,6 @@
         const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
         const container = document.getElementById("liveMarqueeContainer");
         const textElem = document.getElementById("liveMarqueeText");
-        
         if(liveMelas.length === 0) {
             container.style.display = "none";
             return;
@@ -1296,7 +1213,6 @@
     function showReactionPopup(btnElement, postId) {
         const existingPopup = document.querySelector('.reaction-popup');
         if(existingPopup) existingPopup.remove();
-        
         const popup = document.createElement('div');
         popup.className = 'reaction-popup';
         reactionEmojis.forEach(reaction => {
@@ -1330,7 +1246,6 @@
             return;
         }
         container.innerHTML = "";
-        
         for(const post of posts) {
             const reactions = post.reactions || {};
             const reactionCount = Object.keys(reactions).length;
@@ -1340,60 +1255,35 @@
             const commentCount = post.comments ? Object.keys(post.comments).length : 0;
             const status = getStatusText(post);
             const displayInfo = getDisplayName(post);
-            
             let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">`;
             if(userReaction) likeButtonHtml += `${userReaction.emoji} <span class="count">${reactionCount}</span>`;
             else likeButtonHtml += `<i class="fa-regular fa-thumbs-up"></i> <span class="count">${reactionCount}</span>`;
             likeButtonHtml += `</button>`;
-            
-            let actionButtons = `
-                <div class="news-actions">
-                    ${likeButtonHtml}
-                    <button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button>
-                    <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>
-            `;
+            let actionButtons = `<div class="news-actions">${likeButtonHtml}<button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button><button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>`;
             if(post.locationLink) actionButtons += `<button class="action-btn map-btn" data-link="${post.locationLink}"><i class="fa-regular fa-map"></i> ম্যাপ</button>`;
             if(isMyPost) actionButtons += `<button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button><button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>`;
             actionButtons += `</div>`;
-            
-            const statusBadgeHtml = status.type === 'live' 
-                ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>`
-                : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
-            
-            const posterHtml = `
-                <div class="poster-info">
-                    ${displayInfo.isAnonymous ? 
-                        `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : 
-                        `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`}
-                    <span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
-                </div>
-            `;
-            
+            const statusBadgeHtml = status.type === 'live' ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>` : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
+            const posterHtml = `<div class="poster-info">${displayInfo.isAnonymous ? `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`}<span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span></div>`;
             const card = document.createElement("div");
             card.className = "news-card";
             card.innerHTML = `
                 <div class="news-header">
                     <div><span class="news-category">${getCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div>
-                    <div class="news-title">
-                        ${statusBadgeHtml}
-                        ${escapeHtml(post.title)}
-                    </div>
+                    <div class="news-title">${statusBadgeHtml} ${escapeHtml(post.title)}</div>
                 </div>
                 <div class="news-body">
                     <div class="news-info-grid">
                         <div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div>
                         <div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
                     </div>
-                    <div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">
-                        ${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}
-                    </div>
+                    <div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>
                     ${posterHtml}
                     <div id="comments-${post.id}" class="comments-section"></div>
                 </div>
                 <div class="news-footer">${actionButtons}</div>
             `;
             container.appendChild(card);
-            
             const descElem = card.querySelector(".news-description");
             const fullText = descElem.dataset.fulltext;
             descElem.onclick = (e) => {
@@ -1406,7 +1296,6 @@
                     descElem.innerText = fullText;
                 }
             };
-            
             card.querySelector(".like-btn")?.onclick = (e) => { e.stopPropagation(); showReactionPopup(card.querySelector(".like-btn"), post.id); };
             card.querySelector(".save-btn")?.onclick = () => toggleSave(post.id);
             card.querySelector(".comment-btn")?.onclick = () => {
