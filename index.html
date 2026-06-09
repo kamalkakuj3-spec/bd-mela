@@ -175,79 +175,58 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* ========== ডিজাইন ৭: রিপল ওয়েভ মার্কি ========== */
+        /* ========== স্টাইল ১০: কার্ড স্টাইলে ব্যাজ + মার্কি ========== */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
         }
-        .live-marquee {
-            background: #e8f5e9;
+        .marquee-container {
+            background: white;
             border-radius: 16px;
-            position: relative;
             overflow: hidden;
-        }
-        /* রিপল ওয়েভ এফেক্ট - 45° ডিগ্রি লাইন */
-        .live-marquee::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(45deg, rgba(46,125,50,0.12), rgba(46,125,50,0.12) 12px, transparent 12px, transparent 24px);
-            pointer-events: none;
-        }
-        .fixed-badge {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
             display: flex;
             align-items: center;
-            z-index: 10;
-            background: #e8f5e9;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
-        .fixed-badge span {
+        .badge {
             background: #2e7d32;
             color: white;
-            padding: 12px 24px;
-            border-radius: 20px 0 20px 0;
-            font-size: 0.95rem;
+            padding: 12px 18px;
+            font-size: 0.85rem;
             font-weight: 700;
-            box-shadow: 4px 4px 0 #a5d6a7;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .fixed-badge span i {
-            margin-right: 8px;
+        .badge i {
+            font-size: 0.85rem;
         }
-        .scrolling-wrapper {
-            width: 100%;
+        .scrolling-area {
+            flex: 1;
             overflow: hidden;
             white-space: nowrap;
-            padding: 0;
-            line-height: 1;
+            padding: 12px 0;
         }
-        .scrolling-text {
+        .marquee-content {
             display: inline-block;
-            animation: scrollTextMarquee 25s linear infinite;
-            font-size: 1rem;
+            animation: scrollLeft 20s linear infinite;
+            color: #333;
+            font-size: 0.9rem;
             font-weight: 500;
-            color: #1a1a1a;
-            padding: 16px 0;
-            letter-spacing: 0.3px;
-            background: #e8f5e9;
         }
-        .scrolling-text i {
+        .marquee-content i {
             color: #2e7d32;
-            margin: 0 6px;
+            margin: 0 4px;
         }
-        @keyframes scrollTextMarquee {
+        @keyframes scrollLeft {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
         @media (max-width: 600px) {
-            .scrolling-text { font-size: 0.85rem; padding: 12px 0; }
-            .fixed-badge span { font-size: 0.75rem; padding: 8px 16px; }
+            .badge { padding: 8px 12px; font-size: 0.7rem; }
+            .marquee-content { font-size: 0.75rem; }
+            .scrolling-area { padding: 8px 0; }
         }
         /* ========== মার্কি শেষ ========== */
         
@@ -953,21 +932,16 @@
     </div>
 </div>
 
-<!-- ========== ডিজাইন ৭: রিপল ওয়েভ মার্কি (গ্যাপ ছাড়া) ========== -->
+<!-- ========== স্টাইল ১০: কার্ড স্টাইলে ব্যাজ + মার্কি ========== -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
-    <div class="live-marquee">
-        <!-- স্থির ব্যাজ - বাম পাশে -->
-        <div class="fixed-badge">
-            <span>
-                <i class="fa-regular fa-circle-play"></i> চলমান
-            </span>
+    <div class="marquee-container">
+        <div class="badge">
+            <i class="fa-regular fa-circle-play"></i> চলমান
         </div>
-        
-        <!-- পেছনের স্ক্রোলিং লেখা - বাম পাশে গ্যাপ ছাড়া -->
-        <div class="scrolling-wrapper">
-            <span class="scrolling-text" id="liveMarqueeText">
+        <div class="scrolling-area">
+            <div class="marquee-content" id="liveMarqueeText">
                 🔴 বৈশাখী মেলা - ঢাকা, ঢাকা  •  🔴 নবান্ন মেলা - রাজশাহী, রাজশাহী
-            </span>
+            </div>
         </div>
     </div>
 </div>
