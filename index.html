@@ -175,7 +175,7 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* ========== নতুন লাইভ মার্কি (লাইটিং বোর্ড স্টাইল) ========== */
+        /* লাইভ মার্কি (লাইটিং বোর্ড স্টাইল) */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
@@ -244,7 +244,6 @@
             margin-right: 8px;
             font-size: 0.9rem;
         }
-        /* ========== পরিবর্তন শেষ ========== */
         
         /* ক্যাটাগরি আইকন (হেডার ডান পাশে) */
         .header-category-icon {
@@ -338,27 +337,8 @@
             margin-top: 4px;
         }
         
-        /* ক্যাটাগরি চিপস (স্লাইডারের নিচে) */
-        .cat-chips-section {
-            padding: 0 16px;
-            margin: 8px 0;
-        }
-        .chip-container {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 8px 0;
-        }
-        .chip {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .chip.active { background: #1a1a1a; color: white; border: none; }
+        /* ========== ক্যাটাগরি চিপস সম্পূর্ণ বাদ ========== */
+        /* .cat-chips-section সম্পূর্ণ রিমুভ করা হয়েছে */
         
         /* বিভাগ চিপস */
         .division-chip-container {
@@ -430,9 +410,10 @@
             color: white;
         }
         
+        /* মেলার নাম - বড় করা হয়েছে */
         .news-title {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
             line-height: 1.3;
             color: #1a1a1a;
             margin-bottom: 8px;
@@ -440,6 +421,21 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 8px;
+        }
+        
+        /* লোকেশন - দ্বিতীয় লাইনে */
+        .news-location {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-left: 4px;
+        }
+        .news-location i {
+            color: #00c853;
+            font-size: 0.8rem;
         }
         
         .news-body {
@@ -463,6 +459,7 @@
             -webkit-line-clamp: unset;
         }
         
+        /* তথ্য গ্রিড - তারিখের জন্য */
         .news-info-grid {
             display: flex;
             flex-wrap: wrap;
@@ -827,7 +824,7 @@
         .toast.show { opacity: 1; }
         
         @media (max-width: 500px) {
-            .news-title { font-size: 1.4rem; }
+            .news-title { font-size: 1.5rem; }
             .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
             .live-marquee-content { font-size: 0.8rem; }
@@ -950,7 +947,7 @@
     </div>
 </div>
 
-<!-- ========== নতুন লাইভ মার্কি (লাইটিং বোর্ড স্টাইল) ========== -->
+<!-- লাইভ মার্কি (লাইটিং বোর্ড স্টাইল) -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
     <div class="live-marquee">
         <div class="live-marquee-label">
@@ -963,19 +960,8 @@
         </div>
     </div>
 </div>
-<!-- ========== পরিবর্তন শেষ ========== -->
 
-<!-- ক্যাটাগরি চিপস (স্লাইডারের নিচে) -->
-<div class="cat-chips-section">
-    <div class="chip-container" id="catChipsContainer">
-        <div class="chip active" data-cat="all">সব মেলা</div>
-        <div class="chip" data-cat="চলমান">🟢 চলমান</div>
-        <div class="chip" data-cat="আসন্ন">⏰ আসন্ন</div>
-        <div class="chip" data-cat="১৫ দিন">📅 ১৫ দিন</div>
-        <div class="chip" data-cat="সাপ্তাহিক">🛒 সাপ্তাহিক</div>
-        <div class="chip" data-cat="৩ দিন">🔥 ৩ দিন</div>
-    </div>
-</div>
+<!-- ========== ক্যাটাগরি চিপস সেকশন সম্পূর্ণ বাদ দেওয়া হয়েছে ========== -->
 
 <!-- বিভাগ ফিল্টার চিপস -->
 <div id="divisionContainer" class="division-chip-container"></div>
@@ -1405,7 +1391,7 @@
         document.getElementById("statReviews").innerText = reviewCount;
     }
     
-    // আপডেটেড লাইভ মার্কি ফাংশন (নিচ থেকে উপরে স্ক্রল স্টাইলে প্রতি ৩ সেকেন্ডে পরিবর্তন)
+    // লাইভ মার্কি ফাংশন (প্রতি ৩ সেকেন্ডে পরিবর্তন)
     function updateLiveMarquee() {
         // চলমান মেলা গুলো সংগ্রহ
         liveMelasList = allPosts.filter(p => getStatusText(p).type === 'live');
@@ -1550,10 +1536,12 @@
                         ${statusBadgeHtml}
                         ${escapeHtml(post.title)}
                     </div>
+                    <div class="news-location">
+                        <i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}
+                    </div>
                 </div>
                 <div class="news-body">
                     <div class="news-info-grid">
-                        <div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div>
                         <div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
                     </div>
                     <div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">
@@ -1752,24 +1740,8 @@
         item.addEventListener("click", () => {
             const cat = item.dataset.cat;
             activeCategory = cat;
-            // চিপসেও active দেখানো
-            document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
-                chip.classList.remove("active");
-                if(chip.dataset.cat === cat) chip.classList.add("active");
-            });
             loadPosts();
             document.getElementById("categoryDropdown").classList.remove("show");
-        });
-    });
-    
-    // চিপস থেকে ক্যাটাগরি সিলেক্ট
-    document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
-        chip.addEventListener("click", () => {
-            const cat = chip.dataset.cat;
-            activeCategory = cat;
-            document.querySelectorAll("#catChipsContainer .chip").forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-            loadPosts();
         });
     });
     
