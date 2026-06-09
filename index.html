@@ -1071,7 +1071,7 @@
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
-<!-- পোস্ট মডাল -->
+<!-- ========== পোস্ট মডাল (সময়কাল + ক্যাটাগরি বাধ্যতামূলক) ========== -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলা পোস্ট করুন</h3>
@@ -1080,15 +1080,24 @@
         <select id="postDistrict" required></select>
         <select id="postUpazila"></select>
         
+        <!-- সময়কাল (বাধ্যতামূলক) -->
         <div class="form-group">
             <label class="form-label">📋 মেলার সময়কাল * <span style="color:#dc3545;">(বাধ্যতামূলক)</span></label>
-            <select id="postCategory" class="form-select" required>
+            <select id="postTimeCategory" class="form-select" required>
                 <option value="">-- নির্বাচন করুন --</option>
                 <option value="৩০ দিন">📅 ৩০ দিনের মেলা</option>
                 <option value="১৫ দিন">📆 ১৫ দিনের মেলা</option>
                 <option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option>
                 <option value="৩ দিন">🔥 ৩ দিনের মেলা</option>
                 <option value="অন্যান্য">🎪 অন্যান্য</option>
+            </select>
+        </div>
+        
+        <!-- ক্যাটাগরি (বিষয়ভিত্তিক) (বাধ্যতামূলক) -->
+        <div class="form-group">
+            <label class="form-label">🏷️ মেলার ক্যাটাগরি * <span style="color:#dc3545;">(বাধ্যতামূলক)</span></label>
+            <select id="postTopicCategory" class="form-select" required>
+                <option value="">-- নির্বাচন করুন --</option>
             </select>
         </div>
         
@@ -1204,6 +1213,7 @@
             ];
         }
         
+        // বিষয় ক্যাটাগরি প্যানেল পপুলেট
         const grid = document.getElementById('topicCategoryGrid');
         if(grid) {
             grid.innerHTML = categoriesList.map(cat => `
@@ -1229,6 +1239,13 @@
                     }
                 });
             });
+        }
+        
+        // পোস্ট ফর্মের ক্যাটাগরি ড্রপডাউন পপুলেট
+        const topicSelect = document.getElementById('postTopicCategory');
+        if(topicSelect && categoriesList.length) {
+            topicSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + 
+                categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
         }
     }
     
@@ -1981,17 +1998,21 @@
         const start = document.getElementById("startDate").value;
         const end = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
-        const cat = document.getElementById("postCategory").value;
+        const timeCat = document.getElementById("postTimeCategory").value;
+        const topicCat = document.getElementById("postTopicCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
         
         if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
-        if(!cat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
+        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
+        if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
         
         const postData = { 
             title, division, district, upazila, 
             locationLink: locationLink || "",
             startDate: start, endDate: end, 
-            description: desc, category: cat, 
+            description: desc, 
+            category: timeCat,
+            topicCategory: topicCat,
             createdAt: Date.now(), 
             uid: currentUser.uid,
             email: currentUser.email,
@@ -2013,7 +2034,8 @@
         document.getElementById("anonymousPost").checked = false;
         document.getElementById("startDate").value = "";
         document.getElementById("endDate").value = "";
-        document.getElementById("postCategory").value = "";
+        document.getElementById("postTimeCategory").value = "";
+        document.getElementById("postTopicCategory").value = "";
         loadPosts();
         showToast("✅ মেলা পোস্ট হয়েছে!");
     };
