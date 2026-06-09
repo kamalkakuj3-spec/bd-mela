@@ -257,30 +257,36 @@
             color: #2e7d32;
         }
         
-        /* অটো স্লাইডার */
+        /* অটো স্লাইডার - সঠিকভাবে দেখানোর জন্য */
         .slider-card {
             background: white;
             border-radius: 20px;
             margin: 12px 16px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            position: relative;
+            width: auto;
         }
         .banner-slider {
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
         .banner-container {
             display: flex;
             transition: transform 0.5s ease-in-out;
+            width: 100%;
         }
         .banner-item {
             min-width: 100%;
             cursor: pointer;
+            flex-shrink: 0;
         }
         .banner-item img {
             width: 100%;
             height: 180px;
             object-fit: cover;
+            display: block;
         }
         .banner-dots {
             display: flex;
@@ -382,7 +388,7 @@
             color: white;
         }
         
-        /* স্ট্যাটিস্টিক্স কার্ড */
+        /* স্ট্যাটিস্টিক্স কার্ড - ক্লিকযোগ্য */
         .stats-card {
             background: white;
             border-radius: 20px;
@@ -405,6 +411,14 @@
         }
         .stat-item {
             flex: 1;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 8px 4px;
+            border-radius: 12px;
+        }
+        .stat-item:hover {
+            background: #e8f5e9;
+            transform: scale(1.02);
         }
         .stat-number {
             font-size: 1.8rem;
@@ -879,6 +893,7 @@
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
+            .stat-number { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -961,9 +976,6 @@
     </div>
 </div>
 
-<!-- ক্যাটাগরি ড্রপডাউন (পুরনো, রিপ্লেস) -->
-<div id="categoryDropdown" style="display:none;"></div>
-
 <!-- ========== সার্চ + ফিল্টার সেকশন ========== -->
 <div class="search-filter-section" id="searchFilterSection">
     <div class="search-box">
@@ -1010,14 +1022,26 @@
     </div>
 </div>
 
-<!-- স্ট্যাটিস্টিক্স কার্ড -->
+<!-- স্ট্যাটিস্টিক্স কার্ড (ক্লিকযোগ্য) -->
 <div class="stats-card">
     <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
     <div class="stats-grid">
-        <div class="stat-item"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div>
-        <div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div>
+        <div class="stat-item" id="statLiveItem" onclick="filterByStatus('live')">
+            <div class="stat-number" id="statLive">0</div>
+            <div class="stat-label">চলমান মেলা</div>
+        </div>
+        <div class="stat-item" id="statSoonItem" onclick="filterByStatus('soon')">
+            <div class="stat-number" id="statSoon">0</div>
+            <div class="stat-label">আসন্ন মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statEnded">0</div>
+            <div class="stat-label">সমাপ্ত মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statReviews">0</div>
+            <div class="stat-label">মোট রিভিউ</div>
+        </div>
     </div>
 </div>
 
@@ -1126,6 +1150,7 @@
     
     let currentUser = null;
     let activeCategory = "all";
+    let statusFilter = "all";
     let searchText = "";
     let divisionsData = [];
     let savedPostsIds = [];
@@ -1173,23 +1198,29 @@
         startAutoSlide();
     });
     
+    // স্ট্যাটাস অনুযায়ী ফিল্টার করার ফাংশন
+    window.filterByStatus = function(status) {
+        statusFilter = status;
+        activeCategory = "all";
+        document.getElementById('categoryPopup').classList.remove('show');
+        loadPosts();
+        showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে');
+    };
+    
     // স্ক্রল ইফেক্ট
     window.addEventListener('scroll', function() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
         if (scrollTop > lastScrollTop && scrollTop > 60) {
-            // স্ক্রল ডাউন (নিচের দিকে) - হেডার লুকাও, স্ক্রল মার্কি দেখাও, নরমাল মার্কি লুকাও
             header.classList.add('hide');
             scrollMarquee.classList.add('show');
             normalMarquee.classList.remove('show-marquee');
         } else if (scrollTop < lastScrollTop) {
-            // স্ক্রল আপ (উপরের দিকে) - হেডার দেখাও, স্ক্রল মার্কি লুকাও, নরমাল মার্কি দেখাও
             header.classList.remove('hide');
             scrollMarquee.classList.remove('show');
             normalMarquee.classList.add('show-marquee');
         }
         
-        // পেজের একদম উপরে চলে গেলে নরমাল মার্কি লুকাও
         if (scrollTop <= 10) {
             normalMarquee.classList.remove('show-marquee');
         }
@@ -1208,20 +1239,19 @@
         item.addEventListener('click', () => {
             const cat = item.dataset.cat;
             activeCategory = cat;
+            statusFilter = "all";
             document.getElementById('categoryPopup').classList.remove('show');
             loadPosts();
             showToast(`📂 ${item.innerText} দেখানো হচ্ছে`);
         });
     });
     
-    // পপআপ বন্ধ করতে বাইরে ক্লিক করলে
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#headerCategoryIcon') && !e.target.closest('.category-popup')) {
             document.getElementById('categoryPopup').classList.remove('show');
         }
     });
     
-    // ড্রয়ারে সেভড পোস্ট লোড করার ফাংশন
     async function loadSavedPostsToDrawer() {
         const savedListContainer = document.getElementById('drawerSavedList');
         if (!savedListContainer) return;
@@ -1277,14 +1307,14 @@
             const snapshot = await db.ref('settings/imageSlider/images').once('value');
             let images = snapshot.val() || [];
             if(images.length === 0) {
-                images = [{ url: "https://placehold.co/600x180?text=Bangladesh+Mela", link: "#" }];
+                images = [{ url: "https://placehold.co/600x180/e0e0e0/666?text=Bangladesh+Mela", link: "#" }];
             }
             bannerImages = images;
             const container = document.getElementById("bannerContainer");
             const dotsContainer = document.getElementById("bannerDots");
             container.innerHTML = images.map((img, idx) => `
                 <div class="banner-item" onclick="window.open('${img.link}', '_blank')">
-                    <img src="${img.url}" onerror="this.src='https://placehold.co/600x180?text=Image+Not+Found'">
+                    <img src="${img.url}" onerror="this.src='https://placehold.co/600x180/e0e0e0/666?text=Image+Not+Found'">
                 </div>
             `).join('');
             dotsContainer.innerHTML = images.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join('');
@@ -1392,6 +1422,8 @@
         selectedDistrict = "";
         selectedUpazila = "";
         searchText = "";
+        statusFilter = "all";
+        activeCategory = "all";
         loadPosts();
         showToast("সব ফিল্টার রিসেট হয়েছে");
     }
@@ -1508,10 +1540,18 @@
         allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         
         let filtered = allPosts.filter(post => {
+            // স্ট্যাটাস ফিল্টার (চলমান/আসন্ন)
+            if(statusFilter !== "all") {
+                const postStatus = getStatusText(post).type;
+                if(postStatus !== statusFilter) return false;
+            }
+            // ক্যাটাগরি ফিল্টার
             if(activeCategory !== "all" && post.category !== activeCategory) return false;
+            // লোকেশন ফিল্টার
             if(selectedDivision && post.division !== selectedDivision) return false;
             if(selectedDistrict && post.district !== selectedDistrict) return false;
             if(selectedUpazila && post.upazila !== selectedUpazila) return false;
+            // সার্চ ফিল্টার
             if(searchText) {
                 const s = searchText.toLowerCase();
                 return (post.title?.toLowerCase().includes(s) || 
@@ -1832,6 +1872,8 @@
     async function showMyPosts() {
         showingMyPosts = true;
         currentView = "home";
+        statusFilter = "all";
+        activeCategory = "all";
         await loadPosts();
         document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
         document.getElementById("navHome").classList.add("active");
@@ -1857,8 +1899,8 @@
         }
     };
     
-    document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); updateNavActive("home"); };
-    document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
+    document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; statusFilter = "all"; activeCategory = "all"; loadPosts(); updateNavActive("home"); };
+    document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; statusFilter = "all"; loadPosts(); updateNavActive("saved"); };
     document.getElementById("navCreate").onclick = () => document.getElementById("postModal").style.display = "flex";
     document.getElementById("navProfileBtn").onclick = openDrawer;
     
