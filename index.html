@@ -427,16 +427,35 @@
             font-weight: 500;
         }
         @media (max-width: 550px) {
-            .billboard-title { font-size: 1.2rem; padding: 0 10px; margin-bottom: 12px; }
-            .billboard-desc { font-size: 0.85rem; padding: 0 15px; }
-            .billboard-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
-        }
-        @media (max-width: 400px) {
-            .billboard-title { font-size: 1rem; }
-            .billboard-desc { font-size: 0.75rem; }
+            .billboard-title { font-size: 1.2rem; }
+            .billboard-desc { font-size: 0.85rem; }
+            .billboard-tag { font-size: 0.65rem; }
         }
         
-        /* ========== অটো স্লাইডার ========== */
+        /* চলন্ত লেখা */
+        .marquee-card {
+            padding: 12px 16px;
+            margin: 0;
+        }
+        .marquee {
+            background: #1a1a1a;
+            color: white;
+            padding: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            border-radius: 20px;
+        }
+        .marquee p {
+            display: inline-block;
+            animation: scrollText 25s linear infinite;
+            font-size: 0.8rem;
+        }
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* অটো স্লাইডার */
         .slider-card {
             background: white;
             border-radius: 20px;
@@ -568,7 +587,7 @@
             margin-top: 4px;
         }
         
-        /* ========== পোস্ট কার্ড (মেলা) - সরলীকৃত ========== */
+        /* ========== মেলার কার্ড (সরলীকৃত) ========== */
         .posts-grid {
             display: flex;
             flex-direction: column;
@@ -583,7 +602,6 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             transition: all 0.2s;
             cursor: pointer;
-            position: relative;
         }
         .mela-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
@@ -676,9 +694,7 @@
             padding: 6px 0;
             transition: 0.2s;
         }
-        .action-btn:hover {
-            color: #1a1a1a;
-        }
+        .action-btn:hover { color: #1a1a1a; }
         .action-btn.liked { color: #e74c3c; }
         .action-btn.saved { color: #f39c12; }
         .action-btn .count { font-size: 0.75rem; }
@@ -721,6 +737,42 @@
             cursor: pointer;
             transition: transform 0.1s;
         }
+        
+        .comments-section {
+            display: none;
+            background: #f8f9fa;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 12px;
+        }
+        .comment-input {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .comment-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        .comment-input button {
+            padding: 8px 16px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        .comment-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.8rem;
+        }
+        .comment-item strong { color: #00c853; }
         
         /* সাইড ড্রয়ার */
         .side-drawer {
@@ -973,7 +1025,7 @@
     </div>
 </div>
 
-<!-- ========== বিলবোর্ড স্লাইডার (সাদা-গোল্ডেন থিম) ========== -->
+<!-- ========== বিলবোর্ড স্লাইডার (সর্বশেষ মেলার খবরের উপরে) ========== -->
 <div class="billboard">
     <div class="billboard-screen">
         <div class="billboard-content" id="billboardContainer">
@@ -1024,23 +1076,52 @@
 </div>
 
 <!-- চলন্ত লেখা -->
-<div class="marquee-card" style="padding:12px 16px;"><div class="marquee" style="background:#1a1a1a;color:white;padding:10px;border-radius:20px;overflow:hidden;white-space:nowrap;"><p style="display:inline-block;animation:scrollText 25s linear infinite;font-size:0.8rem;">🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p></div></div>
-<style>@keyframes scrollText{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>
+<div class="marquee-card">
+    <div class="marquee">
+        <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
+    </div>
+</div>
 
 <!-- অটো স্লাইডার -->
-<div class="slider-card"><div class="banner-slider"><div class="banner-container" id="bannerContainer"><div class="banner-item"><img src="https://placehold.co/600x180?text=Loading..." alt="Banner"></div></div><div class="banner-dots" id="bannerDots"></div></div></div>
+<div class="slider-card">
+    <div class="banner-slider">
+        <div class="banner-container" id="bannerContainer">
+            <div class="banner-item"><img src="https://placehold.co/600x180?text=Loading..." alt="Banner"></div>
+        </div>
+        <div class="banner-dots" id="bannerDots"></div>
+    </div>
+</div>
 
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
-<div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
+<div class="stats-card">
+    <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
+    <div class="stats-grid">
+        <div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div>
+        <div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div>
+        <div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div>
+        <div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div>
+    </div>
+</div>
 
 <!-- লাইভ মার্কি -->
-<div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;"><div class="live-marquee-container"><div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div><div class="live-scrolling-area"><div class="live-marquee-text" id="liveMarqueeText"></div></div></div></div>
+<div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;">
+    <div class="live-marquee-container">
+        <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
+        <div class="live-scrolling-area">
+            <div class="live-marquee-text" id="liveMarqueeText"></div>
+        </div>
+    </div>
+</div>
 
 <!-- পোস্ট গ্রিড টাইটেল -->
-<div class="section-title" style="padding:0 16px; margin-bottom:12px;"><h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3></div>
+<div class="section-title" style="padding:0 16px; margin-bottom:12px;">
+    <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
+</div>
 
 <!-- মেলার কার্ড গ্রিড -->
-<div id="postsContainer" class="posts-grid"><div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div></div>
+<div id="postsContainer" class="posts-grid">
+    <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
+</div>
 
 <!-- নিচের মেনু বার -->
 <div class="bottom-nav">
@@ -1244,7 +1325,7 @@
     async function renderPosts(posts) {
         const container = document.getElementById("postsContainer"); if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; } container.innerHTML = "";
         for(const post of posts) {
-            const reactions = post.reactions || {}; const reactionCount = Object.keys(reactions).length; const userReaction = reactions[currentUser?.uid]; const isSaved = savedPostsIds.includes(post.id); const isMyPost = (post.uid === currentUser?.uid); const commentCount = post.comments ? Object.keys(post.comments).length : 0; const status = getStatusText(post);
+            const reactions = post.reactions || {}; const reactionCount = Object.keys(reactions).length; const userReaction = reactions[currentUser?.uid]; const isSaved = savedPostsIds.includes(post.id); const isMyPost = (post.uid === currentUser?.uid); const commentCount = post.comments ? Object.keys(post.comments).length : 0;
             
             let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">${userReaction ? userReaction.emoji : '<i class="fa-regular fa-thumbs-up"></i>'} <span class="count">${reactionCount}</span></button>`;
             let actionButtons = `<div class="mela-actions">${likeButtonHtml}<button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button><button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>`;
