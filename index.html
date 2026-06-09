@@ -175,43 +175,76 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* চলমান মেলার লাইভ মার্কি */
+        /* ========== নতুন লাইভ মার্কি (লাইটিং বোর্ড স্টাইল) ========== */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
         }
         .live-marquee {
-            background: #e8f5e9;
-            border-left: 4px solid #2e7d32;
-            padding: 10px;
-            overflow: hidden;
-            white-space: nowrap;
+            background: #000000;
             border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 0 15px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,215,0,0.5);
+            overflow: hidden;
+            position: relative;
         }
         .live-marquee-label {
-            display: inline-block;
-            background: #2e7d32;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-right: 12px;
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .live-marquee-content-wrapper {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
         }
         .live-marquee-content {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(255,215,0,0.8);
+            letter-spacing: 0.5px;
+            animation: slideUpText 0.5s ease-out;
+            padding: 8px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 40px;
             display: inline-block;
-            animation: scrollLiveText 30s linear infinite;
-            font-size: 0.8rem;
-            color: #1a1a1a;
+            width: auto;
+            max-width: 100%;
+        }
+        @keyframes slideUpText {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .live-marquee-content i {
-            color: #2e7d32;
-            margin: 0 4px;
+            color: #ffd700;
+            margin-right: 8px;
+            font-size: 0.9rem;
         }
-        @keyframes scrollLiveText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
+        /* ========== পরিবর্তন শেষ ========== */
         
         /* ক্যাটাগরি আইকন (হেডার ডান পাশে) */
         .header-category-icon {
@@ -797,6 +830,8 @@
             .news-title { font-size: 1.4rem; }
             .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
+            .live-marquee-content { font-size: 0.8rem; }
+            .live-marquee-content-wrapper { height: 60px; }
         }
     </style>
 </head>
@@ -915,13 +950,20 @@
     </div>
 </div>
 
-<!-- চলমান মেলার লাইভ মার্কি (সর্বশেষ মেলার খবরের উপরে) -->
+<!-- ========== নতুন লাইভ মার্কি (লাইটিং বোর্ড স্টাইল) ========== -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
     <div class="live-marquee">
-        <span class="live-marquee-label">🔴 চলমান মেলা</span>
-        <span class="live-marquee-content" id="liveMarqueeText"></span>
+        <div class="live-marquee-label">
+            <i class="fa-solid fa-broadcast-tower"></i> বাংলাদেশের চলমান মেলা সমূহ
+        </div>
+        <div class="live-marquee-content-wrapper">
+            <div class="live-marquee-content" id="liveMarqueeText">
+                <i class="fa-solid fa-location-dot"></i> লোড হচ্ছে...
+            </div>
+        </div>
     </div>
 </div>
+<!-- ========== পরিবর্তন শেষ ========== -->
 
 <!-- ক্যাটাগরি চিপস (স্লাইডারের নিচে) -->
 <div class="cat-chips-section">
@@ -1052,6 +1094,11 @@
     let currentEditPostId = null;
     let showingMyPosts = false;
     let allPosts = [];
+    
+    // লাইভ মার্কির জন্য ভেরিয়েবল
+    let liveMarqueeInterval = null;
+    let currentLiveIndex = 0;
+    let liveMelasList = [];
     
     const reactionEmojis = [
         { code: "like", emoji: "❤️", type: "like" },
@@ -1358,18 +1405,39 @@
         document.getElementById("statReviews").innerText = reviewCount;
     }
     
+    // আপডেটেড লাইভ মার্কি ফাংশন (নিচ থেকে উপরে স্ক্রল স্টাইলে প্রতি ৩ সেকেন্ডে পরিবর্তন)
     function updateLiveMarquee() {
-        const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
+        // চলমান মেলা গুলো সংগ্রহ
+        liveMelasList = allPosts.filter(p => getStatusText(p).type === 'live');
         const container = document.getElementById("liveMarqueeContainer");
-        const textElem = document.getElementById("liveMarqueeText");
         
-        if(liveMelas.length === 0) {
+        if(liveMelasList.length === 0) {
             container.style.display = "none";
+            if(liveMarqueeInterval) clearInterval(liveMarqueeInterval);
             return;
         }
+        
         container.style.display = "block";
-        const text = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join(' • ');
-        textElem.innerHTML = text;
+        
+        // আগের interval বন্ধ করে নতুন শুরু
+        if(liveMarqueeInterval) clearInterval(liveMarqueeInterval);
+        currentLiveIndex = 0;
+        updateLiveMarqueeText();
+        
+        liveMarqueeInterval = setInterval(() => {
+            currentLiveIndex = (currentLiveIndex + 1) % liveMelasList.length;
+            updateLiveMarqueeText();
+        }, 3000);
+    }
+    
+    function updateLiveMarqueeText() {
+        if(liveMelasList.length === 0) return;
+        const mela = liveMelasList[currentLiveIndex];
+        const textElem = document.getElementById("liveMarqueeText");
+        if(textElem) {
+            // নাম এবং ঠিকানা (জেলা ও বিভাগ) দেখানো
+            textElem.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${escapeHtml(mela.title)} - ${escapeHtml(mela.district)}, ${escapeHtml(mela.division)}`;
+        }
     }
     
     function showReactionPopup(btnElement, postId) {
