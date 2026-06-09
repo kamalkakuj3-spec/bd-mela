@@ -317,38 +317,27 @@
             font-size: 14px;
             color: #2e7d32;
         }
-        
-        /* ========== পিকনিক স্পট প্যানেল ========== */
-        .spots-panel {
-            display: none;
-            position: fixed;
-            bottom: 80px;
-            left: 16px;
-            right: 16px;
-            background: white;
-            border-radius: 24px;
-            padding: 16px;
-            z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+        .saved-item-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
             border: 1px solid #e0e0e0;
-            max-height: 70vh;
-            overflow-y: auto;
         }
-        .spots-panel.show {
-            display: block;
-            animation: slideUp 0.3s ease;
+        .saved-item-card:hover {
+            background: #e8f5e9;
+            border-color: #2e7d32;
         }
-        .spots-panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 12px;
-        }
-        .spots-panel-header h4 {
+        .saved-item-title {
             font-size: 14px;
-            color: #2e7d32;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .saved-item-loc {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
         }
         
         /* অটো স্লাইডার */
@@ -504,20 +493,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
         
-        .spot-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            transition: all 0.2s;
-            cursor: pointer;
-            position: relative;
-            border-left: 4px solid #ff9800;
-        }
-        .spot-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        }
-        
         .news-header {
             padding: 16px 16px 8px 16px;
             border-bottom: 1px solid #f0f0f0;
@@ -538,10 +513,6 @@
         .news-category.time-cat {
             background: #fff3e0;
             color: #f57c00;
-        }
-        .news-category.spot-cat {
-            background: #fff3e0;
-            color: #ff9800;
         }
         
         .title-badge {
@@ -855,7 +826,7 @@
             margin: 10px 0;
         }
         
-        /* ========== নিচের মেনু বার (৭টি আইকন) ========== */
+        /* ========== নিচের মেনু বার (৫টি আইকন) ========== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -865,10 +836,9 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 8px 12px;
+            padding: 8px 16px;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
             z-index: 200;
-            flex-wrap: wrap;
         }
         .nav-item {
             display: flex;
@@ -879,9 +849,9 @@
             border: none;
             cursor: pointer;
             color: #aaa;
-            font-size: 0.55rem;
+            font-size: 0.6rem;
         }
-        .nav-item i { font-size: 1.2rem; }
+        .nav-item i { font-size: 1.3rem; }
         .nav-item.active { color: #1a1a1a; }
         .nav-center {
             background: #1a1a1a;
@@ -895,29 +865,6 @@
             margin-top: -20px;
         }
         .nav-center i { font-size: 1.5rem; color: white; }
-        
-        .saved-item-card, .spot-item-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            border: 1px solid #e0e0e0;
-        }
-        .saved-item-card:hover, .spot-item-card:hover {
-            background: #e8f5e9;
-            border-color: #2e7d32;
-        }
-        .saved-item-title, .spot-item-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-        .saved-item-loc, .spot-item-loc {
-            font-size: 11px;
-            color: #888;
-            margin-top: 4px;
-        }
         
         .loader { text-align: center; padding: 40px; color: #888; }
         .toast {
@@ -939,14 +886,12 @@
         
         @media (max-width: 500px) {
             .news-title { font-size: 1.4rem; }
-            .stats-number { font-size: 1.2rem; }
+            .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
-            .nav-item { font-size: 0.5rem; }
-            .nav-item i { font-size: 1rem; }
-            .nav-center { width: 42px; height: 42px; margin-top: -16px; }
-            .nav-center i { font-size: 1.2rem; }
+            .stat-number { font-size: 1.2rem; }
+            .time-category-grid, .topic-category-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -990,15 +935,6 @@
     <div id="savedItemsList" style="max-height:60vh; overflow-y:auto;"></div>
 </div>
 
-<!-- পিকনিক স্পট প্যানেল -->
-<div class="spots-panel" id="spotsPanel">
-    <div class="spots-panel-header">
-        <h4><i class="fa-regular fa-tree"></i> পিকনিক স্পট</h4>
-        <i class="fa-solid fa-times" onclick="closeSpotsPanel()" style="cursor:pointer;color:#999;"></i>
-    </div>
-    <div id="spotsList" style="max-height:60vh; overflow-y:auto;"></div>
-</div>
-
 <!-- সাইড ড্রয়ার -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="side-drawer" id="sideDrawer">
@@ -1017,7 +953,10 @@
 <!-- হেডার -->
 <div class="app-header">
     <div class="logo-area"><i class="fa-solid fa-bars menu-icon" id="menuIcon"></i><div><h1>বাংলাদেশ মেলা</h1><p>দেশের মেলার ঠিকানা</p></div></div>
-    <div class="header-icons"><i class="fa-regular fa-bell" id="notifIcon"></i></div>
+    <div class="header-icons">
+        <i class="fa-regular fa-bookmark" id="headerSavedIcon" style="cursor:pointer;"></i>
+        <i class="fa-regular fa-bell" id="notifIcon"></i>
+    </div>
 </div>
 
 <!-- সার্চ + ফিল্টার সেকশন -->
@@ -1048,51 +987,36 @@
 <div class="section-title" style="padding:0 16px; margin-bottom:12px;"><h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3></div>
 <div id="postsContainer" class="posts-grid"><div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div></div>
 
-<!-- নিচের মেনু বার (৭টি আইকন) -->
+<!-- নিচের মেনু বার (৫টি আইকন) -->
 <div class="bottom-nav">
     <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
-    <button class="nav-item" id="navSavedBtn"><i class="fa-regular fa-bookmark"></i><span>সেভ</span></button>
     <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
-    <button class="nav-item" id="navSpotsBtn"><i class="fa-regular fa-tree"></i><span>স্পট</span></button>
-    <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়</span></button>
+    <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়কাল</span></button>
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
-<!-- পোস্ট মডাল (মেলা ও স্পট দুই ধরনের) -->
+<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
-        <h3>📝 নতুন পোস্ট করুন</h3>
-        <div class="form-group"><label class="form-label">পোস্টের ধরন *</label>
-            <select id="postType" class="form-select" required onchange="togglePostTypeFields()">
-                <option value="mela">🎪 মেলা</option>
-                <option value="spot">🏕️ পিকনিক স্পট</option>
-            </select>
-        </div>
+        <h3>📝 নতুন মেলা পোস্ট করুন</h3>
+        <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
+        <select id="postDivision" required></select>
+        <select id="postDistrict" required></select>
+        <select id="postUpazila"></select>
         
-        <!-- মেলার ফিল্ড -->
-        <div id="melaFields">
-            <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
-            <select id="postDivision" required></select>
-            <select id="postDistrict" required></select>
-            <select id="postUpazila"></select>
-            <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="postTopicCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option></select></div>
-            <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
-            <div style="display: flex; gap: 10px;"><input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%" required><input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%" required></div>
-        </div>
+        <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="postTopicCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option></select></div>
         
-        <!-- পিকনিক স্পটের ফিল্ড -->
-        <div id="spotFields" style="display:none;">
-            <input type="text" id="spotName" placeholder="স্থানের নাম *" required>
-            <select id="spotDivision" required></select>
-            <select id="spotDistrict" required></select>
-            <select id="spotUpazila"></select>
-            <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক *</label><input class="form-input" id="spotLocationLink" placeholder="https://maps.google.com/?q=..."></div>
-            <div class="form-group"><label class="form-label">🖼️ ছবির লিংক (ঐচ্ছিক)</label><input class="form-input" id="spotImageUrl" placeholder="https://..."></div>
-        </div>
+        <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
+        
+        <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
+        
+        <div style="display: flex; gap: 10px;"><input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%" required><input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%" required></div>
         
         <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
+        
         <div class="checkbox-group"><input type="checkbox" id="anonymousPost"><label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
+        
         <button id="submitPost">পোস্ট করুন</button>
         <button class="cancel" id="closeModal">বাতিল</button>
     </div>
@@ -1126,7 +1050,6 @@
     let currentBannerIndex = 0;
     let bannerInterval = null;
     let allPosts = [];
-    let allSpots = [];
     let selectedDivision = "", selectedDistrict = "", selectedUpazila = "";
     
     auth.onAuthStateChanged(async (user) => {
@@ -1140,15 +1063,8 @@
         await loadSliderImages();
         await loadSavedPosts();
         loadPosts();
-        loadSpots();
         startAutoSlide();
     });
-    
-    function togglePostTypeFields() {
-        const type = document.getElementById('postType').value;
-        document.getElementById('melaFields').style.display = type === 'mela' ? 'block' : 'none';
-        document.getElementById('spotFields').style.display = type === 'spot' ? 'block' : 'none';
-    }
     
     async function loadCategoriesFromJSON() {
         try {
@@ -1176,12 +1092,10 @@
     }
     
     function getTopicCategoryIcon(catName) { const cat = categoriesList.find(c => c.name === catName); return cat ? cat.icon : '🎪'; }
-    function getTimeCategoryIcon(catName) { const icons = {'৩০ দিন':'📅','১৫ দিন':'📆','সাপ্তাহিক':'⚡','৩ দিন':'🔥','অন্যান्य':'🎪','চলমান':'🟢','আসন্ন':'⏰'}; return icons[catName] || '📆'; }
+    function getTimeCategoryIcon(catName) { const icons = {'৩০ দিন':'📅','১৫ দিন':'📆','সাপ্তাহিক':'⚡','৩ দিন':'🔥','অন্যান্য':'🎪','চলমান':'🟢','আসন্ন':'⏰'}; return icons[catName] || '📆'; }
     
     function openSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.add('show'); loadSavedItemsList(); }
     function closeSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.remove('show'); }
-    function openSpotsPanel() { document.getElementById('spotsPanel').classList.add('show'); loadSpotsList(); }
-    function closeSpotsPanel() { document.getElementById('spotsPanel').classList.remove('show'); }
     function openTimeCategoryPanel() { document.getElementById('timeCategoryPanel').classList.add('show'); }
     function closeTimeCategoryPanel() { document.getElementById('timeCategoryPanel').classList.remove('show'); }
     function openTopicCategoryPanel() { document.getElementById('topicCategoryPanel').classList.add('show'); }
@@ -1205,14 +1119,12 @@
     }
     
     function populateDivisionFilter() {
-        const divSelect = document.getElementById("divisionFilter"); const spotDivSelect = document.getElementById("spotDivision");
-        divSelect.innerHTML = '<option value="">সব বিভাগ</option>'; spotDivSelect.innerHTML = '<option value="">বিভাগ</option>';
-        divisionsData.forEach(div => { divSelect.add(new Option(div.name, div.name)); spotDivSelect.add(new Option(div.name, div.name)); });
+        const divSelect = document.getElementById("divisionFilter");
+        divSelect.innerHTML = '<option value="">সব বিভাগ</option>';
+        divisionsData.forEach(div => { divSelect.add(new Option(div.name, div.name)); });
         divSelect.onchange = function() { selectedDivision = this.value; selectedDistrict = ""; selectedUpazila = ""; updateDistrictFilter(); updateUpazilaFilter(); loadPosts(); };
         document.getElementById("districtFilter").onchange = function() { selectedDistrict = this.value; selectedUpazila = ""; updateUpazilaFilter(); loadPosts(); };
         document.getElementById("upazilaFilter").onchange = function() { selectedUpazila = this.value; loadPosts(); };
-        document.getElementById("spotDivision").onchange = function() { const div = this.value; const distSelect = document.getElementById("spotDistrict"); distSelect.innerHTML = '<option value="">জেলা</option>'; const division = divisionsData.find(d => d.name === div); if(division && division.districts) division.districts.forEach(dist => distSelect.add(new Option(dist.name, dist.name))); };
-        document.getElementById("spotDistrict").onchange = function() { const div = document.getElementById("spotDivision").value; const dist = this.value; const upazilaSelect = document.getElementById("spotUpazila"); upazilaSelect.innerHTML = '<option value="">উপজেলা</option>'; const division = divisionsData.find(d => d.name === div); const district = division?.districts?.find(d => d.name === dist); if(district && district.upazilas) district.upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); };
     }
     
     function updateDistrictFilter() { const districtSelect = document.getElementById("districtFilter"); districtSelect.innerHTML = '<option value="">সব জেলা</option>'; if(selectedDivision) { const division = divisionsData.find(d => d.name === selectedDivision); if(division && division.districts) division.districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); } }
@@ -1245,17 +1157,12 @@
         updateLiveMarquee();
     }
     
-    async function loadSpots() { const snapshot = await db.ref('spots').once('value'); allSpots = []; snapshot.forEach(child => { allSpots.push({ id: child.key, ...child.val() }); }); allSpots.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0)); }
-    
     function updateStatistics() { const live = allPosts.filter(p => getStatusText(p).type === 'live').length; const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length; const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length; let reviewCount = 0; allPosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); document.getElementById("statLive").innerText = live; document.getElementById("statSoon").innerText = soon; document.getElementById("statEnded").innerText = ended; document.getElementById("statReviews").innerText = reviewCount; }
     function updateLiveMarquee() { const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live'); const container = document.getElementById("liveMarqueeContainer"); const textElem = document.getElementById("liveMarqueeText"); if(liveMelas.length === 0) { container.style.display = "none"; return; } container.style.display = "block"; textElem.innerHTML = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join('  •  '); }
     
     function loadSavedItemsList() { const container = document.getElementById('savedItemsList'); if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="openPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div></div>`).join(''); }
     
-    function loadSpotsList() { const container = document.getElementById('spotsList'); if(allSpots.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">🏕️ কোনো পিকনিক স্পট যোগ করা হয়নি</div>'; return; } container.innerHTML = allSpots.map(spot => `<div class="spot-item-card" onclick="openSpotDetail('${spot.id}'); closeSpotsPanel();"><div class="saved-item-title">${escapeHtml(spot.name)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(spot.district)}, ${escapeHtml(spot.division)}</div></div>`).join(''); }
-    
     window.openPostDetail = function(id) { const post = allPosts.find(p => p.id === id); if(!post) return; showToast(`📄 ${post.title} - বিস্তারিত দেখুন`); };
-    window.openSpotDetail = function(id) { const spot = allSpots.find(s => s.id === id); if(!spot) return; showToast(`🏕️ ${spot.name} - বিস্তারিত দেখুন`); };
     
     async function renderPosts(posts) {
         const container = document.getElementById("postsContainer"); if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; } container.innerHTML = "";
@@ -1293,15 +1200,14 @@
     async function toggleSave(postId) { const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); const snap = await userRef.once('value'); let saved = snap.val() || []; if(saved.includes(postId)) saved = saved.filter(id => id !== postId); else saved.push(postId); await userRef.set(saved); savedPostsIds = saved; loadPosts(); showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল'); }
     function openDrawer() { document.getElementById("sideDrawer").classList.add("open"); document.getElementById("drawerOverlay").classList.add("show"); }
     function closeDrawer() { document.getElementById("sideDrawer").classList.remove("open"); document.getElementById("drawerOverlay").classList.remove("show"); }
-    function openPostModal() { document.getElementById("postModal").style.display = "flex"; closeDrawer(); togglePostTypeFields(); }
+    function openPostModal() { document.getElementById("postModal").style.display = "flex"; closeDrawer(); }
     function closePostModal() { document.getElementById("postModal").style.display = "none"; }
     
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
     document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
+    document.getElementById("headerSavedIcon").onclick = openSavedItemsPanel;
     document.getElementById("navSearchBtn").onclick = () => { document.getElementById("searchFilterSection").classList.toggle("show"); if(document.getElementById("searchFilterSection").classList.contains("show")) document.getElementById("searchInput").focus(); };
-    document.getElementById("navSavedBtn").onclick = openSavedItemsPanel;
-    document.getElementById("navSpotsBtn").onclick = openSpotsPanel;
     document.getElementById("navTimeCategory").onclick = openTimeCategoryPanel;
     document.getElementById("navTopicCategory").onclick = openTopicCategoryPanel;
     document.getElementById("navHome").onclick = () => { currentView = "home"; statusFilter = "all"; selectedTimeCategory = "all"; selectedTopicCategories = []; loadPosts(); document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active")); document.getElementById("navHome").classList.add("active"); };
@@ -1312,45 +1218,27 @@
     document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected');
     
     document.getElementById("submitPost").onclick = async () => {
-        const type = document.getElementById('postType').value;
-        if(type === 'mela') {
-            const title = document.getElementById("postTitle").value.trim();
-            const division = document.getElementById("postDivision").value;
-            const district = document.getElementById("postDistrict").value;
-            const upazila = document.getElementById("postUpazila").value;
-            const locationLink = document.getElementById("postLocationLink").value.trim();
-            const start = document.getElementById("startDate").value;
-            const end = document.getElementById("endDate").value;
-            const desc = document.getElementById("postDesc").value;
-            const topicCat = document.getElementById("postTopicCategory").value;
-            const timeCat = document.getElementById("postTimeCategory").value;
-            const isAnonymous = document.getElementById("anonymousPost").checked;
-            if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
-            if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
-            if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
-            const postData = { title, division, district, upazila, locationLink: locationLink || "", startDate: start, endDate: end, description: desc, category: timeCat, topicCategory: topicCat, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous, type: 'mela' };
-            if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
-            await db.ref('posts').push(postData);
-            showToast("✅ মেলা পোস্ট হয়েছে!");
-        } else {
-            const name = document.getElementById("spotName").value.trim();
-            const division = document.getElementById("spotDivision").value;
-            const district = document.getElementById("spotDistrict").value;
-            const upazila = document.getElementById("spotUpazila").value;
-            const locationLink = document.getElementById("spotLocationLink").value.trim();
-            const imageUrl = document.getElementById("spotImageUrl").value.trim();
-            const desc = document.getElementById("postDesc").value;
-            const isAnonymous = document.getElementById("anonymousPost").checked;
-            if(!name || !division || !district || !locationLink) { alert("স্থানের নাম, বিভাগ, জেলা ও গুগল ম্যাপ লিংক দিন!"); return; }
-            const spotData = { name, division, district, upazila, locationLink, imageUrl: imageUrl || "", description: desc, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous, type: 'spot' };
-            if(!isAnonymous) spotData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
-            await db.ref('spots').push(spotData);
-            showToast("🏕️ পিকনিক স্পট পোস্ট হয়েছে!");
-            loadSpots();
-        }
+        const title = document.getElementById("postTitle").value.trim();
+        const division = document.getElementById("postDivision").value;
+        const district = document.getElementById("postDistrict").value;
+        const upazila = document.getElementById("postUpazila").value;
+        const locationLink = document.getElementById("postLocationLink").value.trim();
+        const start = document.getElementById("startDate").value;
+        const end = document.getElementById("endDate").value;
+        const desc = document.getElementById("postDesc").value;
+        const topicCat = document.getElementById("postTopicCategory").value;
+        const timeCat = document.getElementById("postTimeCategory").value;
+        const isAnonymous = document.getElementById("anonymousPost").checked;
+        if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
+        if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
+        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
+        const postData = { title, division, district, upazila, locationLink: locationLink || "", startDate: start, endDate: end, description: desc, category: timeCat, topicCategory: topicCat, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous };
+        if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+        await db.ref('posts').push(postData);
         closePostModal();
-        document.getElementById("postTitle").value = ""; document.getElementById("postDesc").value = ""; document.getElementById("postLocationLink").value = ""; document.getElementById("anonymousPost").checked = false; document.getElementById("startDate").value = ""; document.getElementById("endDate").value = ""; document.getElementById("postTopicCategory").value = ""; document.getElementById("postTimeCategory").value = ""; document.getElementById("spotName").value = ""; document.getElementById("spotLocationLink").value = ""; document.getElementById("spotImageUrl").value = "";
+        document.getElementById("postTitle").value = ""; document.getElementById("postDesc").value = ""; document.getElementById("postLocationLink").value = ""; document.getElementById("anonymousPost").checked = false; document.getElementById("startDate").value = ""; document.getElementById("endDate").value = ""; document.getElementById("postTopicCategory").value = ""; document.getElementById("postTimeCategory").value = "";
         loadPosts();
+        showToast("✅ মেলা পোস্ট হয়েছে!");
     };
     
     function showToast(msg) { const toast = document.getElementById("toast"); toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2500); }
