@@ -397,9 +397,9 @@
         .billboard-tag {
             display: inline-block;
             background: linear-gradient(115deg, #d4af37, #c49b2a);
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 50px;
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             font-weight: bold;
             color: #ffffff;
             letter-spacing: 0.5px;
@@ -408,7 +408,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .billboard-title {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: #1a1a1a;
             margin-bottom: 10px;
@@ -416,7 +416,7 @@
             padding: 0 10px;
         }
         .billboard-info {
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             color: #6b6b6b;
             line-height: 1.5;
             padding: 0 10px;
@@ -427,16 +427,16 @@
             margin-right: 5px;
         }
         .billboard-location {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: #888;
             margin-top: 8px;
         }
         @media (max-width: 550px) {
             .billboard-screen { height: 160px; }
-            .billboard-title { font-size: 1rem; }
-            .billboard-info { font-size: 0.7rem; }
-            .billboard-location { font-size: 0.65rem; }
-            .billboard-tag { font-size: 0.6rem; padding: 3px 12px; }
+            .billboard-title { font-size: 1.2rem; }
+            .billboard-info { font-size: 0.8rem; }
+            .billboard-location { font-size: 0.7rem; }
+            .billboard-tag { font-size: 0.7rem; padding: 4px 12px; }
             .billboard-slide { padding: 12px; }
         }
         
@@ -503,54 +503,61 @@
         }
         .marquee p {
             display: inline-block;
-            animation: scrollText 16s linear infinite;
-            font-size: 0.6rem;
+            animation: scrollText 25s linear infinite;
+            font-size: 0.8rem;
         }
         @keyframes scrollText {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
         
-        /* লাইভ মার্কি */
+        /* লাইভ মার্কি - গতি বাড়ানো হয়েছে, গ্যাপ বাদ */
         .live-marquee-card {
-            padding: 8px 16px;
             margin: 0;
+            padding: 0;
         }
         .live-marquee-container {
             background: white;
-            border-radius: 16px;
+            border-radius: 0;
             overflow: hidden;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: none;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
         }
         .live-badge {
             background: #2e7d32;
             color: white;
-            padding: 12px 18px;
-            font-size: 0.85rem;
+            padding: 10px 16px;
+            font-size: 0.8rem;
             font-weight: 700;
             white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 6px;
         }
         .live-scrolling-area {
             flex: 1;
             overflow: hidden;
             white-space: nowrap;
-            padding: 12px 0;
+            padding: 10px 0;
         }
         .live-marquee-text {
             display: inline-block;
-            animation: scrollLeftSlow 40s linear infinite;
+            animation: scrollLeftFast 15s linear infinite;
             color: #333;
             font-size: 0.9rem;
             font-weight: 500;
         }
-        @keyframes scrollLeftSlow {
+        @keyframes scrollLeftFast {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
+        }
+        @media (max-width: 600px) {
+            .live-badge { padding: 8px 12px; font-size: 0.7rem; }
+            .live-marquee-text { font-size: 0.75rem; }
+            .live-scrolling-area { padding: 8px 0; }
         }
         
         /* স্ট্যাটিস্টিক্স কার্ড */
@@ -1103,10 +1110,17 @@
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
 <div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
 
-<!-- লাইভ মার্কি -->
-<div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;"><div class="live-marquee-container"><div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div><div class="live-scrolling-area"><div class="live-marquee-text" id="liveMarqueeText"></div></div></div></div>
+<!-- লাইভ মার্কি (গ্যাপ ছাড়া, গতি বাড়ানো) -->
+<div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;">
+    <div class="live-marquee-container">
+        <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
+        <div class="live-scrolling-area">
+            <div class="live-marquee-text" id="liveMarqueeText"></div>
+        </div>
+    </div>
+</div>
 
-<!-- ========== বিলবোর্ড স্লাইডার (ইমেজ স্লাইডারের সাইজে, চলমান মেলার তথ্য সহ) ========== -->
+<!-- বিলবোর্ড স্লাইডার -->
 <div class="billboard" id="billboardContainer">
     <div class="billboard-screen">
         <div class="billboard-content" id="billboardSlidesWrapper">
@@ -1291,7 +1305,6 @@
     function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
-    // বিলবোর্ড আপডেট করার ফাংশন
     function updateBillboard() {
         liveMelasForBillboard = allPosts.filter(p => getStatusText(p).type === 'live');
         const wrapper = document.getElementById('billboardSlidesWrapper');
@@ -1308,7 +1321,6 @@
             return;
         }
         
-        // স্লাইড তৈরি
         wrapper.innerHTML = liveMelasForBillboard.map(mela => `
             <div class="billboard-slide">
                 <div class="billboard-card">
@@ -1320,7 +1332,6 @@
             </div>
         `).join('');
         
-        // স্লাইডশো শুরু
         const slides = document.querySelectorAll('.billboard-slide');
         if (slides.length > 0) {
             if (billboardInterval) clearInterval(billboardInterval);
@@ -1353,11 +1364,22 @@
         renderPosts(filtered);
         updateStatistics();
         updateLiveMarquee();
-        updateBillboard(); // বিলবোর্ড আপডেট
+        updateBillboard();
     }
     
     function updateStatistics() { const live = allPosts.filter(p => getStatusText(p).type === 'live').length; const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length; const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length; let reviewCount = 0; allPosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); document.getElementById("statLive").innerText = live; document.getElementById("statSoon").innerText = soon; document.getElementById("statEnded").innerText = ended; document.getElementById("statReviews").innerText = reviewCount; }
-    function updateLiveMarquee() { const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live'); const container = document.getElementById("liveMarqueeContainer"); const textElem = document.getElementById("liveMarqueeText"); if(liveMelas.length === 0) { container.style.display = "none"; return; } container.style.display = "block"; textElem.innerHTML = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join('  •  '); }
+    
+    function updateLiveMarquee() { 
+        const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live'); 
+        const container = document.getElementById("liveMarqueeContainer"); 
+        const textElem = document.getElementById("liveMarqueeText"); 
+        if(liveMelas.length === 0) { 
+            container.style.display = "none"; 
+            return; 
+        } 
+        container.style.display = "block"; 
+        textElem.innerHTML = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join('  •  '); 
+    }
     
     function loadSavedItemsList() { const container = document.getElementById('savedItemsList'); if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="openPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div></div>`).join(''); }
     
