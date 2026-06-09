@@ -488,7 +488,7 @@
             border-radius: 4px;
         }
         
-        /* চলন্ত লেখা */
+        /* চলন্ত লেখা (স্লাইডারের উপরে) - 25 সেকেন্ড */
         .marquee-card {
             padding: 12px 16px;
             margin: 0;
@@ -511,7 +511,7 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* লাইভ মার্কি - গতি বাড়ানো হয়েছে, গ্যাপ বাদ */
+        /* লাইভ মার্কি - গ্যাপ ছাড়া, স্পিড 25s */
         .live-marquee-card {
             margin: 0;
             padding: 0;
@@ -545,12 +545,12 @@
         }
         .live-marquee-text {
             display: inline-block;
-            animation: scrollLeftFast 15s linear infinite;
+            animation: scrollLive 25s linear infinite;
             color: #333;
             font-size: 0.9rem;
             font-weight: 500;
         }
-        @keyframes scrollLeftFast {
+        @keyframes scrollLive {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
@@ -1110,7 +1110,7 @@
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
 <div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
 
-<!-- লাইভ মার্কি (গ্যাপ ছাড়া, গতি বাড়ানো) -->
+<!-- লাইভ মার্কি - ডাটা লোড না হওয়া পর্যন্ত হাইড -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;">
     <div class="live-marquee-container">
         <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
