@@ -244,15 +244,15 @@
             cursor: pointer;
         }
         
-        /* ইমেজ স্লাইডার - ঠিক করা হয়েছে */
+        /* অটো স্লাইডার */
         .slider-card {
             background: white;
             border-radius: 20px;
             margin: 12px 16px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            width: auto;
             position: relative;
+            width: auto;
         }
         .banner-slider {
             position: relative;
@@ -298,29 +298,6 @@
             border-radius: 4px;
         }
         
-        /* চলন্ত লেখা */
-        .marquee-card {
-            padding: 12px 16px;
-            margin: 0;
-        }
-        .marquee {
-            background: #1a1a1a;
-            color: white;
-            padding: 10px;
-            overflow: hidden;
-            white-space: nowrap;
-            border-radius: 20px;
-        }
-        .marquee p {
-            display: inline-block;
-            animation: scrollText 25s linear infinite;
-            font-size: 0.8rem;
-        }
-        @keyframes scrollText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
         /* লাইভ মার্কি */
         .live-marquee-card {
             padding: 8px 16px;
@@ -361,29 +338,6 @@
         @keyframes scrollLeftSlow {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
-        }
-        
-        /* ক্যাটাগরি আইকন */
-        .header-category-icon {
-            background: #f0f0f0;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .header-category-icon i {
-            font-size: 1.1rem;
-            color: #333;
-        }
-        .header-category-icon:hover {
-            background: #1a1a1a;
-        }
-        .header-category-icon:hover i {
-            color: white;
         }
         
         /* স্ট্যাটিস্টিক্স কার্ড */
@@ -708,14 +662,31 @@
         .drawer-item:hover { color: #00c853; }
         .drawer-item i { width: 24px; font-size: 1.1rem; }
         
-        /* সেভড পোস্ট কার্ড স্টাইল */
+        /* সেভড পোস্ট সেকশন ড্রয়ারে */
+        .drawer-saved-section {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .drawer-saved-title {
+            font-size: 12px;
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .drawer-saved-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
         .saved-card-item {
             background: #f8f9fa;
             border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
             cursor: pointer;
-            transition: all 0.2s;
             border: 1px solid #e0e0e0;
         }
         .saved-card-item:hover {
@@ -726,19 +697,11 @@
             font-size: 13px;
             font-weight: 600;
             color: #1a1a1a;
-            margin-bottom: 5px;
         }
         .saved-card-loc {
             font-size: 11px;
             color: #888;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .saved-card-date {
-            font-size: 10px;
-            color: #2e7d32;
-            margin-top: 5px;
+            margin-top: 4px;
         }
         
         .drawer-overlay {
@@ -867,8 +830,11 @@
         
         @media (max-width: 500px) {
             .news-title { font-size: 1.4rem; }
-            .stats-number { font-size: 1.2rem; }
+            .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
+            .filter-row { gap: 6px; }
+            .filter-select { font-size: 0.65rem; padding: 6px 10px; }
+            .stat-number { font-size: 1.2rem; }
             .category-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -911,12 +877,14 @@
             <span>লগআউট</span>
         </div>
         
-        <!-- সেভড পোস্ট সেকশন - কার্ড আকারে -->
-        <div class="drawer-saved-section" style="margin-top:20px;padding-top:10px;border-top:1px solid #f0f0f0;">
-            <div class="drawer-saved-title" style="font-size:12px;color:#2e7d32;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <!-- সেভড পোস্ট সেকশন -->
+        <div class="drawer-saved-section">
+            <div class="drawer-saved-title">
                 <i class="fa-regular fa-bookmark"></i> সেভ করা মেলা
             </div>
-            <div id="drawerSavedList" style="max-height:300px;overflow-y:auto;"></div>
+            <div class="drawer-saved-list" id="drawerSavedList">
+                <div style="font-size: 12px; color: #888; padding: 8px 0;">লোড হচ্ছে...</div>
+            </div>
         </div>
     </div>
 </div>
@@ -935,7 +903,7 @@
     </div>
 </div>
 
-<!-- সার্চ + ফিল্টার সেকশন -->
+<!-- ========== সার্চ + ফিল্টার সেকশন ========== -->
 <div class="search-filter-section" id="searchFilterSection">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -956,13 +924,20 @@
 </div>
 
 <!-- চলন্ত লেখা -->
-<div class="marquee-card">
-    <div class="marquee">
-        <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
+<div class="marquee-card" style="padding:12px 16px;">
+    <div class="marquee" style="background:#1a1a1a;color:white;padding:10px;border-radius:20px;overflow:hidden;white-space:nowrap;">
+        <p style="display:inline-block;animation:scrollText 25s linear infinite;font-size:0.8rem;">🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
     </div>
 </div>
 
-<!-- অটো স্লাইডার - ঠিক করা হয়েছে -->
+<style>
+    @keyframes scrollText {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+</style>
+
+<!-- অটো স্লাইডার -->
 <div class="slider-card">
     <div class="banner-slider">
         <div class="banner-container" id="bannerContainer">
@@ -1016,13 +991,12 @@
     <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
 </div>
 
-<!-- নিচের মেনু বার (সেভ আইকন পরিবর্তন করে ক্যাটাগরি আইকন) -->
+<!-- নিচের মেনু বার -->
 <div class="bottom-nav">
     <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
     <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
     <button class="nav-item" id="navCategoryBtn"><i class="fa-solid fa-th-large"></i><span>ক্যাটাগরি</span></button>
-    <button class="nav-item" id="navProfileBtn"><i class="fa-regular fa-user"></i><span>প্রোফাইল</span></button>
 </div>
 
 <!-- পোস্ট মডাল -->
@@ -1036,7 +1010,7 @@
         
         <div class="form-group">
             <label class="form-label">📋 মেলার সময়কাল * <span style="color:#dc3545;">(বাধ্যতামূলক)</span></label>
-            <select id="postCategoryTime" class="form-select" required>
+            <select id="postCategory" class="form-select" required>
                 <option value="">-- নির্বাচন করুন --</option>
                 <option value="৩০ দিন">📅 ৩০ দিনের মেলা</option>
                 <option value="১৫ দিন">📆 ১৫ দিনের মেলা</option>
@@ -1101,10 +1075,10 @@
     
     let currentUser = null;
     let selectedCategories = [];
+    let categoriesList = [];
     let statusFilter = "all";
     let searchText = "";
     let divisionsData = [];
-    let categoriesList = [];
     let savedPostsIds = [];
     let currentView = "home";
     let bannerImages = [];
@@ -1114,7 +1088,6 @@
     let showingMyPosts = false;
     let allPosts = [];
     
-    // ফিল্টার ভেরিয়েবল
     let selectedDivision = "";
     let selectedDistrict = "";
     let selectedUpazila = "";
@@ -1154,44 +1127,36 @@
             categoriesList = [
                 { name: "কৃষি মেলা", icon: "🌾" }, { name: "বাণিজ্য মেলা", icon: "💼" },
                 { name: "সাংস্কৃতিক মেলা", icon: "🎭" }, { name: "বইমেলা", icon: "📚" },
-                { name: "খাবার মেলা", icon: "🍽️" }, { name: "চলমান", icon: "🟢" },
-                { name: "আসন্ন", icon: "⏰" }, { name: "অন্যান্য", icon: "🎪" }
+                { name: "খাবার মেলা", icon: "🍽️" }, { name: "অন্যান্য", icon: "🎪" }
             ];
         }
         
-        // ক্যাটাগরি প্যানেল পপুলেট
         const grid = document.getElementById('categoryGrid');
-        grid.innerHTML = categoriesList.map(cat => `
-            <div class="category-item" data-cat="${cat.name}">
-                <span class="category-icon">${cat.icon}</span>
-                <span class="category-name">${cat.name}</span>
-                <i class="fa-regular fa-square" style="color:#ccc;"></i>
-            </div>
-        `).join('');
-        
-        // ক্লিক ইভেন্ট
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const catName = item.dataset.cat;
-                const index = selectedCategories.indexOf(catName);
-                if (index === -1) {
-                    selectedCategories.push(catName);
-                    item.classList.add('selected');
-                    item.querySelector('i').className = 'fa-regular fa-check-square';
-                } else {
-                    selectedCategories.splice(index, 1);
-                    item.classList.remove('selected');
-                    item.querySelector('i').className = 'fa-regular fa-square';
-                }
-                updateSelectedCatsDisplay();
+        if(grid) {
+            grid.innerHTML = categoriesList.map(cat => `
+                <div class="category-item" data-cat="${cat.name}">
+                    <span class="category-icon">${cat.icon}</span>
+                    <span class="category-name">${cat.name}</span>
+                    <i class="fa-regular fa-square" style="color:#ccc;"></i>
+                </div>
+            `).join('');
+            
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const catName = item.dataset.cat;
+                    const index = selectedCategories.indexOf(catName);
+                    if (index === -1) {
+                        selectedCategories.push(catName);
+                        item.classList.add('selected');
+                        item.querySelector('i').className = 'fa-regular fa-check-square';
+                    } else {
+                        selectedCategories.splice(index, 1);
+                        item.classList.remove('selected');
+                        item.querySelector('i').className = 'fa-regular fa-square';
+                    }
+                    updateSelectedCatsDisplay();
+                });
             });
-        });
-        
-        // পোস্ট ফর্মের জন্য
-        const catSelect = document.getElementById("postCategory");
-        if(catSelect) {
-            catSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + 
-                categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
         }
     }
     
@@ -1242,6 +1207,12 @@
         loadPosts();
         showToast('সব ক্যাটাগরি ফিল্টার রিসেট হয়েছে');
     }
+    
+    window.filterByStatus = function(status) {
+        statusFilter = status;
+        loadPosts();
+        showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে');
+    };
     
     function startAutoSlide() {
         if(bannerInterval) clearInterval(bannerInterval);
@@ -1385,24 +1356,9 @@
         searchText = "";
         statusFilter = "all";
         selectedCategories = [];
-        resetCategoryFilterUI();
+        resetCategoryFilter();
         loadPosts();
         showToast("সব ফিল্টার রিসেট হয়েছে");
-    }
-    
-    function resetCategoryFilterUI() {
-        selectedCategories = [];
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.classList.remove('selected');
-            item.querySelector('i').className = 'fa-regular fa-square';
-        });
-        updateSelectedCatsDisplay();
-    }
-    
-    function filterByStatus(status) {
-        statusFilter = status;
-        loadPosts();
-        showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে');
     }
     
     function updatePostDivisionSelect() {
@@ -1517,20 +1473,16 @@
         allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         
         let filtered = allPosts.filter(post => {
-            // স্ট্যাটাস ফিল্টার
             if(statusFilter !== "all") {
                 const postStatus = getStatusText(post).type;
                 if(postStatus !== statusFilter) return false;
             }
-            // ক্যাটাগরি ফিল্টার (একাধিক)
             if(selectedCategories.length > 0) {
                 if(!selectedCategories.includes(post.category)) return false;
             }
-            // লোকেশন ফিল্টার
             if(selectedDivision && post.division !== selectedDivision) return false;
             if(selectedDistrict && post.district !== selectedDistrict) return false;
             if(selectedUpazila && post.upazila !== selectedUpazila) return false;
-            // সার্চ ফিল্টার
             if(searchText) {
                 const s = searchText.toLowerCase();
                 return (post.title?.toLowerCase().includes(s) || 
@@ -1851,7 +1803,6 @@
             <div class="saved-card-item" onclick="openDetail('${post.id}'); closeDrawer();">
                 <div class="saved-card-title">${escapeHtml(post.title)}</div>
                 <div class="saved-card-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div>
-                <div class="saved-card-date">📅 ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
             </div>
         `).join('');
     }
@@ -1908,11 +1859,10 @@
         showingMyPosts = false; 
         statusFilter = "all";
         selectedCategories = [];
-        resetCategoryFilterUI();
+        resetCategoryFilter();
         loadPosts(); 
-        updateNavActive("home"); 
+        updateNavActive(); 
     };
-    document.getElementById("navProfileBtn").onclick = openDrawer;
     document.getElementById("navCreate").onclick = openPostModal;
     
     document.getElementById("searchInput").addEventListener("input", (e) => { 
@@ -1924,9 +1874,9 @@
     document.getElementById("closeEditModal").onclick = () => document.getElementById("editPostModal").style.display = "none";
     document.getElementById("updatePostBtn").onclick = updatePost;
     
-    function updateNavActive(active) {
+    function updateNavActive() {
         document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
-        if(active === "home") document.getElementById("navHome").classList.add("active");
+        document.getElementById("navHome").classList.add("active");
     }
     
     document.getElementById("submitPost").onclick = async () => {
@@ -1938,7 +1888,7 @@
         const start = document.getElementById("startDate").value;
         const end = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
-        const cat = document.getElementById("postCategoryTime").value;
+        const cat = document.getElementById("postCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
         
         if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
@@ -1970,7 +1920,7 @@
         document.getElementById("anonymousPost").checked = false;
         document.getElementById("startDate").value = "";
         document.getElementById("endDate").value = "";
-        document.getElementById("postCategoryTime").value = "";
+        document.getElementById("postCategory").value = "";
         loadPosts();
         showToast("✅ মেলা পোস্ট হয়েছে!");
     };
