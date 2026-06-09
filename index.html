@@ -71,29 +71,6 @@
             cursor: pointer;
         }
         
-        /* ক্যাটাগরি আইকন (হেডারে) */
-        .header-category-icon {
-            background: #f0f0f0;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .header-category-icon i {
-            font-size: 1.1rem;
-            color: #333;
-        }
-        .header-category-icon:hover {
-            background: #1a1a1a;
-        }
-        .header-category-icon:hover i {
-            color: white;
-        }
-        
         /* ========== সার্চ + ফিল্টার সেকশন (শুরুতে হাইড) ========== */
         .search-filter-section {
             background: white;
@@ -156,7 +133,7 @@
             padding: 0 8px;
         }
         
-        /* ========== সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল (নিচের মেনুবার থেকে) ========== */
+        /* ========== সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল ========== */
         .time-category-panel {
             display: none;
             position: fixed;
@@ -223,7 +200,7 @@
             flex: 1;
         }
         
-        /* ========== বিষয়ভিত্তিক ক্যাটাগরি প্যানেল (হেডার থেকে) ========== */
+        /* ========== বিষয়ভিত্তিক ক্যাটাগরি প্যানেল ========== */
         .topic-category-panel {
             display: none;
             position: fixed;
@@ -829,6 +806,7 @@
             margin: 10px 0;
         }
         
+        /* ========== নিচের মেনু বার (৫টি আইকন) ========== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -868,21 +846,6 @@
         }
         .nav-center i { font-size: 1.5rem; color: white; }
         
-        /* সময়কাল ক্যাটাগরি বাটন (নিচের মেনুবারে) */
-        .time-category-btn {
-            background: none;
-            border: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            cursor: pointer;
-            color: #aaa;
-            font-size: 0.6rem;
-        }
-        .time-category-btn i { font-size: 1.3rem; }
-        .time-category-btn.active { color: #1a1a1a; }
-        
         .loader { text-align: center; padding: 40px; color: #888; }
         .toast {
             position: fixed;
@@ -914,7 +877,7 @@
 </head>
 <body>
 
-<!-- সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল (নিচের মেনুবার থেকে) -->
+<!-- সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল -->
 <div class="time-category-panel" id="timeCategoryPanel">
     <div class="time-category-panel-header">
         <h4><i class="fa-regular fa-calendar"></i> সময়কাল নির্বাচন করুন</h4>
@@ -950,7 +913,7 @@
     <button class="reset-filter-btn" onclick="resetTimeCategoryFilter()">সব রিসেট</button>
 </div>
 
-<!-- বিষয়ভিত্তিক ক্যাটাগরি প্যানেল (হেডার থেকে) -->
+<!-- বিষয়ভিত্তিক ক্যাটাগরি প্যানেল -->
 <div class="topic-category-panel" id="topicCategoryPanel">
     <div class="topic-category-panel-header">
         <h4><i class="fa-solid fa-th-large"></i> বিষয় নির্বাচন করুন</h4>
@@ -1007,9 +970,6 @@
         </div>
     </div>
     <div class="header-icons">
-        <div class="header-category-icon" id="headerCategoryIcon">
-            <i class="fa-solid fa-th-large"></i>
-        </div>
         <i class="fa-regular fa-bell" id="notifIcon"></i>
     </div>
 </div>
@@ -1102,12 +1062,13 @@
     <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
 </div>
 
-<!-- নিচের মেনু বার (প্রোফাইল বাদ, সময়কাল ক্যাটাগরি যোগ) -->
+<!-- ========== নিচের মেনু বার (৫টি আইকন) ========== -->
 <div class="bottom-nav">
     <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
     <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
-    <button class="time-category-btn" id="timeCategoryBtn"><i class="fa-regular fa-calendar"></i><span>সময়</span></button>
+    <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়কাল</span></button>
+    <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
 <!-- পোস্ট মডাল -->
@@ -1271,7 +1232,6 @@
         }
     }
     
-    // সময়কাল ক্যাটাগরি ফাংশন
     function openTimeCategoryPanel() {
         document.getElementById('timeCategoryPanel').classList.add('show');
     }
@@ -1301,7 +1261,6 @@
         showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে');
     }
     
-    // বিষয়ভিত্তিক ক্যাটাগরি ফাংশন
     function openTopicCategoryPanel() {
         document.getElementById('topicCategoryPanel').classList.add('show');
     }
@@ -1975,8 +1934,8 @@
         }
     };
     
-    document.getElementById("headerCategoryIcon").onclick = openTopicCategoryPanel;
-    document.getElementById("timeCategoryBtn").onclick = openTimeCategoryPanel;
+    document.getElementById("navTimeCategory").onclick = openTimeCategoryPanel;
+    document.getElementById("navTopicCategory").onclick = openTopicCategoryPanel;
     
     document.getElementById("navHome").onclick = () => { 
         currentView = "home"; 
@@ -1989,7 +1948,6 @@
     };
     document.getElementById("navCreate").onclick = openPostModal;
     
-    // সময়কাল ক্যাটাগরি আইটেমে ক্লিক ইভেন্ট
     document.querySelectorAll('.time-category-item').forEach(item => {
         item.addEventListener('click', () => {
             document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected'));
@@ -1997,7 +1955,6 @@
         });
     });
     
-    // ডিফল্টভাবে "সব মেলা" সিলেক্টেড
     const defaultTimeItem = document.querySelector('.time-category-item[data-cat="all"]');
     if (defaultTimeItem) defaultTimeItem.classList.add('selected');
     
