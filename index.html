@@ -152,65 +152,103 @@
             border-radius: 4px;
         }
         
-        /* চলন্ত লেখা (স্লাইডারের উপরে) */
+        /* ===== মার্কি স্টাইল (সবার জন্য বার্তা - সিলভার + গোল্ডেন) ===== */
         .marquee-card {
             padding: 12px 16px;
             margin: 0;
         }
         .marquee {
-            background: #1a1a1a;
-            color: white;
-            padding: 10px;
+            background: #e0e0e0;
+            background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
+            padding: 12px 16px;
             overflow: hidden;
             white-space: nowrap;
-            border-radius: 20px;
+            border-radius: 12px;
+            border: 1px solid #b0b0b0;
         }
-        .marquee p {
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .marquee-icon {
+            background: #1a1a1a;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .marquee-icon i {
+            color: #ffd700;
+            font-size: 1rem;
+        }
+        .marquee-text {
             display: inline-block;
             animation: scrollText 25s linear infinite;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            color: #b8860b;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
         @keyframes scrollText {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
         
-        /* চলমান মেলার লাইভ মার্কি */
+        /* ===== লাইভ মেলা ভার্টিক্যাল মার্কি (নিচ থেকে উপরে) ===== */
         .live-marquee-card {
             padding: 8px 16px;
             margin: 0;
         }
         .live-marquee {
-            background: #e8f5e9;
-            border-left: 4px solid #2e7d32;
-            padding: 10px;
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 12px;
             overflow: hidden;
-            white-space: nowrap;
-            border-radius: 12px;
+            height: 100px;
+            position: relative;
         }
         .live-marquee-label {
-            display: inline-block;
+            position: absolute;
+            top: 12px;
+            left: 16px;
             background: #2e7d32;
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 600;
-            margin-right: 12px;
+            z-index: 2;
+            letter-spacing: 0.5px;
         }
-        .live-marquee-content {
-            display: inline-block;
-            animation: scrollLiveText 30s linear infinite;
-            font-size: 0.8rem;
-            color: #1a1a1a;
+        .vertical-marquee-container {
+            height: 100%;
+            overflow: hidden;
+            margin-top: 8px;
         }
-        .live-marquee-content i {
+        .vertical-marquee-content {
+            animation: scrollVertical 20s linear infinite;
+        }
+        .vertical-marquee-item {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffd700;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+        }
+        .vertical-marquee-item i {
             color: #2e7d32;
-            margin: 0 4px;
+            font-size: 0.7rem;
+            margin-right: 8px;
         }
-        @keyframes scrollLiveText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        @keyframes scrollVertical {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
         }
         
         /* ক্যাটাগরি আইকন (হেডার ডান পাশে) */
@@ -305,7 +343,7 @@
             margin-top: 4px;
         }
         
-        /* ক্যাটাগরি চিপস (স্লাইডারের নিচে) */
+        /* ক্যাটাগরি চিপস */
         .cat-chips-section {
             padding: 0 16px;
             margin: 8px 0;
@@ -335,7 +373,7 @@
             padding: 10px 16px;
         }
         
-        /* নিউজ স্টাইল পোস্ট কার্ড */
+        /* পোস্ট গ্রিড */
         .posts-grid {
             display: flex;
             flex-direction: column;
@@ -371,7 +409,6 @@
             margin-bottom: 8px;
         }
         
-        /* মেলার নামের শুরুতে স্ট্যাটাস ব্যাজ */
         .title-badge {
             display: inline-block;
             font-size: 0.7rem;
@@ -413,7 +450,6 @@
             padding: 12px 16px;
         }
         
-        /* ডেসক্রিপশন - ৩ লাইনে সীমাবদ্ধ, ক্লিকযোগ্য */
         .news-description {
             font-size: 0.95rem;
             line-height: 1.5;
@@ -452,7 +488,6 @@
             font-size: 0.9rem;
         }
         
-        /* পোস্টার তথ্য (ডেসক্রিপশনের নিচে) */
         .poster-info {
             display: flex;
             align-items: center;
@@ -462,9 +497,6 @@
             border-top: 1px solid #f0f0f0;
             font-size: 0.75rem;
             color: #888;
-        }
-        .poster-info i {
-            font-size: 0.7rem;
         }
         .anonymous-badge {
             background: #f0f0f0;
@@ -797,6 +829,7 @@
             .news-title { font-size: 1.4rem; }
             .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
+            .vertical-marquee-item { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -873,10 +906,17 @@
     </div>
 </div>
 
-<!-- চলন্ত লেখা (স্লাইডারের উপরে) -->
+<!-- চলন্ত লেখা (সবার জন্য বার্তা - সিলভার ব্যাকগ্রাউন্ড, গোল্ডেন টেক্সট, মাইক আইকন) -->
 <div class="marquee-card">
     <div class="marquee">
-        <p>🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p>
+        <div class="marquee-content">
+            <div class="marquee-icon">
+                <i class="fa-solid fa-microphone"></i>
+            </div>
+            <div class="marquee-text">
+                🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉
+            </div>
+        </div>
     </div>
 </div>
 
@@ -915,15 +955,19 @@
     </div>
 </div>
 
-<!-- চলমান মেলার লাইভ মার্কি (সর্বশেষ মেলার খবরের উপরে) -->
+<!-- চলমান মেলার ভার্টিক্যাল মার্কি (নিচ থেকে উপরে) -->
 <div class="live-marquee-card" id="liveMarqueeContainer" style="display: none;">
     <div class="live-marquee">
-        <span class="live-marquee-label">🔴 চলমান মেলা সমূহ</span>
-        <span class="live-marquee-content" id="liveMarqueeText"></span>
+        <div class="live-marquee-label">🔴 চলমান মেলা সমূহ</div>
+        <div class="vertical-marquee-container">
+            <div class="vertical-marquee-content" id="verticalMarqueeContent">
+                <!-- ডাইনামিক কন্টেন্ট এখানে আসবে -->
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- ক্যাটাগরি চিপস (স্লাইডারের নিচে) -->
+<!-- ক্যাটাগরি চিপস -->
 <div class="cat-chips-section">
     <div class="chip-container" id="catChipsContainer">
         <div class="chip active" data-cat="all">সব মেলা</div>
@@ -1087,7 +1131,6 @@
             const data = await response.json();
             categoriesList = data.categories || [];
             
-            // পোস্ট মডালের ক্যাটাগরি সিলেক্ট পপুলেট
             const catSelect = document.getElementById("postCategory");
             const editCatSelect = document.getElementById("editPostCategory");
             catSelect.innerHTML = "";
@@ -1097,7 +1140,6 @@
                 opt.value = cat.name;
                 opt.innerText = cat.icon + " " + cat.name;
                 catSelect.appendChild(opt);
-                
                 const opt2 = document.createElement("option");
                 opt2.value = cat.name;
                 opt2.innerText = cat.icon + " " + cat.name;
@@ -1105,13 +1147,9 @@
             });
         } catch(e) {
             console.error("mela-category.json load error:", e);
-            // ফালব্যাক ক্যাটাগরি
             categoriesList = [
-                { name: "চলমান", icon: "🟢" },
-                { name: "আসন্ন", icon: "⏰" },
-                { name: "১৫ দিন", icon: "📅" },
-                { name: "সাপ্তাহিক", icon: "🛒" },
-                { name: "৩ দিন", icon: "🔥" }
+                { name: "চলমান", icon: "🟢" }, { name: "আসন্ন", icon: "⏰" },
+                { name: "১৫ দিন", icon: "📅" }, { name: "সাপ্তাহিক", icon: "🛒" }, { name: "৩ দিন", icon: "🔥" }
             ];
             const catSelect = document.getElementById("postCategory");
             catSelect.innerHTML = "";
@@ -1361,15 +1399,28 @@
     function updateLiveMarquee() {
         const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
         const container = document.getElementById("liveMarqueeContainer");
-        const textElem = document.getElementById("liveMarqueeText");
+        const contentElem = document.getElementById("verticalMarqueeContent");
         
         if(liveMelas.length === 0) {
             container.style.display = "none";
             return;
         }
         container.style.display = "block";
-        const text = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join(' • ');
-        textElem.innerHTML = text;
+        
+        // ভার্টিক্যাল মার্কির জন্য HTML তৈরি
+        let html = '';
+        // ডুপ্লিকেট কন্টেন্ট তৈরি করা হয় যাতে স্মুথ অ্যানিমেশন হয়
+        for(let i = 0; i < 2; i++) {
+            liveMelas.forEach(m => {
+                html += `
+                    <div class="vertical-marquee-item">
+                        <i class="fa-solid fa-circle"></i>
+                        <span><strong>${escapeHtml(m.title)}</strong> - ${escapeHtml(m.district)}, ${escapeHtml(m.division)}</span>
+                    </div>
+                `;
+            });
+        }
+        contentElem.innerHTML = html;
     }
     
     function showReactionPopup(btnElement, postId) {
@@ -1454,12 +1505,10 @@
             }
             actionButtons += `</div>`;
             
-            // স্ট্যাটাস ব্যাজ তৈরি
             const statusBadgeHtml = status.type === 'live' 
                 ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>`
                 : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
             
-            // পোস্টার তথ্য HTML (ডেসক্রিপশনের নিচে)
             const posterHtml = `
                 <div class="poster-info">
                     ${displayInfo.isAnonymous ? 
@@ -1500,7 +1549,6 @@
             `;
             container.appendChild(card);
             
-            // ডেসক্রিপশন ক্লিক করলে সম্পূর্ণ দেখানো
             const descElem = card.querySelector(".news-description");
             const fullText = descElem.dataset.fulltext;
             descElem.onclick = (e) => {
@@ -1642,7 +1690,6 @@
         showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল');
     }
     
-    // ড্রয়ার ফাংশন
     function openDrawer() {
         document.getElementById("sideDrawer").classList.add("open");
         document.getElementById("drawerOverlay").classList.add("show");
@@ -1674,17 +1721,14 @@
         window.location.href = "login.html"; 
     };
     
-    // হেডার ক্যাটাগরি আইকন ক্লিক
     document.getElementById("headerCategoryIcon").onclick = () => {
         document.getElementById("categoryDropdown").classList.toggle("show");
     };
     
-    // ক্যাটাগরি ড্রপডাউন থেকে সিলেক্ট
     document.querySelectorAll("#categoryDropdown .cat-item").forEach(item => {
         item.addEventListener("click", () => {
             const cat = item.dataset.cat;
             activeCategory = cat;
-            // চিপসেও active দেখানো
             document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
                 chip.classList.remove("active");
                 if(chip.dataset.cat === cat) chip.classList.add("active");
@@ -1694,7 +1738,6 @@
         });
     });
     
-    // চিপস থেকে ক্যাটাগরি সিলেক্ট
     document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
         chip.addEventListener("click", () => {
             const cat = chip.dataset.cat;
@@ -1705,7 +1748,6 @@
         });
     });
     
-    // সার্চ বার টগল
     document.getElementById("navSearchBtn").onclick = () => {
         document.getElementById("searchWrapper").classList.toggle("show");
         if(document.getElementById("searchWrapper").classList.contains("show")) {
@@ -1729,7 +1771,6 @@
     document.getElementById("closeEditModal").onclick = () => document.getElementById("editPostModal").style.display = "none";
     document.getElementById("updatePostBtn").onclick = () => updatePost();
     
-    // Submit Post
     document.getElementById("submitPost").onclick = async () => {
         const title = document.getElementById("postTitle").value.trim();
         const division = document.getElementById("postDivision").value;
