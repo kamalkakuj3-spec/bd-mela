@@ -71,9 +71,17 @@
             cursor: pointer;
         }
         
-        /* ========== ইউনিফাইড সার্চ + ফিল্টার সেকশন ========== */
+        /* ========== সার্চ + ফিল্টার সেকশন (শুরুতে হাইড) ========== */
         .search-filter-section {
             background: white;
+            padding: 0 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            border-bottom: none;
+        }
+        .search-filter-section.show {
+            max-height: 180px;
             padding: 12px 16px;
             border-bottom: 1px solid #e0e0e0;
         }
@@ -115,6 +123,11 @@
         }
         .filter-select:focus {
             border-color: #2e7d32;
+        }
+        .thana-select {
+            background: #fff3e0;
+            border-color: #f57c00;
+            color: #e65100;
         }
         .clear-filter {
             background: none;
@@ -342,30 +355,6 @@
             color: #888;
             margin-top: 4px;
         }
-        
-        /* ক্যাটাগরি চিপস (স্লাইডারের নিচে) */
-        .cat-chips-section {
-            padding: 0 16px;
-            margin: 8px 0;
-        }
-        .chip-container {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 8px 0;
-            scrollbar-width: none;
-        }
-        .chip-container::-webkit-scrollbar { display: none; }
-        .chip {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .chip.active { background: #1a1a1a; color: white; border: none; }
         
         /* নিউজ স্টাইল পোস্ট কার্ড */
         .posts-grid {
@@ -847,8 +836,8 @@
     <div class="cat-item" data-cat="৩ দিন"><i class="fa-solid fa-hourglass-half"></i> ৩ দিনের</div>
 </div>
 
-<!-- ========== ইউনিফাইড সার্চ + ফিল্টার সেকশন ========== -->
-<div class="search-filter-section">
+<!-- ========== সার্চ + ফিল্টার সেকশন (শুরুতে হাইড) ========== -->
+<div class="search-filter-section" id="searchFilterSection">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ লিখুন...">
@@ -862,6 +851,9 @@
         </select>
         <select id="upazilaFilter" class="filter-select">
             <option value="">সব উপজেলা</option>
+        </select>
+        <select id="thanaFilter" class="filter-select thana-select" onchange="showComingSoon(this)">
+            <option value="">থানা নির্বাচন (আসছে)</option>
         </select>
         <button class="clear-filter" onclick="clearAllFilters()" title="সব ফিল্টার রিসেট"><i class="fa-regular fa-eraser"></i></button>
     </div>
@@ -905,18 +897,6 @@
         <div class="scrolling-area">
             <div class="marquee-content" id="liveMarqueeText">🔴 বৈশাখী মেলা - ঢাকা, ঢাকা  •  🔴 নবান্ন মেলা - রাজশাহী, রাজশাহী</div>
         </div>
-    </div>
-</div>
-
-<!-- ক্যাটাগরি চিপস -->
-<div class="cat-chips-section">
-    <div class="chip-container" id="catChipsContainer">
-        <div class="chip active" data-cat="all">সব মেলা</div>
-        <div class="chip" data-cat="চলমান">🟢 চলমান</div>
-        <div class="chip" data-cat="আসন্ন">⏰ আসন্ন</div>
-        <div class="chip" data-cat="১৫ দিন">📅 ১৫ দিন</div>
-        <div class="chip" data-cat="সাপ্তাহিক">🛒 সাপ্তাহিক</div>
-        <div class="chip" data-cat="৩ দিন">🔥 ৩ দিন</div>
     </div>
 </div>
 
@@ -1044,6 +1024,12 @@
         loadPosts();
         startAutoSlide();
     });
+    
+    // Coming Soon ফাংশন
+    window.showComingSoon = function(selectElement) {
+        selectElement.value = "";
+        showToast("🏗️ থানা নির্বাচনের সুবিধা আসছে শীঘ্রই!");
+    };
     
     async function loadCategoriesFromJSON() {
         try {
@@ -1671,32 +1657,23 @@
         item.addEventListener("click", () => {
             const cat = item.dataset.cat;
             activeCategory = cat;
-            document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
-                chip.classList.remove("active");
-                if(chip.dataset.cat === cat) chip.classList.add("active");
-            });
             loadPosts();
             document.getElementById("categoryDropdown").classList.remove("show");
         });
     });
     
-    document.querySelectorAll("#catChipsContainer .chip").forEach(chip => {
-        chip.addEventListener("click", () => {
-            const cat = chip.dataset.cat;
-            activeCategory = cat;
-            document.querySelectorAll("#catChipsContainer .chip").forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-            loadPosts();
-        });
-    });
+    // সার্চ বার টগল (মেনু বারের সার্চ বাটনে ক্লিক করলে)
+    document.getElementById("navSearchBtn").onclick = () => {
+        document.getElementById("searchFilterSection").classList.toggle("show");
+        if(document.getElementById("searchFilterSection").classList.contains("show")) {
+            document.getElementById("searchInput").focus();
+        }
+    };
     
     document.getElementById("navHome").onclick = () => { currentView = "home"; showingMyPosts = false; loadPosts(); updateNavActive("home"); };
     document.getElementById("navSaved").onclick = () => { currentView = "saved"; showingMyPosts = false; loadPosts(); updateNavActive("saved"); };
     document.getElementById("navCreate").onclick = () => document.getElementById("postModal").style.display = "flex";
     document.getElementById("navProfileBtn").onclick = openDrawer;
-    document.getElementById("navSearchBtn").onclick = () => {
-        document.getElementById("searchInput").focus();
-    };
     
     function updateNavActive(active) {
         document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
