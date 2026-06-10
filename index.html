@@ -355,6 +355,53 @@
             margin-top: 4px;
         }
         
+        /* ========== অরবিটাল ভেক্টর মার্কি (ইমেজ স্লাইডারের জায়গায়) ========== */
+        .orbital-marquee {
+            background: #ffffff;
+            margin: 0;
+            padding: 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .marquee-container {
+            width: 100%;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+        .marquee {
+            position: relative;
+            width: 100%;
+            overflow-x: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            font-weight: 800;
+            background: linear-gradient(90deg, #1A1A2E, #FF6A3D, #E94560, #1A1A2E);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: scrollLeftSmooth 18s linear infinite;
+            letter-spacing: -0.02em;
+        }
+        @keyframes scrollLeftSmooth {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-content span {
+            padding-right: 2.5rem;
+            display: inline-block;
+        }
+        .marquee:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        @media (max-width: 550px) {
+            .orbital-marquee { padding: 12px 0; }
+            .marquee-content { font-size: clamp(1.2rem, 5vw, 1.8rem); }
+            .marquee-content span { padding-right: 1.5rem; }
+        }
+        
         /* ========== বিলবোর্ড (উপরে লাইভ মার্কি সহ) ========== */
         .billboard {
             background: white;
@@ -503,77 +550,6 @@
             .billboard-slide { padding: 12px; }
             .live-badge { padding: 6px 10px; font-size: 0.65rem; }
             .live-marquee-text { font-size: 0.7rem; }
-        }
-        
-        /* অটো স্লাইডার */
-        .slider-card {
-            background: white;
-            border-radius: 20px;
-            margin: 12px 16px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }
-        .banner-slider {
-            position: relative;
-            overflow: hidden;
-        }
-        .banner-container {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .banner-item {
-            min-width: 100%;
-            cursor: pointer;
-        }
-        .banner-item img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .banner-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 0;
-            position: absolute;
-            bottom: 5px;
-            left: 0;
-            right: 0;
-        }
-        .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.6);
-            cursor: pointer;
-        }
-        .dot.active {
-            background: #1a1a1a;
-            width: 16px;
-            border-radius: 4px;
-        }
-        
-        /* চলন্ত লেখা (স্লাইডারের উপরে) */
-        .marquee-card {
-            padding: 12px 16px;
-            margin: 0;
-        }
-        .marquee {
-            background: #1a1a1a;
-            color: white;
-            padding: 10px;
-            overflow: hidden;
-            white-space: nowrap;
-            border-radius: 20px;
-        }
-        .marquee p {
-            display: inline-block;
-            animation: scrollText 25s linear infinite;
-            font-size: 0.8rem;
-        }
-        @keyframes scrollText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
         }
         
         /* স্ট্যাটিস্টিক্স কার্ড */
@@ -1117,12 +1093,19 @@
     </div>
 </div>
 
-<!-- চলন্ত লেখা -->
-<div class="marquee-card" style="padding:12px 16px;"><div class="marquee" style="background:#1a1a1a;color:white;padding:10px;border-radius:20px;overflow:hidden;white-space:nowrap;"><p style="display:inline-block;animation:scrollText 25s linear infinite;font-size:0.8rem;">🎉 স্বাগতম বাংলাদেশ মেলায়! 🎉 এখানে সারা দেশের মেলার তথ্য পাবেন। পোস্ট করুন, লাইক দিন, কমেন্ট করুন 🎉</p></div></div>
-<style>@keyframes scrollText{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>
-
-<!-- অটো স্লাইডার -->
-<div class="slider-card"><div class="banner-slider"><div class="banner-container" id="bannerContainer"><div class="banner-item"><img src="https://placehold.co/600x180?text=Loading..." alt="Banner"></div></div><div class="banner-dots" id="bannerDots"></div></div></div>
+<!-- ========== অরবিটাল ভেক্টর মার্কি (ইমেজ স্লাইডারের জায়গায়) ========== -->
+<div class="orbital-marquee">
+    <div class="marquee-container">
+        <div class="marquee">
+            <div class="marquee-content">
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+                <span>✦ প্রিমিয়াম স্মুথ স্ক্রোল ✦</span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
 <div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
@@ -1245,10 +1228,11 @@
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
         await loadDivisions();
         await loadCategoriesFromJSON();
-        await loadSliderImages();
+        // ইমেজ স্লাইডার বাদ - সরাসরি লোড পোস্ট
         await loadSavedPosts();
         loadPosts();
-        startAutoSlide();
+        // বিলবোর্ড অটো স্লাইড শুরু
+        startBillboardSlideshow();
     });
     
     // সাইন ইন বাটনের কাজ
@@ -1297,11 +1281,15 @@
     function resetTopicCategoryFilter() { selectedTopicCategories = []; document.querySelectorAll('.topic-category-item').forEach(i => { i.classList.remove('selected'); i.querySelector('i').className = 'fa-regular fa-square'; }); loadPosts(); showToast('সব বিষয় ফিল্টার রিসেট হয়েছে'); }
     function filterByStatus(status) { statusFilter = status; loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
     
-    function startAutoSlide() { if(bannerInterval) clearInterval(bannerInterval); bannerInterval = setInterval(() => { if(bannerImages.length > 1) { currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length; slideToBanner(currentBannerIndex); } }, 4000); }
-    function slideToBanner(index) { const container = document.getElementById("bannerContainer"); if(container && bannerImages.length > 0) { container.style.transform = `translateX(-${index * 100}%)`; document.querySelectorAll(".dot").forEach((dot, i) => { dot.classList.toggle("active", i === index); }); } }
-    
-    async function loadSliderImages() {
-        try { const snapshot = await db.ref('settings/imageSlider/images').once('value'); let images = snapshot.val() || []; if(images.length === 0) images = [{ url: "https://placehold.co/600x180/e0e0e0/666?text=Bangladesh+Mela", link: "#" }]; bannerImages = images; const container = document.getElementById("bannerContainer"); const dotsContainer = document.getElementById("bannerDots"); container.innerHTML = images.map((img, idx) => `<div class="banner-item" onclick="window.open('${img.link}', '_blank')"><img src="${img.url}" onerror="this.src='https://placehold.co/600x180/e0e0e0/666?text=Image+Not+Found'"></div>`).join(''); dotsContainer.innerHTML = images.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join(''); document.querySelectorAll(".dot").forEach((dot, i) => { dot.onclick = () => { currentBannerIndex = i; slideToBanner(i); }; }); container.style.display = "flex"; container.style.transition = "transform 0.5s ease-in-out"; startAutoSlide(); } catch(e) { console.error("Banner error:", e); }
+    function startBillboardSlideshow() {
+        if (billboardInterval) clearInterval(billboardInterval);
+        billboardInterval = setInterval(() => {
+            const slides = document.querySelectorAll('.billboard-slide');
+            if (slides.length === 0) return;
+            slides[currentBillboardIndex].classList.remove('active');
+            currentBillboardIndex = (currentBillboardIndex + 1) % slides.length;
+            slides[currentBillboardIndex].classList.add('active');
+        }, 4000);
     }
     
     async function loadDivisions() {
@@ -1343,6 +1331,7 @@
                     <div class="billboard-location"><i class="fa-solid fa-location-dot"></i> -</div>
                 </div>
             </div>`;
+            currentBillboardIndex = 0;
             return;
         }
         
@@ -1359,18 +1348,9 @@
         
         const slides = document.querySelectorAll('.billboard-slide');
         if (slides.length > 0) {
-            if (billboardInterval) clearInterval(billboardInterval);
             currentBillboardIndex = 0;
             slides.forEach(slide => slide.classList.remove('active'));
             slides[0].classList.add('active');
-            
-            billboardInterval = setInterval(() => {
-                const currentSlides = document.querySelectorAll('.billboard-slide');
-                if (currentSlides.length === 0) return;
-                currentSlides[currentBillboardIndex].classList.remove('active');
-                currentBillboardIndex = (currentBillboardIndex + 1) % currentSlides.length;
-                currentSlides[currentBillboardIndex].classList.add('active');
-            }, 4000);
         }
     }
     
