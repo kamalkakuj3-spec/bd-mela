@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>বাংলাদেশ মেলা - দেশের মেলার ঠিকানা</title>
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
@@ -25,7 +24,6 @@
             padding-bottom: 70px;
         }
         
-        /* হেডার */
         .app-header {
             background: white;
             padding: 12px 16px;
@@ -74,28 +72,53 @@
             font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        .signin-btn:hover {
-            background: #1b5e20;
-            transform: scale(1.02);
-        }
-        .header-icons i {
-            font-size: 1.2rem;
-            color: #333;
-            cursor: pointer;
-        }
-        .header-icons .fa-bell {
-            margin-right: 8px;
         }
         
-        /* ========== সার্চ + ফিল্টার সেকশন ========== */
+        /* ========== মার্কি স্টাইল ========== */
+        .marquee-wrapper {
+            background: linear-gradient(90deg, #fff8e1, #fff3e0, #fff8e1);
+            border-bottom: 1px solid #ffe0b2;
+            padding: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marqueeScroll 40s linear infinite;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e65100;
+            letter-spacing: 0.5px;
+        }
+        .marquee-content span {
+            display: inline-block;
+            padding: 0 30px;
+        }
+        .marquee-content i {
+            margin: 0 5px;
+            color: #ff6d00;
+        }
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-wrapper:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        
+        /* সার্চ + ফিল্টার সেকশন */
         .search-filter-section {
             background: white;
             padding: 0 16px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease;
+            transition: max-height 0.4s ease;
             border-bottom: none;
         }
         .search-filter-section.show {
@@ -111,9 +134,6 @@
             gap: 10px;
             align-items: center;
             margin-bottom: 12px;
-        }
-        .search-box i {
-            color: #888;
         }
         .search-box input {
             flex: 1;
@@ -134,25 +154,17 @@
             border-radius: 30px;
             padding: 8px 14px;
             font-size: 0.75rem;
-            color: #333;
-            outline: none;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .filter-select:focus {
-            border-color: #2e7d32;
         }
         .clear-filter {
             background: none;
             border: none;
             color: #dc3545;
-            font-size: 0.7rem;
             cursor: pointer;
             padding: 0 8px;
         }
         
-        /* ========== সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল ========== */
-        .time-category-panel {
+        /* প্যানেল স্টাইল */
+        .time-category-panel, .topic-category-panel, .saved-items-panel {
             display: none;
             position: fixed;
             bottom: 80px;
@@ -167,66 +179,43 @@
             max-height: 70vh;
             overflow: hidden;
         }
-        .time-category-panel.show {
+        .time-category-panel.show, .topic-category-panel.show, .saved-items-panel.show {
             display: flex;
-            animation: slideUp 0.3s ease;
         }
-        @keyframes slideUp {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .time-category-panel-header {
+        .time-category-panel-header, .topic-category-panel-header, .saved-items-panel-header {
             flex-shrink: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 16px 12px 16px;
+            padding: 16px 16px 12px;
             border-bottom: 1px solid #eee;
             background: white;
-            border-radius: 24px 24px 0 0;
         }
-        .time-category-panel-header h4 {
-            font-size: 14px;
-            color: #2e7d32;
-        }
-        .time-category-grid {
+        .time-category-grid, .topic-category-grid {
             flex-grow: 1;
             overflow-y: auto;
             padding: 8px 16px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
-            scrollbar-width: thin;
         }
-        .time-category-item {
+        .time-category-item, .topic-category-item {
             display: flex;
             align-items: center;
             gap: 8px;
             padding: 10px;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
             border: 1px solid #f0f0f0;
         }
-        .time-category-item:hover {
-            background: #f5f5f5;
-        }
-        .time-category-item.selected {
+        .time-category-item.selected, .topic-category-item.selected {
             background: #e8f5e9;
             border-color: #2e7d32;
-        }
-        .time-category-icon {
-            font-size: 18px;
-        }
-        .time-category-name {
-            font-size: 12px;
-            color: #333;
-            flex: 1;
         }
         .apply-filter-btn {
             flex-shrink: 0;
             width: calc(100% - 32px);
-            margin: 8px 16px 12px 16px;
+            margin: 8px 16px 12px;
             background: #2e7d32;
             color: white;
             border: none;
@@ -238,209 +227,42 @@
         .reset-filter-btn {
             flex-shrink: 0;
             width: calc(100% - 32px);
-            margin: 0 16px 20px 16px;
+            margin: 0 16px 20px;
             background: #f5f5f5;
             color: #666;
             border: none;
             border-radius: 30px;
             padding: 10px;
-            font-weight: 600;
             cursor: pointer;
         }
         
-        /* ========== বিষয়ভিত্তিক ক্যাটাগরি প্যানেল ========== */
-        .topic-category-panel {
-            display: none;
-            position: fixed;
-            bottom: 80px;
-            left: 16px;
-            right: 16px;
+        /* স্ট্যাটিস্টিক্স কার্ড */
+        .stats-card {
             background: white;
-            border-radius: 24px;
-            z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-            border: 1px solid #e0e0e0;
-            flex-direction: column;
-            max-height: 70vh;
-            overflow: hidden;
-        }
-        .topic-category-panel.show {
-            display: flex;
-            animation: slideUp 0.3s ease;
-        }
-        .topic-category-panel-header {
-            flex-shrink: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 16px 12px 16px;
-            border-bottom: 1px solid #eee;
-            background: white;
-            border-radius: 24px 24px 0 0;
-        }
-        .topic-category-panel-header h4 {
-            font-size: 14px;
-            color: #2e7d32;
-        }
-        .topic-category-grid {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 8px 16px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            scrollbar-width: thin;
-        }
-        .topic-category-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid #f0f0f0;
-        }
-        .topic-category-item:hover {
-            background: #f5f5f5;
-        }
-        .topic-category-item.selected {
-            background: #e8f5e9;
-            border-color: #2e7d32;
-        }
-        .topic-category-icon {
-            font-size: 18px;
-        }
-        .topic-category-name {
-            font-size: 12px;
-            color: #333;
-            flex: 1;
-        }
-        
-        /* সেভড আইটেম প্যানেল */
-        .saved-items-panel {
-            display: none;
-            position: fixed;
-            bottom: 80px;
-            left: 16px;
-            right: 16px;
-            background: white;
-            border-radius: 24px;
+            border-radius: 20px;
+            margin: 12px 16px;
             padding: 16px;
-            z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-            border: 1px solid #e0e0e0;
-            max-height: 70vh;
-            overflow-y: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
-        .saved-items-panel.show {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-        .saved-items-panel-header {
+        .stats-grid {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 12px;
+            justify-content: space-around;
+            text-align: center;
         }
-        .saved-items-panel-header h4 {
-            font-size: 14px;
-            color: #2e7d32;
-        }
-        .saved-item-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
+        .stat-item {
+            flex: 1;
             cursor: pointer;
-            border: 1px solid #e0e0e0;
+            padding: 8px 4px;
+            border-radius: 12px;
         }
-        .saved-item-card:hover {
-            background: #e8f5e9;
-            border-color: #2e7d32;
-        }
-        .saved-item-title {
-            font-size: 14px;
-            font-weight: 600;
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
             color: #1a1a1a;
         }
-        .saved-item-loc {
-            font-size: 11px;
+        .stat-label {
+            font-size: 0.7rem;
             color: #888;
-            margin-top: 4px;
-        }
-        
-        /* অরবিটাল ভেক্টর মার্কি */
-        .orbital-marquee {
-            background: #ffffff;
-            margin: 0 18px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-            border-radius: 10px;
-            position: relative;
-        }
-        .orbital-marquee::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 25px;
-            height: 30px;
-            background: white;
-            border-radius: 3px;
-            box-shadow: -2px 0 4px rgba(0,0,0,0.08);
-            z-index: 2;
-        }
-        .orbital-marquee::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 25px;
-            height: 30px;
-            background: white;
-            border-radius: 3px;
-            box-shadow: 2px 0 4px rgba(0,0,0,0.08);
-            z-index: 2;
-        }
-        .marquee-container {
-            width: 100%;
-            overflow-x: hidden;
-            background: #ffffff;
-            border-radius: 10px;
-        }
-        .marquee {
-            position: relative;
-            width: 100%;
-            overflow-x: hidden;
-            white-space: nowrap;
-        }
-        .marquee-content {
-            display: inline-block;
-            white-space: nowrap;
-            font-size: clamp(1.2rem, 4.5vw, 1.8rem);
-            font-weight: 700;
-            background: linear-gradient(90deg, #1A1A2E, #FF6A3D, #E94560, #1A1A2E);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: scrollLeftSmooth 50s linear infinite;
-            letter-spacing: -0.02em;
-        }
-        @keyframes scrollLeftSmooth {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
-        .marquee-content span {
-            padding-right: 2rem;
-            display: inline-block;
-        }
-        .marquee:hover .marquee-content {
-            animation-play-state: paused;
         }
         
         /* বিলবোর্ড */
@@ -450,80 +272,17 @@
             margin: 12px 16px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            position: relative;
-        }
-        .live-marquee-wrapper {
-            margin: 0;
-            padding: 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .live-marquee-card {
-            margin: 0;
-            padding: 0;
-        }
-        .live-marquee-container {
-            background: white;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            box-shadow: none;
-            position: relative;
-        }
-        .live-badge {
-            background: transparent;
-            color: #2e7d32;
-            padding: 12px 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .live-dot-icon {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ff0000;
-            animation: blinkRed 1s step-end infinite;
-            display: inline-block;
-        }
-        @keyframes blinkRed {
-            0%, 100% { opacity: 1; background: #ff0000; box-shadow: 0 0 5px #ff0000; }
-            50% { opacity: 0.3; background: #ff6666; box-shadow: none; }
-        }
-        .live-scrolling-area {
-            flex: 1;
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 10px 0;
-        }
-        .live-marquee-text {
-            display: inline-block;
-            animation: scrollLive 80s linear infinite;
-            color: #333;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        @keyframes scrollLive {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
         }
         .billboard-screen {
             width: 100%;
             height: 180px;
-            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .billboard-content {
             width: 100%;
             height: 100%;
             position: relative;
-            overflow: hidden;
         }
         .billboard-slide {
             position: absolute;
@@ -535,7 +294,7 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.5s ease;
             padding: 20px;
         }
         .billboard-slide.active {
@@ -543,95 +302,27 @@
             z-index: 10;
         }
         .billboard-card {
-            background: #ffffff;
+            background: white;
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             text-align: center;
             padding: 15px;
             border-radius: 16px;
         }
         .billboard-tag {
-            display: inline-block;
             background: linear-gradient(115deg, #d4af37, #c49b2a);
             padding: 6px 18px;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: bold;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            color: white;
+            display: inline-block;
             margin-bottom: 12px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .billboard-title {
             font-size: 1.5rem;
             font-weight: 800;
             color: #1a1a1a;
             margin-bottom: 10px;
-            line-height: 1.3;
-            padding: 0 10px;
-        }
-        .billboard-info {
-            font-size: 0.95rem;
-            color: #6b6b6b;
-            line-height: 1.5;
-            padding: 0 10px;
-            max-width: 90%;
-        }
-        .billboard-info i {
-            color: #d4af37;
-            margin-right: 5px;
-        }
-        .billboard-location {
-            font-size: 0.85rem;
-            color: #888;
-            margin-top: 8px;
-        }
-        
-        /* স্ট্যাটিস্টিক্স কার্ড */
-        .stats-card {
-            background: white;
-            border-radius: 20px;
-            margin: 12px 16px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }
-        .stats-title {
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .stats-grid {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-        }
-        .stat-item {
-            flex: 1;
-            cursor: pointer;
-            transition: all 0.2s;
-            padding: 8px 4px;
-            border-radius: 12px;
-        }
-        .stat-item:hover {
-            background: #e8f5e9;
-        }
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-        .stat-label {
-            font-size: 0.7rem;
-            color: #888;
-            margin-top: 4px;
         }
         
         /* পোস্ট গ্রিড */
@@ -641,25 +332,17 @@
             gap: 16px;
             padding: 0 16px;
         }
-        
         .news-card {
             background: white;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            transition: all 0.2s;
             cursor: pointer;
-            position: relative;
         }
-        .news-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        }
-        
         .news-header {
-            padding: 16px 16px 8px 16px;
+            padding: 16px 16px 8px;
             border-bottom: 1px solid #f0f0f0;
         }
-        
         .news-category {
             display: inline-block;
             font-size: 0.7rem;
@@ -668,15 +351,8 @@
             border-radius: 20px;
             margin-bottom: 8px;
         }
-        .news-category.topic-cat {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .news-category.time-cat {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-        
+        .news-category.topic-cat { background: #e8f5e9; color: #2e7d32; }
+        .news-category.time-cat { background: #fff3e0; color: #f57c00; }
         .title-badge {
             display: inline-block;
             font-size: 0.7rem;
@@ -684,54 +360,19 @@
             padding: 4px 12px;
             border-radius: 30px;
             margin-right: 10px;
-            vertical-align: middle;
         }
-        .title-badge.live {
-            background: #2e7d32;
-            color: white;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%,100%{transform:scale(1);opacity:1}
-            50%{transform:scale(1.05);opacity:0.9}
-        }
-        .title-badge.soon {
-            background: #f57c00;
-            color: white;
-        }
-        
+        .title-badge.live { background: #2e7d32; color: white; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+        .title-badge.soon { background: #f57c00; color: white; }
         .news-title {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            line-height: 1.3;
-            color: #1a1a1a;
-            margin-bottom: 8px;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 8px;
         }
-        
-        .news-body {
-            padding: 12px 16px;
-        }
-        
-        .news-description {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #444;
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .news-description.expanded {
-            display: block;
-            -webkit-line-clamp: unset;
-        }
-        
+        .news-body { padding: 12px 16px; }
         .news-info-grid {
             display: flex;
             flex-wrap: wrap;
@@ -739,21 +380,19 @@
             background: #f8f9fa;
             padding: 12px;
             border-radius: 12px;
-            margin: 8px 0 12px 0;
+            margin: 8px 0;
         }
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: #555;
+        .info-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #555; }
+        .info-item i { width: 24px; color: #00c853; }
+        .news-description {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        .info-item i {
-            width: 24px;
-            color: #00c853;
-            font-size: 0.9rem;
-        }
-        
         .poster-info {
             display: flex;
             align-items: center;
@@ -764,26 +403,13 @@
             font-size: 0.75rem;
             color: #888;
         }
-        .anonymous-badge {
-            background: #f0f0f0;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #666;
-        }
-        
         .news-footer {
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
             padding: 10px 16px;
             border-top: 1px solid #f0f0f0;
             gap: 20px;
         }
-        .news-actions {
-            display: flex;
-            gap: 20px;
-        }
+        .news-actions { display: flex; gap: 20px; }
         .action-btn {
             background: none;
             border: none;
@@ -793,91 +419,8 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 0;
-            transition: 0.2s;
         }
-        .action-btn:hover {
-            color: #1a1a1a;
-        }
-        .action-btn.liked { color: #e74c3c; }
         .action-btn.saved { color: #f39c12; }
-        .action-btn .count { font-size: 0.75rem; }
-        
-        .edit-btn, .delete-btn {
-            background: none;
-            border: none;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 8px;
-            border-radius: 8px;
-        }
-        .edit-btn { color: #2e7d32; }
-        .delete-btn { color: #dc3545; }
-        .edit-btn:hover, .delete-btn:hover { background: #f0f0f0; }
-        
-        .comments-section {
-            display: none;
-            background: #f8f9fa;
-            padding: 12px;
-            margin-top: 8px;
-            border-radius: 12px;
-        }
-        .comment-input {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .comment-input input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            font-size: 0.8rem;
-            outline: none;
-        }
-        .comment-input button {
-            padding: 8px 16px;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-        .comment-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 0.8rem;
-        }
-        .comment-item strong { color: #00c853; }
-        
-        .reaction-popup {
-            position: fixed;
-            bottom: 50%;
-            left: 50%;
-            transform: translate(-50%, 50%);
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 60px;
-            padding: 10px 18px;
-            display: flex;
-            gap: 14px;
-            z-index: 1001;
-            animation: fadeInUp 0.2s ease;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translate(-50%, 60%); }
-            to { opacity: 1; transform: translate(-50%, 50%); }
-        }
-        .reaction-emoji {
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .reaction-emoji:hover { transform: scale(1.2); }
         
         /* সাইড ড্রয়ার */
         .side-drawer {
@@ -887,7 +430,6 @@
             width: 280px;
             height: 100%;
             background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
             z-index: 1000;
             transition: left 0.3s ease;
             overflow-y: auto;
@@ -906,8 +448,6 @@
             border: 3px solid white;
             margin-bottom: 10px;
         }
-        .drawer-name { font-size: 1.1rem; font-weight: 600; }
-        .drawer-email { font-size: 0.7rem; opacity: 0.8; }
         .drawer-menu { padding: 20px; }
         .drawer-item {
             display: flex;
@@ -916,11 +456,7 @@
             padding: 12px 0;
             cursor: pointer;
             border-bottom: 1px solid #f0f0f0;
-            color: #333;
         }
-        .drawer-item:hover { color: #00c853; }
-        .drawer-item i { width: 24px; font-size: 1.1rem; }
-        
         .drawer-overlay {
             position: fixed;
             top: 0;
@@ -933,6 +469,7 @@
         }
         .drawer-overlay.show { display: block; }
         
+        /* মডাল */
         .modal {
             display: none;
             position: fixed;
@@ -949,12 +486,11 @@
             background: white;
             width: 90%;
             max-width: 500px;
-            max-height: 85vh;
-            overflow-y: auto;
             border-radius: 24px;
             padding: 20px;
+            max-height: 85vh;
+            overflow-y: auto;
         }
-        .modal-content h3 { margin-bottom: 15px; }
         .modal-content input, .modal-content select, .modal-content textarea {
             width: 100%;
             padding: 10px;
@@ -970,22 +506,6 @@
             border: none;
             border-radius: 12px;
             cursor: pointer;
-        }
-        .modal-content button.cancel { background: #ccc; color: #333; margin-top: 8px; }
-        .form-group { margin-bottom: 8px; }
-        .form-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-            display: block;
-        }
-        .small-text { font-size: 10px; color: #888; }
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 10px 0;
         }
         
         /* নিচের মেনু বার */
@@ -1026,7 +546,6 @@
             justify-content: center;
             margin-top: -20px;
         }
-        .nav-center i { font-size: 1.5rem; color: white; }
         
         .loader { text-align: center; padding: 40px; color: #888; }
         .toast {
@@ -1038,7 +557,6 @@
             color: #00e676;
             padding: 8px 20px;
             border-radius: 30px;
-            font-size: 0.8rem;
             z-index: 1100;
             opacity: 0;
             transition: 0.3s;
@@ -1047,149 +565,112 @@
         .toast.show { opacity: 1; }
         
         @media (max-width: 500px) {
-            .news-title { font-size: 1.4rem; }
-            .stats-number { font-size: 1.4rem; }
-            .title-badge { font-size: 0.6rem; padding: 3px 8px; }
-            .filter-row { gap: 6px; }
-            .filter-select { font-size: 0.65rem; padding: 6px 10px; }
+            .news-title { font-size: 1.2rem; }
+            .billboard-title { font-size: 1.2rem; }
             .stat-number { font-size: 1.2rem; }
-            .time-category-grid, .topic-category-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল -->
+<!-- প্যানেল গুলো -->
 <div class="time-category-panel" id="timeCategoryPanel">
     <div class="time-category-panel-header">
         <h4><i class="fa-regular fa-calendar"></i> সময়কাল নির্বাচন করুন</h4>
         <i class="fa-solid fa-times" onclick="closeTimeCategoryPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
     <div class="time-category-grid" id="timeCategoryGrid">
-        <div class="time-category-item" data-cat="all"><span class="time-category-icon">🎪</span><span class="time-category-name">সব মেলা</span></div>
-        <div class="time-category-item" data-cat="চলমান"><span class="time-category-icon">🟢</span><span class="time-category-name">চলমান মেলা</span></div>
-        <div class="time-category-item" data-cat="৩০ দিন"><span class="time-category-icon">📅</span><span class="time-category-name">৩০ দিনের মেলা</span></div>
-        <div class="time-category-item" data-cat="১৫ দিন"><span class="time-category-icon">📆</span><span class="time-category-name">১৫ দিনের মেলা</span></div>
-        <div class="time-category-item" data-cat="সাপ্তাহিক"><span class="time-category-icon">⚡</span><span class="time-category-name">৭ দিনের মেলা</span></div>
-        <div class="time-category-item" data-cat="৩ দিন"><span class="time-category-icon">🔥</span><span class="time-category-name">৩ দিনের মেলা</span></div>
+        <div class="time-category-item" data-cat="all"><span>🎪</span><span>সব মেলা</span></div>
+        <div class="time-category-item" data-cat="চলমান"><span>🟢</span><span>চলমান মেলা</span></div>
+        <div class="time-category-item" data-cat="৩০ দিন"><span>📅</span><span>৩০ দিনের মেলা</span></div>
+        <div class="time-category-item" data-cat="১৫ দিন"><span>📆</span><span>১৫ দিনের মেলা</span></div>
+        <div class="time-category-item" data-cat="সাপ্তাহিক"><span>⚡</span><span>৭ দিনের মেলা</span></div>
+        <div class="time-category-item" data-cat="৩ দিন"><span>🔥</span><span>৩ দিনের মেলা</span></div>
     </div>
     <button class="apply-filter-btn" onclick="applyTimeCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
     <button class="reset-filter-btn" onclick="resetTimeCategoryFilter()">সব রিসেট</button>
 </div>
 
-<!-- বিষয়ভিত্তিক ক্যাটাগরি প্যানেল -->
 <div class="topic-category-panel" id="topicCategoryPanel">
     <div class="topic-category-panel-header">
         <h4><i class="fa-solid fa-th-large"></i> বিষয় নির্বাচন করুন</h4>
         <i class="fa-solid fa-times" onclick="closeTopicCategoryPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
-    <div class="topic-category-grid" id="topicCategoryGrid"><div style="text-align:center; padding:20px;">লোড হচ্ছে...</div></div>
+    <div class="topic-category-grid" id="topicCategoryGrid"></div>
     <button class="apply-filter-btn" onclick="applyTopicCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
     <button class="reset-filter-btn" onclick="resetTopicCategoryFilter()">সব রিসেট</button>
 </div>
 
-<!-- সেভড আইটেম প্যানেল -->
 <div class="saved-items-panel" id="savedItemsPanel">
     <div class="saved-items-panel-header">
         <h4><i class="fa-regular fa-bookmark"></i> সেভ করা মেলা</h4>
         <i class="fa-solid fa-times" onclick="closeSavedItemsPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
-    <div id="savedItemsList" style="max-height:60vh; overflow-y:auto;"></div>
+    <div id="savedItemsList"></div>
 </div>
 
-<!-- সাইড ড্রয়ার -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
-        <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User&background=ffffff&color=333&bold=true">
+        <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User">
         <div class="drawer-name" id="drawerName">লোড হচ্ছে...</div>
         <div class="drawer-email" id="drawerEmail"></div>
     </div>
     <div class="drawer-menu">
         <div class="drawer-item" onclick="closeDrawer(); showMyPosts()"><i class="fa-regular fa-user"></i><span>আমার পোস্ট</span></div>
         <div class="drawer-item" onclick="closeDrawer(); openPostModal()"><i class="fa-regular fa-pen-to-square"></i><span>নতুন পোস্ট</span></div>
-        <div class="drawer-item" id="logoutDrawerBtn"><i class="fa-solid fa-sign-out-alt"></i><span>লগআউট</span></div>
+        <div class="drawer-item" id="logoutDrawerBtn" style="display:none;"><i class="fa-solid fa-sign-out-alt"></i><span>লগআউট</span></div>
     </div>
 </div>
 
-<!-- হেডার -->
 <div class="app-header">
     <div class="logo-area"><i class="fa-solid fa-bars menu-icon" id="menuIcon"></i><div><h1>বাংলাদেশ মেলা</h1><p>দেশের মেলার ঠিকানা</p></div></div>
     <div class="header-icons">
         <button class="signin-btn" id="signinBtn">লগইন</button>
-        <i class="fa-regular fa-bell" id="notifIcon"></i>
     </div>
 </div>
 
-<!-- সার্চ + ফিল্টার সেকশন -->
+<!-- ========== মার্কি সেকশন (চলন্ত লেখা) ========== -->
+<div class="marquee-wrapper" id="marqueeWrapper">
+    <div class="marquee-container">
+        <div class="marquee-content" id="marqueeContent">
+            <span><i class="fa-regular fa-bell"></i> আসসালামু আলাইকুম <i class="fa-regular fa-heart"></i></span>
+            <span>বাংলাদেশ মেলা এপসে আপনাকে স্বাগতম ✨</span>
+            <span>পোস্ট করতে চাইলে লগইন করুন 🔑</span>
+            <span>সব ধরনের মেলার তথ্য পাবেন এখানে 🎪</span>
+        </div>
+    </div>
+</div>
+
 <div class="search-filter-section" id="searchFilterSection">
     <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ লিখুন..."></div>
     <div class="filter-row">
         <select id="divisionFilter" class="filter-select"><option value="">সব বিভাগ</option></select>
         <select id="districtFilter" class="filter-select"><option value="">সব জেলা</option></select>
         <select id="upazilaFilter" class="filter-select"><option value="">সব উপজেলা</option></select>
-        <button class="clear-filter" onclick="clearAllFilters()" title="সব ফিল্টার রিসেট"><i class="fa-regular fa-eraser"></i></button>
+        <button class="clear-filter" onclick="clearAllFilters()"><i class="fa-regular fa-eraser"></i></button>
     </div>
 </div>
 
-<!-- অরবিটাল ভেক্টর মার্কি -->
-<div class="orbital-marquee">
-    <div class="marquee-container">
-        <div class="marquee">
-            <div class="marquee-content">
-                <span>✦ আসসালামু আলাইকুম ✦</span>
-                <span>✦ বাংলাদেশ মেলা এপসে আপনাকে স্বাগতম ✦</span>
-                <span>✦ বাংলাদেশ মেলা বাংলাদেশের সকল মেলার তথ্য ব্যক্তিগতভাবে যে কেউই আপলোড করতে পারে তাই যে কোন মেলার নিজ দায়িত্বে সিদ্ধান্ত নিবেন ✦</span>
-                <span>✦ এপসের এর বিজ্ঞপ্তি থেকে যদি কেউ প্রতারিত হন এপস ম্যানেজমেন্ট কর্তৃপক্ষ দায়ী থাকবে না। ব্যবসা মানে লাভ লস উভয় আছে তাই আপনার নিজ দায়িত্বে ঝুঁকি নিতে হবে। লোকেশন বা ঠিকানা ভুল অথবা সঠিক আপনার নিজ দায়িত্বে যাচাই করে নিবেন। ✦</span>
-            </div>
-        </div>
+<div class="stats-card">
+    <div class="stats-grid">
+        <div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div>
+        <div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div>
+        <div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div>
+        <div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div>
     </div>
 </div>
 
-<!-- স্ট্যাটিস্টিক্স কার্ড -->
-<div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
-
-<!-- বিলবোর্ড -->
-<div class="billboard" id="billboardContainer">
-    <div class="live-marquee-wrapper">
-        <div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;">
-            <div class="live-marquee-container">
-                <div class="live-badge">
-                    <span class="live-dot-icon"></span>
-                    <span>লাইভ</span>
-                </div>
-                <div class="live-scrolling-area">
-                    <div class="live-marquee-text" id="liveMarqueeText"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+<div class="billboard">
     <div class="billboard-screen">
-        <div class="billboard-content" id="billboardSlidesWrapper">
-            <div class="billboard-slide active">
-                <div class="billboard-card">
-                    <div class="billboard-tag">🎪 চলমান মেলা</div>
-                    <div class="billboard-title">লোড হচ্ছে...</div>
-                    <div class="billboard-info"><i class="fa-regular fa-calendar"></i> লোড হচ্ছে...</div>
-                    <div class="billboard-location"><i class="fa-solid fa-location-dot"></i> লোড হচ্ছে...</div>
-                </div>
-            </div>
-        </div>
+        <div class="billboard-content" id="billboardSlidesWrapper"></div>
     </div>
 </div>
 
-<!-- পোস্ট গ্রিড টাইটেল -->
-<div class="section-title" style="padding:0 16px; margin-bottom:12px;">
-    <h3><i class="fa-regular fa-newspaper"></i> সর্বশেষ মেলার খবর</h3>
-</div>
-
-<!-- মেলার কার্ড গ্রিড -->
 <div id="postsContainer" class="posts-grid">
-    <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
+    <div class="loader">লোড হচ্ছে...</div>
 </div>
 
-<!-- নিচের মেনু বার -->
 <div class="bottom-nav">
     <button class="nav-item active" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়</span></button>
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
@@ -1198,27 +679,24 @@
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
-<!-- পোস্ট মডাল -->
 <div id="postModal" class="modal">
     <div class="modal-content">
-        <h3>📝 নতুন মেলা পোস্ট করুন</h3>
-        <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
-        <select id="postDivision" required></select>
-        <select id="postDistrict" required></select>
+        <h3>নতুন মেলা পোস্ট করুন</h3>
+        <input type="text" id="postTitle" placeholder="মেলার নাম *">
+        <select id="postDivision"></select>
+        <select id="postDistrict"></select>
         <select id="postUpazila"></select>
-        
-        <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="postTopicCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option></select></div>
-        
-        <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
-        
-        <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
-        
-        <div style="display: flex; gap: 10px;"><input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%" required><input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%" required></div>
-        
-        <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
-        
-        <div class="checkbox-group"><input type="checkbox" id="anonymousPost"><label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
-        
+        <select id="postTopicCategory"></select>
+        <select id="postTimeCategory">
+            <option value="">-- সময়কাল --</option>
+            <option value="৩০ দিন">৩০ দিনের মেলা</option>
+            <option value="১৫ দিন">১৫ দিনের মেলা</option>
+            <option value="সাপ্তাহিক">৭ দিনের মেলা</option>
+            <option value="৩ দিন">৩ দিনের মেলা</option>
+        </select>
+        <div style="display:flex; gap:10px;"><input type="date" id="startDate" style="width:50%"><input type="date" id="endDate" style="width:50%"></div>
+        <textarea id="postDesc" rows="3" placeholder="বিস্তারিত..."></textarea>
+        <div><input type="checkbox" id="anonymousPost"> <label>বেনামে পোস্ট করুন</label></div>
         <button id="submitPost">পোস্ট করুন</button>
         <button class="cancel" id="closeModal">বাতিল</button>
     </div>
@@ -1227,7 +705,6 @@
 <div id="toast" class="toast"></div>
 
 <script>
-    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
         authDomain: "all-hadith-a68fa.firebaseapp.com",
@@ -1255,72 +732,131 @@
     let billboardInterval;
     let currentBillboardIndex = 0;
     
-    // ========== শুধুমাত্র এই অংশটুকু পরিবর্তন করা হয়েছে ==========
-    // লগইন ছাড়াও ব্রাউজ করা যাবে
+    // লগইন স্টেট চেক
     auth.onAuthStateChanged(async (user) => {
         currentUser = user;
         
         if (user) {
-            // লগইন করা ইউজার
-            document.getElementById("drawerName").innerText = currentUser.displayName || "User";
-            document.getElementById("drawerEmail").innerText = currentUser.email || "";
-            document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
+            document.getElementById("drawerName").innerText = user.displayName || "User";
+            document.getElementById("drawerEmail").innerText = user.email || "";
+            document.getElementById("drawerAvatar").src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}`;
             document.getElementById("logoutDrawerBtn").style.display = "flex";
             await loadSavedPosts();
         } else {
-            // লগইন ছাড়া ইউজার - ড্রয়ারে লগইন মেসেজ দেখাবে
             document.getElementById("drawerName").innerText = "দয়া করে লগইন করুন";
             document.getElementById("drawerEmail").innerText = "পোস্ট করতে লগইন প্রয়োজন";
-            document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=User&background=ffffff&color=333&bold=true";
             document.getElementById("logoutDrawerBtn").style.display = "none";
             savedPostsIds = [];
         }
         
         await loadDivisions();
         await loadCategoriesFromJSON();
-        loadPosts();  // লগইন ছাড়াও পোস্ট লোড হবে
+        await loadMarqueeSettings(); // মার্কি সেটিংস লোড
+        loadPosts();
         startBillboardSlideshow();
     });
-    // ========== পরিবর্তন শেষ ==========
+    
+    // ========== মার্কি ফাংশন (চলন্ত লেখা) ==========
+    async function loadMarqueeSettings() {
+        try {
+            const enabledSnapshot = await db.ref('settings/marquee/enabled').once('value');
+            const contentSnapshot = await db.ref('settings/marquee/content').once('value');
+            
+            let enabled = enabledSnapshot.val();
+            if (enabled === null) enabled = true;
+            
+            let content = contentSnapshot.val();
+            if (!content) {
+                content = "✦ আসসালামু আলাইকুম ✦ ✦ বাংলাদেশ মেলা এপসে আপনাকে স্বাগতম ✦ ✦ পোস্ট করতে চাইলে লগইন করুন ✦";
+            }
+            
+            const marqueeWrapper = document.getElementById("marqueeWrapper");
+            const marqueeContent = document.getElementById("marqueeContent");
+            
+            if (enabled === false || enabled === "false") {
+                marqueeWrapper.style.display = "none";
+            } else {
+                marqueeWrapper.style.display = "block";
+                // কন্টেন্ট পার্স করে স্প্যানে রূপান্তর
+                const parts = content.split('✦').filter(t => t.trim());
+                let html = '';
+                parts.forEach(part => {
+                    if (part.trim()) {
+                        html += `<span>✦ ${part.trim()} ✦</span>`;
+                    }
+                });
+                if (!html) {
+                    html = `<span>✦ আসসালামু আলাইকুম ✦</span><span>✦ স্বাগতম ✦</span>`;
+                }
+                marqueeContent.innerHTML = html;
+            }
+        } catch(e) {
+            console.log("Marquee error:", e);
+        }
+    }
     
     document.getElementById("signinBtn").onclick = () => { window.location.href = "login.html"; };
     
     async function loadCategoriesFromJSON() {
         try {
             const response = await fetch('mela-category.json');
-            if (!response.ok) throw new Error('mela-category.json not found');
             const data = await response.json();
             categoriesList = data.categories || [];
         } catch(e) {
-            categoriesList = [{ name: "কৃষি মেলা", icon: "🌾" }, { name: "বাণিজ্য মেলা", icon: "💼" }, { name: "সাংস্কৃতিক মেলা", icon: "🎭" }, { name: "বইমেলা", icon: "📚" }, { name: "খাবার মেলা", icon: "🍽️" }, { name: "অন্যান্য", icon: "🎪" }];
+            categoriesList = [
+                { name: "কৃষি মেলা", icon: "🌾" }, { name: "বাণিজ্য মেলা", icon: "💼" },
+                { name: "সাংস্কৃতিক মেলা", icon: "🎭" }, { name: "বইমেলা", icon: "📚" },
+                { name: "খাবার মেলা", icon: "🍽️" }, { name: "অন্যান্য", icon: "🎪" }
+            ];
         }
+        
         const grid = document.getElementById('topicCategoryGrid');
         if(grid) {
-            grid.innerHTML = categoriesList.map(cat => `<div class="topic-category-item" data-cat="${cat.name}"><span class="topic-category-icon">${cat.icon}</span><span class="topic-category-name">${cat.name}</span><i class="fa-regular fa-square"></i></div>`).join('');
+            grid.innerHTML = categoriesList.map(cat => `
+                <div class="topic-category-item" data-cat="${cat.name}">
+                    <span class="topic-category-icon">${cat.icon}</span>
+                    <span class="topic-category-name">${cat.name}</span>
+                    <i class="fa-regular fa-square"></i>
+                </div>
+            `).join('');
+            
             document.querySelectorAll('.topic-category-item').forEach(item => {
                 item.addEventListener('click', () => {
                     const catName = item.dataset.cat;
                     const index = selectedTopicCategories.indexOf(catName);
-                    if (index === -1) { selectedTopicCategories.push(catName); item.classList.add('selected'); item.querySelector('i').className = 'fa-regular fa-check-square';
-                    } else { selectedTopicCategories.splice(index, 1); item.classList.remove('selected'); item.querySelector('i').className = 'fa-regular fa-square'; }
+                    if (index === -1) {
+                        selectedTopicCategories.push(catName);
+                        item.classList.add('selected');
+                        item.querySelector('i').className = 'fa-regular fa-check-square';
+                    } else {
+                        selectedTopicCategories.splice(index, 1);
+                        item.classList.remove('selected');
+                        item.querySelector('i').className = 'fa-regular fa-square';
+                    }
                 });
             });
         }
+        
         const topicSelect = document.getElementById('postTopicCategory');
-        if(topicSelect) topicSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
+        if(topicSelect) {
+            topicSelect.innerHTML = '<option value="">ক্যাটাগরি নির্বাচন করুন</option>' + 
+                categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
+        }
     }
     
-    function getTopicCategoryIcon(catName) { const cat = categoriesList.find(c => c.name === catName); return cat ? cat.icon : '🎪'; }
-    function getTimeCategoryIcon(catName) { const icons = {'৩০ দিন':'📅','১৫ দিন':'📆','সাপ্তাহিক':'⚡','৩ দিন':'🔥','অন্যান্য':'🎪','চলমান':'🟢','আসন্ন':'⏰'}; return icons[catName] || '📆'; }
+    function getTopicCategoryIcon(catName) {
+        const cat = categoriesList.find(c => c.name === catName);
+        return cat ? cat.icon : '🎪';
+    }
     
-    function openSavedItemsPanel() { 
+    function openSavedItemsPanel() {
         if (!currentUser) {
             showToast("⚠️ সেভ করা দেখতে লগইন করুন!");
             setTimeout(() => { window.location.href = "login.html"; }, 1500);
             return;
         }
-        document.getElementById('savedItemsPanel').classList.add('show'); 
-        loadSavedItemsList(); 
+        document.getElementById('savedItemsPanel').classList.add('show');
+        loadSavedItemsList();
     }
     function closeSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.remove('show'); }
     function openTimeCategoryPanel() { document.getElementById('timeCategoryPanel').classList.add('show'); }
@@ -1328,10 +864,30 @@
     function openTopicCategoryPanel() { document.getElementById('topicCategoryPanel').classList.add('show'); }
     function closeTopicCategoryPanel() { document.getElementById('topicCategoryPanel').classList.remove('show'); }
     
-    function applyTimeCategoryFilter() { const selected = document.querySelector('.time-category-item.selected'); if(selected) selectedTimeCategory = selected.dataset.cat; loadPosts(); closeTimeCategoryPanel(); showToast(`⏰ ${selectedTimeCategory === 'all' ? 'সব মেলা' : selectedTimeCategory + ' দেখানো হচ্ছে'}`); }
-    function resetTimeCategoryFilter() { selectedTimeCategory = "all"; document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected')); document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected'); loadPosts(); showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে'); }
+    function applyTimeCategoryFilter() {
+        const selected = document.querySelector('.time-category-item.selected');
+        if(selected) selectedTimeCategory = selected.dataset.cat;
+        loadPosts();
+        closeTimeCategoryPanel();
+        showToast(`⏰ ${selectedTimeCategory === 'all' ? 'সব মেলা' : selectedTimeCategory + ' দেখানো হচ্ছে'}`);
+    }
+    function resetTimeCategoryFilter() {
+        selectedTimeCategory = "all";
+        document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected'));
+        document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected');
+        loadPosts();
+        showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে');
+    }
     function applyTopicCategoryFilter() { loadPosts(); closeTopicCategoryPanel(); showToast(`${selectedTopicCategories.length}টি বিষয় নির্বাচিত হয়েছে`); }
-    function resetTopicCategoryFilter() { selectedTopicCategories = []; document.querySelectorAll('.topic-category-item').forEach(i => { i.classList.remove('selected'); i.querySelector('i').className = 'fa-regular fa-square'; }); loadPosts(); showToast('সব বিষয় ফিল্টার রিসেট হয়েছে'); }
+    function resetTopicCategoryFilter() {
+        selectedTopicCategories = [];
+        document.querySelectorAll('.topic-category-item').forEach(i => {
+            i.classList.remove('selected');
+            i.querySelector('i').className = 'fa-regular fa-square';
+        });
+        loadPosts();
+        showToast('সব বিষয় ফিল্টার রিসেট হয়েছে');
+    }
     function filterByStatus(status) { statusFilter = status; loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
     
     function startBillboardSlideshow() {
@@ -1339,139 +895,279 @@
         billboardInterval = setInterval(() => {
             const slides = document.querySelectorAll('.billboard-slide');
             if (slides.length === 0) return;
-            slides[currentBillboardIndex].classList.remove('active');
+            slides[currentBillboardIndex]?.classList.remove('active');
             currentBillboardIndex = (currentBillboardIndex + 1) % slides.length;
-            slides[currentBillboardIndex].classList.add('active');
+            slides[currentBillboardIndex]?.classList.add('active');
         }, 4000);
     }
     
     async function loadDivisions() {
-        try { const response = await fetch('divisions.json'); const data = await response.json(); divisionsData = data.divisions; populateDivisionFilter(); updatePostDivisionSelect(); } catch(e) { divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }]; populateDivisionFilter(); updatePostDivisionSelect(); }
+        try {
+            const response = await fetch('divisions.json');
+            const data = await response.json();
+            divisionsData = data.divisions;
+        } catch(e) {
+            divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }];
+        }
+        populateDivisionFilter();
+        updatePostDivisionSelect();
     }
     
     function populateDivisionFilter() {
         const divSelect = document.getElementById("divisionFilter");
         divSelect.innerHTML = '<option value="">সব বিভাগ</option>';
-        divisionsData.forEach(div => { divSelect.add(new Option(div.name, div.name)); });
-        divSelect.onchange = function() { selectedDivision = this.value; selectedDistrict = ""; selectedUpazila = ""; updateDistrictFilter(); updateUpazilaFilter(); loadPosts(); };
-        document.getElementById("districtFilter").onchange = function() { selectedDistrict = this.value; selectedUpazila = ""; updateUpazilaFilter(); loadPosts(); };
-        document.getElementById("upazilaFilter").onchange = function() { selectedUpazila = this.value; loadPosts(); };
+        divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name)));
+        divSelect.onchange = function() {
+            selectedDivision = this.value;
+            selectedDistrict = ""; selectedUpazila = "";
+            updateDistrictFilter(); updateUpazilaFilter();
+            loadPosts();
+        };
+        document.getElementById("districtFilter").onchange = function() {
+            selectedDistrict = this.value;
+            selectedUpazila = "";
+            updateUpazilaFilter();
+            loadPosts();
+        };
+        document.getElementById("upazilaFilter").onchange = function() {
+            selectedUpazila = this.value;
+            loadPosts();
+        };
     }
     
-    function updateDistrictFilter() { const districtSelect = document.getElementById("districtFilter"); districtSelect.innerHTML = '<option value="">সব জেলা</option>'; if(selectedDivision) { const division = divisionsData.find(d => d.name === selectedDivision); if(division && division.districts) division.districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); } }
-    function updateUpazilaFilter() { const upazilaSelect = document.getElementById("upazilaFilter"); upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>'; if(selectedDivision && selectedDistrict) { const division = divisionsData.find(d => d.name === selectedDivision); const district = division?.districts?.find(d => d.name === selectedDistrict); if(district && district.upazilas) district.upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); } }
+    function updateDistrictFilter() {
+        const districtSelect = document.getElementById("districtFilter");
+        districtSelect.innerHTML = '<option value="">সব জেলা</option>';
+        if(selectedDivision) {
+            const division = divisionsData.find(d => d.name === selectedDivision);
+            division?.districts?.forEach(dist => districtSelect.add(new Option(dist.name, dist.name)));
+        }
+    }
     
-    function updatePostDivisionSelect() { const divSelect = document.getElementById("postDivision"); divSelect.innerHTML = ""; divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name); divSelect.onchange = () => updatePostDistricts(divSelect.value); }
-    function updatePostDistricts(divisionName) { const division = divisionsData.find(d => d.name === divisionName); const districts = division?.districts || []; const districtSelect = document.getElementById("postDistrict"); districtSelect.innerHTML = ""; districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); if(districts.length > 0) updatePostUpazilas(divisionName, districts[0].name); districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value); }
-    function updatePostUpazilas(divisionName, districtName) { const division = divisionsData.find(d => d.name === divisionName); const district = division?.districts?.find(d => d.name === districtName); const upazilas = district?.upazilas || []; const upazilaSelect = document.getElementById("postUpazila"); upazilaSelect.innerHTML = ""; if(upazilas.length === 0) upazilaSelect.add(new Option("কোন থানা/উপজেলা নেই", "")); else upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); }
+    function updateUpazilaFilter() {
+        const upazilaSelect = document.getElementById("upazilaFilter");
+        upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>';
+        if(selectedDivision && selectedDistrict) {
+            const division = divisionsData.find(d => d.name === selectedDivision);
+            const district = division?.districts?.find(d => d.name === selectedDistrict);
+            district?.upazilas?.forEach(up => upazilaSelect.add(new Option(up, up)));
+        }
+    }
     
-    async function loadSavedPosts() { 
+    function updatePostDivisionSelect() {
+        const divSelect = document.getElementById("postDivision");
+        divSelect.innerHTML = "";
+        divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name)));
+        if(divisionsData.length) updatePostDistricts(divisionsData[0].name);
+        divSelect.onchange = () => updatePostDistricts(divSelect.value);
+    }
+    
+    function updatePostDistricts(divisionName) {
+        const division = divisionsData.find(d => d.name === divisionName);
+        const districtSelect = document.getElementById("postDistrict");
+        districtSelect.innerHTML = "";
+        division?.districts?.forEach(dist => districtSelect.add(new Option(dist.name, dist.name)));
+        if(division?.districts?.length) updatePostUpazilas(divisionName, division.districts[0].name);
+        districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value);
+    }
+    
+    function updatePostUpazilas(divisionName, districtName) {
+        const division = divisionsData.find(d => d.name === divisionName);
+        const district = division?.districts?.find(d => d.name === districtName);
+        const upazilaSelect = document.getElementById("postUpazila");
+        upazilaSelect.innerHTML = "";
+        district?.upazilas?.forEach(up => upazilaSelect.add(new Option(up, up)));
+        if(!district?.upazilas?.length) upazilaSelect.add(new Option("কোন উপজেলা নেই", ""));
+    }
+    
+    async function loadSavedPosts() {
         if (!currentUser) return;
-        const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value'); 
-        savedPostsIds = snapshot.val() || []; 
+        const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value');
+        savedPostsIds = snapshot.val() || [];
     }
     
-    function getStatusText(post) { const today = new Date(); today.setHours(0,0,0,0); const start = new Date(post.startDate); const end = new Date(post.endDate); start.setHours(0,0,0,0); end.setHours(0,0,0,0); if(end < today) return { text: 'সমাপ্ত', type: 'ended' }; if(start <= today && end >= today) return { text: 'চলমান', type: 'live' }; return { text: 'আসন্ন', type: 'soon' }; }
-    function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
-    function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
+    function getStatusText(post) {
+        const today = new Date(); today.setHours(0,0,0,0);
+        const start = new Date(post.startDate); start.setHours(0,0,0,0);
+        const end = new Date(post.endDate); end.setHours(0,0,0,0);
+        if(end < today) return { text: 'সমাপ্ত', type: 'ended' };
+        if(start <= today && end >= today) return { text: 'চলমান', type: 'live' };
+        return { text: 'আসন্ন', type: 'soon' };
+    }
+    
+    function formatDate(dateStr) {
+        if(!dateStr) return '';
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' });
+    }
     
     function updateBillboard() {
         const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live');
         const wrapper = document.getElementById('billboardSlidesWrapper');
         if (liveMelas.length === 0) {
-            wrapper.innerHTML = `<div class="billboard-slide active"><div class="billboard-card"><div class="billboard-tag">🎪 চলমান মেলা</div><div class="billboard-title">কোনো চলমান মেলা নেই</div><div class="billboard-info"><i class="fa-regular fa-calendar"></i> -</div><div class="billboard-location"><i class="fa-solid fa-location-dot"></i> -</div></div></div>`;
-            currentBillboardIndex = 0;
+            wrapper.innerHTML = `<div class="billboard-slide active"><div class="billboard-card"><div class="billboard-tag">🎪 চলমান মেলা</div><div class="billboard-title">কোনো চলমান মেলা নেই</div></div></div>`;
             return;
         }
-        wrapper.innerHTML = liveMelas.map(mela => `<div class="billboard-slide"><div class="billboard-card"><div class="billboard-tag">${getTopicCategoryIcon(mela.topicCategory)} ${mela.topicCategory || 'অন্যান্য'} | ${getTimeCategoryIcon(mela.category)} ${mela.category || 'মেলা'}</div><div class="billboard-title">${escapeHtml(mela.title)}</div><div class="billboard-info"><i class="fa-regular fa-calendar"></i> ${formatDate(mela.startDate)} - ${formatDate(mela.endDate)}</div><div class="billboard-location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(mela.district)}, ${escapeHtml(mela.division)}</div></div></div>`).join('');
+        wrapper.innerHTML = liveMelas.map(mela => `
+            <div class="billboard-slide">
+                <div class="billboard-card">
+                    <div class="billboard-tag">${getTopicCategoryIcon(mela.topicCategory)} ${mela.topicCategory || 'মেলা'}</div>
+                    <div class="billboard-title">${escapeHtml(mela.title)}</div>
+                </div>
+            </div>
+        `).join('');
         const slides = document.querySelectorAll('.billboard-slide');
-        if (slides.length > 0) { currentBillboardIndex = 0; slides.forEach(slide => slide.classList.remove('active')); slides[0].classList.add('active'); }
+        if (slides.length) { slides[0].classList.add('active'); currentBillboardIndex = 0; }
     }
     
     async function loadPosts() {
-        const snapshot = await db.ref('posts').once('value'); allPosts = []; snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); }); allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+        const snapshot = await db.ref('posts').once('value');
+        allPosts = [];
+        snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); });
+        allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+        
         let filtered = allPosts.filter(post => {
-            if(statusFilter !== "all") { const postStatus = getStatusText(post).type; if(postStatus !== statusFilter) return false; }
+            if(statusFilter !== "all") {
+                const postStatus = getStatusText(post).type;
+                if(postStatus !== statusFilter) return false;
+            }
             if(selectedTimeCategory !== "all" && post.category !== selectedTimeCategory) return false;
-            if(selectedTopicCategories.length > 0 && !selectedTopicCategories.includes(post.topicCategory)) return false;
+            if(selectedTopicCategories.length && !selectedTopicCategories.includes(post.topicCategory)) return false;
             if(selectedDivision && post.division !== selectedDivision) return false;
             if(selectedDistrict && post.district !== selectedDistrict) return false;
             if(selectedUpazila && post.upazila !== selectedUpazila) return false;
-            if(searchText) { const s = searchText.toLowerCase(); return (post.title?.toLowerCase().includes(s) || post.district?.toLowerCase().includes(s) || post.division?.toLowerCase().includes(s)); }
+            if(searchText) {
+                const s = searchText.toLowerCase();
+                return (post.title?.toLowerCase().includes(s) || post.district?.toLowerCase().includes(s));
+            }
             return true;
         });
         renderPosts(filtered);
         updateStatistics();
-        updateLiveMarquee();
         updateBillboard();
     }
     
-    function updateStatistics() { const live = allPosts.filter(p => getStatusText(p).type === 'live').length; const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length; const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length; let reviewCount = 0; allPosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); document.getElementById("statLive").innerText = live; document.getElementById("statSoon").innerText = soon; document.getElementById("statEnded").innerText = ended; document.getElementById("statReviews").innerText = reviewCount; }
-    
-    function updateLiveMarquee() { 
-        const liveMelas = allPosts.filter(p => getStatusText(p).type === 'live'); 
-        const container = document.getElementById("liveMarqueeContainer"); 
-        const textElem = document.getElementById("liveMarqueeText"); 
-        if(liveMelas.length === 0) { container.style.display = "none"; return; } 
-        container.style.display = "block"; 
-        textElem.innerHTML = liveMelas.map(m => `🔴 ${m.title} - ${m.district}, ${m.division}`).join('  •  '); 
+    function updateStatistics() {
+        const live = allPosts.filter(p => getStatusText(p).type === 'live').length;
+        const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length;
+        const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length;
+        document.getElementById("statLive").innerText = live;
+        document.getElementById("statSoon").innerText = soon;
+        document.getElementById("statEnded").innerText = ended;
     }
     
-    function loadSavedItemsList() { 
-        const container = document.getElementById('savedItemsList'); 
-        if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
-        const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); 
-        if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
-        container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="openPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div></div>`).join(''); 
+    function loadSavedItemsList() {
+        const container = document.getElementById('savedItemsList');
+        const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id));
+        if(savedPosts.length === 0) {
+            container.innerHTML = '<div style="padding:20px;text-align:center;">😢 কোনো সেভড মেলা নেই</div>';
+            return;
+        }
+        container.innerHTML = savedPosts.map(post => `
+            <div class="saved-item-card" onclick="openPostDetail('${post.id}'); closeSavedItemsPanel();">
+                <div><strong>${escapeHtml(post.title)}</strong></div>
+                <div style="font-size:12px;color:#888;">${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div>
+            </div>
+        `).join('');
     }
     
-    window.openPostDetail = function(id) { const post = allPosts.find(p => p.id === id); if(!post) return; showToast(`📄 ${post.title} - বিস্তারিত দেখুন`); };
+    window.openPostDetail = function(id) {
+        const post = allPosts.find(p => p.id === id);
+        if(post) showToast(post.title);
+    };
     
     async function renderPosts(posts) {
-        const container = document.getElementById("postsContainer"); if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; } container.innerHTML = "";
+        const container = document.getElementById("postsContainer");
+        if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; }
+        container.innerHTML = "";
+        
         for(const post of posts) {
-            const reactions = post.reactions || {}; const reactionCount = Object.keys(reactions).length; const userReaction = currentUser ? reactions[currentUser?.uid] : null; const isSaved = currentUser && savedPostsIds.includes(post.id); const isMyPost = currentUser && (post.uid === currentUser?.uid); const commentCount = post.comments ? Object.keys(post.comments).length : 0; const status = getStatusText(post); const displayInfo = getDisplayName(post);
-            let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">${userReaction ? userReaction.emoji : '<i class="fa-regular fa-thumbs-up"></i>'} <span class="count">${reactionCount}</span></button>`;
-            let actionButtons = `<div class="news-actions">${likeButtonHtml}<button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button><button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>`;
-            if(post.locationLink) actionButtons += `<button class="action-btn map-btn" data-link="${post.locationLink}"><i class="fa-regular fa-map"></i> ম্যাপ</button>`;
-            if(isMyPost) actionButtons += `<button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button><button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>`;
+            const reactions = post.reactions || {};
+            const reactionCount = Object.keys(reactions).length;
+            const isSaved = currentUser && savedPostsIds.includes(post.id);
+            const status = getStatusText(post);
+            const isMyPost = currentUser && (post.uid === currentUser.uid);
+            
+            let actionButtons = `<div class="news-actions">
+                <button class="action-btn like-btn" data-id="${post.id}"><i class="fa-regular fa-thumbs-up"></i> <span>${reactionCount}</span></button>
+                <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>`;
+            if(isMyPost) actionButtons += `<button class="action-btn delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i></button>`;
             actionButtons += `</div>`;
-            const statusBadgeHtml = status.type === 'live' ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>` : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
-            const posterHtml = `<div class="poster-info">${displayInfo.isAnonymous ? `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`}<span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span></div>`;
-            const card = document.createElement("div"); card.className = "news-card"; card.setAttribute("data-id", post.id);
-            card.innerHTML = `<div class="news-header"><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span><span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div></div><div class="news-title">${statusBadgeHtml}${escapeHtml(post.title)}</div></div><div class="news-body"><div class="news-info-grid"><div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div><div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div></div><div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>${posterHtml}<div id="comments-${post.id}" class="comments-section"></div></div><div class="news-footer">${actionButtons}</div>`;
-            container.appendChild(card);
-            const descElem = card.querySelector(".news-description"); const fullText = descElem.dataset.fulltext; descElem.onclick = (e) => { e.stopPropagation(); if(descElem.classList.contains("expanded")) { descElem.classList.remove("expanded"); descElem.innerText = fullText.substring(0,150)+(fullText.length>150?'...':''); } else { descElem.classList.add("expanded"); descElem.innerText = fullText; } };
-            card.querySelector(".like-btn")?.addEventListener("click", (e) => { 
-                e.stopPropagation(); 
+            
+            const statusBadge = status.type === 'live' ? `<span class="title-badge live">🔴 চলমান</span>` : 
+                               (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
+            
+            const card = document.createElement("div");
+            card.className = "news-card";
+            card.innerHTML = `
+                <div class="news-header">
+                    <div><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span></div>
+                    <div class="news-title">${statusBadge}${escapeHtml(post.title)}</div>
+                </div>
+                <div class="news-body">
+                    <div class="news-info-grid">
+                        <div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div>
+                        <div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
+                    </div>
+                    <div class="news-description">${escapeHtml(post.description?.substring(0, 200) || 'কোনো বিবরণ নেই')}</div>
+                    <div class="poster-info"><i class="fa-regular fa-user"></i> ${post.isAnonymous ? 'বেনামে' : (post.posterName || 'ব্যবহারকারী')}</div>
+                </div>
+                <div class="news-footer">${actionButtons}</div>
+            `;
+            
+            const likeBtn = card.querySelector(".like-btn");
+            likeBtn?.addEventListener("click", (e) => {
+                e.stopPropagation();
                 if (!currentUser) { showToast("⚠️ লাইক দিতে লগইন করুন!"); setTimeout(() => { window.location.href = "login.html"; }, 1500); return; }
-                showReactionPopup(card.querySelector(".like-btn"), post.id); 
+                setReaction(post.id);
             });
-            card.querySelector(".save-btn")?.addEventListener("click", () => { 
+            
+            const saveBtn = card.querySelector(".save-btn");
+            saveBtn?.addEventListener("click", (e) => {
+                e.stopPropagation();
                 if (!currentUser) { showToast("⚠️ সেভ করতে লগইন করুন!"); setTimeout(() => { window.location.href = "login.html"; }, 1500); return; }
-                toggleSave(post.id); 
+                toggleSave(post.id);
             });
-            card.querySelector(".comment-btn")?.addEventListener("click", () => { 
-                if (!currentUser) { showToast("⚠️ কমেন্ট করতে লগইন করুন!"); setTimeout(() => { window.location.href = "login.html"; }, 1500); return; }
-                const commentDiv = document.getElementById(`comments-${post.id}`); 
-                if(commentDiv.style.display === "none" || !commentDiv.style.display) { commentDiv.style.display = "block"; loadComments(post.id, commentDiv); } else { commentDiv.style.display = "none"; } 
+            
+            const deleteBtn = card.querySelector(".delete-btn");
+            deleteBtn?.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (confirm("পোস্ট ডিলিট করবেন?")) deletePost(post.id);
             });
-            card.querySelector(".edit-btn")?.addEventListener("click", () => openEditModal(post));
-            card.querySelector(".delete-btn")?.addEventListener("click", () => deletePost(post.id));
-            card.querySelector(".map-btn")?.addEventListener("click", (e) => { e.stopPropagation(); window.open(e.currentTarget.dataset.link, '_blank'); });
+            
             card.onclick = () => openPostDetail(post.id);
+            container.appendChild(card);
         }
     }
     
-    function showReactionPopup(btn, postId) { const existing = document.querySelector('.reaction-popup'); if(existing) existing.remove(); const popup = document.createElement('div'); popup.className = 'reaction-popup'; const emojis = [{emoji:"❤️",type:"like"},{emoji:"😍",type:"love"},{emoji:"🥰",type:"care"},{emoji:"😂",type:"haha"},{emoji:"😮",type:"wow"}]; emojis.forEach(r => { const span = document.createElement('span'); span.className = 'reaction-emoji'; span.textContent = r.emoji; span.onclick = (e) => { e.stopPropagation(); setReaction(postId, r.type, r.emoji); popup.remove(); }; popup.appendChild(span); }); document.body.appendChild(popup); setTimeout(() => { document.addEventListener('click', function remove(e) { if(!popup.contains(e.target)) { popup.remove(); document.removeEventListener('click', remove); } }); }, 100); }
-    async function setReaction(postId, type, emoji) { if (!currentUser) return; await db.ref(`posts/${postId}/reactions/${currentUser.uid}`).set({ type, emoji, timestamp: Date.now() }); loadPosts(); }
-    async function loadComments(postId, container) { const snapshot = await db.ref(`posts/${postId}/comments`).once('value'); const comments = snapshot.val() || {}; let html = `<div class="comment-input"><input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন..."><button onclick="window.addComment('${postId}')">পোস্ট</button></div><div id="commentList-${postId}">`; for(let [key, val] of Object.entries(comments)) html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`; html += `</div>`; container.innerHTML = html; }
-    window.addComment = async (postId) => { if (!currentUser) { showToast("⚠️ কমেন্ট করতে লগইন করুন!"); return; } const text = document.getElementById(`newCom-${postId}`).value.trim(); if(!text) return; await db.ref(`posts/${postId}/comments/${Date.now()}`).set({ uid: currentUser.uid, name: currentUser.displayName, text, time: Date.now() }); loadPosts(); };
+    async function setReaction(postId) {
+        await db.ref(`posts/${postId}/reactions/${currentUser.uid}`).set({ type: "like", timestamp: Date.now() });
+        loadPosts();
+    }
     
-    function openEditModal(post) { alert("এডিট ফিচার শীঘ্রই আসছে"); }
-    async function deletePost(postId) { if(confirm("পোস্টটি ডিলিট করতে চান?")) { await db.ref(`posts/${postId}`).remove(); loadPosts(); } }
-    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
-    async function toggleSave(postId) { if (!currentUser) return; const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); const snap = await userRef.once('value'); let saved = snap.val() || []; if(saved.includes(postId)) saved = saved.filter(id => id !== postId); else saved.push(postId); await userRef.set(saved); savedPostsIds = saved; loadPosts(); showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল'); }
+    async function toggleSave(postId) {
+        const userRef = db.ref(`users/${currentUser.uid}/savedPosts`);
+        const snap = await userRef.once('value');
+        let saved = snap.val() || [];
+        if(saved.includes(postId)) saved = saved.filter(id => id !== postId);
+        else saved.push(postId);
+        await userRef.set(saved);
+        savedPostsIds = saved;
+        loadPosts();
+        showToast(saved.includes(postId) ? '⭐ সেভ হয়েছে' : '❌ সেভ বাতিল');
+    }
+    
+    async function deletePost(postId) {
+        await db.ref(`posts/${postId}`).remove();
+        loadPosts();
+        showToast("পোস্ট ডিলিট হয়েছে");
+    }
+    
+    function escapeHtml(str) {
+        if(!str) return '';
+        return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m]));
+    }
+    
     function openDrawer() { document.getElementById("sideDrawer").classList.add("open"); document.getElementById("drawerOverlay").classList.add("show"); }
     function closeDrawer() { document.getElementById("sideDrawer").classList.remove("open"); document.getElementById("drawerOverlay").classList.remove("show"); }
     function openPostModal() { 
@@ -1487,47 +1183,78 @@
         closeDrawer(); 
         showToast("আমার পোস্ট দেখানো হচ্ছে"); 
     }
-    window.clearAllFilters = function() { selectedDivision = ""; selectedDistrict = ""; selectedUpazila = ""; document.getElementById("divisionFilter").value = ""; document.getElementById("districtFilter").innerHTML = '<option value="">সব জেলা</option>'; document.getElementById("upazilaFilter").innerHTML = '<option value="">সব উপজেলা</option>'; loadPosts(); showToast("সব ফিল্টার রিসেট হয়েছে"); };
+    window.clearAllFilters = function() {
+        selectedDivision = ""; selectedDistrict = ""; selectedUpazila = "";
+        document.getElementById("divisionFilter").value = "";
+        document.getElementById("districtFilter").innerHTML = '<option value="">সব জেলা</option>';
+        document.getElementById("upazilaFilter").innerHTML = '<option value="">সব উপজেলা</option>';
+        loadPosts();
+        showToast("সব ফিল্টার রিসেট হয়েছে");
+    };
     
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
     document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.reload(); };
     document.getElementById("navSavedBtn").onclick = openSavedItemsPanel;
-    document.getElementById("navSearchBtn").onclick = () => { document.getElementById("searchFilterSection").classList.toggle("show"); if(document.getElementById("searchFilterSection").classList.contains("show")) document.getElementById("searchInput").focus(); };
+    document.getElementById("navSearchBtn").onclick = () => document.getElementById("searchFilterSection").classList.toggle("show");
     document.getElementById("navTimeCategory").onclick = openTimeCategoryPanel;
     document.getElementById("navTopicCategory").onclick = openTopicCategoryPanel;
     document.getElementById("navCreate").onclick = openPostModal;
     document.getElementById("searchInput").addEventListener("input", (e) => { searchText = e.target.value; loadPosts(); });
     document.getElementById("closeModal").onclick = closePostModal;
-    document.querySelectorAll('.time-category-item').forEach(i => { i.addEventListener('click', () => { document.querySelectorAll('.time-category-item').forEach(t => t.classList.remove('selected')); i.classList.add('selected'); }); });
+    
+    document.querySelectorAll('.time-category-item').forEach(i => {
+        i.addEventListener('click', () => {
+            document.querySelectorAll('.time-category-item').forEach(t => t.classList.remove('selected'));
+            i.classList.add('selected');
+        });
+    });
     document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected');
     
     document.getElementById("submitPost").onclick = async () => {
         if (!currentUser) { showToast("পোস্ট করতে লগইন করুন!"); return; }
+        
         const title = document.getElementById("postTitle").value.trim();
         const division = document.getElementById("postDivision").value;
         const district = document.getElementById("postDistrict").value;
         const upazila = document.getElementById("postUpazila").value;
-        const locationLink = document.getElementById("postLocationLink").value.trim();
         const start = document.getElementById("startDate").value;
         const end = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
         const topicCat = document.getElementById("postTopicCategory").value;
         const timeCat = document.getElementById("postTimeCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
-        if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
-        if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
-        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
-        const postData = { title, division, district, upazila, locationLink: locationLink || "", startDate: start, endDate: end, description: desc, category: timeCat, topicCategory: topicCat, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous };
-        if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+        
+        if(!title || !division || !district || !start || !end || !topicCat || !timeCat) {
+            alert("সব তথ্য পূরণ করুন!");
+            return;
+        }
+        
+        const postData = {
+            title, division, district, upazila, startDate: start, endDate: end,
+            description: desc, category: timeCat, topicCategory: topicCat,
+            createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email,
+            isAnonymous, posterName: isAnonymous ? null : (currentUser.displayName || currentUser.email?.split('@')[0])
+        };
+        
         await db.ref('posts').push(postData);
         closePostModal();
-        document.getElementById("postTitle").value = ""; document.getElementById("postDesc").value = ""; document.getElementById("postLocationLink").value = ""; document.getElementById("anonymousPost").checked = false; document.getElementById("startDate").value = ""; document.getElementById("endDate").value = ""; document.getElementById("postTopicCategory").value = ""; document.getElementById("postTimeCategory").value = "";
+        document.getElementById("postTitle").value = "";
+        document.getElementById("postDesc").value = "";
+        document.getElementById("startDate").value = "";
+        document.getElementById("endDate").value = "";
+        document.getElementById("anonymousPost").checked = false;
         loadPosts();
-        showToast("✅ মেলা পোস্ট হয়েছে!");
+        showToast("✅ পোস্ট হয়েছে!");
     };
     
-    function showToast(msg) { const toast = document.getElementById("toast"); toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2500); }
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2500);
+    }
+    
     window.onclick = (e) => { if(e.target === document.getElementById("postModal")) closePostModal(); };
 </script>
 </body>
