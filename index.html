@@ -358,13 +358,42 @@
             margin-top: 4px;
         }
         
-        /* ========== অরবিটাল ভেক্টর মার্কি (সাইজ বড় + রাউন্ড শেপ) ========== */
+        /* ========== অরবিটাল ভেক্টর মার্কি (দুই পাশে সাদা দাগ) ========== */
         .orbital-marquee {
             background: #ffffff;
             margin: 0 18px;
             padding: 8px 0;
             border-bottom: 1px solid #f0f0f0;
             border-radius: 10px;
+            position: relative;
+        }
+        /* বাম পাশের সাদা দাগ */
+        .orbital-marquee::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 35px;
+            background: white;
+            border-radius: 2px;
+            box-shadow: -1px 0 2px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+        /* ডান পাশের সাদা দাগ */
+        .orbital-marquee::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 35px;
+            background: white;
+            border-radius: 2px;
+            box-shadow: 1px 0 2px rgba(0,0,0,0.1);
+            z-index: 2;
         }
         .marquee-container {
             width: 100%;
@@ -405,6 +434,8 @@
             .orbital-marquee { padding: 6px 0; margin: 0 16px; }
             .marquee-content { font-size: clamp(1rem, 3.5vw, 1.4rem); }
             .marquee-content span { padding-right: 1rem; }
+            .orbital-marquee::before,
+            .orbital-marquee::after { height: 25px; width: 2px; }
         }
         
         /* ========== বিলবোর্ড ========== */
@@ -417,7 +448,7 @@
             position: relative;
         }
         
-        /* লাইভ মার্কি - বিলবোর্ডের উপরের অংশে (লাইভ লেখা বড়) */
+        /* লাইভ মার্কি - বিলবোর্ডের উপরের অংশে */
         .live-marquee-wrapper {
             margin: 0;
             padding: 0;
@@ -433,6 +464,7 @@
             display: flex;
             align-items: center;
             box-shadow: none;
+            position: relative;
         }
         .live-badge {
             background: transparent;
@@ -1112,7 +1144,7 @@
     </div>
 </div>
 
-<!-- ========== অরবিটাল ভেক্টর মার্কি (সাইজ বড় + রাউন্ড শেপ) ========== -->
+<!-- ========== অরবিটাল ভেক্টর মার্কি (দুই পাশে সাদা দাগ) ========== -->
 <div class="orbital-marquee">
     <div class="marquee-container">
         <div class="marquee">
@@ -1129,7 +1161,7 @@
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
 <div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
 
-<!-- ========== বিলবোর্ড (লাইভ লেখা বড়) ========== -->
+<!-- ========== বিলবোর্ড ========== -->
 <div class="billboard" id="billboardContainer">
     <!-- লাইভ মার্কি - বিলবোর্ডের উপরের অংশে -->
     <div class="live-marquee-wrapper">
