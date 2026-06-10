@@ -355,12 +355,13 @@
             margin-top: 4px;
         }
         
-        /* ========== অরবিটাল ভেক্টর মার্কি (ইমেজ স্লাইডারের জায়গায়) ========== */
+        /* ========== অরবিটাল ভেক্টর মার্কি (লাইভ প্রিভিউ এর মতো মার্জিন সহ) ========== */
         .orbital-marquee {
             background: #ffffff;
-            margin: 0;
+            margin: 0 16px;
             padding: 20px 0;
             border-bottom: 1px solid #f0f0f0;
+            border-radius: 0;
         }
         .marquee-container {
             width: 100%;
@@ -397,7 +398,7 @@
             animation-play-state: paused;
         }
         @media (max-width: 550px) {
-            .orbital-marquee { padding: 12px 0; }
+            .orbital-marquee { padding: 12px 0; margin: 0 16px; }
             .marquee-content { font-size: clamp(1.2rem, 5vw, 1.8rem); }
             .marquee-content span { padding-right: 1.5rem; }
         }
@@ -1076,7 +1077,7 @@
 <div class="app-header">
     <div class="logo-area"><i class="fa-solid fa-bars menu-icon" id="menuIcon"></i><div><h1>বাংলাদেশ মেলা</h1><p>দেশের মেলার ঠিকানা</p></div></div>
     <div class="header-icons">
-        <button class="signin-btn" id="signinBtn"><i class="fa-regular fa-user"></i> সাইন ইন</button>
+        <button class="signin-btn" id="signinBtn">লগইন</button>
         <i class="fa-regular fa-bookmark" id="headerSavedIcon" style="cursor:pointer;"></i>
         <i class="fa-regular fa-bell" id="notifIcon"></i>
     </div>
@@ -1093,7 +1094,7 @@
     </div>
 </div>
 
-<!-- ========== অরবিটাল ভেক্টর মার্কি (ইমেজ স্লাইডারের জায়গায়) ========== -->
+<!-- ========== অরবিটাল ভেক্টর মার্কি (লাইভ প্রিভিউ এর মতো মার্জিন সহ) ========== -->
 <div class="orbital-marquee">
     <div class="marquee-container">
         <div class="marquee">
@@ -1209,9 +1210,6 @@
     let divisionsData = [];
     let savedPostsIds = [];
     let currentView = "home";
-    let bannerImages = [];
-    let currentBannerIndex = 0;
-    let bannerInterval = null;
     let allPosts = [];
     let selectedDivision = "", selectedDistrict = "", selectedUpazila = "";
     
@@ -1228,10 +1226,8 @@
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
         await loadDivisions();
         await loadCategoriesFromJSON();
-        // ইমেজ স্লাইডার বাদ - সরাসরি লোড পোস্ট
         await loadSavedPosts();
         loadPosts();
-        // বিলবোর্ড অটো স্লাইড শুরু
         startBillboardSlideshow();
     });
     
