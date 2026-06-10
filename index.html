@@ -85,6 +85,10 @@
             color: #333;
             cursor: pointer;
         }
+        /* নোটিফিকেশন আইকনের ডান পাশের মার্জিন ডবল */
+        .header-icons .fa-bell {
+            margin-right: 8px;
+        }
         
         /* ========== সার্চ + ফিল্টার সেকশন (শুরুতে হাইড) ========== */
         .search-filter-section {
@@ -355,18 +359,19 @@
             margin-top: 4px;
         }
         
-        /* ========== অরবিটাল ভেক্টর মার্কি (লাইভ প্রিভিউ এর মতো মার্জিন সহ) ========== */
+        /* ========== অরবিটাল ভেক্টর মার্কি (সাইজ অর্ধেক + রাউন্ড শেপ + গ্যাপ কম) ========== */
         .orbital-marquee {
             background: #ffffff;
             margin: 0 18px;
-            padding: 20px 0;
-            border-bottom: 10px solid #f0f0f0;
-            border-radius: 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+            border-radius: 50px;
         }
         .marquee-container {
             width: 100%;
             overflow-x: hidden;
             background: #ffffff;
+            border-radius: 50px;
         }
         .marquee {
             position: relative;
@@ -377,8 +382,8 @@
         .marquee-content {
             display: inline-block;
             white-space: nowrap;
-            font-size: clamp(1.5rem, 6vw, 2.5rem);
-            font-weight: 800;
+            font-size: clamp(0.8rem, 3vw, 1.2rem);
+            font-weight: 600;
             background: linear-gradient(90deg, #1A1A2E, #FF6A3D, #E94560, #1A1A2E);
             background-clip: text;
             -webkit-background-clip: text;
@@ -391,16 +396,16 @@
             100% { transform: translateX(-50%); }
         }
         .marquee-content span {
-            padding-right: 2.5rem;
+            padding-right: 2rem;
             display: inline-block;
         }
         .marquee:hover .marquee-content {
             animation-play-state: paused;
         }
         @media (max-width: 550px) {
-            .orbital-marquee { padding: 12px 0; margin: 0 16px; }
-            .marquee-content { font-size: clamp(1.2rem, 5vw, 1.8rem); }
-            .marquee-content span { padding-right: 1.5rem; }
+            .orbital-marquee { padding: 5px 0; margin: 0 16px; }
+            .marquee-content { font-size: clamp(0.7rem, 2.5vw, 0.9rem); }
+            .marquee-content span { padding-right: 1rem; }
         }
         
         /* ========== বিলবোর্ড (উপরে লাইভ মার্কি সহ) ========== */
@@ -413,7 +418,7 @@
             position: relative;
         }
         
-        /* লাইভ মার্কি - বিলবোর্ডের উপরের অংশে */
+        /* লাইভ মার্কি - বিলবোর্ডের উপরের অংশে (স্পিড স্লো 80s) */
         .live-marquee-wrapper {
             margin: 0;
             padding: 0;
@@ -431,15 +436,37 @@
             box-shadow: none;
         }
         .live-badge {
-            background: #2e7d32;
-            color: white;
+            background: transparent;
+            color: #2e7d32;
             padding: 10px 16px;
             font-size: 0.8rem;
             font-weight: 700;
             white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+        }
+        /* জ্বলা-নেভা লাইভ ডট */
+        .live-dot-icon {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff0000;
+            animation: blinkRed 1s step-end infinite;
+            display: inline-block;
+        }
+        @keyframes blinkRed {
+            0%, 100% { opacity: 1; background: #ff0000; box-shadow: 0 0 5px #ff0000; }
+            50% { opacity: 0.3; background: #ff6666; box-shadow: none; }
+        }
+        /* সবুজ লাইভ ডট (ঐচ্ছিক) */
+        .live-dot-icon.green {
+            background: #00e676;
+            animation: blinkGreen 1s step-end infinite;
+        }
+        @keyframes blinkGreen {
+            0%, 100% { opacity: 1; background: #00e676; box-shadow: 0 0 5px #00e676; }
+            50% { opacity: 0.3; background: #88ffaa; box-shadow: none; }
         }
         .live-scrolling-area {
             flex: 1;
@@ -449,7 +476,7 @@
         }
         .live-marquee-text {
             display: inline-block;
-            animation: scrollLive 50s linear infinite;
+            animation: scrollLive 80s linear infinite;
             color: #333;
             font-size: 0.9rem;
             font-weight: 500;
@@ -551,6 +578,7 @@
             .billboard-slide { padding: 12px; }
             .live-badge { padding: 6px 10px; font-size: 0.65rem; }
             .live-marquee-text { font-size: 0.7rem; }
+            .live-dot-icon { width: 8px; height: 8px; }
         }
         
         /* স্ট্যাটিস্টিক্স কার্ড */
@@ -1094,7 +1122,7 @@
     </div>
 </div>
 
-<!-- ========== অরবিটাল ভেক্টর মার্কি (লাইভ প্রিভিউ এর মতো মার্জিন সহ) ========== -->
+<!-- ========== অরবিটাল ভেক্টর মার্কি (সাইজ অর্ধেক + রাউন্ড শেপ) ========== -->
 <div class="orbital-marquee">
     <div class="marquee-container">
         <div class="marquee">
@@ -1111,13 +1139,16 @@
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
 <div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
 
-<!-- ========== বিলবোর্ড (উপরে লাইভ মার্কি সহ) ========== -->
+<!-- ========== বিলবোর্ড (লাইভ ডট সহ, স্পিড স্লো 80s) ========== -->
 <div class="billboard" id="billboardContainer">
     <!-- লাইভ মার্কি - বিলবোর্ডের উপরের অংশে -->
     <div class="live-marquee-wrapper">
         <div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;">
             <div class="live-marquee-container">
-                <div class="live-badge"><i class="fa-regular fa-circle-play"></i> চলমান</div>
+                <div class="live-badge">
+                    <span class="live-dot-icon"></span>
+                    <span>লাইভ</span>
+                </div>
                 <div class="live-scrolling-area">
                     <div class="live-marquee-text" id="liveMarqueeText"></div>
                 </div>
