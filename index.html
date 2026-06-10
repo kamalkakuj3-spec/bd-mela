@@ -367,7 +367,7 @@
             border-radius: 10px;
             position: relative;
         }
-        /* বাম পাশের সাদা দাগ - পাশের দিকে বড় (প্রস্থ বাড়ানো হয়েছে) */
+        /* বাম পাশের সাদা দাগ */
         .orbital-marquee::before {
             content: '';
             position: absolute;
@@ -381,7 +381,7 @@
             box-shadow: -2px 0 4px rgba(0,0,0,0.08);
             z-index: 2;
         }
-        /* ডান পাশের সাদা দাগ - পাশের দিকে বড় (প্রস্থ বাড়ানো হয়েছে) */
+        /* ডান পাশের সাদা দাগ */
         .orbital-marquee::after {
             content: '';
             position: absolute;
@@ -999,7 +999,7 @@
             margin: 10px 0;
         }
         
-        /* ========== নিচের মেনু বার (৪টি আইকন) ========== */
+        /* ========== নিচের মেনু বার (হোম বাদ, সময়কাল প্রথম, সেভ নিচে) ========== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -1128,7 +1128,6 @@
     <div class="logo-area"><i class="fa-solid fa-bars menu-icon" id="menuIcon"></i><div><h1>বাংলাদেশ মেলা</h1><p>দেশের মেলার ঠিকানা</p></div></div>
     <div class="header-icons">
         <button class="signin-btn" id="signinBtn">লগইন</button>
-        <i class="fa-regular fa-bookmark" id="headerSavedIcon" style="cursor:pointer;"></i>
         <i class="fa-regular fa-bell" id="notifIcon"></i>
     </div>
 </div>
@@ -1144,7 +1143,7 @@
     </div>
 </div>
 
-<!-- ========== অরবিটাল ভেক্টর মার্কি (পাশের দিকে বড় সাদা দাগ) ========== -->
+<!-- ========== অরবিটাল ভেক্টর মার্কি ========== -->
 <div class="orbital-marquee">
     <div class="marquee-container">
         <div class="marquee">
@@ -1163,7 +1162,6 @@
 
 <!-- ========== বিলবোর্ড ========== -->
 <div class="billboard" id="billboardContainer">
-    <!-- লাইভ মার্কি - বিলবোর্ডের উপরের অংশে -->
     <div class="live-marquee-wrapper">
         <div class="live-marquee-card" id="liveMarqueeContainer" style="display:none;">
             <div class="live-marquee-container">
@@ -1178,7 +1176,6 @@
         </div>
     </div>
     
-    <!-- বিলবোর্ড স্লাইডার অংশ -->
     <div class="billboard-screen">
         <div class="billboard-content" id="billboardSlidesWrapper">
             <div class="billboard-slide">
@@ -1203,12 +1200,12 @@
     <div class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
 </div>
 
-<!-- নিচের মেনু বার -->
+<!-- ========== নিচের মেনু বার (হোম বাদ, সময়কাল প্রথম, সেভ নিচে) ========== -->
 <div class="bottom-nav">
-    <button class="nav-item active" id="navHome"><i class="fa-solid fa-house"></i><span>হোম</span></button>
+    <button class="nav-item active" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়কাল</span></button>
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
     <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
-    <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়কাল</span></button>
+    <button class="nav-item" id="navSavedBtn"><i class="fa-regular fa-bookmark"></i><span>সেভ</span></button>
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
@@ -1481,12 +1478,14 @@
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
     document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
-    document.getElementById("headerSavedIcon").onclick = openSavedItemsPanel;
+    
+    // নিচের মেনুবার ইভেন্ট
+    document.getElementById("navSavedBtn").onclick = openSavedItemsPanel;
     document.getElementById("navSearchBtn").onclick = () => { document.getElementById("searchFilterSection").classList.toggle("show"); if(document.getElementById("searchFilterSection").classList.contains("show")) document.getElementById("searchInput").focus(); };
     document.getElementById("navTimeCategory").onclick = openTimeCategoryPanel;
     document.getElementById("navTopicCategory").onclick = openTopicCategoryPanel;
-    document.getElementById("navHome").onclick = () => { currentView = "home"; statusFilter = "all"; selectedTimeCategory = "all"; selectedTopicCategories = []; loadPosts(); document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active")); document.getElementById("navHome").classList.add("active"); };
     document.getElementById("navCreate").onclick = openPostModal;
+    
     document.getElementById("searchInput").addEventListener("input", (e) => { searchText = e.target.value; loadPosts(); });
     document.getElementById("closeModal").onclick = closePostModal;
     document.querySelectorAll('.time-category-item').forEach(i => { i.addEventListener('click', () => { document.querySelectorAll('.time-category-item').forEach(t => t.classList.remove('selected')); i.classList.add('selected'); }); });
