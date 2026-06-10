@@ -358,7 +358,7 @@
             margin-top: 4px;
         }
         
-        /* ========== অরবিটাল ভেক্টর মার্কি (দুই পাশে সাদা দাগ) ========== */
+        /* ========== অরবিটাল ভেক্টর মার্কি (পাশের দিকে বড় সাদা দাগ) ========== */
         .orbital-marquee {
             background: #ffffff;
             margin: 0 18px;
@@ -367,32 +367,32 @@
             border-radius: 10px;
             position: relative;
         }
-        /* বাম পাশের সাদা দাগ */
+        /* বাম পাশের সাদা দাগ - পাশের দিকে বড় (প্রস্থ বাড়ানো হয়েছে) */
         .orbital-marquee::before {
             content: '';
             position: absolute;
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 3px;
-            height: 35px;
+            width: 25px;
+            height: 30px;
             background: white;
-            border-radius: 2px;
-            box-shadow: -1px 0 2px rgba(0,0,0,0.1);
+            border-radius: 3px;
+            box-shadow: -2px 0 4px rgba(0,0,0,0.08);
             z-index: 2;
         }
-        /* ডান পাশের সাদা দাগ */
+        /* ডান পাশের সাদা দাগ - পাশের দিকে বড় (প্রস্থ বাড়ানো হয়েছে) */
         .orbital-marquee::after {
             content: '';
             position: absolute;
             right: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 3px;
-            height: 35px;
+            width: 25px;
+            height: 30px;
             background: white;
-            border-radius: 2px;
-            box-shadow: 1px 0 2px rgba(0,0,0,0.1);
+            border-radius: 3px;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.08);
             z-index: 2;
         }
         .marquee-container {
@@ -435,7 +435,7 @@
             .marquee-content { font-size: clamp(1rem, 3.5vw, 1.4rem); }
             .marquee-content span { padding-right: 1rem; }
             .orbital-marquee::before,
-            .orbital-marquee::after { height: 25px; width: 2px; }
+            .orbital-marquee::after { width: 18px; height: 22px; }
         }
         
         /* ========== বিলবোর্ড ========== */
@@ -1144,7 +1144,7 @@
     </div>
 </div>
 
-<!-- ========== অরবিটাল ভেক্টর মার্কি (দুই পাশে সাদা দাগ) ========== -->
+<!-- ========== অরবিটাল ভেক্টর মার্কি (পাশের দিকে বড় সাদা দাগ) ========== -->
 <div class="orbital-marquee">
     <div class="marquee-container">
         <div class="marquee">
