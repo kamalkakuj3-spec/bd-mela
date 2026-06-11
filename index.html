@@ -358,7 +358,7 @@
             margin-top: 4px;
         }
         
-        /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড) - slider.html এর ব্যাকগ্রাউন্ড ========== */
+        /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড) - slider.html এর স্টাইলে ========== */
         .golden-billboard {
             width: auto;
             background: #ffffff;
@@ -470,6 +470,34 @@
             width: 20px;
             border-radius: 10px;
             background: #d4af37;
+        }
+        
+        /* স্লাইডারের নিচের চলন্ত লেখা (মার্কি) */
+        .slider-bottom-marquee {
+            background: #ffffff;
+            margin: 0 16px 12px 16px;
+            padding: 10px 0;
+            border-radius: 30px;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .slider-bottom-marquee .marquee-text {
+            display: inline-block;
+            animation: scrollBottom 25s linear infinite;
+            font-size: 0.9rem;
+            color: #b8860b;
+            font-weight: 600;
+            padding-left: 20px;
+        }
+        .slider-bottom-marquee .marquee-text i {
+            margin: 0 15px;
+            color: #d4af37;
+        }
+        @keyframes scrollBottom {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
         
         /* স্ট্যাটিস্টিক্স কার্ড */
@@ -973,15 +1001,17 @@
             .golden-title { font-size: 1.2rem; padding: 0 10px; margin-bottom: 12px; }
             .golden-desc { font-size: 0.85rem; padding: 0 15px; }
             .golden-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
-        }
-        @media (max-width: 400px) {
-            .golden-title { font-size: 1rem; }
-            .golden-desc { font-size: 0.75rem; }
+            .slider-bottom-marquee .marquee-text { font-size: 0.75rem; }
             .news-title { font-size: 1.4rem; }
             .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
+        }
+        @media (max-width: 400px) {
+            .golden-title { font-size: 1rem; }
+            .golden-desc { font-size: 0.75rem; }
+            .slider-bottom-marquee .marquee-text { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -1060,7 +1090,7 @@
     </div>
 </div>
 
-<!-- ========== গোল্ডেন স্লাইডার (বিলবোর্ড) - ব্যাকগ্রাউন্ড slider.html এর মত ========== -->
+<!-- ========== গোল্ডেন স্লাইডার (বিলবোর্ড) ========== -->
 <div class="golden-billboard">
     <div class="golden-screen">
         <div class="golden-content-container" id="goldenSlidesContainer">
@@ -1071,6 +1101,19 @@
             </div>
         </div>
         <div class="golden-slide-indicators" id="goldenIndicators"></div>
+    </div>
+</div>
+
+<!-- ========== স্লাইডারের নিচের চলন্ত লেখা (মার্কি) ========== -->
+<div class="slider-bottom-marquee">
+    <div style="overflow: hidden; white-space: nowrap;">
+        <div class="marquee-text">
+            🎉 <i class="fa-regular fa-calendar"></i> দেশের সকল মেলার খবর একসাথে 
+            ✦ <i class="fa-solid fa-location-dot"></i> যাচাই করে তথ্য নিন 
+            ✦ <i class="fa-regular fa-star"></i> সোনালী স্লাইডারে দেখুন বিশেষ মেলা 
+            ✦ <i class="fa-solid fa-store"></i> ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা 
+            ✦ <i class="fa-regular fa-bell"></i> সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন
+        </div>
     </div>
 </div>
 
@@ -1241,7 +1284,7 @@
     function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
-    // Golden Slider Functions - slider.html এর স্টাইলে
+    // Golden Slider Functions
     async function loadGoldenSlidesFromFirebase() {
         const snapshot = await db.ref('melaPosts').once('value');
         const data = snapshot.val();
@@ -1302,12 +1345,11 @@
     function createGoldenSlideHTML(card, idx) {
         const status = getGoldenStatus(card.startDate, card.endDate);
         const isRunning = status === 'running';
-        const statusText = isRunning ? 'চলমান' : 'আসন্ন';
-        // slider.html এর মত স্ট্যাটাস ব্যাজ তৈরি
+        const tagText = isRunning ? '✨ চলমান মেলা ✨' : '✨ আসন্ন মেলা ✨';
         return `
             <div class="golden-slide" data-id="${card.id}" data-index="${idx}">
                 <div class="golden-news-card" onclick="showGoldenModalById('${card.id}', event)">
-                    <div class="golden-tag">✨ ${isRunning ? 'চলমান মেলা' : 'আসন্ন মেলা'} ✨</div>
+                    <div class="golden-tag">${tagText}</div>
                     <div class="golden-title">${escapeHtml(card.title)}</div>
                     <div class="golden-desc">${escapeHtml(card.description).substring(0, 120)}${card.description && card.description.length > 120 ? '...' : ''}</div>
                 </div>
