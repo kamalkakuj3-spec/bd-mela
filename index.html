@@ -20,7 +20,7 @@
         }
         
         body {
-            background: #f0f2f5;
+            background: #e8e8e8;
             color: #1a1a1a;
             padding-bottom: 70px;
         }
@@ -358,88 +358,15 @@
             margin-top: 4px;
         }
         
-        /* ========== অরবিটাল ভেক্টর মার্কি (পাশের দিকে বড় সাদা দাগ) ========== */
-        .orbital-marquee {
-            background: #ffffff;
-            margin: 0 18px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-            border-radius: 10px;
-            position: relative;
-        }
-        /* বাম পাশের সাদা দাগ */
-        .orbital-marquee::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 25px;
-            height: 30px;
-            background: white;
-            border-radius: 3px;
-            box-shadow: -2px 0 4px rgba(0,0,0,0.08);
-            z-index: 2;
-        }
-        /* ডান পাশের সাদা দাগ */
-        .orbital-marquee::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 25px;
-            height: 30px;
-            background: white;
-            border-radius: 3px;
-            box-shadow: 2px 0 4px rgba(0,0,0,0.08);
-            z-index: 2;
-        }
-        .marquee-container {
-            width: 100%;
-            overflow-x: hidden;
-            background: #ffffff;
-            border-radius: 10px;
-        }
-        .marquee {
-            position: relative;
-            width: 100%;
-            overflow-x: hidden;
-            white-space: nowrap;
-        }
-        .marquee-content {
-            display: inline-block;
-            white-space: nowrap;
-            font-size: clamp(1.2rem, 4.5vw, 1.8rem);
-            font-weight: 700;
-            background: linear-gradient(90deg, #1A1A2E, #FF6A3D, #E94560, #1A1A2E);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: scrollLeftSmooth 50s linear infinite;
-            letter-spacing: -0.02em;
-        }
-        @keyframes scrollLeftSmooth {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
-        .marquee-content span {
-            padding-right: 2rem;
-            display: inline-block;
-        }
-        .marquee:hover .marquee-content {
-            animation-play-state: paused;
-        }
-        
-        /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড প্রতিস্থাপন) ========== */
+        /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড) - slider.html এর ব্যাকগ্রাউন্ড ========== */
         .golden-billboard {
             width: auto;
             background: #ffffff;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(212, 175, 55, 0.3);
             position: relative;
-            border-radius: 20px;
-            margin: 12px 16px;  /* লাইভ প্রিভিউ এর সমান মার্জিন */
+            border-radius: 0;
+            margin: 12px 16px;
             aspect-ratio: 16 / 9;
         }
         .golden-screen {
@@ -465,10 +392,12 @@
             height: 100%;
             top: 0;
             left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            overflow-y: auto;
-            padding: 20px;
+            transition: opacity 0.5s ease-in-out;
+            padding: 0;
         }
         .golden-slide.active {
             opacity: 1;
@@ -477,89 +406,47 @@
         .golden-news-card {
             background: #ffffff;
             width: 100%;
-            min-height: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
-            border-radius: 20px;
-            position: relative;
-            cursor: pointer;
-        }
-        .golden-status-type-wrapper {
-            display: inline-flex;
-            align-items: center;
             justify-content: center;
-            gap: 15px;
-            background: transparent;
-            padding: 2px 20px;
+            text-align: center;
+            padding: 25px;
+            border: none;
+            box-shadow: none;
+        }
+        .golden-tag {
+            display: inline-block;
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            padding: 6px 20px;
             border-radius: 50px;
-            margin-top: 2px;
-            margin-bottom: 4px;
-            flex-wrap: wrap;
-        }
-        .golden-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.2rem;
+            font-size: 0.75rem;
             font-weight: bold;
-        }
-        .golden-status-badge.running { color: #4caf50; }
-        .golden-status-badge.upcoming { color: #ff9800; }
-        .golden-blinking-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #4caf50;
-            animation: goldenBlink 1.2s infinite;
-        }
-        @keyframes goldenBlink {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        .golden-static-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #ff9800;
-        }
-        .golden-separator {
-            color: #b8860b;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .golden-mela-type-text {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #b8860b;
-            background: transparent;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .golden-title {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 800;
             background: linear-gradient(135deg, #b8860b, #d4af37, #ffd700);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 18px;
             line-height: 1.3;
-            text-align: center;
             padding: 0 15px;
         }
         .golden-desc {
             font-size: 1rem;
             color: #6b6b6b;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-align: center;
-            padding: 0 15px;
+            line-height: 1.5;
+            padding: 0 20px;
+            max-width: 90%;
+            font-weight: 500;
         }
         .golden-slide-indicators {
             position: absolute;
@@ -585,33 +472,11 @@
             background: #d4af37;
         }
         
-        /* স্লাইডারের নিচের মার্কি */
-        .slider-bottom-marquee {
-            background: #ffffff;
-            margin: 0 16px 12px 16px;
-            padding: 8px 0;
-            border-radius: 10px;
-            border: 1px solid #f0f0f0;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .slider-bottom-marquee .marquee-text {
-            display: inline-block;
-            animation: scrollBottom 25s linear infinite;
-            font-size: 0.85rem;
-            color: #666;
-            font-weight: 500;
-        }
-        @keyframes scrollBottom {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        /* স্ট্যাটিস্টিক্স কার্ড - ফিক্সড পজিশন নেই, কিন্তু মার্জিন গ্যাপ সমান করা হয়েছে */
+        /* স্ট্যাটিস্টিক্স কার্ড */
         .stats-card {
             background: white;
             border-radius: 20px;
-            margin: 12px 16px;  /* স্লাইডারের সমান মার্জিন */
+            margin: 12px 16px;
             padding: 16px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
@@ -1104,16 +969,19 @@
         }
         .toast.show { opacity: 1; }
         
-        @media (max-width: 500px) {
+        @media (max-width: 550px) {
+            .golden-title { font-size: 1.2rem; padding: 0 10px; margin-bottom: 12px; }
+            .golden-desc { font-size: 0.85rem; padding: 0 15px; }
+            .golden-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
+        }
+        @media (max-width: 400px) {
+            .golden-title { font-size: 1rem; }
+            .golden-desc { font-size: 0.75rem; }
             .news-title { font-size: 1.4rem; }
             .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
-            .stat-number { font-size: 1.2rem; }
-            .time-category-grid, .topic-category-grid { grid-template-columns: 1fr; }
-            .golden-title { font-size: 1.6rem; margin-top: 15px; }
-            .golden-desc { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -1192,21 +1060,7 @@
     </div>
 </div>
 
-<!-- ========== অরবিটাল ভেক্টর মার্কি ========== -->
-<div class="orbital-marquee">
-    <div class="marquee-container">
-        <div class="marquee">
-            <div class="marquee-content">
-                <span>✦ আসসালামু আলাইকুম ✦</span>
-                <span>✦ বাংলাদেশ মেলা এপসে আপনাকে স্বাগতম ✦</span>
-                <span>✦ বাংলাদেশ মেলা বাংলাদেশের সকল মেলার তথ্য ব্যক্তিগতভাবে যে কেউই আপলোড করতে পারে তাই যে কোন মেলার নিজ দায়িত্বে সিদ্ধান্ত নিবেন ✦</span>
-                <span>✦ এপসের এর বিজ্ঞপ্তি থেকে যদি কেউ প্রতারিত হন এপস ম্যানেজমেন্ট কর্তৃপক্ষ দায়ী থাকবে না। ব্যবসা মানে লাভ লস উভয় আছে তাই আপনার নিজ দায়িত্বে ঝুঁকি নিতে হবে। লোকেশন বা ঠিকানা ভুল অথবা সঠিক আপনার নিজ দায়িত্বে যাচাই করে নিবেন। ✦</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ========== গোল্ডেন স্লাইডার ========== -->
+<!-- ========== গোল্ডেন স্লাইডার (বিলবোর্ড) - ব্যাকগ্রাউন্ড slider.html এর মত ========== -->
 <div class="golden-billboard">
     <div class="golden-screen">
         <div class="golden-content-container" id="goldenSlidesContainer">
@@ -1217,15 +1071,6 @@
             </div>
         </div>
         <div class="golden-slide-indicators" id="goldenIndicators"></div>
-    </div>
-</div>
-
-<!-- ========== স্লাইডারের নিচের মার্কি ========== -->
-<div class="slider-bottom-marquee">
-    <div style="overflow: hidden; white-space: nowrap;">
-        <div class="marquee-text">
-            🎉 দেশের সকল মেলার খবর একসাথে | 📍 যাচাই করে তথ্য নিন | ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা | 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা 
-        </div>
     </div>
 </div>
 
@@ -1396,7 +1241,7 @@
     function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
-    // Golden Slider Functions
+    // Golden Slider Functions - slider.html এর স্টাইলে
     async function loadGoldenSlidesFromFirebase() {
         const snapshot = await db.ref('melaPosts').once('value');
         const data = snapshot.val();
@@ -1458,19 +1303,12 @@
         const status = getGoldenStatus(card.startDate, card.endDate);
         const isRunning = status === 'running';
         const statusText = isRunning ? 'চলমান' : 'আসন্ন';
-        const dotHtml = isRunning ? '<span class="golden-blinking-dot"></span>' : '<span class="golden-static-dot"></span>';
+        // slider.html এর মত স্ট্যাটাস ব্যাজ তৈরি
         return `
             <div class="golden-slide" data-id="${card.id}" data-index="${idx}">
                 <div class="golden-news-card" onclick="showGoldenModalById('${card.id}', event)">
+                    <div class="golden-tag">✨ ${isRunning ? 'চলমান মেলা' : 'আসন্ন মেলা'} ✨</div>
                     <div class="golden-title">${escapeHtml(card.title)}</div>
-                    <div class="golden-status-type-wrapper">
-                        <div class="golden-status-badge ${isRunning ? 'running' : 'upcoming'}">
-                            ${dotHtml}
-                            ${statusText}
-                        </div>
-                        <span class="golden-separator">|</span>
-                        <span class="golden-mela-type-text">${escapeHtml(card.melaType)} (${card.days || ''} দিন)</span>
-                    </div>
                     <div class="golden-desc">${escapeHtml(card.description).substring(0, 120)}${card.description && card.description.length > 120 ? '...' : ''}</div>
                 </div>
             </div>
@@ -1522,7 +1360,7 @@
         if (indicators[index]) indicators[index].classList.add('active');
     }
     function goToGoldenSlide(index) { if (goldenSlides.length === 0) return; goldenCurrentIndex = index; showGoldenSlide(goldenCurrentIndex); startGoldenSlideshow(); }
-    function startGoldenSlideshow() { if (goldenInterval) clearInterval(goldenInterval); if (goldenSlides.length > 1) goldenInterval = setInterval(() => { goldenNextSlide(); }, 5000); }
+    function startGoldenSlideshow() { if (goldenInterval) clearInterval(goldenInterval); if (goldenSlides.length > 1) goldenInterval = setInterval(() => { goldenNextSlide(); }, 4000); }
     
     // Close golden modal
     document.getElementById('closeGoldenModalBtn').onclick = () => { document.getElementById('goldenDetailModal').style.display = 'none'; };
