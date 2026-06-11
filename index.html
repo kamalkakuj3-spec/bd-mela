@@ -433,14 +433,13 @@
         
         /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড প্রতিস্থাপন) ========== */
         .golden-billboard {
-            width: 100%;
-            max-width: 100%;
+            width: auto;
             background: #ffffff;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             position: relative;
             border-radius: 20px;
-            margin: 12px 16px;
+            margin: 12px 16px;  /* লাইভ প্রিভিউ এর সমান মার্জিন */
             aspect-ratio: 16 / 9;
         }
         .golden-screen {
@@ -585,29 +584,34 @@
             border-radius: 10px;
             background: #d4af37;
         }
-        @media (max-width: 550px) {
-            .golden-title { font-size: 1.6rem; margin-top: 15px; }
-            .golden-desc { font-size: 0.9rem; }
-            .golden-status-badge { font-size: 1rem; }
-            .golden-mela-type-text { font-size: 1rem; }
-            .golden-separator { font-size: 1rem; }
-            .golden-slide { padding: 15px; }
-            .golden-blinking-dot, .golden-static-dot { width: 14px; height: 14px; }
-            .golden-status-type-wrapper { gap: 10px; }
+        
+        /* স্লাইডারের নিচের মার্কি */
+        .slider-bottom-marquee {
+            background: #ffffff;
+            margin: 0 16px 12px 16px;
+            padding: 8px 0;
+            border-radius: 10px;
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+            white-space: nowrap;
         }
-        @media (max-width: 400px) {
-            .golden-title { font-size: 1.4rem; margin-top: 10px; }
-            .golden-desc { font-size: 0.85rem; }
-            .golden-status-badge { font-size: 0.9rem; }
-            .golden-mela-type-text { font-size: 0.9rem; }
-            .golden-separator { font-size: 0.9rem; }
+        .slider-bottom-marquee .marquee-text {
+            display: inline-block;
+            animation: scrollBottom 25s linear infinite;
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+        @keyframes scrollBottom {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
         
-        /* স্ট্যাটিস্টিক্স কার্ড */
+        /* স্ট্যাটিস্টিক্স কার্ড - ফিক্সড পজিশন নেই, কিন্তু মার্জিন গ্যাপ সমান করা হয়েছে */
         .stats-card {
             background: white;
             border-radius: 20px;
-            margin: 12px 16px;
+            margin: 12px 16px;  /* স্লাইডারের সমান মার্জিন */
             padding: 16px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
@@ -964,6 +968,7 @@
             overflow-y: auto;
             border-radius: 24px;
             padding: 20px;
+            position: relative;
         }
         .modal-content h3 { margin-bottom: 15px; }
         .modal-content input, .modal-content select, .modal-content textarea {
@@ -997,6 +1002,48 @@
             align-items: center;
             gap: 8px;
             margin: 10px 0;
+        }
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #999;
+            z-index: 10;
+        }
+        .modal-section {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #b8860b, #d4af37);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .contact-item {
+            padding: 6px 0;
+            font-size: 0.85rem;
+        }
+        .contact-item a {
+            color: #b8860b;
+            text-decoration: none;
+        }
+        .map-link-btn {
+            display: inline-block;
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-top: 5px;
         }
         
         /* নিচের মেনু বার */
@@ -1065,6 +1112,8 @@
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
             .stat-number { font-size: 1.2rem; }
             .time-category-grid, .topic-category-grid { grid-template-columns: 1fr; }
+            .golden-title { font-size: 1.6rem; margin-top: 15px; }
+            .golden-desc { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -1157,7 +1206,7 @@
     </div>
 </div>
 
-<!-- ========== গোল্ডেন স্লাইডার (বিলবোর্ড প্রতিস্থাপন) ========== -->
+<!-- ========== গোল্ডেন স্লাইডার ========== -->
 <div class="golden-billboard">
     <div class="golden-screen">
         <div class="golden-content-container" id="goldenSlidesContainer">
@@ -1168,6 +1217,15 @@
             </div>
         </div>
         <div class="golden-slide-indicators" id="goldenIndicators"></div>
+    </div>
+</div>
+
+<!-- ========== স্লাইডারের নিচের মার্কি ========== -->
+<div class="slider-bottom-marquee">
+    <div style="overflow: hidden; white-space: nowrap;">
+        <div class="marquee-text">
+            🎉 দেশের সকল মেলার খবর একসাথে | 📍 যাচাই করে তথ্য নিন | ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা | 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা 
+        </div>
     </div>
 </div>
 
@@ -1215,7 +1273,7 @@
 <!-- মেলা বিস্তারিত মোডাল (গোল্ডেন স্লাইডারের জন্য) -->
 <div id="goldenDetailModal" class="modal">
     <div class="modal-content">
-        <span class="close-modal" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer;">&times;</span>
+        <span class="close-modal-btn" id="closeGoldenModalBtn">&times;</span>
         <div id="goldenModalBody"></div>
     </div>
 </div>
@@ -1467,7 +1525,7 @@
     function startGoldenSlideshow() { if (goldenInterval) clearInterval(goldenInterval); if (goldenSlides.length > 1) goldenInterval = setInterval(() => { goldenNextSlide(); }, 5000); }
     
     // Close golden modal
-    document.querySelector('#goldenDetailModal .close-modal')?.addEventListener('click', () => { document.getElementById('goldenDetailModal').style.display = 'none'; });
+    document.getElementById('closeGoldenModalBtn').onclick = () => { document.getElementById('goldenDetailModal').style.display = 'none'; };
     window.onclick = (e) => { if (e.target === document.getElementById('goldenDetailModal')) document.getElementById('goldenDetailModal').style.display = 'none'; };
     
     async function loadPosts() {
