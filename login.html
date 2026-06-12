@@ -147,7 +147,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
     <script>
-        // ✅ পাইকারি বাজারের Firebase Config
+        // ✅ পাইকারি বাজারের সঠিক Web App Config
         const firebaseConfig = {
             apiKey: "AIzaSyCZ6L7QiarIOIeiK62HEdaSyr84ORVKwl4",
             authDomain: "pikaribazar-e5f17.firebaseapp.com",
@@ -179,7 +179,7 @@
             errorMsg.classList.remove("show");
             
             try {
-                const result = await auth.signInWithPopup(provider);
+                await auth.signInWithPopup(provider);
                 window.location.href = "index.html";
             } catch (error) {
                 console.error("Login error:", error);
