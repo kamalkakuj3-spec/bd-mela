@@ -28,7 +28,7 @@
         /* হেডার */
         .app-header {
             background: white;
-            padding: 12px 16px;
+            padding: 10px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,16 +40,16 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin-left: 8px;
         }
         .menu-icon {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             color: #333;
         }
         .logo-area h1 {
-            font-size: 1.3rem;
+            font-size: 1rem;
             font-weight: 700;
             background: linear-gradient(135deg, #1a1a1a, #666);
             -webkit-background-clip: text;
@@ -57,7 +57,7 @@
             color: transparent;
         }
         .logo-area p {
-            font-size: 0.55rem;
+            font-size: 0.45rem;
             color: #888;
         }
         .header-icons {
@@ -71,7 +71,7 @@
             border: none;
             padding: 6px 14px;
             border-radius: 30px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -80,8 +80,11 @@
             background: #1b5e20;
             transform: scale(1.02);
         }
+        .signin-btn.hide {
+            display: none;
+        }
         .header-icons i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #333;
             cursor: pointer;
         }
@@ -438,7 +441,7 @@
             box-shadow: none;
         }
         .golden-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #b8860b, #d4af37, #ffd700);
             background-clip: text;
@@ -453,7 +456,7 @@
             background: linear-gradient(115deg, #d4af37, #c49b2a);
             padding: 6px 20px;
             border-radius: 50px;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: bold;
             color: #ffffff;
             letter-spacing: 0.5px;
@@ -462,7 +465,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .golden-desc {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #6b6b6b;
             line-height: 1.5;
             padding: 0 20px;
@@ -493,7 +496,7 @@
             background: #d4af37;
         }
         
-        /* স্লাইডারের নিচের চলন্ত লেখা - হোয়াইট ব্যাকগ্রাউন্ড, ছোট লাইনার */
+        /* স্লাইডারের নিচের চলন্ত লেখা */
         .marquee-outer {
             margin: 0 16px 12px 16px;
             position: relative;
@@ -857,20 +860,42 @@
         }
         .side-drawer.open { left: 0; }
         .drawer-header {
-            padding: 50px 20px 20px;
+            padding: 20px 20px 20px;
             background: linear-gradient(135deg, #1a1a1a, #333);
             color: white;
             text-align: center;
+            position: relative;
+        }
+        .drawer-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .drawer-close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
         }
         .drawer-avatar {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             border: 3px solid white;
             margin-bottom: 10px;
         }
-        .drawer-name { font-size: 1.1rem; font-weight: 600; }
-        .drawer-email { font-size: 0.7rem; opacity: 0.8; }
+        .drawer-name { font-size: 1rem; font-weight: 600; }
+        .drawer-email { font-size: 0.65rem; opacity: 0.8; }
         .drawer-menu { padding: 20px; }
         .drawer-item {
             display: flex;
@@ -1018,6 +1043,17 @@
             margin-top: 5px;
         }
         
+        /* ডেট রেঞ্জ ফিল্ড স্টাইল */
+        .date-range {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .date-range input {
+            width: 50%;
+            margin-bottom: 0;
+        }
+        
         /* নিচের মেনু বার */
         .bottom-nav {
             position: fixed;
@@ -1077,9 +1113,9 @@
         .toast.show { opacity: 1; }
         
         @media (max-width: 550px) {
-            .golden-title { font-size: 1.5rem; }
-            .golden-desc { font-size: 0.85rem; padding: 0 15px; }
-            .golden-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
+            .golden-title { font-size: 1.6rem; }
+            .golden-desc { font-size: 0.95rem; padding: 0 15px; }
+            .golden-tag { font-size: 0.75rem; padding: 4px 16px; margin-bottom: 15px; }
             .marquee-text { font-size: 0.85rem; }
             .marquee-outer::before, .marquee-outer::after { width: 20px; }
             .news-title { font-size: 1.4rem; }
@@ -1090,8 +1126,8 @@
             .reaction-emoji { font-size: 1.6rem; }
         }
         @media (max-width: 400px) {
-            .golden-title { font-size: 1.3rem; }
-            .golden-desc { font-size: 0.75rem; }
+            .golden-title { font-size: 1.4rem; }
+            .golden-desc { font-size: 0.85rem; }
             .marquee-text { font-size: 0.8rem; }
             .reaction-emoji { font-size: 1.4rem; }
         }
@@ -1145,6 +1181,7 @@
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
+        <button class="drawer-close-btn" id="drawerCloseBtn"><i class="fa-solid fa-times"></i></button>
         <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User&background=ffffff&color=333&bold=true">
         <div class="drawer-name" id="drawerName">লোড হচ্ছে...</div>
         <div class="drawer-email" id="drawerEmail"></div>
@@ -1190,7 +1227,7 @@
     </div>
 </div>
 
-<!-- ========== চলন্ত লেখা - হোয়াইট ব্যাকগ্রাউন্ড, ছোট লাইনার ========== -->
+<!-- ========== চলন্ত লেখা ========== -->
 <div class="marquee-outer">
     <div class="marquee-inner">
         <div class="marquee-text" id="liveMarqueeText">
@@ -1241,7 +1278,10 @@
             <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="postTopicCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option></select></div>
             <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
             <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
-            <div style="display: flex; gap: 10px;"><input type="date" id="startDate" placeholder="শুরুর তারিখ" style="width:50%" required><input type="date" id="endDate" placeholder="শেষের তারিখ" style="width:50%" required></div>
+            <div class="date-range">
+                <input type="date" id="startDate" placeholder="শুরুর তারিখ" required>
+                <input type="date" id="endDate" placeholder="শেষের তারিখ" required>
+            </div>
             <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
             <div class="checkbox-group"><input type="checkbox" id="anonymousPost"><label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
             <button id="submitPost">পোস্ট করুন</button>
@@ -1264,7 +1304,10 @@
             <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="editPostTopicCategory" required><option value="">-- নির্বাচন করুন --</option></select></div>
             <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="editPostTimeCategory" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
             <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="editPostLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
-            <div style="display: flex; gap: 10px;"><input type="date" id="editStartDate" style="width:50%" required><input type="date" id="editEndDate" style="width:50%" required></div>
+            <div class="date-range">
+                <input type="date" id="editStartDate" required>
+                <input type="date" id="editEndDate" required>
+            </div>
             <textarea id="editPostDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
             <div class="checkbox-group"><input type="checkbox" id="editAnonymousPost"><label for="editAnonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
             <button id="updatePostBtn">আপডেট করুন</button>
@@ -1327,11 +1370,19 @@
     let goldenTouchEndX = 0;
     
     auth.onAuthStateChanged(async (user) => {
-        if (!user) { window.location.href = "login.html"; return; }
+        if (!user) { 
+            window.location.href = "login.html"; 
+            return; 
+        }
         currentUser = user;
         document.getElementById("drawerName").innerText = currentUser.displayName || "User";
         document.getElementById("drawerEmail").innerText = currentUser.email || "";
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
+        
+        // লগইন বাটন হাইড করুন
+        const signinBtn = document.getElementById("signinBtn");
+        if(signinBtn) signinBtn.classList.add("hide");
+        
         await loadDivisions();
         await loadCategoriesFromJSON();
         await loadSavedPosts();
@@ -1831,6 +1882,7 @@
     
     document.getElementById("menuIcon").onclick = openDrawer;
     document.getElementById("drawerOverlay").onclick = closeDrawer;
+    document.getElementById("drawerCloseBtn").onclick = closeDrawer;
     document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.href = "login.html"; };
     
     document.getElementById("navSavedBtn").onclick = openSavedItemsPanel;
