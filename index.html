@@ -1059,11 +1059,12 @@
             margin-top: 5px;
         }
         
-        /* ডেট রেঞ্জ ফিল্ড স্টাইল */
+        /* কাস্টম ডেট পিকার স্টাইল */
         .date-range {
             display: flex;
             gap: 10px;
             margin-bottom: 12px;
+            position: relative;
         }
         .date-range input {
             width: 50%;
@@ -1072,6 +1073,95 @@
             border: 1px solid #ddd;
             border-radius: 12px;
             font-size: 0.9rem;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        
+        /* কাস্টম ক্যালেন্ডার পপআপ */
+        .calendar-popup {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 24px 24px 0 0;
+            z-index: 2000;
+            padding: 20px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .calendar-header button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            color: #b8860b;
+        }
+        .calendar-header span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .calendar-weekdays div {
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #888;
+        }
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        .calendar-day {
+            padding: 12px 8px;
+            text-align: center;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .calendar-day:hover {
+            background: #f0f0f0;
+        }
+        .calendar-day.selected {
+            background: #d4af37;
+            color: white;
+        }
+        .calendar-day.empty {
+            cursor: default;
+            color: #ccc;
+        }
+        .calendar-day.empty:hover {
+            background: transparent;
+        }
+        .calendar-close {
+            width: 100%;
+            padding: 12px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 30px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
         }
         
         /* নিচের মেনু বার */
@@ -1146,6 +1236,7 @@
             .reaction-emoji { font-size: 1.6rem; }
             .logo-area h1 { font-size: 1.6rem; }
             .logo-area p { font-size: 0.75rem; }
+            .calendar-day { padding: 8px 4px; font-size: 0.8rem; }
         }
         @media (max-width: 400px) {
             .golden-title { font-size: 1.4rem; }
@@ -1309,8 +1400,8 @@
             <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
             <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
             <div class="date-range">
-                <input type="date" id="startDate" required>
-                <input type="date" id="endDate" required>
+                <input type="text" id="startDate" placeholder="DD/MM/YYYY" readonly required style="background:#f9f9f9; cursor:pointer;">
+                <input type="text" id="endDate" placeholder="DD/MM/YYYY" readonly required style="background:#f9f9f9; cursor:pointer;">
             </div>
             <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
             <div class="checkbox-group"><input type="checkbox" id="anonymousPost"><label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
@@ -1399,16 +1490,113 @@
     let goldenTouchStartX = 0;
     let goldenTouchEndX = 0;
     
-    // তারিখ ফরম্যাট ফাংশন - বাংলায় দেখানোর জন্য
-    function formatDateToBengali(dateStr) {
+    // কাস্টম ডেট পিকার ভেরিয়েবল
+    let activeDateInput = null;
+    let currentYear = 2026;
+    let currentMonth = 5; // জুন (0-11)
+    
+    // তারিখ ফরম্যাট ফাংশন - DD/MM/YYYY
+    function formatDateDMY(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+    
+    function formatDateToYYYYMMDD(dateStr) {
         if(!dateStr) return '';
-        const d = new Date(dateStr);
-        if(isNaN(d.getTime())) return dateStr;
-        const months = ['জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
-        const day = d.getDate();
-        const month = months[d.getMonth()];
-        const year = d.getFullYear();
-        return `${day} ${month}, ${year}`;
+        const parts = dateStr.split('/');
+        if(parts.length === 3) {
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+        return dateStr;
+    }
+    
+    // কাস্টম ক্যালেন্ডার তৈরি
+    function showCalendar(inputElement) {
+        activeDateInput = inputElement;
+        const now = new Date();
+        currentYear = now.getFullYear();
+        currentMonth = now.getMonth();
+        
+        renderCalendarPopup();
+    }
+    
+    function renderCalendarPopup() {
+        // পুরানো পপআপ সরান
+        const existingPopup = document.querySelector('.calendar-popup');
+        if(existingPopup) existingPopup.remove();
+        
+        const popup = document.createElement('div');
+        popup.className = 'calendar-popup';
+        
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const startDayOfWeek = firstDay.getDay(); // 0 = রবিবার
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        
+        const months = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+        const weekdays = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহস্পতি', 'শুক্র', 'শনি'];
+        
+        let daysHtml = '';
+        for(let i = 0; i < startDayOfWeek; i++) {
+            daysHtml += '<div class="calendar-day empty"></div>';
+        }
+        
+        for(let d = 1; d <= daysInMonth; d++) {
+            const isSelected = activeDateInput && activeDateInput.value === `${String(d).padStart(2,'0')}/${String(currentMonth+1).padStart(2,'0')}/${currentYear}`;
+            daysHtml += `<div class="calendar-day ${isSelected ? 'selected' : ''}" data-day="${d}">${d}</div>`;
+        }
+        
+        popup.innerHTML = `
+            <div class="calendar-header">
+                <button class="prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+                <span>${months[currentMonth]} ${currentYear}</span>
+                <button class="next-month"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-weekdays">
+                ${weekdays.map(day => `<div>${day}</div>`).join('')}
+            </div>
+            <div class="calendar-days">
+                ${daysHtml}
+            </div>
+            <button class="calendar-close">বাতিল</button>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        // ইভেন্ট লিসেনার
+        popup.querySelector('.prev-month').addEventListener('click', () => {
+            currentMonth--;
+            if(currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendarPopup();
+        });
+        
+        popup.querySelector('.next-month').addEventListener('click', () => {
+            currentMonth++;
+            if(currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendarPopup();
+        });
+        
+        popup.querySelectorAll('.calendar-day:not(.empty)').forEach(day => {
+            day.addEventListener('click', () => {
+                const dayNum = parseInt(day.dataset.day);
+                const selectedDate = new Date(currentYear, currentMonth, dayNum);
+                if(activeDateInput) {
+                    activeDateInput.value = formatDateDMY(selectedDate);
+                }
+                popup.remove();
+            });
+        });
+        
+        popup.querySelector('.calendar-close').addEventListener('click', () => {
+            popup.remove();
+        });
     }
     
     auth.onAuthStateChanged(async (user) => {
@@ -1433,6 +1621,16 @@
         loadPosts();
         loadGoldenSlidesFromFirebase();
         loadMarqueeText();
+        
+        // ডেট পিকার ইভেন্ট
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        if(startDateInput) {
+            startDateInput.addEventListener('click', () => showCalendar(startDateInput));
+        }
+        if(endDateInput) {
+            endDateInput.addEventListener('click', () => showCalendar(endDateInput));
+        }
     });
     
     document.getElementById("signinBtn").onclick = () => { window.location.href = "login.html"; };
@@ -1585,6 +1783,7 @@
         if(start <= today && end >= today) return { text: 'চলমান', type: 'live' }; 
         return { text: 'আসন্ন', type: 'soon' }; 
     }
+    function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
     window.showSavedPostDetail = function(postId) {
@@ -1597,7 +1796,7 @@
         modalBody.innerHTML = `
             <div class="modal-title">${escapeHtml(post.title)}</div>
             <div class="modal-section">
-                <div><strong>📅 সময়কাল:</strong> ${formatDateToBengali(post.startDate)} - ${formatDateToBengali(post.endDate)}</div>
+                <div><strong>📅 সময়কাল:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
                 <div style="margin-top:5px;"><strong>📍 অবস্থান:</strong> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div>
                 <div style="margin-top:5px;"><strong>🏷️ ক্যাটাগরি:</strong> ${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'} | ${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</div>
                 <div style="margin-top:5px;"><strong>স্ট্যাটাস:</strong> ${status.type === 'live' ? '🟢 চলমান' : (status.type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div>
@@ -1635,7 +1834,8 @@
     
     function formatGoldenDateTime(dateStr) {
         if (!dateStr) return 'N/A';
-        return formatDateToBengali(dateStr);
+        const d = new Date(dateStr);
+        return d.toLocaleString('bn-BD');
     }
     
     window.showGoldenModalById = function(id, event) {
@@ -1862,7 +2062,7 @@
             const statusBadgeHtml = status.type === 'live' ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>` : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
             const posterHtml = `<div class="poster-info">${displayInfo.isAnonymous ? `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`}<span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span></div>`;
             const card = document.createElement("div"); card.className = "news-card"; card.setAttribute("data-id", post.id);
-            card.innerHTML = `<div class="news-header"><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span><span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div></div><div class="news-title">${statusBadgeHtml}${escapeHtml(post.title)}</div></div><div class="news-body"><div class="news-info-grid"><div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div><div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDateToBengali(post.startDate)} - ${formatDateToBengali(post.endDate)}</div></div><div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>${posterHtml}<div id="comments-${post.id}" class="comments-section"></div></div><div class="news-footer">${actionButtons}</div>`;
+            card.innerHTML = `<div class="news-header"><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span><span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div></div><div class="news-title">${statusBadgeHtml}${escapeHtml(post.title)}</div></div><div class="news-body"><div class="news-info-grid"><div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div><div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div></div><div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>${posterHtml}<div id="comments-${post.id}" class="comments-section"></div></div><div class="news-footer">${actionButtons}</div>`;
             container.appendChild(card);
             const descElem = card.querySelector(".news-description"); const fullText = descElem.dataset.fulltext; descElem.onclick = (e) => { e.stopPropagation(); if(descElem.classList.contains("expanded")) { descElem.classList.remove("expanded"); descElem.innerText = fullText.substring(0,150)+(fullText.length>150?'...':''); } else { descElem.classList.add("expanded"); descElem.innerText = fullText; } };
             card.querySelector(".like-btn")?.addEventListener("click", (e) => { e.stopPropagation(); showReactionPopup(card.querySelector(".like-btn"), post.id); });
@@ -1944,12 +2144,16 @@
         const district = document.getElementById("postDistrict").value;
         const upazila = document.getElementById("postUpazila").value;
         const locationLink = document.getElementById("postLocationLink").value.trim();
-        const start = document.getElementById("startDate").value;
-        const end = document.getElementById("endDate").value;
+        const startDateStr = document.getElementById("startDate").value;
+        const endDateStr = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
         const topicCat = document.getElementById("postTopicCategory").value;
         const timeCat = document.getElementById("postTimeCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
+        
+        // DD/MM/YYYY থেকে YYYY-MM-DD ফরম্যাটে রূপান্তর
+        const start = formatDateToYYYYMMDD(startDateStr);
+        const end = formatDateToYYYYMMDD(endDateStr);
         
         if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
         if(!topicCat || topicCat === "") { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
