@@ -15,6 +15,103 @@
     .container { max-width: 900px; margin: 0 auto; }
     h1 { text-align: center; color: #d4af37; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
     
+    /* লগইন স্ক্রিন */
+    .login-screen {
+      background: white;
+      border-radius: 24px;
+      padding: 40px 30px;
+      max-width: 400px;
+      margin: 50px auto;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .login-screen h2 {
+      color: #b8860b;
+      margin-bottom: 20px;
+    }
+    .login-screen .google-btn {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 50px;
+      padding: 14px 24px;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      margin-top: 20px;
+    }
+    .login-screen .google-btn:hover {
+      background: #f5f5f5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .login-screen .google-btn img {
+      width: 22px;
+      height: 22px;
+    }
+    .login-screen .loader {
+      display: none;
+      margin-top: 20px;
+      color: #666;
+    }
+    .login-screen .loader.show { display: block; }
+    .login-screen .error-msg {
+      color: #e74c3c;
+      margin-top: 15px;
+      font-size: 0.85rem;
+      display: none;
+    }
+    .login-screen .error-msg.show { display: block; }
+    .login-screen .access-denied {
+      color: #e74c3c;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .login-screen .access-denied.show { display: block; }
+    
+    /* অ্যাডমিন প্যানেল কন্টেন্ট (ডিফল্ট হাইড) */
+    .admin-content {
+      display: none;
+    }
+    .admin-content.show {
+      display: block;
+    }
+    
+    /* লগআউট বাটন */
+    .logout-header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+    .logout-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logout-btn:hover {
+      background: #c82333;
+    }
+    .admin-user-info {
+      background: rgba(255,255,255,0.9);
+      padding: 8px 15px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      color: #333;
+      margin-right: 15px;
+    }
+    
     /* ড্রপডাউন স্টাইল */
     .slider-dropdown {
       background: white;
@@ -141,7 +238,6 @@
     .card-actions { margin-top: 12px; }
     .small-btn { padding: 6px 12px; font-size: 0.8rem; margin: 2px; }
     
-    /* মার্কি এডিটর স্টাইল */
     .marquee-editor {
       background: #fef9e6;
       border: 2px solid #d4af37;
@@ -183,102 +279,135 @@
 </head>
 <body>
 <div class="container">
-  <h1>🏆 অ্যাডমিন প্যানেল | বাংলাদেশ মেলা 🏆</h1>
-
-  <!-- লাইনার ০: চলন্ত লেখা (মার্কি) কন্ট্রোল -->
-  <div class="slider-dropdown">
-    <div class="slider-header" id="sliderHeaderMarquee">
-      <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
-      <span class="toggle-icon">▼</span>
+  
+  <!-- লগইন স্ক্রিন -->
+  <div id="loginScreen" class="login-screen">
+    <h2>🔐 অ্যাডমিন অ্যাক্সেস</h2>
+    <p style="color: #555; margin-bottom: 10px;">শুধুমাত্র অনুমোদিত অ্যাডমিনদের জন্য</p>
+    
+    <button id="adminGoogleLoginBtn" class="google-btn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+      গুগল অ্যাকাউন্ট দিয়ে লগইন করুন
+    </button>
+    
+    <div id="adminLoader" class="loader">
+      <i class="fa-solid fa-spinner fa-spin"></i> লগইন হচ্ছে...
     </div>
-    <div class="slider-content" id="sliderContentMarquee">
-      <div class="form-card marquee-editor">
-        <h3>✨ স্লাইডারের নিচের চলন্ত লেখা এডিট করুন ✨</h3>
-        <textarea id="marqueeText" rows="3" placeholder="এখানে আপনার চলন্ত লেখা লিখুন... যেমন: 🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা" style="resize: vertical;"></textarea>
-        <div class="marquee-preview">
-          <div class="marquee-preview-text" id="marqueePreview">প্রিভিউ দেখাচ্ছে...</div>
-        </div>
-        <div class="current-marquee-display" id="currentMarqueeDisplay">
-          <i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা লোড হচ্ছে...
-        </div>
-        <div style="margin-top: 20px;">
-          <button id="saveMarqueeBtn">💾 চলন্ত লেখা সংরক্ষণ করুন</button>
-          <button id="resetMarqueeBtn" style="background:#6c757d;">↺ ডিফল্ট রিসেট</button>
-        </div>
-        <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই লেখা হোমপেজের স্লাইডারের নিচে প্রদর্শিত হবে।</p>
-      </div>
+    
+    <div id="adminErrorMsg" class="error-msg">
+      <i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ হয়েছে।
+    </div>
+    
+    <div id="accessDeniedMsg" class="access-denied">
+      <i class="fa-solid fa-ban"></i> আপনার এই প্যানেলে অ্যাক্সেস নেই। শুধুমাত্র অনুমোদিত অ্যাডমিনদের প্রবেশাধিকার রয়েছে।
     </div>
   </div>
-
-  <!-- লাইনার ১: নতুন স্লাইডার পোস্ট যোগ -->
-  <div class="slider-dropdown">
-    <div class="slider-header" id="sliderHeaderAdd">
-      <h2>➕ স্লাইডার - নতুন পোস্ট যোগ</h2>
-      <span class="toggle-icon">▼</span>
+  
+  <!-- অ্যাডমিন প্যানেল কন্টেন্ট (লগইন পর দেখাবে) -->
+  <div id="adminContent" class="admin-content">
+    <div class="logout-header">
+      <div class="admin-user-info" id="adminUserInfo"></div>
+      <button id="adminLogoutBtn" class="logout-btn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
     </div>
-    <div class="slider-content" id="sliderContentAdd">
-      <div class="form-card">
-        <h3>✨ মেলার তথ্য যোগ করুন ✨</h3>
-        <input type="text" id="title" placeholder="মেলার নাম *" required>
-        <textarea id="description" rows="3" placeholder="বিবরণ *" required></textarea>
-        <input type="text" id="address" placeholder="ঠিকানা/লোকেশন">
-        <input type="url" id="mapLink" placeholder="গুগল ম্যাপ লিংক (ঐচ্ছিক)">
-        
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <input type="datetime-local" id="startDate" style="flex:1;" required>
-          <input type="datetime-local" id="endDate" style="flex:1;" required>
+    
+    <h1>🏆 অ্যাডমিন প্যানেল | বাংলাদেশ মেলা 🏆</h1>
+
+    <!-- লাইনার ০: চলন্ত লেখা (মার্কি) কন্ট্রোল -->
+    <div class="slider-dropdown">
+      <div class="slider-header" id="sliderHeaderMarquee">
+        <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="slider-content" id="sliderContentMarquee">
+        <div class="form-card marquee-editor">
+          <h3>✨ স্লাইডারের নিচের চলন্ত লেখা এডিট করুন ✨</h3>
+          <textarea id="marqueeText" rows="3" placeholder="এখানে আপনার চলন্ত লেখা লিখুন..." style="resize: vertical;"></textarea>
+          <div class="marquee-preview">
+            <div class="marquee-preview-text" id="marqueePreview">প্রিভিউ দেখাচ্ছে...</div>
+          </div>
+          <div class="current-marquee-display" id="currentMarqueeDisplay">
+            <i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা লোড হচ্ছে...
+          </div>
+          <div style="margin-top: 20px;">
+            <button id="saveMarqueeBtn">💾 চলন্ত লেখা সংরক্ষণ করুন</button>
+            <button id="resetMarqueeBtn" style="background:#6c757d;">↺ ডিফল্ট রিসেট</button>
+          </div>
+          <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই লেখা হোমপেজের স্লাইডারের নিচে প্রদর্শিত হবে।</p>
         </div>
+      </div>
+    </div>
 
-        <select id="melaType">
-          <option value="মাসব্যাপী মেলা">মাসব্যাপী মেলা</option>
-          <option value="১৫ দিনব্যাপী মেলা">১৫ দিনব্যাপী মেলা</option>
-          <option value="৭ দিনব্যাপী মেলা">৭ দিনব্যাপী মেলা</option>
-          <option value="৩ দিনব্যাপী মেলা">৩ দিনব্যাপী মেলা</option>
-        </select>
+    <!-- লাইনার ১: নতুন স্লাইডার পোস্ট যোগ -->
+    <div class="slider-dropdown">
+      <div class="slider-header" id="sliderHeaderAdd">
+        <h2>➕ স্লাইডার - নতুন পোস্ট যোগ</h2>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="slider-content" id="sliderContentAdd">
+        <div class="form-card">
+          <h3>✨ মেলার তথ্য যোগ করুন ✨</h3>
+          <input type="text" id="title" placeholder="মেলার নাম *" required>
+          <textarea id="description" rows="3" placeholder="বিবরণ *" required></textarea>
+          <input type="text" id="address" placeholder="ঠিকানা/লোকেশন">
+          <input type="url" id="mapLink" placeholder="গুগল ম্যাপ লিংক (ঐচ্ছিক)">
+          
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="datetime-local" id="startDate" style="flex:1;" required>
+            <input type="datetime-local" id="endDate" style="flex:1;" required>
+          </div>
 
-        <input type="number" id="order" placeholder="ক্রম (১,২,৩...)" value="1">
+          <select id="melaType">
+            <option value="মাসব্যাপী মেলা">মাসব্যাপী মেলা</option>
+            <option value="১৫ দিনব্যাপী মেলা">১৫ দিনব্যাপী মেলা</option>
+            <option value="৭ দিনব্যাপী মেলা">৭ দিনব্যাপী মেলা</option>
+            <option value="৩ দিনব্যাপী মেলা">৩ দিনব্যাপী মেলা</option>
+          </select>
 
-        <div id="contactsArea">
-          <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (একাধিক)</h4>
-          <div id="contactList">
-            <div class="contact-group">
-              <div class="contact-row">
-                <input type="text" placeholder="নাম" class="contact-name">
-                <input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone">
+          <input type="number" id="order" placeholder="ক্রম (১,২,৩...)" value="1">
+
+          <div id="contactsArea">
+            <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (একাধিক)</h4>
+            <div id="contactList">
+              <div class="contact-group">
+                <div class="contact-row">
+                  <input type="text" placeholder="নাম" class="contact-name">
+                  <input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone">
+                </div>
               </div>
             </div>
+            <button type="button" id="addContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
           </div>
-          <button type="button" id="addContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
-        </div>
 
-        <div style="margin-top: 20px;">
-          <button id="saveBtn">➕ সংরক্ষণ করুন</button>
-          <button id="cancelBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
+          <div style="margin-top: 20px;">
+            <button id="saveBtn">➕ সংরক্ষণ করুন</button>
+            <button id="cancelBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- লাইনার ২: পোস্ট করা তথ্য এডিট -->
-  <div class="slider-dropdown">
-    <div class="slider-header" id="sliderHeaderEdit">
-      <h2>✏️ স্লাইডার পোস্ট করা তথ্য এডিট</h2>
-      <span class="toggle-icon">▼</span>
-    </div>
-    <div class="slider-content" id="sliderContentEdit">
-      <div class="card-list">
-        <div id="postsList">লোড হচ্ছে...</div>
+    <!-- লাইনার ২: পোস্ট করা তথ্য এডিট -->
+    <div class="slider-dropdown">
+      <div class="slider-header" id="sliderHeaderEdit">
+        <h2>✏️ স্লাইডার পোস্ট করা তথ্য এডিট</h2>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="slider-content" id="sliderContentEdit">
+        <div class="card-list">
+          <div id="postsList">লোড হচ্ছে...</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 <script>
-  // Firebase Config - নতুন কনফিগারেশন
+  // Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyCZ6L7QiarIOIeiK62HEdaSyr84ORVKwl4",
     authDomain: "pikaribazar-e5f17.firebaseapp.com",
@@ -291,12 +420,109 @@
   };
 
   firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
   const database = firebase.database();
   const melaPostsRef = database.ref('melaPosts');
   const marqueeRef = database.ref('marqueeText');
 
   let currentEditId = null;
-
+  let currentAdminUser = null;
+  
+  // অনুমোদিত অ্যাডমিন ইমেইল লিস্ট
+  const ALLOWED_ADMINS = [
+    "your-email@gmail.com",  // এখানে আপনার ইমেইল দিন
+    "admin@gmail.com"        // এখানে অন্য অ্যাডমিন ইমেইল দিন
+  ];
+  
+  // DOM Elements
+  const loginScreen = document.getElementById('loginScreen');
+  const adminContent = document.getElementById('adminContent');
+  const adminUserInfo = document.getElementById('adminUserInfo');
+  
+  // চেক করা অ্যাডমিন কিনা
+  function isAdminUser(email) {
+    return ALLOWED_ADMINS.includes(email);
+  }
+  
+  // UI আপডেট
+  function showAdminPanel(user) {
+    currentAdminUser = user;
+    adminUserInfo.innerHTML = `<i class="fa-regular fa-user"></i> ${user.displayName || user.email} (অ্যাডমিন)`;
+    loginScreen.style.display = 'none';
+    adminContent.classList.add('show');
+    
+    // ডাটা লোড
+    loadMarqueeText();
+    loadPosts();
+  }
+  
+  function showLoginScreen() {
+    loginScreen.style.display = 'block';
+    adminContent.classList.remove('show');
+    currentAdminUser = null;
+  }
+  
+  function showAccessDenied() {
+    document.getElementById('accessDeniedMsg').classList.add('show');
+  }
+  
+  // অথেন্টিকেশন স্টেট চেক
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      // চেক করা অ্যাডমিন কিনা
+      if (isAdminUser(user.email)) {
+        showAdminPanel(user);
+      } else {
+        showLoginScreen();
+        showAccessDenied();
+        // সাইন আউট করে দেওয়া
+        await auth.signOut();
+      }
+    } else {
+      showLoginScreen();
+    }
+  });
+  
+  // লগইন বাটন
+  document.getElementById('adminGoogleLoginBtn').addEventListener('click', async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const loader = document.getElementById('adminLoader');
+    const errorMsg = document.getElementById('adminErrorMsg');
+    const accessDeniedMsg = document.getElementById('accessDeniedMsg');
+    
+    loader.classList.add('show');
+    errorMsg.classList.remove('show');
+    accessDeniedMsg.classList.remove('show');
+    
+    try {
+      const result = await auth.signInWithPopup(provider);
+      const user = result.user;
+      
+      if (isAdminUser(user.email)) {
+        showAdminPanel(user);
+      } else {
+        await auth.signOut();
+        accessDeniedMsg.classList.add('show');
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      errorMsg.classList.add('show');
+      if (error.code === "auth/popup-blocked") {
+        errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> পপ-আপ ব্লক হয়েছে! ব্রাউজার সেটিংস থেকে পপ-আপ অনুমোদন করুন।';
+      } else {
+        errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ। আবার চেষ্টা করুন।';
+      }
+    } finally {
+      loader.classList.remove('show');
+    }
+  });
+  
+  // লগআউট বাটন
+  document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
+    await auth.signOut();
+    showLoginScreen();
+  });
+  
   // ড্রপডাউন টগল ফাংশন
   function toggleDropdown(headerId, contentId) {
     const header = document.getElementById(headerId);
@@ -321,10 +547,8 @@
   }
 
   // ========== মার্কি (চলন্ত লেখা) ফাংশন ==========
-  // ডিফল্ট মার্কি টেক্সট
   const DEFAULT_MARQUEE = "🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা ✦ 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা ✦ 🛡️ সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন";
 
-  // মার্কি লোড করা
   function loadMarqueeText() {
     marqueeRef.on('value', (snapshot) => {
       const savedText = snapshot.val();
@@ -335,7 +559,6 @@
     });
   }
 
-  // মার্কি সংরক্ষণ
   document.getElementById('saveMarqueeBtn').addEventListener('click', async () => {
     const newText = document.getElementById('marqueeText').value.trim();
     if (!newText) {
@@ -345,7 +568,6 @@
     try {
       await marqueeRef.set({ text: newText, updatedAt: Date.now() });
       alert('✅ চলন্ত লেখা সফলভাবে সংরক্ষণ করা হয়েছে!');
-      // প্রিভিউ আপডেট
       document.getElementById('marqueePreview').innerText = newText;
       document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(newText.substring(0, 100))}${newText.length > 100 ? '...' : ''}`;
     } catch(e) {
@@ -353,7 +575,6 @@
     }
   });
 
-  // ডিফল্ট রিসেট
   document.getElementById('resetMarqueeBtn').addEventListener('click', async () => {
     if(confirm('ডিফল্ট চলন্ত লেখায় রিসেট করবেন?')) {
       try {
@@ -548,10 +769,6 @@
     container.appendChild(div);
     div.querySelector('.removeContactBtn').addEventListener('click', () => div.remove());
   });
-
-  // লোড করা
-  loadMarqueeText();
-  loadPosts();
 </script>
 </body>
 </html>
