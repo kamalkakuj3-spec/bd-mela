@@ -245,6 +245,10 @@
             padding-bottom: 12px;
             border-bottom: 1px solid #eee;
             margin-bottom: 12px;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
         }
         .topic-category-panel-header h4 {
             font-size: 14px;
@@ -254,6 +258,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
+            margin-bottom: 70px;
         }
         .topic-category-item {
             display: flex;
@@ -280,6 +285,15 @@
             color: #333;
             flex: 1;
         }
+        .filter-buttons-sticky {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 12px 0 0 0;
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+            z-index: 10;
+        }
         .apply-filter-btn {
             width: 100%;
             padding: 12px;
@@ -287,18 +301,18 @@
             color: white;
             border: none;
             border-radius: 30px;
-            margin-top: 12px;
+            margin-top: 8px;
             font-weight: 600;
             cursor: pointer;
         }
         .reset-filter-btn {
-            width: 48%;
+            width: 100%;
             padding: 10px;
             background: #f5f5f5;
             color: #666;
             border: none;
             border-radius: 30px;
-            margin-top: 10px;
+            margin-top: 8px;
             font-weight: 600;
             cursor: pointer;
         }
@@ -358,7 +372,7 @@
             margin-top: 4px;
         }
         
-        /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড) - slider.html এর স্টাইলে ========== */
+        /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড) ========== */
         .golden-billboard {
             width: auto;
             background: #ffffff;
@@ -472,20 +486,20 @@
             background: #d4af37;
         }
         
-        /* স্লাইডারের নিচের চলন্ত লেখা (মার্কি) */
+        /* স্লাইডারের নিচের চলন্ত লেখা (মার্কি) - স্পিড কমানো হয়েছে */
         .slider-bottom-marquee {
             background: #ffffff;
             margin: 0 16px 12px 16px;
             padding: 10px 0;
-            border-radius: 30px;
+            border-radius: 6px;
             overflow: hidden;
             white-space: nowrap;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
         .slider-bottom-marquee .marquee-text {
             display: inline-block;
-            animation: scrollBottom 25s linear infinite;
+            animation: scrollBottom 40s linear infinite;
             font-size: 0.9rem;
             color: #b8860b;
             font-weight: 600;
@@ -1035,15 +1049,17 @@
     <button class="reset-filter-btn" onclick="resetTimeCategoryFilter()">সব রিসেট</button>
 </div>
 
-<!-- বিষয়ভিত্তিক ক্যাটাগরি প্যানেল -->
+<!-- বিষয়ভিত্তিক ক্যাটাগরি প্যানেল - বাটন স্থির রাখা হয়েছে -->
 <div class="topic-category-panel" id="topicCategoryPanel">
     <div class="topic-category-panel-header">
         <h4><i class="fa-solid fa-th-large"></i> বিষয় নির্বাচন করুন</h4>
         <i class="fa-solid fa-times" onclick="closeTopicCategoryPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
     <div class="topic-category-grid" id="topicCategoryGrid"><div style="text-align:center; padding:20px;">লোড হচ্ছে...</div></div>
-    <button class="apply-filter-btn" onclick="applyTopicCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
-    <button class="reset-filter-btn" onclick="resetTopicCategoryFilter()">সব রিসেট</button>
+    <div class="filter-buttons-sticky">
+        <button class="apply-filter-btn" onclick="applyTopicCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
+        <button class="reset-filter-btn" onclick="resetTopicCategoryFilter()">সব রিসেট</button>
+    </div>
 </div>
 
 <!-- সেভড আইটেম প্যানেল -->
@@ -1107,12 +1123,8 @@
 <!-- ========== স্লাইডারের নিচের চলন্ত লেখা (মার্কি) ========== -->
 <div class="slider-bottom-marquee">
     <div style="overflow: hidden; white-space: nowrap;">
-        <div class="marquee-text">
-            🎉 <i class="fa-regular fa-calendar"></i> দেশের সকল মেলার খবর একসাথে 
-            ✦ <i class="fa-solid fa-location-dot"></i> যাচাই করে তথ্য নিন 
-            ✦ <i class="fa-regular fa-star"></i> সোনালী স্লাইডারে দেখুন বিশেষ মেলা 
-            ✦ <i class="fa-solid fa-store"></i> ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা 
-            ✦ <i class="fa-regular fa-bell"></i> সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন
+        <div class="marquee-text" id="liveMarqueeText">
+            🎉 লোড হচ্ছে...
         </div>
     </div>
 </div>
@@ -1158,6 +1170,25 @@
     </div>
 </div>
 
+<!-- পোস্ট এডিট মডাল -->
+<div id="editPostModal" class="modal">
+    <div class="modal-content">
+        <h3>✏️ পোস্ট এডিট করুন</h3>
+        <input type="text" id="editPostTitle" placeholder="মেলার নাম *" required>
+        <select id="editPostDivision" required></select>
+        <select id="editPostDistrict" required></select>
+        <select id="editPostUpazila"></select>
+        <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="editPostTopicCategory" required><option value="">-- নির্বাচন করুন --</option></select></div>
+        <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="editPostTimeCategory" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
+        <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="editPostLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
+        <div style="display: flex; gap: 10px;"><input type="date" id="editStartDate" style="width:50%" required><input type="date" id="editEndDate" style="width:50%" required></div>
+        <textarea id="editPostDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
+        <div class="checkbox-group"><input type="checkbox" id="editAnonymousPost"><label for="editAnonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
+        <button id="updatePostBtn">আপডেট করুন</button>
+        <button class="cancel" id="closeEditModal">বাতিল</button>
+    </div>
+</div>
+
 <!-- মেলা বিস্তারিত মোডাল (গোল্ডেন স্লাইডারের জন্য) -->
 <div id="goldenDetailModal" class="modal">
     <div class="modal-content">
@@ -1194,6 +1225,7 @@
     let savedPostsIds = [];
     let allPosts = [];
     let selectedDivision = "", selectedDistrict = "", selectedUpazila = "";
+    let currentEditPostId = null;
     
     // Golden Slider Variables
     let goldenSlides = [];
@@ -1213,9 +1245,20 @@
         await loadSavedPosts();
         loadPosts();
         loadGoldenSlidesFromFirebase();
+        loadMarqueeText();
     });
     
     document.getElementById("signinBtn").onclick = () => { window.location.href = "login.html"; };
+    
+    // মার্কি টেক্সট লোড
+    async function loadMarqueeText() {
+        const marqueeRef = db.ref('marqueeText');
+        marqueeRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            const marqueeText = data && data.text ? data.text : "🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা ✦ 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা ✦ 🛡️ সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন";
+            document.getElementById('liveMarqueeText').innerHTML = marqueeText;
+        });
+    }
     
     async function loadCategoriesFromJSON() {
         try {
@@ -1239,7 +1282,9 @@
             });
         }
         const topicSelect = document.getElementById('postTopicCategory');
+        const editTopicSelect = document.getElementById('editPostTopicCategory');
         if(topicSelect) topicSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
+        if(editTopicSelect) editTopicSelect.innerHTML = '<option value="">-- নির্বাচন করুন --</option>' + categoriesList.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name}</option>`).join('');
     }
     
     function getTopicCategoryIcon(catName) { const cat = categoriesList.find(c => c.name === catName); return cat ? cat.icon : '🎪'; }
@@ -1259,7 +1304,7 @@
     function filterByStatus(status) { statusFilter = status; loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
     
     async function loadDivisions() {
-        try { const response = await fetch('divisions.json'); const data = await response.json(); divisionsData = data.divisions; populateDivisionFilter(); updatePostDivisionSelect(); } catch(e) { divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }]; populateDivisionFilter(); updatePostDivisionSelect(); }
+        try { const response = await fetch('divisions.json'); const data = await response.json(); divisionsData = data.divisions; populateDivisionFilter(); updatePostDivisionSelect(); updateEditDivisionSelect(); } catch(e) { divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }]; populateDivisionFilter(); updatePostDivisionSelect(); updateEditDivisionSelect(); }
     }
     
     function populateDivisionFilter() {
@@ -1277,6 +1322,33 @@
     function updatePostDivisionSelect() { const divSelect = document.getElementById("postDivision"); divSelect.innerHTML = ""; divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name); divSelect.onchange = () => updatePostDistricts(divSelect.value); }
     function updatePostDistricts(divisionName) { const division = divisionsData.find(d => d.name === divisionName); const districts = division?.districts || []; const districtSelect = document.getElementById("postDistrict"); districtSelect.innerHTML = ""; districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); if(districts.length > 0) updatePostUpazilas(divisionName, districts[0].name); districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value); }
     function updatePostUpazilas(divisionName, districtName) { const division = divisionsData.find(d => d.name === divisionName); const district = division?.districts?.find(d => d.name === districtName); const upazilas = district?.upazilas || []; const upazilaSelect = document.getElementById("postUpazila"); upazilaSelect.innerHTML = ""; if(upazilas.length === 0) upazilaSelect.add(new Option("কোন থানা/উপজেলা নেই", "")); else upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); }
+    
+    function updateEditDivisionSelect() { 
+        const divSelect = document.getElementById("editPostDivision"); 
+        if(!divSelect) return;
+        divSelect.innerHTML = ""; 
+        divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); 
+        if(divisionsData.length > 0) updateEditDistricts(divisionsData[0].name); 
+        divSelect.onchange = () => updateEditDistricts(divSelect.value); 
+    }
+    function updateEditDistricts(divisionName) { 
+        const division = divisionsData.find(d => d.name === divisionName); 
+        const districts = division?.districts || []; 
+        const districtSelect = document.getElementById("editPostDistrict"); 
+        districtSelect.innerHTML = ""; 
+        districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); 
+        if(districts.length > 0) updateEditUpazilas(divisionName, districts[0].name); 
+        districtSelect.onchange = () => updateEditUpazilas(divisionName, districtSelect.value); 
+    }
+    function updateEditUpazilas(divisionName, districtName) { 
+        const division = divisionsData.find(d => d.name === divisionName); 
+        const district = division?.districts?.find(d => d.name === districtName); 
+        const upazilas = district?.upazilas || []; 
+        const upazilaSelect = document.getElementById("editPostUpazila"); 
+        upazilaSelect.innerHTML = ""; 
+        if(upazilas.length === 0) upazilaSelect.add(new Option("কোন থানা/উপজেলা নেই", "")); 
+        else upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); 
+    }
     
     async function loadSavedPosts() { const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value'); savedPostsIds = snapshot.val() || []; }
     
@@ -1387,8 +1459,10 @@
             ind.addEventListener('click', (e) => { const index = parseInt(e.target.getAttribute('data-index')); if (!isNaN(index)) goToGoldenSlide(index); });
         });
         const sliderContainer = document.querySelector('.golden-content-container');
-        sliderContainer.addEventListener('touchstart', handleGoldenTouchStart, false);
-        sliderContainer.addEventListener('touchend', handleGoldenTouchEnd, false);
+        if(sliderContainer) {
+            sliderContainer.addEventListener('touchstart', handleGoldenTouchStart, false);
+            sliderContainer.addEventListener('touchend', handleGoldenTouchEnd, false);
+        }
         goldenCurrentIndex = 0;
         showGoldenSlide(0);
         startGoldenSlideshow();
@@ -1430,6 +1504,92 @@
     
     window.openPostDetail = function(id) { const post = allPosts.find(p => p.id === id); if(!post) return; showToast(`📄 ${post.title} - বিস্তারিত দেখুন`); };
     
+    function openEditModal(post) {
+        currentEditPostId = post.id;
+        document.getElementById("editPostTitle").value = post.title || "";
+        document.getElementById("editPostDesc").value = post.description || "";
+        document.getElementById("editPostLocationLink").value = post.locationLink || "";
+        document.getElementById("editStartDate").value = post.startDate || "";
+        document.getElementById("editEndDate").value = post.endDate || "";
+        document.getElementById("editPostTimeCategory").value = post.category || "";
+        document.getElementById("editPostTopicCategory").value = post.topicCategory || "";
+        document.getElementById("editAnonymousPost").checked = post.isAnonymous || false;
+        
+        if(post.division) {
+            const divSelect = document.getElementById("editPostDivision");
+            for(let i = 0; i < divSelect.options.length; i++) {
+                if(divSelect.options[i].value === post.division) {
+                    divSelect.selectedIndex = i;
+                    updateEditDistricts(post.division);
+                    break;
+                }
+            }
+        }
+        
+        setTimeout(() => {
+            if(post.district) {
+                const distSelect = document.getElementById("editPostDistrict");
+                for(let i = 0; i < distSelect.options.length; i++) {
+                    if(distSelect.options[i].value === post.district) {
+                        distSelect.selectedIndex = i;
+                        updateEditUpazilas(post.division, post.district);
+                        break;
+                    }
+                }
+            }
+            if(post.upazila) {
+                const upazilaSelect = document.getElementById("editPostUpazila");
+                for(let i = 0; i < upazilaSelect.options.length; i++) {
+                    if(upazilaSelect.options[i].value === post.upazila) {
+                        upazilaSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }, 100);
+        
+        document.getElementById("editPostModal").style.display = "flex";
+    }
+    
+    document.getElementById("updatePostBtn").onclick = async () => {
+        const title = document.getElementById("editPostTitle").value.trim();
+        const division = document.getElementById("editPostDivision").value;
+        const district = document.getElementById("editPostDistrict").value;
+        const upazila = document.getElementById("editPostUpazila").value;
+        const locationLink = document.getElementById("editPostLocationLink").value.trim();
+        const start = document.getElementById("editStartDate").value;
+        const end = document.getElementById("editEndDate").value;
+        const desc = document.getElementById("editPostDesc").value;
+        const topicCat = document.getElementById("editPostTopicCategory").value;
+        const timeCat = document.getElementById("editPostTimeCategory").value;
+        const isAnonymous = document.getElementById("editAnonymousPost").checked;
+        
+        if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
+        if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
+        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
+        
+        const postData = { 
+            title, division, district, upazila, 
+            locationLink: locationLink || "", 
+            startDate: start, endDate: end, 
+            description: desc, 
+            category: timeCat, 
+            topicCategory: topicCat, 
+            updatedAt: Date.now(),
+            isAnonymous 
+        };
+        if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
+        
+        await db.ref(`posts/${currentEditPostId}`).update(postData);
+        document.getElementById("editPostModal").style.display = "none";
+        loadPosts();
+        showToast("✅ পোস্ট আপডেট হয়েছে!");
+    };
+    
+    document.getElementById("closeEditModal").onclick = () => { document.getElementById("editPostModal").style.display = "none"; };
+    
+    async function deletePost(postId) { if(confirm("পোস্টটি ডিলিট করতে চান?")) { await db.ref(`posts/${postId}`).remove(); loadPosts(); } }
+    
     async function renderPosts(posts) {
         const container = document.getElementById("postsContainer"); if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; } container.innerHTML = "";
         for(const post of posts) {
@@ -1460,8 +1620,6 @@
     async function loadComments(postId, container) { const snapshot = await db.ref(`posts/${postId}/comments`).once('value'); const comments = snapshot.val() || {}; let html = `<div class="comment-input"><input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন..."><button onclick="window.addComment('${postId}')">পোস্ট</button></div><div id="commentList-${postId}">`; for(let [key, val] of Object.entries(comments)) html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`; html += `</div>`; container.innerHTML = html; }
     window.addComment = async (postId) => { const text = document.getElementById(`newCom-${postId}`).value.trim(); if(!text) return; await db.ref(`posts/${postId}/comments/${Date.now()}`).set({ uid: currentUser.uid, name: currentUser.displayName, text, time: Date.now() }); loadPosts(); };
     
-    function openEditModal(post) { currentEditPostId = post.id; document.getElementById("editPostTitle").value = post.title || ""; document.getElementById("editPostDivision").value = post.division || ""; document.getElementById("editPostModal").style.display = "flex"; }
-    async function deletePost(postId) { if(confirm("পোস্টটি ডিলিট করতে চান?")) { await db.ref(`posts/${postId}`).remove(); loadPosts(); } }
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
     async function toggleSave(postId) { const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); const snap = await userRef.once('value'); let saved = snap.val() || []; if(saved.includes(postId)) saved = saved.filter(id => id !== postId); else saved.push(postId); await userRef.set(saved); savedPostsIds = saved; loadPosts(); showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল'); }
     function openDrawer() { document.getElementById("sideDrawer").classList.add("open"); document.getElementById("drawerOverlay").classList.add("show"); }
@@ -1509,7 +1667,7 @@
     };
     
     function showToast(msg) { const toast = document.getElementById("toast"); toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2500); }
-    window.onclick = (e) => { if(e.target === document.getElementById("postModal")) closePostModal(); };
+    window.onclick = (e) => { if(e.target === document.getElementById("postModal")) closePostModal(); if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none"; };
 </script>
 </body>
 </html>
