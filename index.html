@@ -28,7 +28,7 @@
         /* হেডার */
         .app-header {
             background: white;
-            padding: 10px 16px;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,25 +40,33 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-left: 8px;
+            transition: all 0.3s ease;
+        }
+        .logo-area.center-logo {
+            flex: 1;
+            justify-content: center;
+            margin-left: 0;
         }
         .menu-icon {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             cursor: pointer;
             color: #333;
         }
         .logo-area h1 {
-            font-size: 1rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1a1a1a, #666);
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a1a1a, #555);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .logo-area p {
-            font-size: 0.45rem;
+            font-size: 0.8rem;
             color: #888;
+            font-weight: 500;
+            margin-top: 4px;
         }
         .header-icons {
             display: flex;
@@ -71,7 +79,7 @@
             border: none;
             padding: 6px 14px;
             border-radius: 30px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -84,7 +92,7 @@
             display: none;
         }
         .header-icons i {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #333;
             cursor: pointer;
         }
@@ -1043,7 +1051,7 @@
             margin-top: 5px;
         }
         
-        /* ডেট রেঞ্জ ফিল্ড স্টাইল */
+        /* ডেট রেঞ্জ ফিল্ড স্টাইল - DD/MM/YYYY ফরম্যাটের জন্য */
         .date-range {
             display: flex;
             gap: 10px;
@@ -1052,6 +1060,10 @@
         .date-range input {
             width: 50%;
             margin-bottom: 0;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 0.9rem;
         }
         
         /* নিচের মেনু বার */
@@ -1124,12 +1136,16 @@
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
             .reaction-emoji { font-size: 1.6rem; }
+            .logo-area h1 { font-size: 1.4rem; }
+            .logo-area p { font-size: 0.65rem; }
         }
         @media (max-width: 400px) {
             .golden-title { font-size: 1.4rem; }
             .golden-desc { font-size: 0.85rem; }
             .marquee-text { font-size: 0.8rem; }
             .reaction-emoji { font-size: 1.4rem; }
+            .logo-area h1 { font-size: 1.2rem; }
+            .logo-area p { font-size: 0.55rem; }
         }
     </style>
 </head>
@@ -1195,7 +1211,13 @@
 
 <!-- হেডার -->
 <div class="app-header">
-    <div class="logo-area"><i class="fa-solid fa-bars menu-icon" id="menuIcon"></i><div><h1>বাংলাদেশ মেলা</h1><p>দেশের মেলার ঠিকানা</p></div></div>
+    <div class="logo-area" id="logoArea">
+        <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
+        <div>
+            <h1>বাংলাদেশ মেলা</h1>
+            <p>দেশের মেলার ঠিকানা</p>
+        </div>
+    </div>
     <div class="header-icons">
         <button class="signin-btn" id="signinBtn">লগইন</button>
         <i class="fa-regular fa-bell" id="notifIcon"></i>
@@ -1369,6 +1391,16 @@
     let goldenTouchStartX = 0;
     let goldenTouchEndX = 0;
     
+    // তারিখ ফরম্যাট ফাংশন - DD/MM/YYYY আকারে দেখানোর জন্য
+    function formatDateForInput(dateStr) {
+        if(!dateStr) return '';
+        const d = new Date(dateStr);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+    
     auth.onAuthStateChanged(async (user) => {
         if (!user) { 
             window.location.href = "login.html"; 
@@ -1382,6 +1414,10 @@
         // লগইন বাটন হাইড করুন
         const signinBtn = document.getElementById("signinBtn");
         if(signinBtn) signinBtn.classList.add("hide");
+        
+        // লগইন করলে হেডার সেন্টার করুন
+        const logoArea = document.getElementById("logoArea");
+        if(logoArea) logoArea.classList.add("center-logo");
         
         await loadDivisions();
         await loadCategoriesFromJSON();
@@ -1727,8 +1763,8 @@
         document.getElementById("editPostTitle").value = post.title || "";
         document.getElementById("editPostDesc").value = post.description || "";
         document.getElementById("editPostLocationLink").value = post.locationLink || "";
-        document.getElementById("editStartDate").value = post.startDate || "";
-        document.getElementById("editEndDate").value = post.endDate || "";
+        document.getElementById("editStartDate").value = formatDateForInput(post.startDate) || "";
+        document.getElementById("editEndDate").value = formatDateForInput(post.endDate) || "";
         document.getElementById("editPostTimeCategory").value = post.category || "";
         document.getElementById("editPostTopicCategory").value = post.topicCategory || "";
         document.getElementById("editAnonymousPost").checked = post.isAnonymous || false;
