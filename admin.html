@@ -1,895 +1,557 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>এডমিন প্যানেল - বাংলাদেশ মেলা</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>অ্যাডমিন প্যানেল | বাংলাদেশ মেলা অ্যাপস</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      padding: 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { text-align: center; color: #d4af37; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
     
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    /* ড্রপডাউন স্টাইল */
+    .slider-dropdown {
+      background: white;
+      border-radius: 24px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .slider-header {
+      background: linear-gradient(115deg, #d4af37, #c49b2a);
+      padding: 15px 22px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+    .slider-header:hover {
+      background: linear-gradient(115deg, #c49b2a, #b8860b);
+    }
+    .slider-header h2 {
+      color: white;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toggle-icon {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: bold;
+      transition: transform 0.3s;
+    }
+    .slider-header.open .toggle-icon {
+      transform: rotate(180deg);
+    }
+    .slider-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out;
+      background: white;
+    }
+    .slider-content.open {
+      max-height: 2000px;
+      transition: max-height 0.5s ease-in;
+    }
+    .form-card {
+      padding: 25px;
+    }
+    .form-card h3 {
+      color: #b8860b;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 16px 0;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #d4af37;
+    }
+    .contact-group {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    .contact-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .contact-row input { margin: 0; flex: 1; }
+    .removeContactBtn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      margin-top: 8px;
+    }
+    button {
+      background: linear-gradient(115deg, #d4af37, #c49b2a);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-right: 10px;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: translateY(-2px); }
+    .delete-btn { background: #dc3545; }
+    .edit-btn { background: #28a745; }
+    .card-list {
+      background: white;
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .card-list h3 { color: #b8860b; margin-bottom: 20px; }
+    .card-item {
+      background: #f8f9fa;
+      border-left: 4px solid #d4af37;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+    }
+    .card-item h4 { color: #2c3e50; margin-bottom: 8px; }
+    .card-item p { color: #666; margin: 5px 0; font-size: 0.9rem; }
+    .card-actions { margin-top: 12px; }
+    .small-btn { padding: 6px 12px; font-size: 0.8rem; margin: 2px; }
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: #f0f2f5;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-            color: white;
-            padding: 20px 25px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .header h1 {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .header h1 i {
-            color: #ffd700;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: 2px solid #ffd700;
-            object-fit: cover;
-        }
-        
-        .logout-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2e7d32;
-        }
-        
-        .stat-label {
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .tab-btn {
-            background: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #666;
-            transition: all 0.2s;
-        }
-        
-        .tab-btn.active {
-            background: #2e7d32;
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .card h2 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e8f5e9;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #2e7d32;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            font-size: 0.9rem;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #2e7d32;
-        }
-        
-        button {
-            background: #2e7d32;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        
-        button.danger {
-            background: #dc3545;
-        }
-        
-        button.warning {
-            background: #ff9800;
-        }
-        
-        button.success {
-            background: #28a745;
-        }
-        
-        .toggle-switch {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-        
-        .toggle-label {
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .toggle-status {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .toggle-btn {
-            width: 60px;
-            height: 30px;
-            border-radius: 30px;
-            background: #ccc;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s;
-            border: none;
-        }
-        
-        .toggle-btn.active {
-            background: #2e7d32;
-        }
-        
-        .toggle-btn::after {
-            content: '';
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: white;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: all 0.3s;
-        }
-        
-        .toggle-btn.active::after {
-            left: 32px;
-        }
-        
-        .marquee-preview {
-            background: #f0f2f5;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        .preview-text {
-            display: inline-block;
-            animation: scrollPreview 20s linear infinite;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        @keyframes scrollPreview {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        .table-container {
-            overflow-x: auto;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        th {
-            background: #f8f9fa;
-            font-weight: 600;
-        }
-        
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        
-        .status-live {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        
-        .status-soon {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-        
-        .status-ended {
-            background: #ffebee;
-            color: #dc3545;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .action-buttons button {
-            padding: 5px 12px;
-            font-size: 0.7rem;
-        }
-        
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: #00e676;
-            padding: 12px 24px;
-            border-radius: 30px;
-            z-index: 1100;
-            opacity: 0;
-            transition: 0.3s;
-            pointer-events: none;
-        }
-        
-        .toast.show {
-            opacity: 1;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal.show {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 20px;
-            padding: 25px;
-        }
-        
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            .stats-bar { grid-template-columns: repeat(2, 1fr); }
-            .tab-btn { padding: 8px 16px; font-size: 0.8rem; }
-        }
-    </style>
+    /* মার্কি এডিটর স্টাইল */
+    .marquee-editor {
+      background: #fef9e6;
+      border: 2px solid #d4af37;
+    }
+    .marquee-preview {
+      background: #1a1a1a;
+      border-radius: 30px;
+      padding: 12px 16px;
+      margin-top: 15px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-preview-text {
+      display: inline-block;
+      animation: previewScroll 20s linear infinite;
+      color: #d4af37;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    @keyframes previewScroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .current-marquee-display {
+      background: #e8f5e9;
+      padding: 10px 15px;
+      border-radius: 12px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #2e7d32;
+    }
+    
+    @media (max-width: 550px) {
+      .slider-header h2 { font-size: 1rem; }
+      .form-card { padding: 18px; }
+      .slider-header { padding: 12px 18px; }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <h1><i class="fa-solid fa-crown"></i> এডমিন প্যানেল</h1>
-        <div class="user-info">
-            <img id="adminAvatar" class="user-avatar" src="https://ui-avatars.com/api/?name=Admin&background=2e7d32&color=fff">
-            <span id="adminName">লোড হচ্ছে...</span>
-            <button class="logout-btn" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
+  <h1>🏆 অ্যাডমিন প্যানেল | বাংলাদেশ মেলা 🏆</h1>
+
+  <!-- লাইনার ০: চলন্ত লেখা (মার্কি) কন্ট্রোল -->
+  <div class="slider-dropdown">
+    <div class="slider-header" id="sliderHeaderMarquee">
+      <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="slider-content" id="sliderContentMarquee">
+      <div class="form-card marquee-editor">
+        <h3>✨ স্লাইডারের নিচের চলন্ত লেখা এডিট করুন ✨</h3>
+        <textarea id="marqueeText" rows="3" placeholder="এখানে আপনার চলন্ত লেখা লিখুন... যেমন: 🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা" style="resize: vertical;"></textarea>
+        <div class="marquee-preview">
+          <div class="marquee-preview-text" id="marqueePreview">প্রিভিউ দেখাচ্ছে...</div>
         </div>
-    </div>
-    
-    <div class="stats-bar">
-        <div class="stat-card"><div class="stat-number" id="totalPosts">0</div><div class="stat-label">মোট পোস্ট</div></div>
-        <div class="stat-card"><div class="stat-number" id="liveMelas">0</div><div class="stat-label">চলমান মেলা</div></div>
-        <div class="stat-card"><div class="stat-number" id="totalAdmins">0</div><div class="stat-label">এডমিন</div></div>
-        <div class="stat-card"><div class="stat-number" id="totalBanned">0</div><div class="stat-label">ব্লকড ইউজার</div></div>
-    </div>
-    
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="marquee"><i class="fa-solid fa-text-width"></i> চলন্ত লেখা</button>
-        <button class="tab-btn" data-tab="posts"><i class="fa-regular fa-newspaper"></i> পোস্ট</button>
-        <button class="tab-btn" data-tab="admins"><i class="fa-solid fa-users"></i> এডমিন</button>
-        <button class="tab-btn" data-tab="banned"><i class="fa-solid fa-ban"></i> ব্লকড</button>
-        <button class="tab-btn" data-tab="settings"><i class="fa-solid fa-gear"></i> সেটিংস</button>
-    </div>
-    
-    <!-- ট্যাব 1: চলন্ত লেখা কন্ট্রোল -->
-    <div id="tab-marquee" class="tab-content active">
-        <div class="card">
-            <h2><i class="fa-solid fa-text-width"></i> চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
-            
-            <div class="toggle-switch">
-                <span class="toggle-label"><i class="fa-regular fa-eye"></i> চলন্ত লেখা স্ট্যাটাস</span>
-                <div class="toggle-status">
-                    <span id="marqueeStatusText" style="font-size:0.85rem;">লোড হচ্ছে...</span>
-                    <button id="marqueeToggleBtn" class="toggle-btn"></button>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label style="font-weight:600; margin-bottom:8px; display:block;">✏️ চলন্ত লেখার কন্টেন্ট এডিট করুন:</label>
-                <textarea id="marqueeContent" rows="4" placeholder="এখানে আপনার চলন্ত লেখার কন্টেন্ট লিখুন..."></textarea>
-                <small style="color:#888;">টিপ: বিভিন্ন লেখার মধ্যে &nbsp;✦&nbsp; ব্যবহার করে আলাদা করুন</small>
-            </div>
-            
-            <button id="saveMarqueeBtn" class="success"><i class="fa-solid fa-save"></i> সংরক্ষণ করুন</button>
-            
-            <div class="marquee-preview">
-                <div style="font-size:0.8rem; color:#666; margin-bottom:8px;">📺 প্রিভিউ:</div>
-                <div style="overflow:hidden; white-space:nowrap;">
-                    <div class="preview-text" id="marqueePreview">লোড হচ্ছে...</div>
-                </div>
-            </div>
-            
-            <div style="margin-top:15px; padding:12px; background:#e8f5e9; border-radius:12px;">
-                <small><i class="fa-regular fa-lightbulb"></i> <strong>টিপ:</strong> "অফ" করলে ওয়েবসাইটে চলন্ত লেখা দেখাবে না। "অন" করলে আবার দেখাবে।</small>
-            </div>
+        <div class="current-marquee-display" id="currentMarqueeDisplay">
+          <i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা লোড হচ্ছে...
         </div>
-    </div>
-    
-    <div id="tab-posts" class="tab-content">
-        <div class="card">
-            <h2><i class="fa-regular fa-newspaper"></i> সকল পোস্ট</h2>
-            <div class="table-container" id="postsTable">লোড হচ্ছে...</div>
+        <div style="margin-top: 20px;">
+          <button id="saveMarqueeBtn">💾 চলন্ত লেখা সংরক্ষণ করুন</button>
+          <button id="resetMarqueeBtn" style="background:#6c757d;">↺ ডিফল্ট রিসেট</button>
         </div>
+        <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই লেখা হোমপেজের স্লাইডারের নিচে প্রদর্শিত হবে।</p>
+      </div>
     </div>
-    
-    <div id="tab-admins" class="tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <h2><i class="fa-solid fa-user-plus"></i> নতুন এডমিন যোগ করুন</h2>
-                <input type="email" id="newAdminEmail" placeholder="ইমেইল লিখুন">
-                <button id="addAdminBtn"><i class="fa-solid fa-plus"></i> এডমিন যোগ করুন</button>
-            </div>
-            <div class="card">
-                <h2><i class="fa-solid fa-user-shield"></i> এডমিন লিস্ট</h2>
-                <div id="adminsList">লোড হচ্ছে...</div>
-            </div>
+  </div>
+
+  <!-- লাইনার ১: নতুন স্লাইডার পোস্ট যোগ -->
+  <div class="slider-dropdown">
+    <div class="slider-header" id="sliderHeaderAdd">
+      <h2>➕ স্লাইডার - নতুন পোস্ট যোগ</h2>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="slider-content" id="sliderContentAdd">
+      <div class="form-card">
+        <h3>✨ মেলার তথ্য যোগ করুন ✨</h3>
+        <input type="text" id="title" placeholder="মেলার নাম *" required>
+        <textarea id="description" rows="3" placeholder="বিবরণ *" required></textarea>
+        <input type="text" id="address" placeholder="ঠিকানা/লোকেশন">
+        <input type="url" id="mapLink" placeholder="গুগল ম্যাপ লিংক (ঐচ্ছিক)">
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="datetime-local" id="startDate" style="flex:1;" required>
+          <input type="datetime-local" id="endDate" style="flex:1;" required>
         </div>
-    </div>
-    
-    <div id="tab-banned" class="tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <h2><i class="fa-solid fa-ban"></i> ইউজার ব্লক করুন</h2>
-                <input type="email" id="blockEmail" placeholder="ইমেইল লিখুন">
-                <button id="blockUserBtn" class="danger"><i class="fa-solid fa-ban"></i> ব্লক করুন</button>
+
+        <select id="melaType">
+          <option value="মাসব্যাপী মেলা">মাসব্যাপী মেলা</option>
+          <option value="১৫ দিনব্যাপী মেলা">১৫ দিনব্যাপী মেলা</option>
+          <option value="৭ দিনব্যাপী মেলা">৭ দিনব্যাপী মেলা</option>
+          <option value="৩ দিনব্যাপী মেলা">৩ দিনব্যাপী মেলা</option>
+        </select>
+
+        <input type="number" id="order" placeholder="ক্রম (১,২,৩...)" value="1">
+
+        <div id="contactsArea">
+          <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (একাধিক)</h4>
+          <div id="contactList">
+            <div class="contact-group">
+              <div class="contact-row">
+                <input type="text" placeholder="নাম" class="contact-name">
+                <input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone">
+              </div>
             </div>
-            <div class="card">
-                <h2><i class="fa-solid fa-user-slash"></i> ব্লকড ইউজার লিস্ট</h2>
-                <div id="bannedList">লোড হচ্ছে...</div>
-            </div>
+          </div>
+          <button type="button" id="addContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
         </div>
-    </div>
-    
-    <div id="tab-settings" class="tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <h2><i class="fa-solid fa-phone"></i> কন্টাক্ট নম্বর</h2>
-                <input type="tel" id="contactNumber" placeholder="হটলাইন নম্বর">
-                <button id="updateContactBtn">সংরক্ষণ করুন</button>
-            </div>
-            <div class="card">
-                <h2><i class="fa-solid fa-database"></i> ব্যাকআপ</h2>
-                <button id="backupBtn" style="background:#2196f3;">ডাটা ব্যাকআপ</button>
-                <button id="clearAllPostsBtn" class="danger" style="margin-top:10px;">সব পোস্ট ডিলিট</button>
-            </div>
+
+        <div style="margin-top: 20px;">
+          <button id="saveBtn">➕ সংরক্ষণ করুন</button>
+          <button id="cancelBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
         </div>
+      </div>
     </div>
+  </div>
+
+  <!-- লাইনার ২: পোস্ট করা তথ্য এডিট -->
+  <div class="slider-dropdown">
+    <div class="slider-header" id="sliderHeaderEdit">
+      <h2>✏️ স্লাইডার পোস্ট করা তথ্য এডিট</h2>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="slider-content" id="sliderContentEdit">
+      <div class="card-list">
+        <div id="postsList">লোড হচ্ছে...</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div id="editPostModal" class="modal">
-    <div class="modal-content">
-        <h3><i class="fa-regular fa-pen-to-square"></i> পোস্ট এডিট</h3>
-        <input type="text" id="editTitle" placeholder="মেলার নাম">
-        <select id="editDivision"></select>
-        <select id="editDistrict"></select>
-        <textarea id="editDesc" rows="3" placeholder="বিবরণ"></textarea>
-        <div style="display:flex; gap:10px;">
-            <input type="date" id="editStartDate" style="width:50%">
-            <input type="date" id="editEndDate" style="width:50%">
-        </div>
-        <button id="saveEditBtn">সংরক্ষণ</button>
-        <button id="closeEditModal" style="background:#ccc; margin-top:8px;">বাতিল</button>
-    </div>
-</div>
-
-<div id="toast" class="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
-        authDomain: "all-hadith-a68fa.firebaseapp.com",
-        databaseURL: "https://all-hadith-a68fa-default-rtdb.firebaseio.com",
-        projectId: "all-hadith-a68fa",
-        storageBucket: "all-hadith-a68fa.firebasestorage.app",
-        messagingSenderId: "124928027736",
-        appId: "1:124928027736:android:f4d9a9a9ed667150ca2e2d"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.database();
-    
-    let currentUser = null;
-    let currentEditPostId = null;
-    let divisionsData = [];
-    let allPosts = [];
-    
-    auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-            window.location.href = "login.html";
-            return;
-        }
-        
-        currentUser = user;
-        
-        const adminSnapshot = await db.ref('admins').once('value');
-        let admins = adminSnapshot.val() || [];
-        if (!Array.isArray(admins)) admins = [];
-        
-        if (!admins.includes(user.email)) {
-            showToast("❌ আপনার এডমিন অ্যাক্সেস নেই!");
-            setTimeout(() => { auth.signOut(); window.location.href = "index.html"; }, 2000);
-            return;
-        }
-        
-        document.getElementById("adminName").innerText = user.displayName || user.email;
-        document.getElementById("adminAvatar").src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'Admin')}&background=2e7d32&color=fff`;
-        
-        await loadDivisions();
-        await loadDashboard();
-        await loadMarqueeSettings();
+  // Firebase Config - নতুন কনফিগারেশন
+  const firebaseConfig = {
+    apiKey: "AIzaSyCZ6L7QiarIOIeiK62HEdaSyr84ORVKwl4",
+    authDomain: "pikaribazar-e5f17.firebaseapp.com",
+    projectId: "pikaribazar-e5f17",
+    databaseURL: "https://pikaribazar-e5f17-default-rtdb.firebaseio.com",
+    storageBucket: "pikaribazar-e5f17.firebasestorage.app",
+    messagingSenderId: "819295862018",
+    appId: "1:819295862018:web:c24937bebb24be75cd961b",
+    measurementId: "G-PVKZ2KJ7K4"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  const melaPostsRef = database.ref('melaPosts');
+  const marqueeRef = database.ref('marqueeText');
+
+  let currentEditId = null;
+
+  // ড্রপডাউন টগল ফাংশন
+  function toggleDropdown(headerId, contentId) {
+    const header = document.getElementById(headerId);
+    const content = document.getElementById(contentId);
+    header.classList.toggle('open');
+    content.classList.toggle('open');
+  }
+
+  // লাইনার টগল ইভেন্ট
+  document.getElementById('sliderHeaderMarquee').addEventListener('click', () => toggleDropdown('sliderHeaderMarquee', 'sliderContentMarquee'));
+  document.getElementById('sliderHeaderAdd').addEventListener('click', () => toggleDropdown('sliderHeaderAdd', 'sliderContentAdd'));
+  document.getElementById('sliderHeaderEdit').addEventListener('click', () => toggleDropdown('sliderHeaderEdit', 'sliderContentEdit'));
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
     });
-    
-    async function loadMarqueeSettings() {
-        const enabledSnapshot = await db.ref('settings/marquee/enabled').once('value');
-        const contentSnapshot = await db.ref('settings/marquee/content').once('value');
-        
-        let enabled = enabledSnapshot.val();
-        if (enabled === null) enabled = true;
-        if (typeof enabled === 'object') enabled = true;
-        
-        const content = contentSnapshot.val() || "✦ আসসালামু আলাইকুম ✦ ✦ বাংলাদেশ মেলা এপসে আপনাকে স্বাগতম ✦ ✦ পোস্ট করতে চাইলে লগইন করুন ✦";
-        
-        updateMarqueeUI(enabled, content);
-    }
-    
-    function updateMarqueeUI(enabled, content) {
-        const toggleBtn = document.getElementById("marqueeToggleBtn");
-        const statusText = document.getElementById("marqueeStatusText");
-        const contentArea = document.getElementById("marqueeContent");
-        const preview = document.getElementById("marqueePreview");
-        
-        if (enabled === true || enabled === "true" || enabled === 1) {
-            toggleBtn.classList.add("active");
-            statusText.innerHTML = '<span style="color:#28a745;"><i class="fa-solid fa-circle"></i> চালু (অন)</span>';
-        } else {
-            toggleBtn.classList.remove("active");
-            statusText.innerHTML = '<span style="color:#dc3545;"><i class="fa-solid fa-circle"></i> বন্ধ (অফ)</span>';
-        }
-        
-        contentArea.value = content;
-        preview.innerText = content;
-    }
-    
-    document.getElementById("marqueeToggleBtn").onclick = async () => {
-        const snapshot = await db.ref('settings/marquee/enabled').once('value');
-        let current = snapshot.val();
-        if (current === null) current = true;
-        if (typeof current === 'object') current = true;
-        
-        const newValue = !current;
-        await db.ref('settings/marquee/enabled').set(newValue);
-        
-        const contentSnapshot = await db.ref('settings/marquee/content').once('value');
-        const content = contentSnapshot.val() || "✦ আসসালামু আলাইকুম ✦ ✦ বাংলাদেশ মেলা এপসে আপনাকে স্বাগতম ✦ ✦ পোস্ট করতে চাইলে লগইন করুন ✦";
-        
-        updateMarqueeUI(newValue, content);
-        showToast(newValue ? "✅ চলন্ত লেখা চালু করা হয়েছে!" : "⛔ চলন্ত লেখা বন্ধ করা হয়েছে!");
-    };
-    
-    document.getElementById("saveMarqueeBtn").onclick = async () => {
-        const newContent = document.getElementById("marqueeContent").value.trim();
-        if (!newContent) {
-            showToast("⚠️ দয়া করে কিছু লেখুন!");
-            return;
-        }
-        
-        await db.ref('settings/marquee/content').set(newContent);
-        
-        const enabledSnapshot = await db.ref('settings/marquee/enabled').once('value');
-        let enabled = enabledSnapshot.val();
-        if (enabled === null) enabled = true;
-        if (typeof enabled === 'object') enabled = true;
-        
-        updateMarqueeUI(enabled, newContent);
-        showToast("✅ চলন্ত লেখা সংরক্ষণ করা হয়েছে!");
-    };
-    
-    async function loadDivisions() {
-        try {
-            const response = await fetch('divisions.json');
-            const data = await response.json();
-            divisionsData = data.divisions;
-        } catch(e) {
-            divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা সদর", upazilas: [] }] }];
-        }
-        populateDivisionSelects();
-    }
-    
-    function populateDivisionSelects() {
-        const editDiv = document.getElementById("editDivision");
-        editDiv.innerHTML = "";
-        divisionsData.forEach(div => editDiv.add(new Option(div.name, div.name)));
-        editDiv.onchange = () => updateEditDistricts(editDiv.value);
-        if(divisionsData.length) updateEditDistricts(divisionsData[0].name);
-    }
-    
-    function updateEditDistricts(divisionName) {
-        const division = divisionsData.find(d => d.name === divisionName);
-        const districtSelect = document.getElementById("editDistrict");
-        districtSelect.innerHTML = "";
-        division?.districts?.forEach(dist => districtSelect.add(new Option(dist.name, dist.name)));
-    }
-    
-    async function loadDashboard() {
-        await loadPosts();
-        await loadAdmins();
-        await loadBannedUsers();
-        await loadContact();
-        await loadStats();
-    }
-    
-    async function loadPosts() {
-        const snapshot = await db.ref('posts').once('value');
-        allPosts = [];
-        snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); });
-        allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-        renderPostsTable();
-    }
-    
-    function getPostStatus(post) {
-        const today = new Date(); today.setHours(0,0,0,0);
-        const start = new Date(post.startDate); start.setHours(0,0,0,0);
-        const end = new Date(post.endDate); end.setHours(0,0,0,0);
-        if(end < today) return { text: 'সমাপ্ত', class: 'status-ended' };
-        if(start <= today && end >= today) return { text: 'চলমান', class: 'status-live' };
-        return { text: 'আসন্ন', class: 'status-soon' };
-    }
-    
-    function renderPostsTable() {
-        const container = document.getElementById("postsTable");
-        if(allPosts.length === 0) {
-            container.innerHTML = '<div style="padding:40px;text-align:center;">😢 কোনো পোস্ট নেই</div>';
-            return;
-        }
-        
-        let html = `<table><thead><tr><th>মেলার নাম</th><th>জেলা</th><th>তারিখ</th><th>স্থিতি</th><th>পোস্টকারী</th><th>অ্যাকশন</th></tr></thead><tbody>`;
-        allPosts.forEach(post => {
-            const status = getPostStatus(post);
-            html += `<tr>
-                <td><strong>${escapeHtml(post.title || 'N/A')}</strong></td>
-                <td>${escapeHtml(post.district || 'N/A')}</td>
-                <td><small>${formatDate(post.startDate)} - ${formatDate(post.endDate)}</small></td>
-                <td><span class="status-badge ${status.class}">${status.text}</span></td>
-                <td><small>${post.isAnonymous ? 'বেনামে' : escapeHtml(post.posterName || 'N/A')}</small></td>
-                <td class="action-buttons">
-                    <button onclick="openEditPost('${post.id}')" style="background:#2196f3;"><i class="fa-regular fa-pen-to-square"></i></button>
-                    <button onclick="deletePost('${post.id}')" class="danger"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            </tr>`;
-        });
-        html += `</tbody></table>`;
-        container.innerHTML = html;
-    }
-    
-    function formatDate(dateStr) {
-        if(!dateStr) return '';
-        const d = new Date(dateStr);
-        return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short' });
-    }
-    
-    window.openEditPost = (postId) => {
-        const post = allPosts.find(p => p.id === postId);
-        if(!post) return;
-        currentEditPostId = postId;
-        document.getElementById("editTitle").value = post.title || '';
-        document.getElementById("editDivision").value = post.division || '';
-        updateEditDistricts(post.division);
-        setTimeout(() => { document.getElementById("editDistrict").value = post.district || ''; }, 100);
-        document.getElementById("editDesc").value = post.description || '';
-        document.getElementById("editStartDate").value = post.startDate || '';
-        document.getElementById("editEndDate").value = post.endDate || '';
-        document.getElementById("editPostModal").classList.add("show");
-    };
-    
-    document.getElementById("saveEditBtn").onclick = async () => {
-        await db.ref(`posts/${currentEditPostId}`).update({
-            title: document.getElementById("editTitle").value,
-            division: document.getElementById("editDivision").value,
-            district: document.getElementById("editDistrict").value,
-            description: document.getElementById("editDesc").value,
-            startDate: document.getElementById("editStartDate").value,
-            endDate: document.getElementById("editEndDate").value,
-            editedAt: Date.now()
-        });
-        document.getElementById("editPostModal").classList.remove("show");
-        await loadPosts();
-        showToast("✅ পোস্ট আপডেট হয়েছে!");
-    };
-    
-    window.deletePost = async (postId) => {
-        if(confirm("পোস্ট ডিলিট করবেন?")) {
-            await db.ref(`posts/${postId}`).remove();
-            await loadPosts();
-            showToast("🗑️ পোস্ট ডিলিট হয়েছে!");
-        }
-    };
-    
-    async function loadAdmins() {
-        const snapshot = await db.ref('admins').once('value');
-        let admins = snapshot.val() || [];
-        if (!Array.isArray(admins)) admins = [];
-        document.getElementById("totalAdmins").innerText = admins.length;
-        
-        const container = document.getElementById("adminsList");
-        if(admins.length === 0) {
-            container.innerHTML = '<div style="padding:20px;text-align:center;">😢 কোনো এডমিন নেই</div>';
-            return;
-        }
-        container.innerHTML = admins.map(admin => `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee;">
-                <span><i class="fa-solid fa-user-shield"></i> ${escapeHtml(admin)}</span>
-                ${admin !== currentUser?.email ? `<button onclick="removeAdmin('${admin}')" class="danger" style="padding:5px 12px;">রিমুভ</button>` : '<small style="color:#888;">(আপনি)</small>'}
-            </div>
-        `).join('');
-    }
-    
-    window.removeAdmin = async (email) => {
-        if(confirm(`${email} কে এডমিন থেকে রিমুভ করবেন?`)) {
-            const snapshot = await db.ref('admins').once('value');
-            let admins = snapshot.val() || [];
-            if (!Array.isArray(admins)) admins = [];
-            admins = admins.filter(a => a !== email);
-            await db.ref('admins').set(admins);
-            await loadAdmins();
-            showToast("✅ এডমিন রিমুভ হয়েছে!");
-        }
-    };
-    
-    document.getElementById("addAdminBtn").onclick = async () => {
-        const email = document.getElementById("newAdminEmail").value.trim();
-        if(!email) { showToast("ইমেইল দিন!"); return; }
-        const snapshot = await db.ref('admins').once('value');
-        let admins = snapshot.val() || [];
-        if (!Array.isArray(admins)) admins = [];
-        if(admins.includes(email)) { showToast("ইতিমধ্যে এডমিন আছে!"); return; }
-        admins.push(email);
-        await db.ref('admins').set(admins);
-        document.getElementById("newAdminEmail").value = "";
-        await loadAdmins();
-        showToast(`✅ ${email} এডমিন হয়েছে!`);
-    };
-    
-    async function loadBannedUsers() {
-        const snapshot = await db.ref('bannedUsers').once('value');
-        const banned = snapshot.val() || {};
-        const entries = Object.entries(banned);
-        document.getElementById("totalBanned").innerText = entries.length;
-        
-        const container = document.getElementById("bannedList");
-        if(entries.length === 0) {
-            container.innerHTML = '<div style="padding:20px;text-align:center;">😢 কোনো ব্লকড ইউজার নেই</div>';
-            return;
-        }
-        container.innerHTML = entries.map(([email, val]) => `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee;">
-                <span><i class="fa-solid fa-user-slash"></i> ${escapeHtml(email.replace(/,/g, '.'))}</span>
-                <button onclick="unbanUser('${email}')" class="warning" style="padding:5px 12px;">আনব্লক</button>
-            </div>
-        `).join('');
-    }
-    
-    window.unbanUser = async (safeEmail) => {
-        if(confirm("ইউজারকে আনব্লক করবেন?")) {
-            await db.ref(`bannedUsers/${safeEmail}`).remove();
-            await loadBannedUsers();
-            showToast("✅ ইউজার আনব্লক হয়েছে!");
-        }
-    };
-    
-    document.getElementById("blockUserBtn").onclick = async () => {
-        const email = document.getElementById("blockEmail").value.trim();
-        if(!email) { showToast("ইমেইল দিন!"); return; }
-        const safeEmail = email.replace(/\./g, ',');
-        await db.ref(`bannedUsers/${safeEmail}`).set(true);
-        document.getElementById("blockEmail").value = "";
-        await loadBannedUsers();
-        showToast(`⚠️ ${email} ব্লক করা হয়েছে!`);
-    };
-    
-    async function loadContact() {
-        const snapshot = await db.ref('settings/contact/number').once('value');
-        if(snapshot.exists()) {
-            document.getElementById("contactNumber").value = snapshot.val();
-        }
-    }
-    
-    document.getElementById("updateContactBtn").onclick = async () => {
-        const num = document.getElementById("contactNumber").value.trim();
-        if(!num) { showToast("নম্বর দিন!"); return; }
-        await db.ref('settings/contact/number').set(num);
-        showToast("✅ কন্টাক্ট নম্বর আপডেট হয়েছে!");
-    };
-    
-    async function loadStats() {
-        const liveMelas = allPosts.filter(p => getPostStatus(p).text === 'চলমান').length;
-        document.getElementById("liveMelas").innerText = liveMelas;
-        document.getElementById("totalPosts").innerText = allPosts.length;
-    }
-    
-    document.getElementById("clearAllPostsBtn").onclick = async () => {
-        if(confirm("⚠️ সতর্কতা: সব পোস্ট ডিলিট হবে! কি নিশ্চিত?")) {
-            await db.ref('posts').remove();
-            await loadPosts();
-            showToast("🗑️ সব পোস্ট ডিলিট হয়েছে!");
-        }
-    };
-    
-    document.getElementById("backupBtn").onclick = async () => {
-        const snapshot = await db.ref().once('value');
-        const data = snapshot.val();
-        const jsonStr = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonStr], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `bd-mela-backup-${new Date().toISOString().slice(0,19)}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast("📁 ব্যাকআপ ডাউনলোড শুরু হয়েছে!");
-    };
-    
-    document.getElementById("logoutBtn").onclick = async () => {
-        await auth.signOut();
-        window.location.href = "login.html";
-    };
-    
-    document.getElementById("closeEditModal").onclick = () => {
-        document.getElementById("editPostModal").classList.remove("show");
-    };
-    
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
-        });
+  }
+
+  // ========== মার্কি (চলন্ত লেখা) ফাংশন ==========
+  // ডিফল্ট মার্কি টেক্সট
+  const DEFAULT_MARQUEE = "🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা ✦ 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা ✦ 🛡️ সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন";
+
+  // মার্কি লোড করা
+  function loadMarqueeText() {
+    marqueeRef.on('value', (snapshot) => {
+      const savedText = snapshot.val();
+      const currentText = savedText && savedText.text ? savedText.text : DEFAULT_MARQUEE;
+      document.getElementById('marqueeText').value = currentText;
+      document.getElementById('marqueePreview').innerText = currentText;
+      document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(currentText.substring(0, 100))}${currentText.length > 100 ? '...' : ''}`;
     });
-    
-    function escapeHtml(str) {
-        if(!str) return '';
-        return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m]));
+  }
+
+  // মার্কি সংরক্ষণ
+  document.getElementById('saveMarqueeBtn').addEventListener('click', async () => {
+    const newText = document.getElementById('marqueeText').value.trim();
+    if (!newText) {
+      alert('দয়া করে কিছু লেখুন!');
+      return;
     }
-    
-    function showToast(msg) {
-        const toast = document.getElementById("toast");
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2500);
+    try {
+      await marqueeRef.set({ text: newText, updatedAt: Date.now() });
+      alert('✅ চলন্ত লেখা সফলভাবে সংরক্ষণ করা হয়েছে!');
+      // প্রিভিউ আপডেট
+      document.getElementById('marqueePreview').innerText = newText;
+      document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(newText.substring(0, 100))}${newText.length > 100 ? '...' : ''}`;
+    } catch(e) {
+      alert('ত্রুটি: ' + e.message);
     }
+  });
+
+  // ডিফল্ট রিসেট
+  document.getElementById('resetMarqueeBtn').addEventListener('click', async () => {
+    if(confirm('ডিফল্ট চলন্ত লেখায় রিসেট করবেন?')) {
+      try {
+        await marqueeRef.set({ text: DEFAULT_MARQUEE, updatedAt: Date.now() });
+        document.getElementById('marqueeText').value = DEFAULT_MARQUEE;
+        document.getElementById('marqueePreview').innerText = DEFAULT_MARQUEE;
+        document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(DEFAULT_MARQUEE.substring(0, 100))}${DEFAULT_MARQUEE.length > 100 ? '...' : ''}`;
+        alert('ডিফল্ট লেখায় রিসেট করা হয়েছে!');
+      } catch(e) { alert('ত্রুটি: ' + e.message); }
+    }
+  });
+
+  function calculateDays(startDate, endDate, melaType) {
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      return diffDays;
+    }
+    switch(melaType) {
+      case 'মাসব্যাপী মেলা': return 30;
+      case '১৫ দিনব্যাপী মেলা': return 15;
+      case '৭ দিনব্যাপী মেলা': return 7;
+      case '৩ দিনব্যাপী মেলা': return 3;
+      default: return 0;
+    }
+  }
+
+  function collectContacts() {
+    const contacts = [];
+    document.querySelectorAll('.contact-group').forEach(group => {
+      const name = group.querySelector('.contact-name').value.trim();
+      const phone = group.querySelector('.contact-phone').value.trim();
+      if (name && phone) contacts.push({ name, phone });
+    });
+    return contacts;
+  }
+
+  function renderContactFields(contacts) {
+    const container = document.getElementById('contactList');
+    container.innerHTML = '';
+    if (!contacts || contacts.length === 0) {
+      const div = document.createElement('div');
+      div.className = 'contact-group';
+      div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone"></div>`;
+      container.appendChild(div);
+    } else {
+      contacts.forEach(contact => {
+        const div = document.createElement('div');
+        div.className = 'contact-group';
+        div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name" value="${escapeHtml(contact.name)}"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone" value="${escapeHtml(contact.phone)}"></div><button type="button" class="removeContactBtn" style="background:#dc3545; padding:4px 8px; font-size:0.7rem;">✖️ সরান</button>`;
+        container.appendChild(div);
+        div.querySelector('.removeContactBtn').addEventListener('click', () => div.remove());
+      });
+    }
+  }
+
+  function loadPosts() {
+    melaPostsRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      const container = document.getElementById('postsList');
+      if (!data) {
+        container.innerHTML = '<div style="text-align:center;padding:40px;">🎪 কোনো পোস্ট নেই। প্রথম লাইনার দিয়ে পোস্ট যোগ করুন।</div>';
+        return;
+      }
+      const posts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+      posts.sort((a,b) => (a.order||0) - (b.order||0));
+
+      let html = '';
+      posts.forEach(post => {
+        const days = calculateDays(post.startDate, post.endDate, post.melaType);
+        html += `
+          <div class="card-item" data-id="${post.id}">
+            <h4>${escapeHtml(post.title)}</h4>
+            <p><strong>📅 ধরন:</strong> ${escapeHtml(post.melaType)} (${days} দিন)</p>
+            <p><strong>⏰ সময়:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</p>
+            <p><strong>📍 ঠিকানা:</strong> ${escapeHtml(post.address) || 'নেই'}</p>
+            <p><strong>📝 বিবরণ:</strong> ${escapeHtml(post.description.substring(0,80))}...</p>
+            <div class="card-actions">
+              <button class="edit-btn small-btn" data-id="${post.id}">✏️ এডিট</button>
+              <button class="delete-btn small-btn" data-id="${post.id}">🗑️ ডিলিট</button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => editPost(btn.getAttribute('data-id')));
+      });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if(confirm('পোস্টটি ডিলিট করবেন?')) {
+            await melaPostsRef.child(btn.getAttribute('data-id')).remove();
+            alert('পোস্ট ডিলিট হয়েছে!');
+          }
+        });
+      });
+    });
+  }
+
+  function formatDate(dateStr) {
+    if(!dateStr) return 'N/A';
+    return new Date(dateStr).toLocaleDateString('bn-BD');
+  }
+
+  async function editPost(id) {
+    const snapshot = await melaPostsRef.child(id).once('value');
+    const post = snapshot.val();
+    if(post) {
+      document.getElementById('title').value = post.title || '';
+      document.getElementById('description').value = post.description || '';
+      document.getElementById('address').value = post.address || '';
+      document.getElementById('mapLink').value = post.mapLink || '';
+      document.getElementById('startDate').value = post.startDate || '';
+      document.getElementById('endDate').value = post.endDate || '';
+      document.getElementById('melaType').value = post.melaType || 'মাসব্যাপী মেলা';
+      document.getElementById('order').value = post.order || 1;
+      renderContactFields(post.contacts || []);
+      currentEditId = id;
+      document.getElementById('saveBtn').innerHTML = '✏️ আপডেট করুন';
+      document.getElementById('cancelBtn').style.display = 'inline-block';
+      
+      const headerAdd = document.getElementById('sliderHeaderAdd');
+      const contentAdd = document.getElementById('sliderContentAdd');
+      if (!contentAdd.classList.contains('open')) {
+        headerAdd.classList.add('open');
+        contentAdd.classList.add('open');
+      }
+      document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function resetForm() {
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('address').value = '';
+    document.getElementById('mapLink').value = '';
+    document.getElementById('startDate').value = '';
+    document.getElementById('endDate').value = '';
+    document.getElementById('melaType').value = 'মাসব্যাপী মেলা';
+    document.getElementById('order').value = '1';
+    renderContactFields([]);
+    currentEditId = null;
+    document.getElementById('saveBtn').innerHTML = '➕ সংরক্ষণ করুন';
+    document.getElementById('cancelBtn').style.display = 'none';
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', async () => {
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    if(!title || !description) {
+      alert('শিরোনাম ও বিবরণ দিতে হবে');
+      return;
+    }
+    const contacts = collectContacts();
+    const days = calculateDays(document.getElementById('startDate').value, document.getElementById('endDate').value, document.getElementById('melaType').value);
     
-    window.onclick = (e) => {
-        if(e.target === document.getElementById("editPostModal")) {
-            document.getElementById("editPostModal").classList.remove("show");
-        }
+    const postData = {
+      title, description,
+      address: document.getElementById('address').value,
+      mapLink: document.getElementById('mapLink').value,
+      startDate: document.getElementById('startDate').value,
+      endDate: document.getElementById('endDate').value,
+      melaType: document.getElementById('melaType').value,
+      order: parseInt(document.getElementById('order').value) || 1,
+      contacts: contacts,
+      days: days,
+      updatedAt: Date.now()
     };
+
+    try {
+      if(currentEditId) {
+        await melaPostsRef.child(currentEditId).update(postData);
+        alert('পোস্ট আপডেট হয়েছে!');
+        resetForm();
+      } else {
+        await melaPostsRef.push().set(postData);
+        alert('নতুন মেলা যোগ হয়েছে!');
+        resetForm();
+      }
+    } catch(e) { alert('ত্রুটি: '+e.message); }
+  });
+
+  document.getElementById('cancelBtn').addEventListener('click', resetForm);
+  document.getElementById('addContactBtn').addEventListener('click', () => {
+    const container = document.getElementById('contactList');
+    const div = document.createElement('div');
+    div.className = 'contact-group';
+    div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone"></div><button type="button" class="removeContactBtn" style="background:#dc3545; padding:4px 8px; font-size:0.7rem;">✖️ সরান</button>`;
+    container.appendChild(div);
+    div.querySelector('.removeContactBtn').addEventListener('click', () => div.remove());
+  });
+
+  // লোড করা
+  loadMarqueeText();
+  loadPosts();
 </script>
 </body>
 </html>
