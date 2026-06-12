@@ -151,7 +151,7 @@
             padding: 0 8px;
         }
         
-        /* ========== সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল ========== */
+        /* ========== সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল - এক কলাম ========== */
         .time-category-panel {
             display: none;
             position: fixed;
@@ -188,15 +188,15 @@
             color: #2e7d32;
         }
         .time-category-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
         .time-category-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px;
+            gap: 12px;
+            padding: 12px;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
@@ -210,15 +210,15 @@
             border-color: #2e7d32;
         }
         .time-category-icon {
-            font-size: 18px;
+            font-size: 20px;
         }
         .time-category-name {
-            font-size: 12px;
+            font-size: 14px;
             color: #333;
             flex: 1;
         }
         
-        /* ========== বিষয়ভিত্তিক ক্যাটাগরি প্যানেল ========== */
+        /* ========== বিষয়ভিত্তিক ক্যাটাগরি প্যানেল - এক কলাম ========== */
         .topic-category-panel {
             display: none;
             position: fixed;
@@ -255,16 +255,16 @@
             color: #2e7d32;
         }
         .topic-category-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 8px;
             margin-bottom: 70px;
         }
         .topic-category-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px;
+            gap: 12px;
+            padding: 12px;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
@@ -278,10 +278,10 @@
             border-color: #2e7d32;
         }
         .topic-category-icon {
-            font-size: 18px;
+            font-size: 20px;
         }
         .topic-category-name {
-            font-size: 12px;
+            font-size: 14px;
             color: #333;
             flex: 1;
         }
@@ -430,7 +430,6 @@
             border: none;
             box-shadow: none;
         }
-        /* মেলার নাম সবার উপরে এবং বড় */
         .golden-title {
             font-size: 2rem;
             font-weight: 800;
@@ -487,28 +486,58 @@
             background: #d4af37;
         }
         
-        /* স্লাইডারের নিচের চলন্ত লেখা - সাইজ বড় করা হয়েছে */
-        .slider-bottom-marquee {
-            background: #ffffff;
+        /* স্লাইডারের নিচের চলন্ত লেখা - উঁচু লাইনার ডিজাইন */
+        .marquee-outer {
             margin: 0 16px 12px 16px;
-            padding: 12px 0;
-            border-radius: 6px;
+            position: relative;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        .marquee-outer::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #c49b2a);
+            z-index: 2;
+            border-radius: 12px 0 0 12px;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+        }
+        .marquee-outer::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 60px;
+            height: 100%;
+            background: linear-gradient(-90deg, #d4af37, #c49b2a);
+            z-index: 2;
+            border-radius: 0 12px 12px 0;
+            box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+        }
+        .marquee-inner {
+            background: #1a1a2e;
+            padding: 14px 0;
             overflow: hidden;
             white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            z-index: 1;
         }
-        .slider-bottom-marquee .marquee-text {
+        .marquee-text {
             display: inline-block;
             animation: scrollBottom 40s linear infinite;
             font-size: 1rem;
-            color: #b8860b;
-            font-weight: 600;
-            padding-left: 20px;
-        }
-        .slider-bottom-marquee .marquee-text i {
-            margin: 0 15px;
             color: #d4af37;
+            font-weight: 600;
+            padding-left: 30px;
+        }
+        .marquee-text i {
+            margin: 0 20px;
+            color: #ffd700;
         }
         @keyframes scrollBottom {
             0% { transform: translateX(100%); }
@@ -777,7 +806,7 @@
         }
         .comment-item strong { color: #00c853; }
         
-        /* ফেসবুক স্টাইলে রিঅ্যাকশন পপআপ */
+        /* রিঅ্যাকশন পপআপ */
         .reaction-popup {
             position: fixed;
             bottom: 80px;
@@ -860,6 +889,7 @@
         }
         .drawer-overlay.show { display: block; }
         
+        /* মোডাল স্টাইল */
         .modal {
             display: none;
             position: fixed;
@@ -882,13 +912,27 @@
             padding: 20px;
             position: relative;
         }
-        .modal-content h3 { margin-bottom: 15px; }
+        .modal-content h3 { 
+            margin-bottom: 15px; 
+            text-align: center;
+            color: #b8860b;
+            font-size: 1.3rem;
+            position: sticky;
+            top: 0;
+            background: white;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #d4af37;
+        }
         .modal-content input, .modal-content select, .modal-content textarea {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
             border: 1px solid #ddd;
             border-radius: 12px;
+            font-size: 0.9rem;
+        }
+        .modal-content select option[value=""] {
+            color: #999;
         }
         .modal-content button {
             width: 100%;
@@ -898,6 +942,7 @@
             border: none;
             border-radius: 12px;
             cursor: pointer;
+            font-weight: 600;
         }
         .modal-content button.cancel { background: #ccc; color: #333; margin-top: 8px; }
         .form-group { margin-bottom: 8px; }
@@ -1020,7 +1065,8 @@
             .golden-title { font-size: 1.5rem; }
             .golden-desc { font-size: 0.85rem; padding: 0 15px; }
             .golden-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
-            .slider-bottom-marquee .marquee-text { font-size: 0.9rem; }
+            .marquee-text { font-size: 0.85rem; }
+            .marquee-outer::before, .marquee-outer::after { width: 40px; }
             .news-title { font-size: 1.4rem; }
             .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
@@ -1031,7 +1077,7 @@
         @media (max-width: 400px) {
             .golden-title { font-size: 1.3rem; }
             .golden-desc { font-size: 0.75rem; }
-            .slider-bottom-marquee .marquee-text { font-size: 0.85rem; }
+            .marquee-text { font-size: 0.8rem; }
             .reaction-emoji { font-size: 1.4rem; }
         }
     </style>
@@ -1127,9 +1173,9 @@
     </div>
 </div>
 
-<!-- ========== স্লাইডারের নিচের চলন্ত লেখা (মার্কি) ========== -->
-<div class="slider-bottom-marquee">
-    <div style="overflow: hidden; white-space: nowrap;">
+<!-- ========== চলন্ত লেখা - উঁচু লাইনার ডিজাইন ========== -->
+<div class="marquee-outer">
+    <div class="marquee-inner">
         <div class="marquee-text" id="liveMarqueeText">
             🎉 লোড হচ্ছে...
         </div>
@@ -1162,10 +1208,16 @@
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3>📝 নতুন মেলা পোস্ট করুন</h3>
+        <select id="postDivision" required>
+            <option value="">বিভাগ নির্বাচন করুন</option>
+        </select>
+        <select id="postDistrict" required>
+            <option value="">জেলা নির্বাচন করুন</option>
+        </select>
+        <select id="postUpazila">
+            <option value="">উপজেলা নির্বাচন করুন</option>
+        </select>
         <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
-        <select id="postDivision" required></select>
-        <select id="postDistrict" required></select>
-        <select id="postUpazila"></select>
         <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="postTopicCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option></select></div>
         <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
         <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
@@ -1181,10 +1233,10 @@
 <div id="editPostModal" class="modal">
     <div class="modal-content">
         <h3>✏️ পোস্ট এডিট করুন</h3>
+        <select id="editPostDivision" required><option value="">বিভাগ নির্বাচন করুন</option></select>
+        <select id="editPostDistrict" required><option value="">জেলা নির্বাচন করুন</option></select>
+        <select id="editPostUpazila"><option value="">উপজেলা নির্বাচন করুন</option></select>
         <input type="text" id="editPostTitle" placeholder="মেলার নাম *" required>
-        <select id="editPostDivision" required></select>
-        <select id="editPostDistrict" required></select>
-        <select id="editPostUpazila"></select>
         <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="editPostTopicCategory" required><option value="">-- নির্বাচন করুন --</option></select></div>
         <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="editPostTimeCategory" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
         <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="editPostLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
@@ -1349,14 +1401,35 @@
     function updateDistrictFilter() { const districtSelect = document.getElementById("districtFilter"); districtSelect.innerHTML = '<option value="">সব জেলা</option>'; if(selectedDivision) { const division = divisionsData.find(d => d.name === selectedDivision); if(division && division.districts) division.districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); } }
     function updateUpazilaFilter() { const upazilaSelect = document.getElementById("upazilaFilter"); upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>'; if(selectedDivision && selectedDistrict) { const division = divisionsData.find(d => d.name === selectedDivision); const district = division?.districts?.find(d => d.name === selectedDistrict); if(district && district.upazilas) district.upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); } }
     
-    function updatePostDivisionSelect() { const divSelect = document.getElementById("postDivision"); divSelect.innerHTML = ""; divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name); divSelect.onchange = () => updatePostDistricts(divSelect.value); }
-    function updatePostDistricts(divisionName) { const division = divisionsData.find(d => d.name === divisionName); const districts = division?.districts || []; const districtSelect = document.getElementById("postDistrict"); districtSelect.innerHTML = ""; districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); if(districts.length > 0) updatePostUpazilas(divisionName, districts[0].name); districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value); }
-    function updatePostUpazilas(divisionName, districtName) { const division = divisionsData.find(d => d.name === divisionName); const district = division?.districts?.find(d => d.name === districtName); const upazilas = district?.upazilas || []; const upazilaSelect = document.getElementById("postUpazila"); upazilaSelect.innerHTML = ""; if(upazilas.length === 0) upazilaSelect.add(new Option("কোন থানা/উপজেলা নেই", "")); else upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); }
+    function updatePostDivisionSelect() { 
+        const divSelect = document.getElementById("postDivision"); 
+        divSelect.innerHTML = '<option value="">বিভাগ নির্বাচন করুন</option>';
+        divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); 
+        if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name); 
+        divSelect.onchange = () => updatePostDistricts(divSelect.value); 
+    }
+    function updatePostDistricts(divisionName) { 
+        const division = divisionsData.find(d => d.name === divisionName); 
+        const districts = division?.districts || []; 
+        const districtSelect = document.getElementById("postDistrict"); 
+        districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+        districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); 
+        if(districts.length > 0) updatePostUpazilas(divisionName, districts[0].name); 
+        districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value); 
+    }
+    function updatePostUpazilas(divisionName, districtName) { 
+        const division = divisionsData.find(d => d.name === divisionName); 
+        const district = division?.districts?.find(d => d.name === districtName); 
+        const upazilas = district?.upazilas || []; 
+        const upazilaSelect = document.getElementById("postUpazila"); 
+        upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+        upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); 
+    }
     
     function updateEditDivisionSelect() { 
         const divSelect = document.getElementById("editPostDivision"); 
         if(!divSelect) return;
-        divSelect.innerHTML = ""; 
+        divSelect.innerHTML = '<option value="">বিভাগ নির্বাচন করুন</option>'; 
         divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); 
         if(divisionsData.length > 0) updateEditDistricts(divisionsData[0].name); 
         divSelect.onchange = () => updateEditDistricts(divSelect.value); 
@@ -1365,7 +1438,7 @@
         const division = divisionsData.find(d => d.name === divisionName); 
         const districts = division?.districts || []; 
         const districtSelect = document.getElementById("editPostDistrict"); 
-        districtSelect.innerHTML = ""; 
+        districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>'; 
         districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); 
         if(districts.length > 0) updateEditUpazilas(divisionName, districts[0].name); 
         districtSelect.onchange = () => updateEditUpazilas(divisionName, districtSelect.value); 
@@ -1375,9 +1448,8 @@
         const district = division?.districts?.find(d => d.name === districtName); 
         const upazilas = district?.upazilas || []; 
         const upazilaSelect = document.getElementById("editPostUpazila"); 
-        upazilaSelect.innerHTML = ""; 
-        if(upazilas.length === 0) upazilaSelect.add(new Option("কোন থানা/উপজেলা নেই", "")); 
-        else upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); 
+        upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+        upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); 
     }
     
     async function loadSavedPosts() { const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value'); savedPostsIds = snapshot.val() || []; }
@@ -1396,7 +1468,6 @@
     function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
-    // সেভড পোস্ট বিস্তারিত দেখানো
     window.showSavedPostDetail = function(postId) {
         const post = allPosts.find(p => p.id === postId);
         if(!post) return;
@@ -1483,7 +1554,6 @@
         const status = getGoldenStatus(card.startDate, card.endDate);
         const isRunning = status === 'running';
         const tagText = isRunning ? '✨ চলমান মেলা ✨' : '✨ আসন্ন মেলা ✨';
-        // মেলার নাম সবার উপরে, তারপর ট্যাগ
         return `
             <div class="golden-slide" data-id="${card.id}" data-index="${idx}">
                 <div class="golden-news-card" onclick="showGoldenModalById('${card.id}', event)">
@@ -1686,7 +1756,6 @@
         }
     }
     
-    // ফেসবুক স্টাইলে রিঅ্যাকশন ইমোজি
     function showReactionPopup(btn, postId) { 
         const existing = document.querySelector('.reaction-popup'); 
         if(existing) existing.remove(); 
@@ -1763,13 +1832,14 @@
         const timeCat = document.getElementById("postTimeCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
         if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
-        if(!topicCat) { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
-        if(!timeCat) { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
+        if(!topicCat || topicCat === "") { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
+        if(!timeCat || timeCat === "") { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
         const postData = { title, division, district, upazila, locationLink: locationLink || "", startDate: start, endDate: end, description: desc, category: timeCat, topicCategory: topicCat, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous };
         if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
         await db.ref('posts').push(postData);
         closePostModal();
         document.getElementById("postTitle").value = ""; document.getElementById("postDesc").value = ""; document.getElementById("postLocationLink").value = ""; document.getElementById("anonymousPost").checked = false; document.getElementById("startDate").value = ""; document.getElementById("endDate").value = ""; document.getElementById("postTopicCategory").value = ""; document.getElementById("postTimeCategory").value = "";
+        document.getElementById("postDivision").value = ""; document.getElementById("postDistrict").innerHTML = '<option value="">জেলা নির্বাচন করুন</option>'; document.getElementById("postUpazila").innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
         loadPosts();
         showToast("✅ মেলা পোস্ট হয়েছে!");
     };
