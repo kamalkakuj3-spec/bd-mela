@@ -1132,15 +1132,6 @@
         }
         .toast.show { opacity: 1; }
         
-        /* ডেট ফরম্যাট ডিসপ্লে */
-        .formatted-date {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: -8px;
-            margin-bottom: 12px;
-            padding-left: 5px;
-        }
-        
         @media (max-width: 550px) {
             .golden-title { font-size: 1.6rem; }
             .golden-desc { font-size: 0.95rem; padding: 0 15px; }
@@ -1408,15 +1399,16 @@
     let goldenTouchStartX = 0;
     let goldenTouchEndX = 0;
     
-    // তারিখ ফরম্যাট ফাংশন
-    function formatDateToDDMMYYYY(dateStr) {
+    // তারিখ ফরম্যাট ফাংশন - বাংলায় দেখানোর জন্য
+    function formatDateToBengali(dateStr) {
         if(!dateStr) return '';
         const d = new Date(dateStr);
         if(isNaN(d.getTime())) return dateStr;
-        const day = String(d.getDate()).padStart(2, '0');
-        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const months = ['জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+        const day = d.getDate();
+        const month = months[d.getMonth()];
         const year = d.getFullYear();
-        return `${day}/${month}/${year}`;
+        return `${day} ${month}, ${year}`;
     }
     
     auth.onAuthStateChanged(async (user) => {
@@ -1593,7 +1585,6 @@
         if(start <= today && end >= today) return { text: 'চলমান', type: 'live' }; 
         return { text: 'আসন্ন', type: 'soon' }; 
     }
-    function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
     
     window.showSavedPostDetail = function(postId) {
@@ -1606,7 +1597,7 @@
         modalBody.innerHTML = `
             <div class="modal-title">${escapeHtml(post.title)}</div>
             <div class="modal-section">
-                <div><strong>📅 সময়কাল:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
+                <div><strong>📅 সময়কাল:</strong> ${formatDateToBengali(post.startDate)} - ${formatDateToBengali(post.endDate)}</div>
                 <div style="margin-top:5px;"><strong>📍 অবস্থান:</strong> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div>
                 <div style="margin-top:5px;"><strong>🏷️ ক্যাটাগরি:</strong> ${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'} | ${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</div>
                 <div style="margin-top:5px;"><strong>স্ট্যাটাস:</strong> ${status.type === 'live' ? '🟢 চলমান' : (status.type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div>
@@ -1644,8 +1635,7 @@
     
     function formatGoldenDateTime(dateStr) {
         if (!dateStr) return 'N/A';
-        const d = new Date(dateStr);
-        return d.toLocaleString('bn-BD');
+        return formatDateToBengali(dateStr);
     }
     
     window.showGoldenModalById = function(id, event) {
@@ -1872,7 +1862,7 @@
             const statusBadgeHtml = status.type === 'live' ? `<span class="title-badge live"><i class="fa-regular fa-circle"></i> চলমান</span>` : (status.type === 'soon' ? `<span class="title-badge soon">⏰ আসন্ন</span>` : '');
             const posterHtml = `<div class="poster-info">${displayInfo.isAnonymous ? `<i class="fa-regular fa-user-secret"></i> <span class="anonymous-badge">${displayInfo.name}</span>` : `<i class="fa-regular fa-user"></i> <span>${escapeHtml(displayInfo.name)}</span>`}<span><i class="fa-regular fa-clock"></i> ${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span></div>`;
             const card = document.createElement("div"); card.className = "news-card"; card.setAttribute("data-id", post.id);
-            card.innerHTML = `<div class="news-header"><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span><span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div></div><div class="news-title">${statusBadgeHtml}${escapeHtml(post.title)}</div></div><div class="news-body"><div class="news-info-grid"><div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div><div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div></div><div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>${posterHtml}<div id="comments-${post.id}" class="comments-section"></div></div><div class="news-footer">${actionButtons}</div>`;
+            card.innerHTML = `<div class="news-header"><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span><span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div></div><div class="news-title">${statusBadgeHtml}${escapeHtml(post.title)}</div></div><div class="news-body"><div class="news-info-grid"><div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div><div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDateToBengali(post.startDate)} - ${formatDateToBengali(post.endDate)}</div></div><div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>${posterHtml}<div id="comments-${post.id}" class="comments-section"></div></div><div class="news-footer">${actionButtons}</div>`;
             container.appendChild(card);
             const descElem = card.querySelector(".news-description"); const fullText = descElem.dataset.fulltext; descElem.onclick = (e) => { e.stopPropagation(); if(descElem.classList.contains("expanded")) { descElem.classList.remove("expanded"); descElem.innerText = fullText.substring(0,150)+(fullText.length>150?'...':''); } else { descElem.classList.add("expanded"); descElem.innerText = fullText; } };
             card.querySelector(".like-btn")?.addEventListener("click", (e) => { e.stopPropagation(); showReactionPopup(card.querySelector(".like-btn"), post.id); });
