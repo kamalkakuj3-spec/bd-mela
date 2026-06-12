@@ -1456,15 +1456,16 @@
 <div id="toast" class="toast"></div>
 
 <script>
-    // Firebase Config
+    // Firebase Config - নতুন কনফিগারেশন
     const firebaseConfig = {
-        apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
-        authDomain: "all-hadith-a68fa.firebaseapp.com",
-        databaseURL: "https://all-hadith-a68fa-default-rtdb.firebaseio.com",
-        projectId: "all-hadith-a68fa",
-        storageBucket: "all-hadith-a68fa.firebasestorage.app",
-        messagingSenderId: "124928027736",
-        appId: "1:124928027736:android:f4d9a9a9ed667150ca2e2d"
+        apiKey: "AIzaSyCZ6L7QiarIOIeiK62HEdaSyr84ORVKwl4",
+        authDomain: "pikaribazar-e5f17.firebaseapp.com",
+        databaseURL: "https://pikaribazar-e5f17-default-rtdb.firebaseio.com",
+        projectId: "pikaribazar-e5f17",
+        storageBucket: "pikaribazar-e5f17.firebasestorage.app",
+        messagingSenderId: "819295862018",
+        appId: "1:819295862018:web:c24937bebb24be75cd961b",
+        measurementId: "G-PVKZ2KJ7K4"
     };
     
     firebase.initializeApp(firebaseConfig);
@@ -1493,7 +1494,7 @@
     // কাস্টম ডেট পিকার ভেরিয়েবল
     let activeDateInput = null;
     let currentYear = 2026;
-    let currentMonth = 5; // জুন (0-11)
+    let currentMonth = 5;
     
     // তারিখ ফরম্যাট ফাংশন - DD/MM/YYYY
     function formatDateDMY(date) {
@@ -1518,12 +1519,10 @@
         const now = new Date();
         currentYear = now.getFullYear();
         currentMonth = now.getMonth();
-        
         renderCalendarPopup();
     }
     
     function renderCalendarPopup() {
-        // পুরানো পপআপ সরান
         const existingPopup = document.querySelector('.calendar-popup');
         if(existingPopup) existingPopup.remove();
         
@@ -1531,7 +1530,7 @@
         popup.className = 'calendar-popup';
         
         const firstDay = new Date(currentYear, currentMonth, 1);
-        const startDayOfWeek = firstDay.getDay(); // 0 = রবিবার
+        const startDayOfWeek = firstDay.getDay();
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         
         const months = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
@@ -1564,7 +1563,6 @@
         
         document.body.appendChild(popup);
         
-        // ইভেন্ট লিসেনার
         popup.querySelector('.prev-month').addEventListener('click', () => {
             currentMonth--;
             if(currentMonth < 0) {
@@ -1622,7 +1620,6 @@
         loadGoldenSlidesFromFirebase();
         loadMarqueeText();
         
-        // ডেট পিকার ইভেন্ট
         const startDateInput = document.getElementById('startDate');
         const endDateInput = document.getElementById('endDate');
         if(startDateInput) {
@@ -2151,7 +2148,6 @@
         const timeCat = document.getElementById("postTimeCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
         
-        // DD/MM/YYYY থেকে YYYY-MM-DD ফরম্যাটে রূপান্তর
         const start = formatDateToYYYYMMDD(startDateStr);
         const end = formatDateToYYYYMMDD(endDateStr);
         
