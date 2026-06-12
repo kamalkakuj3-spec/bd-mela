@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>লগইন - বাংলাদেশ মেলা</title>
+    <title>লগইন - পিকিরি বাজার</title>
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -18,7 +18,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -42,7 +42,10 @@
         
         .logo h1 {
             font-size: 2rem;
-            color: #1a1a1a;
+            background: linear-gradient(135deg, #b8860b, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         
         .logo p {
@@ -117,7 +120,7 @@
 <body>
     <div class="login-container">
         <div class="logo">
-            <h1>🇧🇩 বাংলাদেশ মেলা</h1>
+            <h1>🛒 পিকিরি বাজার</h1>
             <p>দেশের মেলার ঠিকানা</p>
         </div>
         
@@ -125,7 +128,7 @@
         
         <button id="googleLoginBtn" class="google-btn">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-            কন্টিনিউ উইথ গুগল
+            Google দিয়ে লগইন করুন
         </button>
         
         <div id="loader" class="loader">
@@ -137,44 +140,39 @@
         </div>
         
         <div class="footer">
-            <p>বাংলাদেশের সকল মেলার তথ্য পেতে লগইন করুন</p>
+            <p>পিকিরি বাজার - আপনার এলাকার মেলার খবর</p>
         </div>
     </div>
     
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
     <script>
-        // Firebase Config (আপনার দেওয়া তথ্য)
+        // ✅ পিকিরি বাজারের সঠিক Firebase Config
         const firebaseConfig = {
-            apiKey: "AIzaSyAKRgsUrYL4uAWinn5dcJrKck1nqUokRdw",
-            authDomain: "all-hadith-a68fa.firebaseapp.com",
-            databaseURL: "https://all-hadith-a68fa-default-rtdb.firebaseio.com",
-            projectId: "all-hadith-a68fa",
-            storageBucket: "all-hadith-a68fa.firebasestorage.app",
-            messagingSenderId: "124928027736",
-            appId: "1:124928027736:android:f4d9a9a9ed667150ca2e2d"
+            apiKey: "AIzaSyCZ6L7QiarIOIeiK62HEdaSyr84ORVKwl4",
+            authDomain: "pikaribazar-e5f17.firebaseapp.com",
+            databaseURL: "https://pikaribazar-e5f17-default-rtdb.firebaseio.com",
+            projectId: "pikaribazar-e5f17",
+            storageBucket: "pikaribazar-e5f17.firebasestorage.app",
+            messagingSenderId: "819295862018",
+            appId: "1:819295862018:web:c24937bebb24be75cd961b",
+            measurementId: "G-PVKZ2KJ7K4"
         };
         
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
         
-        // DOM Elements
         const googleBtn = document.getElementById("googleLoginBtn");
         const loader = document.getElementById("loader");
         const errorMsg = document.getElementById("errorMsg");
         
-        // চেক করা ইতিমধ্যে লগইন করা আছে কিনা
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // ইতিমধ্যে লগইন করা আছে, সরাসরি হোম পেজে যাবে
-                console.log("Already logged in:", user.displayName);
                 window.location.href = "index.html";
             }
         });
         
-        // গুগল লগইন বাটন ক্লিক
         googleBtn.addEventListener("click", async () => {
             googleBtn.disabled = true;
             loader.classList.add("show");
@@ -182,8 +180,6 @@
             
             try {
                 const result = await auth.signInWithPopup(provider);
-                console.log("Login success:", result.user.displayName);
-                // লগইন সফল, হোম পেজে যাবে
                 window.location.href = "index.html";
             } catch (error) {
                 console.error("Login error:", error);
@@ -191,11 +187,12 @@
                 loader.classList.remove("show");
                 errorMsg.classList.add("show");
                 
-                // পপ-আপ ব্লক হলে মেসেজ দেখানো
                 if (error.code === "auth/popup-blocked") {
                     errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> পপ-আপ ব্লক হয়েছে! ব্রাউজার সেটিংস থেকে পপ-আপ অনুমোদন করুন।';
+                } else if (error.code === "auth/unauthorized-domain") {
+                    errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> এই ডোমেইন অনুমোদিত নয়। Firebase Console → Authentication → Settings → Authorized domains এ আপনার ডোমেইন যোগ করুন।';
                 } else {
-                    errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ। আবার চেষ্টা করুন।';
+                    errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ: ' + error.message;
                 }
             }
         });
