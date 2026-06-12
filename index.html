@@ -395,7 +395,7 @@
             margin-top: 4px;
         }
         
-        /* ========== গোল্ডেন স্লাইডার (রাউন্ড শেপ 6px) ========== */
+        /* ========== গোল্ডেন স্লাইডার ========== */
         .golden-billboard {
             width: auto;
             background: #ffffff;
@@ -1243,7 +1243,7 @@
     </div>
 </div>
 
-<!-- ========== গোল্ডেন স্লাইডার (রাউন্ড শেপ 6px) ========== -->
+<!-- ========== গোল্ডেন স্লাইডার ========== -->
 <div class="golden-billboard">
     <div class="golden-screen">
         <div class="golden-content-container" id="goldenSlidesContainer">
@@ -1309,8 +1309,8 @@
             <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
             <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
             <div class="date-range">
-                <input type="date" id="startDate" placeholder="শুরুর তারিখ" required>
-                <input type="date" id="endDate" placeholder="শেষের তারিখ" required>
+                <input type="text" id="startDate" placeholder="DD/MM/YYYY" required style="font-family: monospace; text-align: center;">
+                <input type="text" id="endDate" placeholder="DD/MM/YYYY" required style="font-family: monospace; text-align: center;">
             </div>
             <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
             <div class="checkbox-group"><input type="checkbox" id="anonymousPost"><label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
@@ -1399,24 +1399,72 @@
     let goldenTouchStartX = 0;
     let goldenTouchEndX = 0;
     
-    // তারিখ ফরম্যাট ফাংশন - DD/MM/YYYY আকারে দেখানোর জন্য
-    function formatDateForInput(dateStr) {
+    // তারিখ ফরম্যাট ফাংশন
+    function formatDateToDDMMYYYY(dateStr) {
         if(!dateStr) return '';
-        const d = new Date(dateStr);
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
-    
-    // প্রদর্শনের জন্য তারিখ ফরম্যাট DD/MM/YYYY
-    function formatDisplayDate(dateStr) {
-        if(!dateStr) return '';
-        const parts = dateStr.split('-');
-        if(parts.length === 3) {
-            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        // যদি YYYY-MM-DD ফরম্যাটে থাকে
+        if(dateStr.includes('-')) {
+            const parts = dateStr.split('-');
+            if(parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
         }
         return dateStr;
+    }
+    
+    function formatDateToYYYYMMDD(dateStr) {
+        if(!dateStr) return '';
+        // যদি DD/MM/YYYY ফরম্যাটে থাকে
+        if(dateStr.includes('/')) {
+            const parts = dateStr.split('/');
+            if(parts.length === 3) {
+                return `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
+        }
+        return dateStr;
+    }
+    
+    // কাস্টম ডেট পিকার তৈরি (টেক্সট ফিল্ডে)
+    function initDatePickers() {
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        
+        if(startDateInput) {
+            startDateInput.addEventListener('click', function() {
+                showNativeDatePicker(this, 'start');
+            });
+        }
+        if(endDateInput) {
+            endDateInput.addEventListener('click', function() {
+                showNativeDatePicker(this, 'end');
+            });
+        }
+    }
+    
+    function showNativeDatePicker(inputElement, type) {
+        // একটি টেম্পরারি নেটিভ ডেট পিকার তৈরি
+        const tempInput = document.createElement('input');
+        tempInput.type = 'date';
+        tempInput.style.position = 'absolute';
+        tempInput.style.opacity = '0';
+        tempInput.style.pointerEvents = 'none';
+        document.body.appendChild(tempInput);
+        
+        // বর্তমান মান সেট করা
+        const currentValue = inputElement.value;
+        if(currentValue && currentValue.includes('/')) {
+            tempInput.value = formatDateToYYYYMMDD(currentValue);
+        }
+        
+        tempInput.addEventListener('change', function() {
+            if(tempInput.value) {
+                const formattedDate = formatDateToDDMMYYYY(tempInput.value);
+                inputElement.value = formattedDate;
+            }
+            document.body.removeChild(tempInput);
+        });
+        
+        tempInput.showPicker();
     }
     
     auth.onAuthStateChanged(async (user) => {
@@ -1429,11 +1477,9 @@
         document.getElementById("drawerEmail").innerText = currentUser.email || "";
         document.getElementById("drawerAvatar").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || "User");
         
-        // লগইন বাটন হাইড করুন
         const signinBtn = document.getElementById("signinBtn");
         if(signinBtn) signinBtn.classList.add("hide");
         
-        // লগইন করলে হেডার সেন্টার করুন (মেনু আইকন বামে থাকবে)
         const logoArea = document.getElementById("logoArea");
         if(logoArea) logoArea.classList.add("center-logo");
         
@@ -1443,6 +1489,9 @@
         loadPosts();
         loadGoldenSlidesFromFirebase();
         loadMarqueeText();
+        
+        // ডেট পিকার ইভেন্ট সংযুক্ত করা
+        initDatePickers();
     });
     
     document.getElementById("signinBtn").onclick = () => { window.location.href = "login.html"; };
@@ -1781,8 +1830,8 @@
         document.getElementById("editPostTitle").value = post.title || "";
         document.getElementById("editPostDesc").value = post.description || "";
         document.getElementById("editPostLocationLink").value = post.locationLink || "";
-        document.getElementById("editStartDate").value = formatDateForInput(post.startDate) || "";
-        document.getElementById("editEndDate").value = formatDateForInput(post.endDate) || "";
+        document.getElementById("editStartDate").value = formatDateToYYYYMMDD(post.startDate) || "";
+        document.getElementById("editEndDate").value = formatDateToYYYYMMDD(post.endDate) || "";
         document.getElementById("editPostTimeCategory").value = post.category || "";
         document.getElementById("editPostTopicCategory").value = post.topicCategory || "";
         document.getElementById("editAnonymousPost").checked = post.isAnonymous || false;
@@ -1956,15 +2005,21 @@
         const district = document.getElementById("postDistrict").value;
         const upazila = document.getElementById("postUpazila").value;
         const locationLink = document.getElementById("postLocationLink").value.trim();
-        const start = document.getElementById("startDate").value;
-        const end = document.getElementById("endDate").value;
+        const startDateStr = document.getElementById("startDate").value;
+        const endDateStr = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
         const topicCat = document.getElementById("postTopicCategory").value;
         const timeCat = document.getElementById("postTimeCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
+        
+        // DD/MM/YYYY থেকে YYYY-MM-DD ফরম্যাটে রূপান্তর
+        const start = formatDateToYYYYMMDD(startDateStr);
+        const end = formatDateToYYYYMMDD(endDateStr);
+        
         if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
         if(!topicCat || topicCat === "") { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
         if(!timeCat || timeCat === "") { alert("মেলার সময়কাল নির্বাচন করুন!"); return; }
+        
         const postData = { title, division, district, upazila, locationLink: locationLink || "", startDate: start, endDate: end, description: desc, category: timeCat, topicCategory: topicCat, createdAt: Date.now(), uid: currentUser.uid, email: currentUser.email, isAnonymous };
         if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
         await db.ref('posts').push(postData);
