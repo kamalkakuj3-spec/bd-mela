@@ -372,7 +372,7 @@
             margin-top: 4px;
         }
         
-        /* ========== গোল্ডেন স্লাইডার (বিলবোর্ড) ========== */
+        /* ========== গোল্ডেন স্লাইডার ========== */
         .golden-billboard {
             width: auto;
             background: #ffffff;
@@ -430,6 +430,18 @@
             border: none;
             box-shadow: none;
         }
+        /* মেলার নাম সবার উপরে এবং বড় */
+        .golden-title {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #b8860b, #d4af37, #ffd700);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            line-height: 1.3;
+            padding: 0 15px;
+        }
         .golden-tag {
             display: inline-block;
             background: linear-gradient(115deg, #d4af37, #c49b2a);
@@ -442,17 +454,6 @@
             text-transform: uppercase;
             margin-bottom: 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        .golden-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #b8860b, #d4af37, #ffd700);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 18px;
-            line-height: 1.3;
-            padding: 0 15px;
         }
         .golden-desc {
             font-size: 1rem;
@@ -486,11 +487,11 @@
             background: #d4af37;
         }
         
-        /* স্লাইডারের নিচের চলন্ত লেখা (মার্কি) - স্পিড কমানো হয়েছে */
+        /* স্লাইডারের নিচের চলন্ত লেখা - সাইজ বড় করা হয়েছে */
         .slider-bottom-marquee {
             background: #ffffff;
             margin: 0 16px 12px 16px;
-            padding: 10px 0;
+            padding: 12px 0;
             border-radius: 6px;
             overflow: hidden;
             white-space: nowrap;
@@ -500,7 +501,7 @@
         .slider-bottom-marquee .marquee-text {
             display: inline-block;
             animation: scrollBottom 40s linear infinite;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #b8860b;
             font-weight: 600;
             padding-left: 20px;
@@ -721,7 +722,7 @@
         .action-btn:hover {
             color: #1a1a1a;
         }
-        .action-btn.liked { color: #e74c3c; }
+        .action-btn.liked { color: #1877f2; }
         .action-btn.saved { color: #f39c12; }
         .action-btn .count { font-size: 0.75rem; }
         
@@ -776,28 +777,32 @@
         }
         .comment-item strong { color: #00c853; }
         
+        /* ফেসবুক স্টাইলে রিঅ্যাকশন পপআপ */
         .reaction-popup {
             position: fixed;
-            bottom: 50%;
+            bottom: 80px;
             left: 50%;
-            transform: translate(-50%, 50%);
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 60px;
-            padding: 10px 18px;
+            transform: translateX(-50%);
+            background: #ffffff;
+            backdrop-filter: blur(0);
+            border-radius: 50px;
+            padding: 8px 16px;
             display: flex;
-            gap: 14px;
+            gap: 12px;
             z-index: 1001;
             animation: fadeInUp 0.2s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            border: 1px solid #e0e0e0;
         }
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translate(-50%, 60%); }
-            to { opacity: 1; transform: translate(-50%, 50%); }
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
         .reaction-emoji {
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
             transition: transform 0.1s;
+            padding: 4px;
         }
         .reaction-emoji:hover { transform: scale(1.2); }
         
@@ -1012,20 +1017,22 @@
         .toast.show { opacity: 1; }
         
         @media (max-width: 550px) {
-            .golden-title { font-size: 1.2rem; padding: 0 10px; margin-bottom: 12px; }
+            .golden-title { font-size: 1.5rem; }
             .golden-desc { font-size: 0.85rem; padding: 0 15px; }
             .golden-tag { font-size: 0.65rem; padding: 4px 16px; margin-bottom: 15px; }
-            .slider-bottom-marquee .marquee-text { font-size: 0.75rem; }
+            .slider-bottom-marquee .marquee-text { font-size: 0.9rem; }
             .news-title { font-size: 1.4rem; }
             .stats-number { font-size: 1.4rem; }
             .title-badge { font-size: 0.6rem; padding: 3px 8px; }
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
+            .reaction-emoji { font-size: 1.6rem; }
         }
         @media (max-width: 400px) {
-            .golden-title { font-size: 1rem; }
+            .golden-title { font-size: 1.3rem; }
             .golden-desc { font-size: 0.75rem; }
-            .slider-bottom-marquee .marquee-text { font-size: 0.7rem; }
+            .slider-bottom-marquee .marquee-text { font-size: 0.85rem; }
+            .reaction-emoji { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -1039,7 +1046,7 @@
     </div>
     <div class="time-category-grid" id="timeCategoryGrid">
         <div class="time-category-item" data-cat="all"><span class="time-category-icon">🎪</span><span class="time-category-name">সব মেলা</span></div>
-        <div class="time-category-item" data-cat="চলমান"><span class="time-category-icon">🟢</span><span class="time-category-name">চলমান মেলা</span></div>
+        <div class="time-category-item" data-cat="live"><span class="time-category-icon">🟢</span><span class="time-category-name">চলমান মেলা</span></div>
         <div class="time-category-item" data-cat="৩০ দিন"><span class="time-category-icon">📅</span><span class="time-category-name">৩০ দিনের মেলা</span></div>
         <div class="time-category-item" data-cat="১৫ দিন"><span class="time-category-icon">📆</span><span class="time-category-name">১৫ দিনের মেলা</span></div>
         <div class="time-category-item" data-cat="সাপ্তাহিক"><span class="time-category-icon">⚡</span><span class="time-category-name">৭ দিনের মেলা</span></div>
@@ -1049,7 +1056,7 @@
     <button class="reset-filter-btn" onclick="resetTimeCategoryFilter()">সব রিসেট</button>
 </div>
 
-<!-- বিষয়ভিত্তিক ক্যাটাগরি প্যানেল - বাটন স্থির রাখা হয়েছে -->
+<!-- বিষয়ভিত্তিক ক্যাটাগরি প্যানেল -->
 <div class="topic-category-panel" id="topicCategoryPanel">
     <div class="topic-category-panel-header">
         <h4><i class="fa-solid fa-th-large"></i> বিষয় নির্বাচন করুন</h4>
@@ -1106,7 +1113,7 @@
     </div>
 </div>
 
-<!-- ========== গোল্ডেন স্লাইডার (বিলবোর্ড) ========== -->
+<!-- ========== গোল্ডেন স্লাইডার ========== -->
 <div class="golden-billboard">
     <div class="golden-screen">
         <div class="golden-content-container" id="goldenSlidesContainer">
@@ -1197,6 +1204,14 @@
     </div>
 </div>
 
+<!-- সেভড পোস্ট বিস্তারিত মোডাল -->
+<div id="savedPostDetailModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal-btn" id="closeSavedModalBtn">&times;</span>
+        <div id="savedPostDetailBody"></div>
+    </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script>
@@ -1250,7 +1265,6 @@
     
     document.getElementById("signinBtn").onclick = () => { window.location.href = "login.html"; };
     
-    // মার্কি টেক্সট লোড
     async function loadMarqueeText() {
         const marqueeRef = db.ref('marqueeText');
         marqueeRef.on('value', (snapshot) => {
@@ -1288,7 +1302,7 @@
     }
     
     function getTopicCategoryIcon(catName) { const cat = categoriesList.find(c => c.name === catName); return cat ? cat.icon : '🎪'; }
-    function getTimeCategoryIcon(catName) { const icons = {'৩০ দিন':'📅','১৫ দিন':'📆','সাপ্তাহিক':'⚡','৩ দিন':'🔥','অন্যান্য':'🎪','চলমান':'🟢','আসন্ন':'⏰'}; return icons[catName] || '📆'; }
+    function getTimeCategoryIcon(catName) { const icons = {'৩০ দিন':'📅','১৫ দিন':'📆','সাপ্তাহিক':'⚡','৩ দিন':'🔥','অন্যান্য':'🎪','live':'🟢','soon':'⏰'}; return icons[catName] || '📆'; }
     
     function openSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.add('show'); loadSavedItemsList(); }
     function closeSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.remove('show'); }
@@ -1297,11 +1311,27 @@
     function openTopicCategoryPanel() { document.getElementById('topicCategoryPanel').classList.add('show'); }
     function closeTopicCategoryPanel() { document.getElementById('topicCategoryPanel').classList.remove('show'); }
     
-    function applyTimeCategoryFilter() { const selected = document.querySelector('.time-category-item.selected'); if(selected) selectedTimeCategory = selected.dataset.cat; loadPosts(); closeTimeCategoryPanel(); showToast(`⏰ ${selectedTimeCategory === 'all' ? 'সব মেলা' : selectedTimeCategory + ' দেখানো হচ্ছে'}`); }
-    function resetTimeCategoryFilter() { selectedTimeCategory = "all"; document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected')); document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected'); loadPosts(); showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে'); }
+    function applyTimeCategoryFilter() { 
+        const selected = document.querySelector('.time-category-item.selected'); 
+        if(selected) {
+            selectedTimeCategory = selected.dataset.cat;
+            if(selectedTimeCategory === 'live') {
+                statusFilter = 'live';
+                selectedTimeCategory = 'all';
+            } else if(selectedTimeCategory === 'all') {
+                statusFilter = 'all';
+            } else {
+                statusFilter = 'all';
+            }
+        }
+        loadPosts(); 
+        closeTimeCategoryPanel(); 
+        showToast(`⏰ ফিল্টার প্রয়োগ করা হয়েছে`); 
+    }
+    function resetTimeCategoryFilter() { selectedTimeCategory = "all"; statusFilter = "all"; document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected')); document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected'); loadPosts(); showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে'); }
     function applyTopicCategoryFilter() { loadPosts(); closeTopicCategoryPanel(); showToast(`${selectedTopicCategories.length}টি বিষয় নির্বাচিত হয়েছে`); }
     function resetTopicCategoryFilter() { selectedTopicCategories = []; document.querySelectorAll('.topic-category-item').forEach(i => { i.classList.remove('selected'); i.querySelector('i').className = 'fa-regular fa-square'; }); loadPosts(); showToast('সব বিষয় ফিল্টার রিসেট হয়েছে'); }
-    function filterByStatus(status) { statusFilter = status; loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
+    function filterByStatus(status) { statusFilter = status; selectedTimeCategory = "all"; loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
     
     async function loadDivisions() {
         try { const response = await fetch('divisions.json'); const data = await response.json(); divisionsData = data.divisions; populateDivisionFilter(); updatePostDivisionSelect(); updateEditDivisionSelect(); } catch(e) { divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }]; populateDivisionFilter(); updatePostDivisionSelect(); updateEditDivisionSelect(); }
@@ -1352,9 +1382,44 @@
     
     async function loadSavedPosts() { const snapshot = await db.ref(`users/${currentUser.uid}/savedPosts`).once('value'); savedPostsIds = snapshot.val() || []; }
     
-    function getStatusText(post) { const today = new Date(); today.setHours(0,0,0,0); const start = new Date(post.startDate); const end = new Date(post.endDate); start.setHours(0,0,0,0); end.setHours(0,0,0,0); if(end < today) return { text: 'সমাপ্ত', type: 'ended' }; if(start <= today && end >= today) return { text: 'চলমান', type: 'live' }; return { text: 'আসন্ন', type: 'soon' }; }
+    function getStatusText(post) { 
+        const today = new Date(); 
+        today.setHours(0,0,0,0); 
+        const start = new Date(post.startDate); 
+        const end = new Date(post.endDate); 
+        start.setHours(0,0,0,0); 
+        end.setHours(0,0,0,0); 
+        if(end < today) return { text: 'সমাপ্ত', type: 'ended' }; 
+        if(start <= today && end >= today) return { text: 'চলমান', type: 'live' }; 
+        return { text: 'আসন্ন', type: 'soon' }; 
+    }
     function formatDate(dateStr) { if(!dateStr) return ''; const d = new Date(dateStr); return d.toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }); }
     function getDisplayName(post) { if(post.isAnonymous) return { name: '🕵️ বেনামে', isAnonymous: true }; return { name: post.posterName || 'অজ্ঞাত', isAnonymous: false }; }
+    
+    // সেভড পোস্ট বিস্তারিত দেখানো
+    window.showSavedPostDetail = function(postId) {
+        const post = allPosts.find(p => p.id === postId);
+        if(!post) return;
+        const status = getStatusText(post);
+        const displayInfo = getDisplayName(post);
+        const modal = document.getElementById('savedPostDetailModal');
+        const modalBody = document.getElementById('savedPostDetailBody');
+        modalBody.innerHTML = `
+            <div class="modal-title">${escapeHtml(post.title)}</div>
+            <div class="modal-section">
+                <div><strong>📅 সময়কাল:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div>
+                <div style="margin-top:5px;"><strong>📍 অবস্থান:</strong> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div>
+                <div style="margin-top:5px;"><strong>🏷️ ক্যাটাগরি:</strong> ${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'} | ${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</div>
+                <div style="margin-top:5px;"><strong>স্ট্যাটাস:</strong> ${status.type === 'live' ? '🟢 চলমান' : (status.type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div>
+            </div>
+            <div class="modal-section"><div><strong>📝 বিবরণ:</strong></div><div style="margin-top:5px; line-height:1.5;">${escapeHtml(post.description || 'কোনো বিবরণ নেই')}</div></div>
+            <div class="modal-section"><div><strong>👤 পোস্ট করেছেন:</strong></div><div>${displayInfo.isAnonymous ? '🕵️ বেনামে' : escapeHtml(displayInfo.name)}</div></div>
+            ${post.locationLink ? `<div class="modal-section"><a href="${escapeHtml(post.locationLink)}" target="_blank" class="map-link-btn">🗺️ গুগল ম্যাপে দেখুন</a></div>` : ''}
+        `;
+        modal.style.display = 'flex';
+    };
+    
+    document.getElementById('closeSavedModalBtn').onclick = () => { document.getElementById('savedPostDetailModal').style.display = 'none'; };
     
     // Golden Slider Functions
     async function loadGoldenSlidesFromFirebase() {
@@ -1418,11 +1483,12 @@
         const status = getGoldenStatus(card.startDate, card.endDate);
         const isRunning = status === 'running';
         const tagText = isRunning ? '✨ চলমান মেলা ✨' : '✨ আসন্ন মেলা ✨';
+        // মেলার নাম সবার উপরে, তারপর ট্যাগ
         return `
             <div class="golden-slide" data-id="${card.id}" data-index="${idx}">
                 <div class="golden-news-card" onclick="showGoldenModalById('${card.id}', event)">
-                    <div class="golden-tag">${tagText}</div>
                     <div class="golden-title">${escapeHtml(card.title)}</div>
+                    <div class="golden-tag">${tagText}</div>
                     <div class="golden-desc">${escapeHtml(card.description).substring(0, 120)}${card.description && card.description.length > 120 ? '...' : ''}</div>
                 </div>
             </div>
@@ -1478,9 +1544,11 @@
     function goToGoldenSlide(index) { if (goldenSlides.length === 0) return; goldenCurrentIndex = index; showGoldenSlide(goldenCurrentIndex); startGoldenSlideshow(); }
     function startGoldenSlideshow() { if (goldenInterval) clearInterval(goldenInterval); if (goldenSlides.length > 1) goldenInterval = setInterval(() => { goldenNextSlide(); }, 4000); }
     
-    // Close golden modal
     document.getElementById('closeGoldenModalBtn').onclick = () => { document.getElementById('goldenDetailModal').style.display = 'none'; };
-    window.onclick = (e) => { if (e.target === document.getElementById('goldenDetailModal')) document.getElementById('goldenDetailModal').style.display = 'none'; };
+    window.onclick = (e) => { 
+        if (e.target === document.getElementById('goldenDetailModal')) document.getElementById('goldenDetailModal').style.display = 'none';
+        if (e.target === document.getElementById('savedPostDetailModal')) document.getElementById('savedPostDetailModal').style.display = 'none';
+    };
     
     async function loadPosts() {
         const snapshot = await db.ref('posts').once('value'); allPosts = []; snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); }); allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -1500,9 +1568,13 @@
     
     function updateStatistics() { const live = allPosts.filter(p => getStatusText(p).type === 'live').length; const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length; const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length; let reviewCount = 0; allPosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); document.getElementById("statLive").innerText = live; document.getElementById("statSoon").innerText = soon; document.getElementById("statEnded").innerText = ended; document.getElementById("statReviews").innerText = reviewCount; }
     
-    function loadSavedItemsList() { const container = document.getElementById('savedItemsList'); if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="openPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div></div>`).join(''); }
-    
-    window.openPostDetail = function(id) { const post = allPosts.find(p => p.id === id); if(!post) return; showToast(`📄 ${post.title} - বিস্তারিত দেখুন`); };
+    function loadSavedItemsList() { 
+        const container = document.getElementById('savedItemsList'); 
+        if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
+        const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); 
+        if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
+        container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="showSavedPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div><div style="font-size:10px; color:#b8860b; margin-top:5px;">${getStatusText(post).type === 'live' ? '🟢 চলমান' : (getStatusText(post).type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div></div>`).join(''); 
+    }
     
     function openEditModal(post) {
         currentEditPostId = post.id;
@@ -1594,7 +1666,7 @@
         const container = document.getElementById("postsContainer"); if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; } container.innerHTML = "";
         for(const post of posts) {
             const reactions = post.reactions || {}; const reactionCount = Object.keys(reactions).length; const userReaction = reactions[currentUser?.uid]; const isSaved = savedPostsIds.includes(post.id); const isMyPost = (post.uid === currentUser?.uid); const commentCount = post.comments ? Object.keys(post.comments).length : 0; const status = getStatusText(post); const displayInfo = getDisplayName(post);
-            let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">${userReaction ? userReaction.emoji : '<i class="fa-regular fa-thumbs-up"></i>'} <span class="count">${reactionCount}</span></button>`;
+            let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">${userReaction ? (userReaction.emoji || '❤️') : '<i class="fa-regular fa-thumbs-up"></i>'} <span class="count">${reactionCount}</span></button>`;
             let actionButtons = `<div class="news-actions">${likeButtonHtml}<button class="action-btn comment-btn" data-id="${post.id}"><i class="fa-regular fa-comment"></i> <span class="count">${commentCount}</span></button><button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>`;
             if(post.locationLink) actionButtons += `<button class="action-btn map-btn" data-link="${post.locationLink}"><i class="fa-regular fa-map"></i> ম্যাপ</button>`;
             if(isMyPost) actionButtons += `<button class="edit-btn" data-id="${post.id}"><i class="fa-regular fa-pen-to-square"></i> এডিট</button><button class="delete-btn" data-id="${post.id}"><i class="fa-regular fa-trash-can"></i> ডিলিট</button>`;
@@ -1611,11 +1683,47 @@
             card.querySelector(".edit-btn")?.addEventListener("click", () => openEditModal(post));
             card.querySelector(".delete-btn")?.addEventListener("click", () => deletePost(post.id));
             card.querySelector(".map-btn")?.addEventListener("click", (e) => { e.stopPropagation(); window.open(e.currentTarget.dataset.link, '_blank'); });
-            card.onclick = () => openPostDetail(post.id);
         }
     }
     
-    function showReactionPopup(btn, postId) { const existing = document.querySelector('.reaction-popup'); if(existing) existing.remove(); const popup = document.createElement('div'); popup.className = 'reaction-popup'; const emojis = [{emoji:"❤️",type:"like"},{emoji:"😍",type:"love"},{emoji:"🥰",type:"care"},{emoji:"😂",type:"haha"},{emoji:"😮",type:"wow"}]; emojis.forEach(r => { const span = document.createElement('span'); span.className = 'reaction-emoji'; span.textContent = r.emoji; span.onclick = (e) => { e.stopPropagation(); setReaction(postId, r.type, r.emoji); popup.remove(); }; popup.appendChild(span); }); document.body.appendChild(popup); setTimeout(() => { document.addEventListener('click', function remove(e) { if(!popup.contains(e.target)) { popup.remove(); document.removeEventListener('click', remove); } }); }, 100); }
+    // ফেসবুক স্টাইলে রিঅ্যাকশন ইমোজি
+    function showReactionPopup(btn, postId) { 
+        const existing = document.querySelector('.reaction-popup'); 
+        if(existing) existing.remove(); 
+        const popup = document.createElement('div'); 
+        popup.className = 'reaction-popup'; 
+        const emojis = [
+            {emoji:"👍", type:"like", label:"লাইক"},
+            {emoji:"❤️", type:"love", label:"ভালোবাসা"},
+            {emoji:"😆", type:"haha", label:"হাসি"},
+            {emoji:"😮", type:"wow", label:"বিস্ময়"},
+            {emoji:"😢", type:"sad", label:"দুঃখ"},
+            {emoji:"😡", type:"angry", label:"রাগ"}
+        ]; 
+        emojis.forEach(r => { 
+            const span = document.createElement('span'); 
+            span.className = 'reaction-emoji'; 
+            span.textContent = r.emoji; 
+            span.title = r.label;
+            span.onclick = (e) => { 
+                e.stopPropagation(); 
+                setReaction(postId, r.type, r.emoji); 
+                popup.remove(); 
+            }; 
+            popup.appendChild(span); 
+        }); 
+        const rect = btn.getBoundingClientRect();
+        popup.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+        document.body.appendChild(popup); 
+        setTimeout(() => { 
+            document.addEventListener('click', function remove(e) { 
+                if(!popup.contains(e.target)) { 
+                    popup.remove(); 
+                    document.removeEventListener('click', remove); 
+                } 
+            }); 
+        }, 100); 
+    }
     async function setReaction(postId, type, emoji) { await db.ref(`posts/${postId}/reactions/${currentUser.uid}`).set({ type, emoji, timestamp: Date.now() }); loadPosts(); }
     async function loadComments(postId, container) { const snapshot = await db.ref(`posts/${postId}/comments`).once('value'); const comments = snapshot.val() || {}; let html = `<div class="comment-input"><input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন..."><button onclick="window.addComment('${postId}')">পোস্ট</button></div><div id="commentList-${postId}">`; for(let [key, val] of Object.entries(comments)) html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`; html += `</div>`; container.innerHTML = html; }
     window.addComment = async (postId) => { const text = document.getElementById(`newCom-${postId}`).value.trim(); if(!text) return; await db.ref(`posts/${postId}/comments/${Date.now()}`).set({ uid: currentUser.uid, name: currentUser.displayName, text, time: Date.now() }); loadPosts(); };
