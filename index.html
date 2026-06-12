@@ -60,7 +60,7 @@
             color: #333;
         }
         .logo-area h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #1a1a1a, #555);
             -webkit-background-clip: text;
@@ -68,7 +68,7 @@
             color: transparent;
         }
         .logo-area p {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: #888;
             font-weight: 500;
             margin-top: 4px;
@@ -395,14 +395,14 @@
             margin-top: 4px;
         }
         
-        /* ========== গোল্ডেন স্লাইডার (রাউন্ড শেপ 12px) ========== */
+        /* ========== গোল্ডেন স্লাইডার (রাউন্ড শেপ 6px) ========== */
         .golden-billboard {
             width: auto;
             background: #ffffff;
             overflow: hidden;
             box-shadow: 0 20px 35px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(212, 175, 55, 0.3);
             position: relative;
-            border-radius: 12px;
+            border-radius: 6px;
             margin: 12px 16px;
             aspect-ratio: 16 / 9;
         }
@@ -415,7 +415,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 6px;
         }
         .golden-content-container {
             width: 100%;
@@ -423,7 +423,7 @@
             position: relative;
             overflow: hidden;
             touch-action: pan-y pinch-zoom;
-            border-radius: 12px;
+            border-radius: 6px;
         }
         .golden-slide {
             position: absolute;
@@ -454,7 +454,7 @@
             padding: 25px;
             border: none;
             box-shadow: none;
-            border-radius: 12px;
+            border-radius: 6px;
         }
         .golden-title {
             font-size: 2.2rem;
@@ -1144,16 +1144,16 @@
             .filter-row { gap: 6px; }
             .filter-select { font-size: 0.65rem; padding: 6px 10px; }
             .reaction-emoji { font-size: 1.6rem; }
-            .logo-area h1 { font-size: 1.4rem; }
-            .logo-area p { font-size: 0.65rem; }
+            .logo-area h1 { font-size: 1.6rem; }
+            .logo-area p { font-size: 0.75rem; }
         }
         @media (max-width: 400px) {
             .golden-title { font-size: 1.4rem; }
             .golden-desc { font-size: 0.85rem; }
             .marquee-text { font-size: 0.8rem; }
             .reaction-emoji { font-size: 1.4rem; }
-            .logo-area h1 { font-size: 1.2rem; }
-            .logo-area p { font-size: 0.55rem; }
+            .logo-area h1 { font-size: 1.4rem; }
+            .logo-area p { font-size: 0.65rem; }
         }
     </style>
 </head>
@@ -1243,7 +1243,7 @@
     </div>
 </div>
 
-<!-- ========== গোল্ডেন স্লাইডার (রাউন্ড শেপ 12px) ========== -->
+<!-- ========== গোল্ডেন স্লাইডার (রাউন্ড শেপ 6px) ========== -->
 <div class="golden-billboard">
     <div class="golden-screen">
         <div class="golden-content-container" id="goldenSlidesContainer">
@@ -1398,6 +1398,26 @@
     let goldenInterval;
     let goldenTouchStartX = 0;
     let goldenTouchEndX = 0;
+    
+    // তারিখ ফরম্যাট ফাংশন - DD/MM/YYYY আকারে দেখানোর জন্য
+    function formatDateForInput(dateStr) {
+        if(!dateStr) return '';
+        const d = new Date(dateStr);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+    
+    // প্রদর্শনের জন্য তারিখ ফরম্যাট DD/MM/YYYY
+    function formatDisplayDate(dateStr) {
+        if(!dateStr) return '';
+        const parts = dateStr.split('-');
+        if(parts.length === 3) {
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+        return dateStr;
+    }
     
     auth.onAuthStateChanged(async (user) => {
         if (!user) { 
@@ -1761,8 +1781,8 @@
         document.getElementById("editPostTitle").value = post.title || "";
         document.getElementById("editPostDesc").value = post.description || "";
         document.getElementById("editPostLocationLink").value = post.locationLink || "";
-        document.getElementById("editStartDate").value = post.startDate || "";
-        document.getElementById("editEndDate").value = post.endDate || "";
+        document.getElementById("editStartDate").value = formatDateForInput(post.startDate) || "";
+        document.getElementById("editEndDate").value = formatDateForInput(post.endDate) || "";
         document.getElementById("editPostTimeCategory").value = post.category || "";
         document.getElementById("editPostTopicCategory").value = post.topicCategory || "";
         document.getElementById("editAnonymousPost").checked = post.isAnonymous || false;
