@@ -74,7 +74,7 @@
     }
     .login-screen .access-denied.show { display: block; }
     
-    /* অ্যাডমিন প্যানেল কন্টেন্ট (ডিফল্ট হাইড) */
+    /* অ্যাডমিন প্যানেল কন্টেন্ট */
     .admin-content {
       display: none;
     }
@@ -82,14 +82,13 @@
       display: block;
     }
     
-    /* লগআউট বাটন */
+    /* লগআউট */
     .logout-header {
       display: flex;
       justify-content: flex-end;
-      align-items: center;
       margin-bottom: 20px;
-      gap: 15px;
       flex-wrap: wrap;
+      gap: 10px;
     }
     .logout-btn {
       background: #dc3545;
@@ -112,10 +111,9 @@
       border-radius: 30px;
       font-size: 0.8rem;
       color: #333;
-      margin-right: 15px;
     }
     
-    /* ড্রপডাউন স্টাইল */
+    /* ড্রপডাউন */
     .slider-dropdown {
       background: white;
       border-radius: 24px;
@@ -241,81 +239,38 @@
     .card-actions { margin-top: 12px; }
     .small-btn { padding: 6px 12px; font-size: 0.8rem; margin: 2px; }
     
-    /* ইমেজ স্লাইডার সেকশন */
+    /* স্লাইডার ইমেজ প্রিভিউ */
     .slider-image-preview {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin: 15px 0;
+      margin: 10px 0;
     }
     .slider-image-preview img {
-      width: 100px;
-      height: 70px;
+      width: 80px;
+      height: 50px;
       object-fit: cover;
       border-radius: 8px;
-      border: 2px solid #ddd;
+      border: 2px solid #e0e0e0;
     }
-    .slider-image-preview img:hover {
-      border-color: #d4af37;
-    }
-    
-    /* টগল সুইচ স্টাইল */
-    .toggle-switch {
+    .slider-image-preview .img-item {
       position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 26px;
-      margin-right: 10px;
-      vertical-align: middle;
     }
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .toggle-slider {
+    .slider-image-preview .img-item .remove-img {
       position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 4px;
-      bottom: 4px;
-      background: white;
-      transition: .4s;
+      top: -6px;
+      right: -6px;
+      background: #dc3545;
+      color: white;
+      border: none;
       border-radius: 50%;
-    }
-    .toggle-switch input:checked + .toggle-slider {
-      background: #d4af37;
-    }
-    .toggle-switch input:checked + .toggle-slider:before {
-      transform: translateX(24px);
-    }
-    .toggle-label {
-      font-weight: 600;
-      color: #333;
-      font-size: 0.95rem;
-    }
-    .toggle-status {
-      font-size: 0.8rem;
-      color: #888;
-      margin-left: 5px;
-    }
-    .toggle-status.on {
-      color: #2e7d32;
-    }
-    .toggle-status.off {
-      color: #dc3545;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .marquee-editor {
@@ -323,21 +278,19 @@
       border: 2px solid #d4af37;
     }
     .marquee-preview {
-      background: rgba(0,0,0,0.8);
-      border-radius: 30px;
-      padding: 12px 16px;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      border-radius: 8px;
+      padding: 8px 12px;
       margin-top: 15px;
       overflow: hidden;
       white-space: nowrap;
-      border: 1px solid #d4af37;
     }
     .marquee-preview-text {
       display: inline-block;
       animation: previewScroll 20s linear infinite;
-      color: #ffd700;
+      color: #ffffff;
       font-weight: 500;
       font-size: 0.9rem;
-      text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
     }
     @keyframes previewScroll {
       0% { transform: translateX(100%); }
@@ -352,13 +305,10 @@
       color: #2e7d32;
     }
     
-    /* ট্যাবলেট এবং মোবাইল রেস্পন্সিভ */
     @media (max-width: 550px) {
       .slider-header h2 { font-size: 1rem; }
       .form-card { padding: 18px; }
       .slider-header { padding: 12px 18px; }
-      .logout-header { flex-direction: column; align-items: flex-end; }
-      .admin-user-info { margin-right: 0; width: 100%; text-align: center; }
     }
   </style>
 </head>
@@ -388,7 +338,7 @@
     </div>
   </div>
   
-  <!-- অ্যাডমিন প্যানেল কন্টেন্ট (লগইন পর দেখাবে) -->
+  <!-- অ্যাডমিন প্যানেল কন্টেন্ট -->
   <div id="adminContent" class="admin-content">
     <div class="logout-header">
       <div class="admin-user-info" id="adminUserInfo"></div>
@@ -397,87 +347,7 @@
     
     <h1>🏆 অ্যাডমিন প্যানেল | বাংলাদেশ মেলা 🏆</h1>
 
-    <!-- লাইনার ০: স্লাইডার এবং মার্কি অন/অফ কন্ট্রোল -->
-    <div class="slider-dropdown">
-      <div class="slider-header" id="sliderHeaderControls">
-        <h2>🎛️ স্লাইডার ও মার্কি কন্ট্রোল</h2>
-        <span class="toggle-icon">▼</span>
-      </div>
-      <div class="slider-content" id="sliderContentControls">
-        <div class="form-card" style="background: #f8f9fa;">
-          <h3>⚙️ স্লাইডার ও চলন্ত লেখা অন/অফ করুন</h3>
-          
-          <div style="display: flex; align-items: center; margin-bottom: 20px; padding: 15px; background: white; border-radius: 12px; border: 1px solid #e0e0e0;">
-            <label class="toggle-switch">
-              <input type="checkbox" id="sliderToggle" checked>
-              <span class="toggle-slider"></span>
-            </label>
-            <div>
-              <span class="toggle-label">স্লাইডার দেখান</span>
-              <span class="toggle-status" id="sliderStatus">চালু</span>
-            </div>
-          </div>
-          
-          <div style="display: flex; align-items: center; padding: 15px; background: white; border-radius: 12px; border: 1px solid #e0e0e0;">
-            <label class="toggle-switch">
-              <input type="checkbox" id="marqueeToggle" checked>
-              <span class="toggle-slider"></span>
-            </label>
-            <div>
-              <span class="toggle-label">চলন্ত লেখা দেখান</span>
-              <span class="toggle-status" id="marqueeStatus">চালু</span>
-            </div>
-          </div>
-          
-          <div style="margin-top: 20px;">
-            <button id="saveSettingsBtn">💾 সেটিংস সংরক্ষণ করুন</button>
-          </div>
-          <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই সেটিংস হোমপেজের স্লাইডার এবং চলন্ত লেখা দেখানো/লুকানোর জন্য ব্যবহৃত হবে।</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- লাইনার ১: ইমেজ স্লাইডার ম্যানেজমেন্ট -->
-    <div class="slider-dropdown">
-      <div class="slider-header" id="sliderHeaderImages">
-        <h2>🖼️ স্লাইডার ইমেজ ম্যানেজমেন্ট</h2>
-        <span class="toggle-icon">▼</span>
-      </div>
-      <div class="slider-content" id="sliderContentImages">
-        <div class="form-card">
-          <h3>🖼️ স্লাইডারের জন্য ইমেজ যোগ/এডিট করুন</h3>
-          
-          <div style="background: #f0f8ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য আলাদা ইমেজ লিংক দিন। ইমেজ লিংক অবশ্যই ওয়েব হোস্টেড হতে হবে (যেমন: Imgur, Google Drive, ইত্যাদি)।</p>
-          </div>
-          
-          <div id="imageSlidesList">
-            <div class="contact-group">
-              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <input type="text" placeholder="মেলার নাম" class="slide-title" style="flex:1;">
-                <input type="url" placeholder="ইমেজ লিংক (URL)" class="slide-image" style="flex:2;">
-              </div>
-              <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;">
-                <input type="text" placeholder="বিবরণ (ছোট)" class="slide-desc" style="flex:2;">
-                <input type="number" placeholder="ক্রম" class="slide-order" style="flex:1;" value="1">
-              </div>
-              <div class="slider-image-preview slide-preview"></div>
-              <button type="button" class="removeSlideBtn" style="background:#dc3545; padding:4px 12px; font-size:0.7rem; margin-top:8px;">✖️ স্লাইড সরান</button>
-            </div>
-          </div>
-          
-          <button type="button" id="addSlideBtn" style="background:#6c757d; margin-top:10px;">+ নতুন স্লাইড যোগ করুন</button>
-          
-          <div style="margin-top: 20px;">
-            <button id="saveSlidesBtn">💾 স্লাইডার সংরক্ষণ করুন</button>
-            <button id="resetSlidesBtn" style="background:#6c757d;">↺ ডিফল্ট রিসেট</button>
-          </div>
-          <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই ইমেজগুলো হোমপেজের স্লাইডারে প্রদর্শিত হবে।</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- লাইনার ২: চলন্ত লেখা (মার্কি) কন্ট্রোল -->
+    <!-- লাইনার ০: চলন্ত লেখা (মার্কি) কন্ট্রোল -->
     <div class="slider-dropdown">
       <div class="slider-header" id="sliderHeaderMarquee">
         <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
@@ -502,57 +372,42 @@
       </div>
     </div>
 
-    <!-- লাইনার ৩: নতুন স্লাইডার পোস্ট যোগ -->
+    <!-- লাইনার ১: স্লাইডার ইমেজ যোগ/এডিট -->
     <div class="slider-dropdown">
-      <div class="slider-header" id="sliderHeaderAdd">
-        <h2>➕ স্লাইডার - নতুন পোস্ট যোগ</h2>
+      <div class="slider-header" id="sliderHeaderSlider">
+        <h2>🖼️ স্লাইডার ইমেজ ম্যানেজ</h2>
         <span class="toggle-icon">▼</span>
       </div>
-      <div class="slider-content" id="sliderContentAdd">
+      <div class="slider-content" id="sliderContentSlider">
         <div class="form-card">
-          <h3>✨ মেলার তথ্য যোগ করুন ✨</h3>
-          <input type="text" id="title" placeholder="মেলার নাম *" required>
-          <textarea id="description" rows="3" placeholder="বিবরণ *" required></textarea>
-          <input type="text" id="address" placeholder="ঠিকানা/লোকেশন">
-          <input type="url" id="mapLink" placeholder="গুগল ম্যাপ লিংক (ঐচ্ছিক)">
-          <input type="url" id="imageUrl" placeholder="ইমেজ লিংক (ঐচ্ছিক)">
+          <h3>✨ স্লাইডারের জন্য ইমেজ যোগ/এডিট করুন ✨</h3>
           
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <input type="datetime-local" id="startDate" style="flex:1;" required>
-            <input type="datetime-local" id="endDate" style="flex:1;" required>
+          <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+            <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য একটি ইমেজ URL, টাইটেল ও বিবরণ দিন। ইমেজ ক্লিক করলে পপআপে টাইটেল ও বিবরণ দেখাবে।</p>
           </div>
-
-          <select id="melaType">
-            <option value="মাসব্যাপী মেলা">মাসব্যাপী মেলা</option>
-            <option value="১৫ দিনব্যাপী মেলা">১৫ দিনব্যাপী মেলা</option>
-            <option value="৭ দিনব্যাপী মেলা">৭ দিনব্যাপী মেলা</option>
-            <option value="৩ দিনব্যাপী মেলা">৩ দিনব্যাপী মেলা</option>
-          </select>
-
-          <input type="number" id="order" placeholder="ক্রম (১,২,৩...)" value="1">
-
-          <div id="contactsArea">
-            <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (একাধিক)</h4>
-            <div id="contactList">
-              <div class="contact-group">
-                <div class="contact-row">
-                  <input type="text" placeholder="নাম" class="contact-name">
-                  <input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone">
-                </div>
-              </div>
+          
+          <input type="text" id="slideTitle" placeholder="স্লাইডের শিরোনাম (ঐচ্ছিক)">
+          <textarea id="slideDescription" rows="2" placeholder="স্লাইডের বিবরণ (ঐচ্ছিক)"></textarea>
+          <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
+          <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
+          <input type="url" id="slideLink" placeholder="লিংক (ঐচ্ছিক) - ক্লিক করলে যাবে">
+          
+          <div id="currentSliderImages" style="margin: 15px 0;">
+            <h4 style="color: #b8860b; margin-bottom: 10px;">বর্তমান স্লাইডার ইমেজ</h4>
+            <div id="sliderImageList" class="slider-image-preview">
+              <p style="color: #999;">লোড হচ্ছে...</p>
             </div>
-            <button type="button" id="addContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
           </div>
-
+          
           <div style="margin-top: 20px;">
-            <button id="saveBtn">➕ সংরক্ষণ করুন</button>
-            <button id="cancelBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
+            <button id="saveSliderBtn">➕ ইমেজ যোগ/আপডেট করুন</button>
+            <button id="cancelSliderBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- লাইনার ৪: পোস্ট করা তথ্য এডিট -->
+    <!-- লাইনার ২: পোস্ট করা তথ্য এডিট (পূর্বের মতো) -->
     <div class="slider-dropdown">
       <div class="slider-header" id="sliderHeaderEdit">
         <h2>✏️ স্লাইডার পোস্ট করা তথ্য এডিট</h2>
@@ -590,12 +445,11 @@
   const database = firebase.database();
   const melaPostsRef = database.ref('melaPosts');
   const marqueeRef = database.ref('marqueeText');
-  const sliderSettingsRef = database.ref('sliderSettings');
   const sliderImagesRef = database.ref('sliderImages');
 
   let currentEditId = null;
+  let currentEditSliderId = null;
   let currentAdminUser = null;
-  let currentSliderImages = [];
   
   // অনুমোদিত অ্যাডমিন ইমেইল লিস্ট
   const ALLOWED_ADMINS = [
@@ -608,23 +462,19 @@
   const adminContent = document.getElementById('adminContent');
   const adminUserInfo = document.getElementById('adminUserInfo');
   
-  // চেক করা অ্যাডমিন কিনা
   function isAdminUser(email) {
     return ALLOWED_ADMINS.includes(email);
   }
   
-  // UI আপডেট
   function showAdminPanel(user) {
     currentAdminUser = user;
     adminUserInfo.innerHTML = `<i class="fa-regular fa-user"></i> ${user.displayName || user.email} (অ্যাডমিন)`;
     loginScreen.style.display = 'none';
     adminContent.classList.add('show');
     
-    // ডাটা লোড
     loadMarqueeText();
-    loadPosts();
-    loadSliderSettings();
     loadSliderImages();
+    loadPosts();
   }
   
   function showLoginScreen() {
@@ -637,7 +487,6 @@
     document.getElementById('accessDeniedMsg').classList.add('show');
   }
   
-  // অথেন্টিকেশন স্টেট চেক
   auth.onAuthStateChanged(async (user) => {
     if (user) {
       if (isAdminUser(user.email)) {
@@ -652,7 +501,6 @@
     }
   });
   
-  // লগইন বাটন
   document.getElementById('adminGoogleLoginBtn').addEventListener('click', async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     const loader = document.getElementById('adminLoader');
@@ -666,7 +514,6 @@
     try {
       const result = await auth.signInWithPopup(provider);
       const user = result.user;
-      
       if (isAdminUser(user.email)) {
         showAdminPanel(user);
       } else {
@@ -686,13 +533,11 @@
     }
   });
   
-  // লগআউট বাটন
   document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
     await auth.signOut();
     showLoginScreen();
   });
   
-  // ড্রপডাউন টগল ফাংশন
   function toggleDropdown(headerId, contentId) {
     const header = document.getElementById(headerId);
     const content = document.getElementById(contentId);
@@ -700,11 +545,8 @@
     content.classList.toggle('open');
   }
 
-  // লাইনার টগল ইভেন্ট
-  document.getElementById('sliderHeaderControls').addEventListener('click', () => toggleDropdown('sliderHeaderControls', 'sliderContentControls'));
-  document.getElementById('sliderHeaderImages').addEventListener('click', () => toggleDropdown('sliderHeaderImages', 'sliderContentImages'));
   document.getElementById('sliderHeaderMarquee').addEventListener('click', () => toggleDropdown('sliderHeaderMarquee', 'sliderContentMarquee'));
-  document.getElementById('sliderHeaderAdd').addEventListener('click', () => toggleDropdown('sliderHeaderAdd', 'sliderContentAdd'));
+  document.getElementById('sliderHeaderSlider').addEventListener('click', () => toggleDropdown('sliderHeaderSlider', 'sliderContentSlider'));
   document.getElementById('sliderHeaderEdit').addEventListener('click', () => toggleDropdown('sliderHeaderEdit', 'sliderContentEdit'));
 
   function escapeHtml(str) {
@@ -717,159 +559,7 @@
     });
   }
 
-  // ========== স্লাইডার এবং মার্কি অন/অফ সেটিংস ==========
-  function loadSliderSettings() {
-    sliderSettingsRef.on('value', (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        document.getElementById('sliderToggle').checked = data.sliderEnabled !== undefined ? data.sliderEnabled : true;
-        document.getElementById('marqueeToggle').checked = data.marqueeEnabled !== undefined ? data.marqueeEnabled : true;
-      } else {
-        document.getElementById('sliderToggle').checked = true;
-        document.getElementById('marqueeToggle').checked = true;
-      }
-      updateToggleStatus();
-    });
-  }
-
-  function updateToggleStatus() {
-    const sliderStatus = document.getElementById('sliderStatus');
-    const marqueeStatus = document.getElementById('marqueeStatus');
-    sliderStatus.textContent = document.getElementById('sliderToggle').checked ? 'চালু' : 'বন্ধ';
-    sliderStatus.className = 'toggle-status ' + (document.getElementById('sliderToggle').checked ? 'on' : 'off');
-    marqueeStatus.textContent = document.getElementById('marqueeToggle').checked ? 'চালু' : 'বন্ধ';
-    marqueeStatus.className = 'toggle-status ' + (document.getElementById('marqueeToggle').checked ? 'on' : 'off');
-  }
-
-  document.getElementById('sliderToggle').addEventListener('change', updateToggleStatus);
-  document.getElementById('marqueeToggle').addEventListener('change', updateToggleStatus);
-
-  document.getElementById('saveSettingsBtn').addEventListener('click', async () => {
-    try {
-      const settings = {
-        sliderEnabled: document.getElementById('sliderToggle').checked,
-        marqueeEnabled: document.getElementById('marqueeToggle').checked,
-        updatedAt: Date.now()
-      };
-      await sliderSettingsRef.set(settings);
-      alert('✅ সেটিংস সফলভাবে সংরক্ষণ করা হয়েছে!');
-    } catch(e) {
-      alert('ত্রুটি: ' + e.message);
-    }
-  });
-
-  // ========== স্লাইডার ইমেজ ম্যানেজমেন্ট ==========
-  function loadSliderImages() {
-    sliderImagesRef.on('value', (snapshot) => {
-      const data = snapshot.val();
-      if (data && data.images) {
-        currentSliderImages = data.images;
-      } else {
-        // ডিফল্ট ইমেজ
-        currentSliderImages = [
-          { title: "ঢাকা আন্তর্জাতিক মেলা", image: "https://via.placeholder.com/800x400/1a1a1a/d4af37?text=ঢাকা+মেলা", desc: "বাংলাদেশের বৃহত্তম মেলা", order: 1 },
-          { title: "বাংলাদেশ কৃষি মেলা", image: "https://via.placeholder.com/800x400/1a1a1a/d4af37?text=কৃষি+মেলা", desc: "কৃষি পণ্যের প্রদর্শনী", order: 2 },
-          { title: "সাংস্কৃতিক মেলা", image: "https://via.placeholder.com/800x400/1a1a1a/d4af37?text=সাংস্কৃতিক+মেলা", desc: "বাংলার সংস্কৃতির উৎসব", order: 3 }
-        ];
-      }
-      renderSliderImages();
-    });
-  }
-
-  function renderSliderImages() {
-    const container = document.getElementById('imageSlidesList');
-    container.innerHTML = '';
-    currentSliderImages.forEach((slide, index) => {
-      const div = document.createElement('div');
-      div.className = 'contact-group';
-      div.innerHTML = `
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <input type="text" placeholder="মেলার নাম" class="slide-title" style="flex:1;" value="${escapeHtml(slide.title)}">
-          <input type="url" placeholder="ইমেজ লিংক (URL)" class="slide-image" style="flex:2;" value="${escapeHtml(slide.image)}">
-        </div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;">
-          <input type="text" placeholder="বিবরণ (ছোট)" class="slide-desc" style="flex:2;" value="${escapeHtml(slide.desc || '')}">
-          <input type="number" placeholder="ক্রম" class="slide-order" style="flex:1;" value="${slide.order || index + 1}">
-        </div>
-        <div class="slider-image-preview slide-preview">
-          <img src="${escapeHtml(slide.image)}" alt="প্রিভিউ" onerror="this.style.display='none'">
-        </div>
-        <button type="button" class="removeSlideBtn" style="background:#dc3545; padding:4px 12px; font-size:0.7rem; margin-top:8px;">✖️ স্লাইড সরান</button>
-      `;
-      container.appendChild(div);
-      
-      // ইমেজ প্রিভিউ আপডেট
-      const imgInput = div.querySelector('.slide-image');
-      const preview = div.querySelector('.slide-preview img');
-      imgInput.addEventListener('input', () => {
-        preview.src = imgInput.value;
-        preview.style.display = imgInput.value ? 'block' : 'none';
-      });
-      
-      div.querySelector('.removeSlideBtn').addEventListener('click', () => {
-        if (confirm('এই স্লাইডটি সরাতে চান?')) {
-          const idx = Array.from(container.children).indexOf(div);
-          currentSliderImages.splice(idx, 1);
-          renderSliderImages();
-        }
-      });
-    });
-  }
-
-  document.getElementById('addSlideBtn').addEventListener('click', () => {
-    currentSliderImages.push({
-      title: 'নতুন মেলা',
-      image: 'https://via.placeholder.com/800x400/1a1a1a/d4af37?text=নতুন+মেলা',
-      desc: '',
-      order: currentSliderImages.length + 1
-    });
-    renderSliderImages();
-  });
-
-  document.getElementById('saveSlidesBtn').addEventListener('click', async () => {
-    const slides = [];
-    const items = document.querySelectorAll('#imageSlidesList .contact-group');
-    items.forEach((item) => {
-      const title = item.querySelector('.slide-title').value.trim();
-      const image = item.querySelector('.slide-image').value.trim();
-      const desc = item.querySelector('.slide-desc').value.trim();
-      const order = parseInt(item.querySelector('.slide-order').value) || 1;
-      if (title && image) {
-        slides.push({ title, image, desc, order });
-      }
-    });
-    
-    if (slides.length === 0) {
-      alert('কমপক্ষে একটি স্লাইড থাকতে হবে!');
-      return;
-    }
-    
-    try {
-      await sliderImagesRef.set({ images: slides, updatedAt: Date.now() });
-      currentSliderImages = slides;
-      alert('✅ স্লাইডার ইমেজ সফলভাবে সংরক্ষণ করা হয়েছে!');
-    } catch(e) {
-      alert('ত্রুটি: ' + e.message);
-    }
-  });
-
-  document.getElementById('resetSlidesBtn').addEventListener('click', async () => {
-    if (confirm('ডিফল্ট স্লাইডার ইমেজে রিসেট করবেন?')) {
-      const defaultImages = [
-        { title: "ঢাকা আন্তর্জাতিক মেলা", image: "https://via.placeholder.com/800x400/1a1a1a/d4af37?text=ঢাকা+মেলা", desc: "বাংলাদেশের বৃহত্তম মেলা", order: 1 },
-        { title: "বাংলাদেশ কৃষি মেলা", image: "https://via.placeholder.com/800x400/1a1a1a/d4af37?text=কৃষি+মেলা", desc: "কৃষি পণ্যের প্রদর্শনী", order: 2 },
-        { title: "সাংস্কৃতিক মেলা", image: "https://via.placeholder.com/800x400/1a1a1a/d4af37?text=সাংস্কৃতিক+মেলা", desc: "বাংলার সংস্কৃতির উৎসব", order: 3 }
-      ];
-      try {
-        await sliderImagesRef.set({ images: defaultImages, updatedAt: Date.now() });
-        currentSliderImages = defaultImages;
-        renderSliderImages();
-        alert('ডিফল্ট স্লাইডার ইমেজে রিসেট করা হয়েছে!');
-      } catch(e) { alert('ত্রুটি: ' + e.message); }
-    }
-  });
-
-  // ========== মার্কি (চলন্ত লেখা) ফাংশন ==========
+  // ========== মার্কি ফাংশন ==========
   const DEFAULT_MARQUEE = "🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা ✦ 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা ✦ 🛡️ সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন";
 
   function loadMarqueeText() {
@@ -910,6 +600,99 @@
     }
   });
 
+  // ========== স্লাইডার ইমেজ ফাংশন ==========
+  function loadSliderImages() {
+    sliderImagesRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      const container = document.getElementById('sliderImageList');
+      if (!data) {
+        container.innerHTML = '<p style="color: #999;">কোনো স্লাইডার ইমেজ নেই। উপরের ফর্ম ব্যবহার করে যোগ করুন।</p>';
+        return;
+      }
+      const items = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+      items.sort((a, b) => (a.order || 0) - (b.order || 0));
+      
+      let html = '';
+      items.forEach(item => {
+        html += `
+          <div class="img-item" data-id="${item.id}">
+            <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title || 'স্লাইড')}" title="${escapeHtml(item.title || '')}">
+            <button class="remove-img" onclick="deleteSliderImage('${item.id}')">×</button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    });
+  }
+
+  window.deleteSliderImage = async function(id) {
+    if(confirm('এই স্লাইডার ইমেজ ডিলিট করবেন?')) {
+      try {
+        await sliderImagesRef.child(id).remove();
+        alert('ইমেজ ডিলিট হয়েছে!');
+      } catch(e) {
+        alert('ত্রুটি: ' + e.message);
+      }
+    }
+  };
+
+  document.getElementById('saveSliderBtn').addEventListener('click', async () => {
+    const title = document.getElementById('slideTitle').value.trim();
+    const description = document.getElementById('slideDescription').value.trim();
+    const imageUrl = document.getElementById('slideImageUrl').value.trim();
+    const order = parseInt(document.getElementById('slideOrder').value) || 1;
+    const link = document.getElementById('slideLink').value.trim();
+    
+    if (!imageUrl) {
+      alert('ইমেজ URL দিতে হবে!');
+      return;
+    }
+    
+    const slideData = {
+      title: title || 'স্লাইড',
+      description: description || '',
+      imageUrl: imageUrl,
+      order: order,
+      link: link || '',
+      updatedAt: Date.now()
+    };
+    
+    try {
+      if (currentEditSliderId) {
+        await sliderImagesRef.child(currentEditSliderId).update(slideData);
+        alert('✅ স্লাইডার ইমেজ আপডেট হয়েছে!');
+        currentEditSliderId = null;
+        document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
+        document.getElementById('cancelSliderBtn').style.display = 'none';
+      } else {
+        await sliderImagesRef.push().set(slideData);
+        alert('✅ নতুন স্লাইডার ইমেজ যোগ হয়েছে!');
+      }
+      
+      // ফর্ম রিসেট
+      document.getElementById('slideTitle').value = '';
+      document.getElementById('slideDescription').value = '';
+      document.getElementById('slideImageUrl').value = '';
+      document.getElementById('slideOrder').value = '1';
+      document.getElementById('slideLink').value = '';
+      
+    } catch(e) {
+      alert('ত্রুটি: ' + e.message);
+    }
+  });
+
+  document.getElementById('cancelSliderBtn').addEventListener('click', () => {
+    currentEditSliderId = null;
+    document.getElementById('slideTitle').value = '';
+    document.getElementById('slideDescription').value = '';
+    document.getElementById('slideImageUrl').value = '';
+    document.getElementById('slideOrder').value = '1';
+    document.getElementById('slideLink').value = '';
+    document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
+    document.getElementById('cancelSliderBtn').style.display = 'none';
+  });
+
+  // ========== পোস্ট ফাংশন (পূর্বের মতো) ==========
   function calculateDays(startDate, endDate, melaType) {
     if (startDate && endDate) {
       const start = new Date(startDate);
@@ -970,11 +753,9 @@
       let html = '';
       posts.forEach(post => {
         const days = calculateDays(post.startDate, post.endDate, post.melaType);
-        const imageHtml = post.imageUrl ? `<p><strong>🖼️ ইমেজ:</strong> <img src="${escapeHtml(post.imageUrl)}" style="max-width:100px; max-height:60px; object-fit:cover; border-radius:4px;" alt="মেলার ছবি"></p>` : '';
         html += `
           <div class="card-item" data-id="${post.id}">
             <h4>${escapeHtml(post.title)}</h4>
-            ${imageHtml}
             <p><strong>📅 ধরন:</strong> ${escapeHtml(post.melaType)} (${days} দিন)</p>
             <p><strong>⏰ সময়:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</p>
             <p><strong>📍 ঠিকানা:</strong> ${escapeHtml(post.address) || 'নেই'}</p>
@@ -1015,7 +796,6 @@
       document.getElementById('description').value = post.description || '';
       document.getElementById('address').value = post.address || '';
       document.getElementById('mapLink').value = post.mapLink || '';
-      document.getElementById('imageUrl').value = post.imageUrl || '';
       document.getElementById('startDate').value = post.startDate || '';
       document.getElementById('endDate').value = post.endDate || '';
       document.getElementById('melaType').value = post.melaType || 'মাসব্যাপী মেলা';
@@ -1040,7 +820,6 @@
     document.getElementById('description').value = '';
     document.getElementById('address').value = '';
     document.getElementById('mapLink').value = '';
-    document.getElementById('imageUrl').value = '';
     document.getElementById('startDate').value = '';
     document.getElementById('endDate').value = '';
     document.getElementById('melaType').value = 'মাসব্যাপী মেলা';
@@ -1051,6 +830,38 @@
     document.getElementById('cancelBtn').style.display = 'none';
   }
 
+  // স্লাইডার ইমেজ এডিট করার জন্য ক্লিক ইভেন্ট (ডাইনামিক)
+  document.addEventListener('click', function(e) {
+    const imgItem = e.target.closest('.img-item');
+    if (imgItem && !e.target.classList.contains('remove-img')) {
+      const id = imgItem.dataset.id;
+      if (id) {
+        sliderImagesRef.child(id).once('value', (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            currentEditSliderId = id;
+            document.getElementById('slideTitle').value = data.title || '';
+            document.getElementById('slideDescription').value = data.description || '';
+            document.getElementById('slideImageUrl').value = data.imageUrl || '';
+            document.getElementById('slideOrder').value = data.order || 1;
+            document.getElementById('slideLink').value = data.link || '';
+            document.getElementById('saveSliderBtn').innerHTML = '✏️ আপডেট করুন';
+            document.getElementById('cancelSliderBtn').style.display = 'inline-block';
+            
+            const header = document.getElementById('sliderHeaderSlider');
+            const content = document.getElementById('sliderContentSlider');
+            if (!content.classList.contains('open')) {
+              header.classList.add('open');
+              content.classList.add('open');
+            }
+            document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+    }
+  });
+
+  // নিউ পোস্ট ফর্ম
   document.getElementById('saveBtn').addEventListener('click', async () => {
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
@@ -1065,7 +876,6 @@
       title, description,
       address: document.getElementById('address').value,
       mapLink: document.getElementById('mapLink').value,
-      imageUrl: document.getElementById('imageUrl').value,
       startDate: document.getElementById('startDate').value,
       endDate: document.getElementById('endDate').value,
       melaType: document.getElementById('melaType').value,
