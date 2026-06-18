@@ -124,7 +124,7 @@
       transition: max-height 0.4s ease-out;
       background: white;
     }
-    .slider-content.open { max-height: 2000px; transition: max-height 0.5s ease-in; }
+    .slider-content.open { max-height: 3000px; transition: max-height 0.5s ease-in; }
     .form-card { padding: 25px; }
     .form-card h3 { color: #b8860b; margin-bottom: 20px; font-size: 1.2rem; }
     
@@ -370,30 +370,76 @@
       </div>
     </div>
 
-    <!-- ===== লাইনার ১: স্লাইডার ইমেজ যোগ/এডিট ===== -->
+    <!-- ===== লাইনার ১: স্লাইডার ইমেজ + সম্পূর্ণ তথ্য ===== -->
     <div class="slider-dropdown">
       <div class="slider-header" id="sliderHeaderSlider">
-        <h2>🖼️ স্লাইডার ইমেজ ম্যানেজ</h2>
+        <h2>🖼️ স্লাইডার ইমেজ ও তথ্য ম্যানেজ</h2>
         <span class="toggle-icon">▼</span>
       </div>
       <div class="slider-content" id="sliderContentSlider">
         <div class="form-card">
-          <h3>✨ স্লাইডারের জন্য ইমেজ যোগ/এডিট করুন ✨</h3>
+          <h3>✨ স্লাইডারের জন্য ইমেজ ও মেলার সম্পূর্ণ তথ্য যোগ/এডিট করুন ✨</h3>
           
           <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য ইমেজ URL, টাইটেল ও বিবরণ দিন। ইমেজ ক্লিক করলে পপআপে টাইটেল ও বিবরণ দেখাবে।</p>
+            <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য ইমেজ ও মেলার সম্পূর্ণ তথ্য দিন। ইমেজ ক্লিক করলে পপআপে সব তথ্য দেখাবে।</p>
           </div>
           
           <!-- ⭐ ইমেজ URL -->
           <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
           
-          <!-- ⭐ টাইটেল (পপআপে দেখাবে) -->
-          <input type="text" id="slideTitle" placeholder="স্লাইডের শিরোনাম (পপআপে দেখাবে)">
+          <!-- ⭐ শিরোনাম -->
+          <input type="text" id="slideTitle" placeholder="মেলার নাম / শিরোনাম *">
           
-          <!-- ⭐ বিবরণ (পপআপে দেখাবে) -->
-          <textarea id="slideDescription" rows="3" placeholder="স্লাইডের বিস্তারিত বিবরণ (পপআপে দেখাবে)"></textarea>
+          <!-- ⭐ মেলার ধরন -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">🏷️ মেলার ধরন *</label>
+            <select id="slideMelaType" required>
+              <option value="">-- নির্বাচন করুন --</option>
+            </select>
+          </div>
           
-          <!-- ⭐ লিংক (ঐচ্ছিক) -->
+          <!-- ⭐ সময়কাল -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">⏰ সময়কাল *</label>
+            <div class="date-range">
+              <input type="date" id="slideStartDate" required>
+              <input type="date" id="slideEndDate" required>
+            </div>
+          </div>
+          
+          <!-- ⭐ ঠিকানা -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📍 ঠিকানা *</label>
+            <select id="slideDivision" required>
+              <option value="">-- বিভাগ নির্বাচন করুন --</option>
+            </select>
+            <select id="slideDistrict" required>
+              <option value="">-- জেলা নির্বাচন করুন --</option>
+            </select>
+            <select id="slideUpazila">
+              <option value="">-- উপজেলা নির্বাচন করুন --</option>
+            </select>
+            <input type="text" id="slideAddressDetail" placeholder="বিস্তারিত ঠিকানা (ঐচ্ছিক)">
+          </div>
+          
+          <!-- ⭐ বিবরণ -->
+          <textarea id="slideDescription" rows="3" placeholder="মেলার বিস্তারিত বিবরণ *"></textarea>
+          
+          <!-- ⭐ যোগাযোগ -->
+          <div id="slideContactsArea">
+            <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (ঐচ্ছিক)</h4>
+            <div id="slideContactList">
+              <div class="contact-group">
+                <div class="contact-row">
+                  <input type="text" placeholder="নাম" class="slide-contact-name">
+                  <input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone">
+                </div>
+              </div>
+            </div>
+            <button type="button" id="slideAddContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
+          </div>
+          
+          <!-- ⭐ লিংক -->
           <input type="url" id="slideLink" placeholder="লিংক (ঐচ্ছিক) - ক্লিক করলে যাবে">
           
           <!-- ⭐ ক্রম -->
@@ -407,94 +453,16 @@
           </div>
           
           <div style="margin-top: 20px;">
-            <button id="saveSliderBtn">➕ ইমেজ যোগ/আপডেট করুন</button>
+            <button id="saveSliderBtn">➕ ইমেজ ও তথ্য যোগ/আপডেট করুন</button>
             <button id="cancelSliderBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ===== লাইনার ২: স্লাইডার পোস্ট করা তথ্য এডিট ===== -->
-    <div class="slider-dropdown">
-      <div class="slider-header" id="sliderHeaderEdit">
-        <h2>✏️ স্লাইডার পোস্ট করা তথ্য এডিট</h2>
-        <span class="toggle-icon">▼</span>
-      </div>
-      <div class="slider-content" id="sliderContentEdit">
-        <div class="form-card">
-          <h3>📝 মেলার তথ্য যোগ/এডিট করুন</h3>
-          
-          <!-- মেলার ধরন -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">🏷️ মেলার ধরন *</label>
-            <select id="melaType" required>
-              <option value="">-- নির্বাচন করুন --</option>
-            </select>
-          </div>
-          
-          <!-- সময়কাল -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">⏰ সময়কাল *</label>
-            <div class="date-range">
-              <input type="date" id="startDate" required>
-              <input type="date" id="endDate" required>
-            </div>
-          </div>
-          
-          <!-- ঠিকানা -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📍 ঠিকানা *</label>
-            <select id="divisionSelect" required>
-              <option value="">-- বিভাগ নির্বাচন করুন --</option>
-            </select>
-            <select id="districtSelect" required>
-              <option value="">-- জেলা নির্বাচন করুন --</option>
-            </select>
-            <select id="upazilaSelect">
-              <option value="">-- উপজেলা নির্বাচন করুন --</option>
-            </select>
-            <input type="text" id="addressDetail" placeholder="বিস্তারিত ঠিকানা (ঐচ্ছিক)">
-          </div>
-          
-          <!-- বিবরণ -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📝 বিবরণ *</label>
-            <textarea id="description" rows="4" placeholder="মেলার বিস্তারিত বিবরণ লিখুন..." required></textarea>
-          </div>
-          
-          <!-- যোগাযোগ -->
-          <div id="contactsArea">
-            <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (ঐচ্ছিক)</h4>
-            <div id="contactList">
-              <div class="contact-group">
-                <div class="contact-row">
-                  <input type="text" placeholder="নাম" class="contact-name">
-                  <input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone">
-                </div>
-              </div>
-            </div>
-            <button type="button" id="addContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
-          </div>
-          
-          <!-- ক্রম -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">🔢 ক্রম</label>
-            <input type="number" id="order" placeholder="ক্রম (১,২,৩...)" value="1">
-          </div>
-          
-          <div style="margin-top: 20px;">
-            <button id="savePostBtn">➕ সংরক্ষণ করুন</button>
-            <button id="cancelPostBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
-          </div>
-        </div>
-        
-        <!-- পোস্ট লিস্ট -->
-        <div class="card-list" style="margin-top:20px; border-top:2px solid #d4af37; border-radius:0 0 24px 24px;">
-          <h3>📋 সেভ করা মেলার তালিকা</h3>
-          <div id="postsList">লোড হচ্ছে...</div>
-        </div>
-      </div>
-    </div>
+    <!-- ===== লাইনার ২: স্লাইডার পোস্ট করা তথ্য এডিট (বাতিল) ===== -->
+    <!-- এই বিভাগটি সম্পূর্ণ বাদ দেওয়া হয়েছে, কারণ ইমেজের সাথেই সব তথ্য সংরক্ষিত -->
+
   </div>
 </div>
 
@@ -519,11 +487,9 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const database = firebase.database();
-  const melaPostsRef = database.ref('melaPosts');
-  const marqueeRef = database.ref('marqueeText');
   const sliderImagesRef = database.ref('sliderImages');
+  const marqueeRef = database.ref('marqueeText');
 
-  let currentEditId = null;
   let currentEditSliderId = null;
   let currentAdminUser = null;
   let categoriesData = [];
@@ -545,7 +511,6 @@
     adminContent.classList.add('show');
     loadMarqueeText();
     loadSliderImages();
-    loadPosts();
     loadCategories();
     loadDivisions();
   }
@@ -605,7 +570,6 @@
 
   document.getElementById('sliderHeaderMarquee').addEventListener('click', () => toggleDropdown('sliderHeaderMarquee', 'sliderContentMarquee'));
   document.getElementById('sliderHeaderSlider').addEventListener('click', () => toggleDropdown('sliderHeaderSlider', 'sliderContentSlider'));
-  document.getElementById('sliderHeaderEdit').addEventListener('click', () => toggleDropdown('sliderHeaderEdit', 'sliderContentEdit'));
 
   function escapeHtml(str) {
     if (!str) return '';
@@ -634,11 +598,11 @@
         { name: "অন্যান্য", icon: "🎪" }
       ];
     }
-    populateCategorySelect();
+    populateSlideCategorySelect();
   }
 
-  function populateCategorySelect() {
-    const select = document.getElementById('melaType');
+  function populateSlideCategorySelect() {
+    const select = document.getElementById('slideMelaType');
     select.innerHTML = '<option value="">-- নির্বাচন করুন --</option>';
     categoriesData.forEach(cat => {
       select.add(new Option(`${cat.icon || '🏷️'} ${cat.name}`, cat.name));
@@ -655,23 +619,23 @@
     } catch(e) {
       divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }];
     }
-    populateDivisionSelect();
+    populateSlideDivisionSelect();
   }
 
-  function populateDivisionSelect() {
-    const select = document.getElementById('divisionSelect');
+  function populateSlideDivisionSelect() {
+    const select = document.getElementById('slideDivision');
     select.innerHTML = '<option value="">-- বিভাগ নির্বাচন করুন --</option>';
     divisionsData.forEach(div => {
       select.add(new Option(div.name, div.name));
     });
     select.onchange = function() {
       const divisionName = this.value;
-      updateDistrictSelect(divisionName);
+      updateSlideDistrictSelect(divisionName);
     };
   }
 
-  function updateDistrictSelect(divisionName) {
-    const districtSelect = document.getElementById('districtSelect');
+  function updateSlideDistrictSelect(divisionName) {
+    const districtSelect = document.getElementById('slideDistrict');
     districtSelect.innerHTML = '<option value="">-- জেলা নির্বাচন করুন --</option>';
     const division = divisionsData.find(d => d.name === divisionName);
     if (division && division.districts) {
@@ -683,12 +647,12 @@
       const districtName = this.value;
       const division = divisionsData.find(d => d.name === divisionName);
       const district = division?.districts?.find(d => d.name === districtName);
-      updateUpazilaSelect(district?.upazilas || []);
+      updateSlideUpazilaSelect(district?.upazilas || []);
     };
   }
 
-  function updateUpazilaSelect(upazilas) {
-    const upazilaSelect = document.getElementById('upazilaSelect');
+  function updateSlideUpazilaSelect(upazilas) {
+    const upazilaSelect = document.getElementById('slideUpazila');
     upazilaSelect.innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
     if (upazilas) {
       upazilas.forEach(up => {
@@ -733,7 +697,7 @@
     }
   });
 
-  // ========== স্লাইডার ইমেজ (টাইটেল, বিবরণ, লিংক সহ) ==========
+  // ========== স্লাইডার ইমেজ (সম্পূর্ণ তথ্য সহ) ==========
   function loadSliderImages() {
     sliderImagesRef.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -776,11 +740,55 @@
       const data = snapshot.val();
       if (data) {
         currentEditSliderId = id;
+        
         document.getElementById('slideImageUrl').value = data.imageUrl || '';
         document.getElementById('slideTitle').value = data.title || '';
+        document.getElementById('slideMelaType').value = data.melaType || '';
+        document.getElementById('slideStartDate').value = data.startDate || '';
+        document.getElementById('slideEndDate').value = data.endDate || '';
+        document.getElementById('slideAddressDetail').value = data.addressDetail || '';
         document.getElementById('slideDescription').value = data.description || '';
         document.getElementById('slideLink').value = data.link || '';
         document.getElementById('slideOrder').value = data.order || 1;
+        
+        // বিভাগ সেট
+        if (data.division) {
+          const divSelect = document.getElementById('slideDivision');
+          for (let i = 0; i < divSelect.options.length; i++) {
+            if (divSelect.options[i].value === data.division) {
+              divSelect.selectedIndex = i;
+              updateSlideDistrictSelect(data.division);
+              break;
+            }
+          }
+          if (data.district) {
+            setTimeout(() => {
+              const distSelect = document.getElementById('slideDistrict');
+              for (let i = 0; i < distSelect.options.length; i++) {
+                if (distSelect.options[i].value === data.district) {
+                  distSelect.selectedIndex = i;
+                  const division = divisionsData.find(d => d.name === data.division);
+                  const district = division?.districts?.find(d => d.name === data.district);
+                  updateSlideUpazilaSelect(district?.upazilas || []);
+                  break;
+                }
+              }
+              if (data.upazila) {
+                setTimeout(() => {
+                  const upazilaSelect = document.getElementById('slideUpazila');
+                  for (let i = 0; i < upazilaSelect.options.length; i++) {
+                    if (upazilaSelect.options[i].value === data.upazila) {
+                      upazilaSelect.selectedIndex = i;
+                      break;
+                    }
+                  }
+                }, 100);
+              }
+            }, 100);
+          }
+        }
+        
+        renderSlideContactFields(data.contacts || []);
         
         document.getElementById('saveSliderBtn').innerHTML = '✏️ আপডেট করুন';
         document.getElementById('cancelSliderBtn').style.display = 'inline-block';
@@ -799,271 +807,114 @@
   document.getElementById('saveSliderBtn').addEventListener('click', async () => {
     const imageUrl = document.getElementById('slideImageUrl').value.trim();
     const title = document.getElementById('slideTitle').value.trim();
+    const melaType = document.getElementById('slideMelaType').value;
+    const startDate = document.getElementById('slideStartDate').value;
+    const endDate = document.getElementById('slideEndDate').value;
+    const division = document.getElementById('slideDivision').value;
+    const district = document.getElementById('slideDistrict').value;
+    const upazila = document.getElementById('slideUpazila').value;
+    const addressDetail = document.getElementById('slideAddressDetail').value.trim();
     const description = document.getElementById('slideDescription').value.trim();
     const link = document.getElementById('slideLink').value.trim();
     const order = parseInt(document.getElementById('slideOrder').value) || 1;
+    const contacts = collectSlideContacts();
     
     if (!imageUrl) { alert('ইমেজ URL দিতে হবে!'); return; }
+    if (!title) { alert('শিরোনাম দিতে হবে!'); return; }
+    if (!melaType) { alert('মেলার ধরন নির্বাচন করুন!'); return; }
+    if (!startDate || !endDate) { alert('সময়কাল নির্বাচন করুন!'); return; }
+    if (!division || !district) { alert('ঠিকানা নির্বাচন করুন!'); return; }
+    if (!description) { alert('বিবরণ লিখুন!'); return; }
     
     const slideData = {
       imageUrl: imageUrl,
-      title: title || 'স্লাইড',
-      description: description || '',
+      title: title,
+      melaType: melaType,
+      startDate: startDate,
+      endDate: endDate,
+      division: division,
+      district: district,
+      upazila: upazila,
+      addressDetail: addressDetail,
+      description: description,
       link: link || '',
       order: order,
+      contacts: contacts,
       updatedAt: Date.now()
     };
     
     try {
       if (currentEditSliderId) {
         await sliderImagesRef.child(currentEditSliderId).update(slideData);
-        alert('✅ স্লাইডার ইমেজ আপডেট হয়েছে!');
+        alert('✅ স্লাইডার ইমেজ ও তথ্য আপডেট হয়েছে!');
         currentEditSliderId = null;
-        document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
+        document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ ও তথ্য যোগ/আপডেট করুন';
         document.getElementById('cancelSliderBtn').style.display = 'none';
       } else {
         await sliderImagesRef.push().set(slideData);
-        alert('✅ নতুন স্লাইডার ইমেজ যোগ হয়েছে!');
+        alert('✅ নতুন স্লাইডার ইমেজ ও তথ্য যোগ হয়েছে!');
       }
-      document.getElementById('slideImageUrl').value = '';
-      document.getElementById('slideTitle').value = '';
-      document.getElementById('slideDescription').value = '';
-      document.getElementById('slideLink').value = '';
-      document.getElementById('slideOrder').value = '1';
+      resetSlideForm();
     } catch(e) { alert('ত্রুটি: ' + e.message); }
   });
 
   document.getElementById('cancelSliderBtn').addEventListener('click', () => {
     currentEditSliderId = null;
-    document.getElementById('slideImageUrl').value = '';
-    document.getElementById('slideTitle').value = '';
-    document.getElementById('slideDescription').value = '';
-    document.getElementById('slideLink').value = '';
-    document.getElementById('slideOrder').value = '1';
-    document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
+    resetSlideForm();
+    document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ ও তথ্য যোগ/আপডেট করুন';
     document.getElementById('cancelSliderBtn').style.display = 'none';
   });
 
-  // ========== পোস্ট ফাংশন ==========
-  function loadPosts() {
-    melaPostsRef.on('value', (snapshot) => {
-      const data = snapshot.val();
-      const container = document.getElementById('postsList');
-      if (!data) {
-        container.innerHTML = '<div style="text-align:center;padding:40px;">🎪 কোনো পোস্ট নেই। নিচের ফর্ম ব্যবহার করে পোস্ট যোগ করুন।</div>';
-        return;
-      }
-      const posts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-      posts.sort((a,b) => (a.order||0) - (b.order||0));
-
-      let html = '';
-      posts.forEach(post => {
-        const days = calculateDays(post.startDate, post.endDate);
-        html += `
-          <div class="card-item" data-id="${post.id}">
-            <h4>${escapeHtml(post.title)}</h4>
-            <p><strong>🏷️ মেলার ধরন:</strong> ${escapeHtml(post.melaType) || 'অন্যান্য'}</p>
-            <p><strong>⏰ সময়:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)} (${days} দিন)</p>
-            <p><strong>📍 ঠিকানা:</strong> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</p>
-            <p><strong>📝 বিবরণ:</strong> ${escapeHtml(post.description?.substring(0, 80) || '')}...</p>
-            <div class="card-actions">
-              <button class="edit-btn small-btn" data-id="${post.id}">✏️ এডিট</button>
-              <button class="delete-btn small-btn" data-id="${post.id}">🗑️ ডিলিট</button>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', () => editPost(btn.getAttribute('data-id')));
-      });
-      document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          if(confirm('পোস্টটি ডিলিট করবেন?')) {
-            await melaPostsRef.child(btn.getAttribute('data-id')).remove();
-            alert('পোস্ট ডিলিট হয়েছে!');
-          }
-        });
-      });
-    });
+  function resetSlideForm() {
+    document.getElementById('slideImageUrl').value = '';
+    document.getElementById('slideTitle').value = '';
+    document.getElementById('slideMelaType').value = '';
+    document.getElementById('slideStartDate').value = '';
+    document.getElementById('slideEndDate').value = '';
+    document.getElementById('slideDivision').value = '';
+    document.getElementById('slideDistrict').innerHTML = '<option value="">-- জেলা নির্বাচন করুন --</option>';
+    document.getElementById('slideUpazila').innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
+    document.getElementById('slideAddressDetail').value = '';
+    document.getElementById('slideDescription').value = '';
+    document.getElementById('slideLink').value = '';
+    document.getElementById('slideOrder').value = '1';
+    renderSlideContactFields([]);
   }
 
-  function calculateDays(startDate, endDate) {
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      const diffTime = Math.abs(end - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-      return diffDays;
-    }
-    return 0;
-  }
-
-  function formatDate(dateStr) {
-    if(!dateStr) return 'N/A';
-    return new Date(dateStr).toLocaleDateString('bn-BD');
-  }
-
-  async function editPost(id) {
-    const snapshot = await melaPostsRef.child(id).once('value');
-    const post = snapshot.val();
-    if(post) {
-      document.getElementById('melaType').value = post.melaType || '';
-      document.getElementById('startDate').value = post.startDate || '';
-      document.getElementById('endDate').value = post.endDate || '';
-      document.getElementById('addressDetail').value = post.addressDetail || '';
-      document.getElementById('description').value = post.description || '';
-      document.getElementById('order').value = post.order || 1;
-      
-      if (post.division) {
-        const divSelect = document.getElementById('divisionSelect');
-        for (let i = 0; i < divSelect.options.length; i++) {
-          if (divSelect.options[i].value === post.division) {
-            divSelect.selectedIndex = i;
-            updateDistrictSelect(post.division);
-            break;
-          }
-        }
-        if (post.district) {
-          setTimeout(() => {
-            const distSelect = document.getElementById('districtSelect');
-            for (let i = 0; i < distSelect.options.length; i++) {
-              if (distSelect.options[i].value === post.district) {
-                distSelect.selectedIndex = i;
-                const division = divisionsData.find(d => d.name === post.division);
-                const district = division?.districts?.find(d => d.name === post.district);
-                updateUpazilaSelect(district?.upazilas || []);
-                break;
-              }
-            }
-            if (post.upazila) {
-              setTimeout(() => {
-                const upazilaSelect = document.getElementById('upazilaSelect');
-                for (let i = 0; i < upazilaSelect.options.length; i++) {
-                  if (upazilaSelect.options[i].value === post.upazila) {
-                    upazilaSelect.selectedIndex = i;
-                    break;
-                  }
-                }
-              }, 100);
-            }
-          }, 100);
-        }
-      }
-      
-      renderContactFields(post.contacts || []);
-      currentEditId = id;
-      document.getElementById('savePostBtn').innerHTML = '✏️ আপডেট করুন';
-      document.getElementById('cancelPostBtn').style.display = 'inline-block';
-      
-      const header = document.getElementById('sliderHeaderEdit');
-      const content = document.getElementById('sliderContentEdit');
-      if (!content.classList.contains('open')) {
-        header.classList.add('open');
-        content.classList.add('open');
-      }
-      document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  function resetPostForm() {
-    document.getElementById('melaType').value = '';
-    document.getElementById('startDate').value = '';
-    document.getElementById('endDate').value = '';
-    document.getElementById('divisionSelect').value = '';
-    document.getElementById('districtSelect').innerHTML = '<option value="">-- জেলা নির্বাচন করুন --</option>';
-    document.getElementById('upazilaSelect').innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
-    document.getElementById('addressDetail').value = '';
-    document.getElementById('description').value = '';
-    document.getElementById('order').value = '1';
-    renderContactFields([]);
-    currentEditId = null;
-    document.getElementById('savePostBtn').innerHTML = '➕ সংরক্ষণ করুন';
-    document.getElementById('cancelPostBtn').style.display = 'none';
-  }
-
-  function collectContacts() {
+  function collectSlideContacts() {
     const contacts = [];
-    document.querySelectorAll('#contactList .contact-group').forEach(group => {
-      const name = group.querySelector('.contact-name').value.trim();
-      const phone = group.querySelector('.contact-phone').value.trim();
+    document.querySelectorAll('#slideContactList .contact-group').forEach(group => {
+      const name = group.querySelector('.slide-contact-name').value.trim();
+      const phone = group.querySelector('.slide-contact-phone').value.trim();
       if (name && phone) contacts.push({ name, phone });
     });
     return contacts;
   }
 
-  function renderContactFields(contacts) {
-    const container = document.getElementById('contactList');
+  function renderSlideContactFields(contacts) {
+    const container = document.getElementById('slideContactList');
     container.innerHTML = '';
     if (!contacts || contacts.length === 0) {
       const div = document.createElement('div');
       div.className = 'contact-group';
-      div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone"></div>`;
+      div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="slide-contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone"></div>`;
       container.appendChild(div);
     } else {
       contacts.forEach(contact => {
         const div = document.createElement('div');
         div.className = 'contact-group';
-        div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name" value="${escapeHtml(contact.name)}"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone" value="${escapeHtml(contact.phone)}"></div><button type="button" class="removeContactBtn" style="background:#dc3545; padding:4px 8px; font-size:0.7rem;">✖️ সরান</button>`;
+        div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="slide-contact-name" value="${escapeHtml(contact.name)}"><input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone" value="${escapeHtml(contact.phone)}"></div><button type="button" class="removeContactBtn" onclick="this.closest('.contact-group').remove()">✖️ সরান</button>`;
         container.appendChild(div);
-        div.querySelector('.removeContactBtn').addEventListener('click', () => div.remove());
       });
     }
   }
 
-  document.getElementById('savePostBtn').addEventListener('click', async () => {
-    const melaType = document.getElementById('melaType').value;
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    const division = document.getElementById('divisionSelect').value;
-    const district = document.getElementById('districtSelect').value;
-    const upazila = document.getElementById('upazilaSelect').value;
-    const addressDetail = document.getElementById('addressDetail').value.trim();
-    const description = document.getElementById('description').value.trim();
-    const order = parseInt(document.getElementById('order').value) || 1;
-    const contacts = collectContacts();
-    
-    if (!melaType) { alert('মেলার ধরন নির্বাচন করুন!'); return; }
-    if (!startDate || !endDate) { alert('সময়কাল নির্বাচন করুন!'); return; }
-    if (!division || !district) { alert('ঠিকানা নির্বাচন করুন!'); return; }
-    if (!description) { alert('বিবরণ লিখুন!'); return; }
-    
-    const postData = {
-      melaType,
-      startDate,
-      endDate,
-      division,
-      district,
-      upazila,
-      addressDetail,
-      description,
-      order,
-      contacts,
-      updatedAt: Date.now()
-    };
-
-    try {
-      if (currentEditId) {
-        await melaPostsRef.child(currentEditId).update(postData);
-        alert('✅ পোস্ট আপডেট হয়েছে!');
-      } else {
-        await melaPostsRef.push().set(postData);
-        alert('✅ নতুন মেলা যোগ হয়েছে!');
-      }
-      resetPostForm();
-    } catch(e) { alert('ত্রুটি: '+e.message); }
-  });
-
-  document.getElementById('cancelPostBtn').addEventListener('click', resetPostForm);
-  
-  document.getElementById('addContactBtn').addEventListener('click', () => {
-    const container = document.getElementById('contactList');
+  document.getElementById('slideAddContactBtn').addEventListener('click', () => {
+    const container = document.getElementById('slideContactList');
     const div = document.createElement('div');
     div.className = 'contact-group';
-    div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone"></div><button type="button" class="removeContactBtn" style="background:#dc3545; padding:4px 8px; font-size:0.7rem;">✖️ সরান</button>`;
+    div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="slide-contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone"></div><button type="button" class="removeContactBtn" onclick="this.closest('.contact-group').remove()">✖️ সরান</button>`;
     container.appendChild(div);
-    div.querySelector('.removeContactBtn').addEventListener('click', () => div.remove());
   });
 </script>
 </body>
