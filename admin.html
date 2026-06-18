@@ -384,10 +384,19 @@
             <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য ইমেজ URL, টাইটেল ও বিবরণ দিন। ইমেজ ক্লিক করলে পপআপে টাইটেল ও বিবরণ দেখাবে।</p>
           </div>
           
+          <!-- ⭐ ইমেজ URL -->
           <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
+          
+          <!-- ⭐ টাইটেল (পপআপে দেখাবে) -->
           <input type="text" id="slideTitle" placeholder="স্লাইডের শিরোনাম (পপআপে দেখাবে)">
+          
+          <!-- ⭐ বিবরণ (পপআপে দেখাবে) -->
           <textarea id="slideDescription" rows="3" placeholder="স্লাইডের বিস্তারিত বিবরণ (পপআপে দেখাবে)"></textarea>
+          
+          <!-- ⭐ লিংক (ঐচ্ছিক) -->
           <input type="url" id="slideLink" placeholder="লিংক (ঐচ্ছিক) - ক্লিক করলে যাবে">
+          
+          <!-- ⭐ ক্রম -->
           <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
           
           <div id="currentSliderImages" style="margin: 15px 0;">
@@ -724,7 +733,7 @@
     }
   });
 
-  // ========== স্লাইডার ইমেজ ==========
+  // ========== স্লাইডার ইমেজ (টাইটেল, বিবরণ, লিংক সহ) ==========
   function loadSliderImages() {
     sliderImagesRef.on('value', (snapshot) => {
       const data = snapshot.val();
