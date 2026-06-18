@@ -218,14 +218,20 @@
     }
     .slider-image-preview .img-item {
       position: relative;
-      width: 100px;
+      width: 120px;
       border-radius: 8px;
       overflow: hidden;
       border: 2px solid #e0e0e0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .slider-image-preview .img-item:hover {
+      border-color: #d4af37;
+      transform: scale(1.02);
     }
     .slider-image-preview .img-item img {
       width: 100%;
-      height: 60px;
+      height: 70px;
       object-fit: cover;
       display: block;
     }
@@ -249,13 +255,17 @@
       padding: 4px 6px;
       font-size: 0.6rem;
       color: #333;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .slider-image-preview .img-item .img-info strong {
+      display: block;
+      font-size: 0.65rem;
+    }
     
-    /* ক্যালেন্ডার স্টাইল */
+    /* ক্যালেন্ডার */
     .date-range {
       display: flex;
       gap: 10px;
@@ -306,6 +316,7 @@
       .slider-header { padding: 12px 18px; }
       .date-range { flex-direction: column; }
       .date-range input[type="date"] { width: 100%; }
+      .slider-image-preview .img-item { width: 100px; }
     }
   </style>
 </head>
@@ -370,17 +381,17 @@
           <h3>✨ স্লাইডারের জন্য ইমেজ যোগ/এডিট করুন ✨</h3>
           
           <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য একটি ইমেজ URL, টাইটেল ও বিবরণ দিন। ইমেজ ক্লিক করলে পপআপে টাইটেল ও বিবরণ দেখাবে।</p>
+            <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য ইমেজ URL, টাইটেল ও বিবরণ দিন। ইমেজ ক্লিক করলে পপআপে টাইটেল ও বিবরণ দেখাবে।</p>
           </div>
           
-          <input type="text" id="slideTitle" placeholder="স্লাইডের শিরোনাম (ঐচ্ছিক)">
-          <textarea id="slideDescription" rows="3" placeholder="স্লাইডের বিস্তারিত বিবরণ (ঐচ্ছিক)"></textarea>
           <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
-          <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
+          <input type="text" id="slideTitle" placeholder="স্লাইডের শিরোনাম (পপআপে দেখাবে)">
+          <textarea id="slideDescription" rows="3" placeholder="স্লাইডের বিস্তারিত বিবরণ (পপআপে দেখাবে)"></textarea>
           <input type="url" id="slideLink" placeholder="লিংক (ঐচ্ছিক) - ক্লিক করলে যাবে">
+          <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
           
           <div id="currentSliderImages" style="margin: 15px 0;">
-            <h4 style="color: #b8860b; margin-bottom: 10px;">বর্তমান স্লাইডার ইমেজ</h4>
+            <h4 style="color: #b8860b; margin-bottom: 10px;">📸 বর্তমান স্লাইডার ইমেজ</h4>
             <div id="sliderImageList" class="slider-image-preview">
               <p style="color: #999;">লোড হচ্ছে...</p>
             </div>
@@ -404,7 +415,7 @@
         <div class="form-card">
           <h3>📝 মেলার তথ্য যোগ/এডিট করুন</h3>
           
-          <!-- মেলার ধরন (mela-category.json থেকে) -->
+          <!-- মেলার ধরন -->
           <div class="form-group">
             <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">🏷️ মেলার ধরন *</label>
             <select id="melaType" required>
@@ -412,7 +423,7 @@
             </select>
           </div>
           
-          <!-- ⏰ সময়: ক্যালেন্ডার -->
+          <!-- সময়কাল -->
           <div class="form-group">
             <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">⏰ সময়কাল *</label>
             <div class="date-range">
@@ -421,7 +432,7 @@
             </div>
           </div>
           
-          <!-- 📍 ঠিকানা (divisions.json থেকে) -->
+          <!-- ঠিকানা -->
           <div class="form-group">
             <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📍 ঠিকানা *</label>
             <select id="divisionSelect" required>
@@ -436,7 +447,7 @@
             <input type="text" id="addressDetail" placeholder="বিস্তারিত ঠিকানা (ঐচ্ছিক)">
           </div>
           
-          <!-- 📝 বিবরণ -->
+          <!-- বিবরণ -->
           <div class="form-group">
             <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📝 বিবরণ *</label>
             <textarea id="description" rows="4" placeholder="মেলার বিস্তারিত বিবরণ লিখুন..." required></textarea>
@@ -597,7 +608,7 @@
     });
   }
 
-  // ========== ক্যাটাগরি লোড (mela-category.json) ==========
+  // ========== ক্যাটাগরি লোড ==========
   async function loadCategories() {
     try {
       const response = await fetch('mela-category.json');
@@ -625,7 +636,7 @@
     });
   }
 
-  // ========== ডিভিশন লোড (divisions.json) ==========
+  // ========== ডিভিশন লোড ==========
   async function loadDivisions() {
     try {
       const response = await fetch('divisions.json');
@@ -731,7 +742,10 @@
           <div class="img-item" data-id="${item.id}" onclick="editSliderImage('${item.id}')">
             <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title || 'স্লাইড')}">
             <button class="remove-img" onclick="event.stopPropagation(); deleteSliderImage('${item.id}')">×</button>
-            <div class="img-info">${escapeHtml(item.title || 'শিরোনাম নেই')}</div>
+            <div class="img-info">
+              <strong>${escapeHtml(item.title || 'শিরোনাম নেই')}</strong>
+              <small>${escapeHtml((item.description || '').substring(0, 25))}${(item.description || '').length > 25 ? '...' : ''}</small>
+            </div>
           </div>
         `;
       });
@@ -753,11 +767,12 @@
       const data = snapshot.val();
       if (data) {
         currentEditSliderId = id;
+        document.getElementById('slideImageUrl').value = data.imageUrl || '';
         document.getElementById('slideTitle').value = data.title || '';
         document.getElementById('slideDescription').value = data.description || '';
-        document.getElementById('slideImageUrl').value = data.imageUrl || '';
-        document.getElementById('slideOrder').value = data.order || 1;
         document.getElementById('slideLink').value = data.link || '';
+        document.getElementById('slideOrder').value = data.order || 1;
+        
         document.getElementById('saveSliderBtn').innerHTML = '✏️ আপডেট করুন';
         document.getElementById('cancelSliderBtn').style.display = 'inline-block';
         
@@ -773,20 +788,20 @@
   };
 
   document.getElementById('saveSliderBtn').addEventListener('click', async () => {
+    const imageUrl = document.getElementById('slideImageUrl').value.trim();
     const title = document.getElementById('slideTitle').value.trim();
     const description = document.getElementById('slideDescription').value.trim();
-    const imageUrl = document.getElementById('slideImageUrl').value.trim();
-    const order = parseInt(document.getElementById('slideOrder').value) || 1;
     const link = document.getElementById('slideLink').value.trim();
+    const order = parseInt(document.getElementById('slideOrder').value) || 1;
     
     if (!imageUrl) { alert('ইমেজ URL দিতে হবে!'); return; }
     
     const slideData = {
+      imageUrl: imageUrl,
       title: title || 'স্লাইড',
       description: description || '',
-      imageUrl: imageUrl,
-      order: order,
       link: link || '',
+      order: order,
       updatedAt: Date.now()
     };
     
@@ -801,21 +816,21 @@
         await sliderImagesRef.push().set(slideData);
         alert('✅ নতুন স্লাইডার ইমেজ যোগ হয়েছে!');
       }
+      document.getElementById('slideImageUrl').value = '';
       document.getElementById('slideTitle').value = '';
       document.getElementById('slideDescription').value = '';
-      document.getElementById('slideImageUrl').value = '';
-      document.getElementById('slideOrder').value = '1';
       document.getElementById('slideLink').value = '';
+      document.getElementById('slideOrder').value = '1';
     } catch(e) { alert('ত্রুটি: ' + e.message); }
   });
 
   document.getElementById('cancelSliderBtn').addEventListener('click', () => {
     currentEditSliderId = null;
+    document.getElementById('slideImageUrl').value = '';
     document.getElementById('slideTitle').value = '';
     document.getElementById('slideDescription').value = '';
-    document.getElementById('slideImageUrl').value = '';
-    document.getElementById('slideOrder').value = '1';
     document.getElementById('slideLink').value = '';
+    document.getElementById('slideOrder').value = '1';
     document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
     document.getElementById('cancelSliderBtn').style.display = 'none';
   });
@@ -892,7 +907,6 @@
       document.getElementById('description').value = post.description || '';
       document.getElementById('order').value = post.order || 1;
       
-      // বিভাগ সেট
       if (post.division) {
         const divSelect = document.getElementById('divisionSelect');
         for (let i = 0; i < divSelect.options.length; i++) {
@@ -902,7 +916,6 @@
             break;
           }
         }
-        // জেলা সেট
         if (post.district) {
           setTimeout(() => {
             const distSelect = document.getElementById('districtSelect');
@@ -915,7 +928,6 @@
                 break;
               }
             }
-            // উপজেলা সেট
             if (post.upazila) {
               setTimeout(() => {
                 const upazilaSelect = document.getElementById('upazilaSelect');
