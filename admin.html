@@ -42,7 +42,10 @@
       transition: all 0.3s;
       margin-top: 20px;
     }
-    .login-screen .google-btn:hover { background: #f5f5f5; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .login-screen .google-btn:hover {
+      background: #f5f5f5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
     .login-screen .google-btn img { width: 22px; height: 22px; }
     .login-screen .loader { display: none; margin-top: 20px; color: #666; }
     .login-screen .loader.show { display: block; }
@@ -252,10 +255,57 @@
       text-overflow: ellipsis;
     }
     
+    /* ক্যালেন্ডার স্টাইল */
+    .date-range {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .date-range input[type="date"] {
+      width: 50%;
+      margin-bottom: 0;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: white;
+      cursor: pointer;
+    }
+    .date-range input[type="date"]:focus {
+      outline: none;
+      border-color: #d4af37;
+    }
+    
+    /* কন্টাক্ট গ্রুপ */
+    .contact-group {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+    }
+    .contact-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .contact-row input { margin: 0; flex: 1; }
+    .removeContactBtn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      margin-top: 8px;
+    }
+    
     @media (max-width: 550px) {
       .slider-header h2 { font-size: 1rem; }
       .form-card { padding: 18px; }
       .slider-header { padding: 12px 18px; }
+      .date-range { flex-direction: column; }
+      .date-range input[type="date"] { width: 100%; }
     }
   </style>
 </head>
@@ -351,7 +401,76 @@
         <span class="toggle-icon">▼</span>
       </div>
       <div class="slider-content" id="sliderContentEdit">
-        <div class="card-list">
+        <div class="form-card">
+          <h3>📝 মেলার তথ্য যোগ/এডিট করুন</h3>
+          
+          <!-- মেলার ধরন (mela-category.json থেকে) -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">🏷️ মেলার ধরন *</label>
+            <select id="melaType" required>
+              <option value="">-- নির্বাচন করুন --</option>
+            </select>
+          </div>
+          
+          <!-- ⏰ সময়: ক্যালেন্ডার -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">⏰ সময়কাল *</label>
+            <div class="date-range">
+              <input type="date" id="startDate" required>
+              <input type="date" id="endDate" required>
+            </div>
+          </div>
+          
+          <!-- 📍 ঠিকানা (divisions.json থেকে) -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📍 ঠিকানা *</label>
+            <select id="divisionSelect" required>
+              <option value="">-- বিভাগ নির্বাচন করুন --</option>
+            </select>
+            <select id="districtSelect" required>
+              <option value="">-- জেলা নির্বাচন করুন --</option>
+            </select>
+            <select id="upazilaSelect">
+              <option value="">-- উপজেলা নির্বাচন করুন --</option>
+            </select>
+            <input type="text" id="addressDetail" placeholder="বিস্তারিত ঠিকানা (ঐচ্ছিক)">
+          </div>
+          
+          <!-- 📝 বিবরণ -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📝 বিবরণ *</label>
+            <textarea id="description" rows="4" placeholder="মেলার বিস্তারিত বিবরণ লিখুন..." required></textarea>
+          </div>
+          
+          <!-- যোগাযোগ -->
+          <div id="contactsArea">
+            <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (ঐচ্ছিক)</h4>
+            <div id="contactList">
+              <div class="contact-group">
+                <div class="contact-row">
+                  <input type="text" placeholder="নাম" class="contact-name">
+                  <input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone">
+                </div>
+              </div>
+            </div>
+            <button type="button" id="addContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
+          </div>
+          
+          <!-- ক্রম -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">🔢 ক্রম</label>
+            <input type="number" id="order" placeholder="ক্রম (১,২,৩...)" value="1">
+          </div>
+          
+          <div style="margin-top: 20px;">
+            <button id="savePostBtn">➕ সংরক্ষণ করুন</button>
+            <button id="cancelPostBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
+          </div>
+        </div>
+        
+        <!-- পোস্ট লিস্ট -->
+        <div class="card-list" style="margin-top:20px; border-top:2px solid #d4af37; border-radius:0 0 24px 24px;">
+          <h3>📋 সেভ করা মেলার তালিকা</h3>
           <div id="postsList">লোড হচ্ছে...</div>
         </div>
       </div>
@@ -387,6 +506,8 @@
   let currentEditId = null;
   let currentEditSliderId = null;
   let currentAdminUser = null;
+  let categoriesData = [];
+  let divisionsData = [];
   
   const ALLOWED_ADMINS = ["kamalkakuj3@gmail.com", "kamalkakuj3@gmail.com"];
   
@@ -405,6 +526,8 @@
     loadMarqueeText();
     loadSliderImages();
     loadPosts();
+    loadCategories();
+    loadDivisions();
   }
   
   function showLoginScreen() {
@@ -472,6 +595,86 @@
       if (m === '>') return '&gt;';
       return m;
     });
+  }
+
+  // ========== ক্যাটাগরি লোড (mela-category.json) ==========
+  async function loadCategories() {
+    try {
+      const response = await fetch('mela-category.json');
+      if (!response.ok) throw new Error('mela-category.json not found');
+      const data = await response.json();
+      categoriesData = data.categories || [];
+    } catch(e) {
+      categoriesData = [
+        { name: "কৃষি মেলা", icon: "🌾" },
+        { name: "বাণিজ্য মেলা", icon: "💼" },
+        { name: "সাংস্কৃতিক মেলা", icon: "🎭" },
+        { name: "বইমেলা", icon: "📚" },
+        { name: "খাবার মেলা", icon: "🍽️" },
+        { name: "অন্যান্য", icon: "🎪" }
+      ];
+    }
+    populateCategorySelect();
+  }
+
+  function populateCategorySelect() {
+    const select = document.getElementById('melaType');
+    select.innerHTML = '<option value="">-- নির্বাচন করুন --</option>';
+    categoriesData.forEach(cat => {
+      select.add(new Option(`${cat.icon || '🏷️'} ${cat.name}`, cat.name));
+    });
+  }
+
+  // ========== ডিভিশন লোড (divisions.json) ==========
+  async function loadDivisions() {
+    try {
+      const response = await fetch('divisions.json');
+      if (!response.ok) throw new Error('divisions.json not found');
+      const data = await response.json();
+      divisionsData = data.divisions || [];
+    } catch(e) {
+      divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }];
+    }
+    populateDivisionSelect();
+  }
+
+  function populateDivisionSelect() {
+    const select = document.getElementById('divisionSelect');
+    select.innerHTML = '<option value="">-- বিভাগ নির্বাচন করুন --</option>';
+    divisionsData.forEach(div => {
+      select.add(new Option(div.name, div.name));
+    });
+    select.onchange = function() {
+      const divisionName = this.value;
+      updateDistrictSelect(divisionName);
+    };
+  }
+
+  function updateDistrictSelect(divisionName) {
+    const districtSelect = document.getElementById('districtSelect');
+    districtSelect.innerHTML = '<option value="">-- জেলা নির্বাচন করুন --</option>';
+    const division = divisionsData.find(d => d.name === divisionName);
+    if (division && division.districts) {
+      division.districts.forEach(dist => {
+        districtSelect.add(new Option(dist.name, dist.name));
+      });
+    }
+    districtSelect.onchange = function() {
+      const districtName = this.value;
+      const division = divisionsData.find(d => d.name === divisionName);
+      const district = division?.districts?.find(d => d.name === districtName);
+      updateUpazilaSelect(district?.upazilas || []);
+    };
+  }
+
+  function updateUpazilaSelect(upazilas) {
+    const upazilaSelect = document.getElementById('upazilaSelect');
+    upazilaSelect.innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
+    if (upazilas) {
+      upazilas.forEach(up => {
+        upazilaSelect.add(new Option(up, up));
+      });
+    }
   }
 
   // ========== মার্কি ==========
@@ -617,13 +820,13 @@
     document.getElementById('cancelSliderBtn').style.display = 'none';
   });
 
-  // ========== পোস্ট লোড ও এডিট (মেলা পোস্ট) ==========
+  // ========== পোস্ট ফাংশন ==========
   function loadPosts() {
     melaPostsRef.on('value', (snapshot) => {
       const data = snapshot.val();
       const container = document.getElementById('postsList');
       if (!data) {
-        container.innerHTML = '<div style="text-align:center;padding:40px;">🎪 কোনো পোস্ট নেই। প্রথম লাইনার দিয়ে পোস্ট যোগ করুন।</div>';
+        container.innerHTML = '<div style="text-align:center;padding:40px;">🎪 কোনো পোস্ট নেই। নিচের ফর্ম ব্যবহার করে পোস্ট যোগ করুন।</div>';
         return;
       }
       const posts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
@@ -631,14 +834,14 @@
 
       let html = '';
       posts.forEach(post => {
-        const days = calculateDays(post.startDate, post.endDate, post.melaType);
+        const days = calculateDays(post.startDate, post.endDate);
         html += `
           <div class="card-item" data-id="${post.id}">
             <h4>${escapeHtml(post.title)}</h4>
-            <p><strong>📅 মেলার ধরন:</strong> ${escapeHtml(post.melaType)} (${days} দিন)</p>
-            <p><strong>⏰ সময়:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</p>
-            <p><strong>📍 ঠিকানা:</strong> ${escapeHtml(post.address) || 'নেই'}</p>
-            <p><strong>📝 বিবরণ:</strong> ${escapeHtml(post.description.substring(0,80))}...</p>
+            <p><strong>🏷️ মেলার ধরন:</strong> ${escapeHtml(post.melaType) || 'অন্যান্য'}</p>
+            <p><strong>⏰ সময়:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)} (${days} দিন)</p>
+            <p><strong>📍 ঠিকানা:</strong> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</p>
+            <p><strong>📝 বিবরণ:</strong> ${escapeHtml(post.description?.substring(0, 80) || '')}...</p>
             <div class="card-actions">
               <button class="edit-btn small-btn" data-id="${post.id}">✏️ এডিট</button>
               <button class="delete-btn small-btn" data-id="${post.id}">🗑️ ডিলিট</button>
@@ -662,7 +865,7 @@
     });
   }
 
-  function calculateDays(startDate, endDate, melaType) {
+  function calculateDays(startDate, endDate) {
     if (startDate && endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
@@ -670,13 +873,7 @@
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
       return diffDays;
     }
-    switch(melaType) {
-      case 'মাসব্যাপী মেলা': return 30;
-      case '১৫ দিনব্যাপী মেলা': return 15;
-      case '৭ দিনব্যাপী মেলা': return 7;
-      case '৩ দিনব্যাপী মেলা': return 3;
-      default: return 0;
-    }
+    return 0;
   }
 
   function formatDate(dateStr) {
@@ -688,47 +885,86 @@
     const snapshot = await melaPostsRef.child(id).once('value');
     const post = snapshot.val();
     if(post) {
-      document.getElementById('title').value = post.title || '';
-      document.getElementById('description').value = post.description || '';
-      document.getElementById('address').value = post.address || '';
-      document.getElementById('mapLink').value = post.mapLink || '';
+      document.getElementById('melaType').value = post.melaType || '';
       document.getElementById('startDate').value = post.startDate || '';
       document.getElementById('endDate').value = post.endDate || '';
-      document.getElementById('melaType').value = post.melaType || 'মাসব্যাপী মেলা';
+      document.getElementById('addressDetail').value = post.addressDetail || '';
+      document.getElementById('description').value = post.description || '';
       document.getElementById('order').value = post.order || 1;
+      
+      // বিভাগ সেট
+      if (post.division) {
+        const divSelect = document.getElementById('divisionSelect');
+        for (let i = 0; i < divSelect.options.length; i++) {
+          if (divSelect.options[i].value === post.division) {
+            divSelect.selectedIndex = i;
+            updateDistrictSelect(post.division);
+            break;
+          }
+        }
+        // জেলা সেট
+        if (post.district) {
+          setTimeout(() => {
+            const distSelect = document.getElementById('districtSelect');
+            for (let i = 0; i < distSelect.options.length; i++) {
+              if (distSelect.options[i].value === post.district) {
+                distSelect.selectedIndex = i;
+                const division = divisionsData.find(d => d.name === post.division);
+                const district = division?.districts?.find(d => d.name === post.district);
+                updateUpazilaSelect(district?.upazilas || []);
+                break;
+              }
+            }
+            // উপজেলা সেট
+            if (post.upazila) {
+              setTimeout(() => {
+                const upazilaSelect = document.getElementById('upazilaSelect');
+                for (let i = 0; i < upazilaSelect.options.length; i++) {
+                  if (upazilaSelect.options[i].value === post.upazila) {
+                    upazilaSelect.selectedIndex = i;
+                    break;
+                  }
+                }
+              }, 100);
+            }
+          }, 100);
+        }
+      }
+      
       renderContactFields(post.contacts || []);
       currentEditId = id;
-      document.getElementById('saveBtn').innerHTML = '✏️ আপডেট করুন';
-      document.getElementById('cancelBtn').style.display = 'inline-block';
+      document.getElementById('savePostBtn').innerHTML = '✏️ আপডেট করুন';
+      document.getElementById('cancelPostBtn').style.display = 'inline-block';
       
-      const headerAdd = document.getElementById('sliderHeaderAdd');
-      const contentAdd = document.getElementById('sliderContentAdd');
-      if (!contentAdd.classList.contains('open')) {
-        headerAdd.classList.add('open');
-        contentAdd.classList.add('open');
+      const header = document.getElementById('sliderHeaderEdit');
+      const content = document.getElementById('sliderContentEdit');
+      if (!content.classList.contains('open')) {
+        header.classList.add('open');
+        content.classList.add('open');
       }
       document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
     }
   }
 
-  function resetForm() {
-    document.getElementById('title').value = '';
-    document.getElementById('description').value = '';
-    document.getElementById('address').value = '';
-    document.getElementById('mapLink').value = '';
+  function resetPostForm() {
+    document.getElementById('melaType').value = '';
     document.getElementById('startDate').value = '';
     document.getElementById('endDate').value = '';
-    document.getElementById('melaType').value = 'মাসব্যাপী মেলা';
+    document.getElementById('divisionSelect').value = '';
+    document.getElementById('districtSelect').innerHTML = '<option value="">-- জেলা নির্বাচন করুন --</option>';
+    document.getElementById('upazilaSelect').innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
+    document.getElementById('addressDetail').value = '';
+    document.getElementById('description').value = '';
     document.getElementById('order').value = '1';
     renderContactFields([]);
     currentEditId = null;
-    document.getElementById('saveBtn').innerHTML = '➕ সংরক্ষণ করুন';
-    document.getElementById('cancelBtn').style.display = 'none';
+    document.getElementById('savePostBtn').innerHTML = '➕ সংরক্ষণ করুন';
+    document.getElementById('cancelPostBtn').style.display = 'none';
   }
 
   function collectContacts() {
     const contacts = [];
-    document.querySelectorAll('.contact-group').forEach(group => {
+    document.querySelectorAll('#contactList .contact-group').forEach(group => {
       const name = group.querySelector('.contact-name').value.trim();
       const phone = group.querySelector('.contact-phone').value.trim();
       if (name && phone) contacts.push({ name, phone });
@@ -755,43 +991,51 @@
     }
   }
 
-  document.getElementById('saveBtn').addEventListener('click', async () => {
-    const title = document.getElementById('title').value.trim();
+  document.getElementById('savePostBtn').addEventListener('click', async () => {
+    const melaType = document.getElementById('melaType').value;
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const division = document.getElementById('divisionSelect').value;
+    const district = document.getElementById('districtSelect').value;
+    const upazila = document.getElementById('upazilaSelect').value;
+    const addressDetail = document.getElementById('addressDetail').value.trim();
     const description = document.getElementById('description').value.trim();
-    if(!title || !description) {
-      alert('শিরোনাম ও বিবরণ দিতে হবে');
-      return;
-    }
+    const order = parseInt(document.getElementById('order').value) || 1;
     const contacts = collectContacts();
-    const days = calculateDays(document.getElementById('startDate').value, document.getElementById('endDate').value, document.getElementById('melaType').value);
+    
+    if (!melaType) { alert('মেলার ধরন নির্বাচন করুন!'); return; }
+    if (!startDate || !endDate) { alert('সময়কাল নির্বাচন করুন!'); return; }
+    if (!division || !district) { alert('ঠিকানা নির্বাচন করুন!'); return; }
+    if (!description) { alert('বিবরণ লিখুন!'); return; }
     
     const postData = {
-      title, description,
-      address: document.getElementById('address').value,
-      mapLink: document.getElementById('mapLink').value,
-      startDate: document.getElementById('startDate').value,
-      endDate: document.getElementById('endDate').value,
-      melaType: document.getElementById('melaType').value,
-      order: parseInt(document.getElementById('order').value) || 1,
-      contacts: contacts,
-      days: days,
+      melaType,
+      startDate,
+      endDate,
+      division,
+      district,
+      upazila,
+      addressDetail,
+      description,
+      order,
+      contacts,
       updatedAt: Date.now()
     };
 
     try {
-      if(currentEditId) {
+      if (currentEditId) {
         await melaPostsRef.child(currentEditId).update(postData);
-        alert('পোস্ট আপডেট হয়েছে!');
-        resetForm();
+        alert('✅ পোস্ট আপডেট হয়েছে!');
       } else {
         await melaPostsRef.push().set(postData);
-        alert('নতুন মেলা যোগ হয়েছে!');
-        resetForm();
+        alert('✅ নতুন মেলা যোগ হয়েছে!');
       }
+      resetPostForm();
     } catch(e) { alert('ত্রুটি: '+e.message); }
   });
 
-  document.getElementById('cancelBtn').addEventListener('click', resetForm);
+  document.getElementById('cancelPostBtn').addEventListener('click', resetPostForm);
+  
   document.getElementById('addContactBtn').addEventListener('click', () => {
     const container = document.getElementById('contactList');
     const div = document.createElement('div');
