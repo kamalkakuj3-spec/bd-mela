@@ -25,10 +25,7 @@
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
-    .login-screen h2 {
-      color: #b8860b;
-      margin-bottom: 20px;
-    }
+    .login-screen h2 { color: #b8860b; margin-bottom: 20px; }
     .login-screen .google-btn {
       background: white;
       border: 1px solid #ddd;
@@ -45,44 +42,19 @@
       transition: all 0.3s;
       margin-top: 20px;
     }
-    .login-screen .google-btn:hover {
-      background: #f5f5f5;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .login-screen .google-btn img {
-      width: 22px;
-      height: 22px;
-    }
-    .login-screen .loader {
-      display: none;
-      margin-top: 20px;
-      color: #666;
-    }
+    .login-screen .google-btn:hover { background: #f5f5f5; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .login-screen .google-btn img { width: 22px; height: 22px; }
+    .login-screen .loader { display: none; margin-top: 20px; color: #666; }
     .login-screen .loader.show { display: block; }
-    .login-screen .error-msg {
-      color: #e74c3c;
-      margin-top: 15px;
-      font-size: 0.85rem;
-      display: none;
-    }
+    .login-screen .error-msg { color: #e74c3c; margin-top: 15px; font-size: 0.85rem; display: none; }
     .login-screen .error-msg.show { display: block; }
-    .login-screen .access-denied {
-      color: #e74c3c;
-      margin-top: 15px;
-      font-size: 0.9rem;
-      display: none;
-    }
+    .login-screen .access-denied { color: #e74c3c; margin-top: 15px; font-size: 0.9rem; display: none; }
     .login-screen .access-denied.show { display: block; }
     
-    /* অ্যাডমিন প্যানেল কন্টেন্ট */
-    .admin-content {
-      display: none;
-    }
-    .admin-content.show {
-      display: block;
-    }
+    /* অ্যাডমিন প্যানেল */
+    .admin-content { display: none; }
+    .admin-content.show { display: block; }
     
-    /* লগআউট */
     .logout-header {
       display: flex;
       justify-content: flex-end;
@@ -102,9 +74,7 @@
       align-items: center;
       gap: 8px;
     }
-    .logout-btn:hover {
-      background: #c82333;
-    }
+    .logout-btn:hover { background: #c82333; }
     .admin-user-info {
       background: rgba(255,255,255,0.9);
       padding: 8px 15px;
@@ -130,9 +100,7 @@
       align-items: center;
       transition: background 0.3s;
     }
-    .slider-header:hover {
-      background: linear-gradient(115deg, #c49b2a, #b8860b);
-    }
+    .slider-header:hover { background: linear-gradient(115deg, #c49b2a, #b8860b); }
     .slider-header h2 {
       color: white;
       font-size: 1.2rem;
@@ -146,27 +114,17 @@
       font-weight: bold;
       transition: transform 0.3s;
     }
-    .slider-header.open .toggle-icon {
-      transform: rotate(180deg);
-    }
+    .slider-header.open .toggle-icon { transform: rotate(180deg); }
     .slider-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease-out;
       background: white;
     }
-    .slider-content.open {
-      max-height: 2000px;
-      transition: max-height 0.5s ease-in;
-    }
-    .form-card {
-      padding: 25px;
-    }
-    .form-card h3 {
-      color: #b8860b;
-      margin-bottom: 20px;
-      font-size: 1.2rem;
-    }
+    .slider-content.open { max-height: 2000px; transition: max-height 0.5s ease-in; }
+    .form-card { padding: 25px; }
+    .form-card h3 { color: #b8860b; margin-bottom: 20px; font-size: 1.2rem; }
+    
     input, textarea, select {
       width: 100%;
       padding: 12px;
@@ -180,29 +138,7 @@
       outline: none;
       border-color: #d4af37;
     }
-    .contact-group {
-      background: #f9f9f9;
-      padding: 15px;
-      border-radius: 16px;
-      margin-bottom: 15px;
-      position: relative;
-    }
-    .contact-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .contact-row input { margin: 0; flex: 1; }
-    .removeContactBtn {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.7rem;
-      margin-top: 8px;
-    }
+    
     button {
       background: linear-gradient(115deg, #d4af37, #c49b2a);
       color: white;
@@ -218,6 +154,8 @@
     button:hover { transform: translateY(-2px); }
     .delete-btn { background: #dc3545; }
     .edit-btn { background: #28a745; }
+    .small-btn { padding: 6px 12px; font-size: 0.8rem; margin: 2px; }
+    
     .card-list {
       background: white;
       border-radius: 24px;
@@ -237,46 +175,9 @@
     .card-item h4 { color: #2c3e50; margin-bottom: 8px; }
     .card-item p { color: #666; margin: 5px 0; font-size: 0.9rem; }
     .card-actions { margin-top: 12px; }
-    .small-btn { padding: 6px 12px; font-size: 0.8rem; margin: 2px; }
     
-    /* স্লাইডার ইমেজ প্রিভিউ */
-    .slider-image-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 10px 0;
-    }
-    .slider-image-preview img {
-      width: 80px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 2px solid #e0e0e0;
-    }
-    .slider-image-preview .img-item {
-      position: relative;
-    }
-    .slider-image-preview .img-item .remove-img {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      background: #dc3545;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .marquee-editor {
-      background: #fef9e6;
-      border: 2px solid #d4af37;
-    }
+    /* মার্কি */
+    .marquee-editor { background: #fef9e6; border: 2px solid #d4af37; }
     .marquee-preview {
       background: linear-gradient(135deg, #7c3aed, #6d28d9);
       border-radius: 8px;
@@ -305,6 +206,52 @@
       color: #2e7d32;
     }
     
+    /* স্লাইডার ইমেজ প্রিভিউ */
+    .slider-image-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .slider-image-preview .img-item {
+      position: relative;
+      width: 100px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid #e0e0e0;
+    }
+    .slider-image-preview .img-item img {
+      width: 100%;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+    }
+    .slider-image-preview .img-item .remove-img {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slider-image-preview .img-item .img-info {
+      padding: 4px 6px;
+      font-size: 0.6rem;
+      color: #333;
+      background: rgba(255,255,255,0.9);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
     @media (max-width: 550px) {
       .slider-header h2 { font-size: 1rem; }
       .form-card { padding: 18px; }
@@ -319,26 +266,16 @@
   <div id="loginScreen" class="login-screen">
     <h2>🔐 অ্যাডমিন অ্যাক্সেস</h2>
     <p style="color: #555; margin-bottom: 10px;">শুধুমাত্র অনুমোদিত অ্যাডমিনদের জন্য</p>
-    
     <button id="adminGoogleLoginBtn" class="google-btn">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
       গুগল অ্যাকাউন্ট দিয়ে লগইন করুন
     </button>
-    
-    <div id="adminLoader" class="loader">
-      <i class="fa-solid fa-spinner fa-spin"></i> লগইন হচ্ছে...
-    </div>
-    
-    <div id="adminErrorMsg" class="error-msg">
-      <i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ হয়েছে।
-    </div>
-    
-    <div id="accessDeniedMsg" class="access-denied">
-      <i class="fa-solid fa-ban"></i> আপনার এই প্যানেলে অ্যাক্সেস নেই। শুধুমাত্র অনুমোদিত অ্যাডমিনদের প্রবেশাধিকার রয়েছে।
-    </div>
+    <div id="adminLoader" class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লগইন হচ্ছে...</div>
+    <div id="adminErrorMsg" class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ হয়েছে।</div>
+    <div id="accessDeniedMsg" class="access-denied"><i class="fa-solid fa-ban"></i> আপনার এই প্যানেলে অ্যাক্সেস নেই।</div>
   </div>
   
-  <!-- অ্যাডমিন প্যানেল কন্টেন্ট -->
+  <!-- অ্যাডমিন প্যানেল -->
   <div id="adminContent" class="admin-content">
     <div class="logout-header">
       <div class="admin-user-info" id="adminUserInfo"></div>
@@ -347,7 +284,7 @@
     
     <h1>🏆 অ্যাডমিন প্যানেল | বাংলাদেশ মেলা 🏆</h1>
 
-    <!-- লাইনার ০: চলন্ত লেখা (মার্কি) কন্ট্রোল -->
+    <!-- ===== লাইনার ০: চলন্ত লেখা ===== -->
     <div class="slider-dropdown">
       <div class="slider-header" id="sliderHeaderMarquee">
         <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
@@ -372,7 +309,7 @@
       </div>
     </div>
 
-    <!-- লাইনার ১: স্লাইডার ইমেজ যোগ/এডিট -->
+    <!-- ===== লাইনার ১: স্লাইডার ইমেজ যোগ/এডিট ===== -->
     <div class="slider-dropdown">
       <div class="slider-header" id="sliderHeaderSlider">
         <h2>🖼️ স্লাইডার ইমেজ ম্যানেজ</h2>
@@ -387,7 +324,7 @@
           </div>
           
           <input type="text" id="slideTitle" placeholder="স্লাইডের শিরোনাম (ঐচ্ছিক)">
-          <textarea id="slideDescription" rows="2" placeholder="স্লাইডের বিবরণ (ঐচ্ছিক)"></textarea>
+          <textarea id="slideDescription" rows="3" placeholder="স্লাইডের বিস্তারিত বিবরণ (ঐচ্ছিক)"></textarea>
           <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
           <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
           <input type="url" id="slideLink" placeholder="লিংক (ঐচ্ছিক) - ক্লিক করলে যাবে">
@@ -407,7 +344,7 @@
       </div>
     </div>
 
-    <!-- লাইনার ২: পোস্ট করা তথ্য এডিট (পূর্বের মতো) -->
+    <!-- ===== লাইনার ২: স্লাইডার পোস্ট করা তথ্য এডিট ===== -->
     <div class="slider-dropdown">
       <div class="slider-header" id="sliderHeaderEdit">
         <h2>✏️ স্লাইডার পোস্ট করা তথ্য এডিট</h2>
@@ -451,27 +388,20 @@
   let currentEditSliderId = null;
   let currentAdminUser = null;
   
-  // অনুমোদিত অ্যাডমিন ইমেইল লিস্ট
-  const ALLOWED_ADMINS = [
-    "kamalkakuj3@gmail.com",
-    "kamalkakuj3@gmail.com"
-  ];
+  const ALLOWED_ADMINS = ["kamalkakuj3@gmail.com", "kamalkakuj3@gmail.com"];
   
-  // DOM Elements
+  // DOM
   const loginScreen = document.getElementById('loginScreen');
   const adminContent = document.getElementById('adminContent');
   const adminUserInfo = document.getElementById('adminUserInfo');
   
-  function isAdminUser(email) {
-    return ALLOWED_ADMINS.includes(email);
-  }
+  function isAdminUser(email) { return ALLOWED_ADMINS.includes(email); }
   
   function showAdminPanel(user) {
     currentAdminUser = user;
     adminUserInfo.innerHTML = `<i class="fa-regular fa-user"></i> ${user.displayName || user.email} (অ্যাডমিন)`;
     loginScreen.style.display = 'none';
     adminContent.classList.add('show');
-    
     loadMarqueeText();
     loadSliderImages();
     loadPosts();
@@ -483,22 +413,13 @@
     currentAdminUser = null;
   }
   
-  function showAccessDenied() {
-    document.getElementById('accessDeniedMsg').classList.add('show');
-  }
+  function showAccessDenied() { document.getElementById('accessDeniedMsg').classList.add('show'); }
   
   auth.onAuthStateChanged(async (user) => {
     if (user) {
-      if (isAdminUser(user.email)) {
-        showAdminPanel(user);
-      } else {
-        showLoginScreen();
-        showAccessDenied();
-        await auth.signOut();
-      }
-    } else {
-      showLoginScreen();
-    }
+      if (isAdminUser(user.email)) { showAdminPanel(user); }
+      else { showLoginScreen(); showAccessDenied(); await auth.signOut(); }
+    } else { showLoginScreen(); }
   });
   
   document.getElementById('adminGoogleLoginBtn').addEventListener('click', async () => {
@@ -514,12 +435,8 @@
     try {
       const result = await auth.signInWithPopup(provider);
       const user = result.user;
-      if (isAdminUser(user.email)) {
-        showAdminPanel(user);
-      } else {
-        await auth.signOut();
-        accessDeniedMsg.classList.add('show');
-      }
+      if (isAdminUser(user.email)) { showAdminPanel(user); }
+      else { await auth.signOut(); accessDeniedMsg.classList.add('show'); }
     } catch (error) {
       console.error("Login error:", error);
       errorMsg.classList.add('show');
@@ -528,9 +445,7 @@
       } else {
         errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ। আবার চেষ্টা করুন।';
       }
-    } finally {
-      loader.classList.remove('show');
-    }
+    } finally { loader.classList.remove('show'); }
   });
   
   document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
@@ -559,7 +474,7 @@
     });
   }
 
-  // ========== মার্কি ফাংশন ==========
+  // ========== মার্কি ==========
   const DEFAULT_MARQUEE = "🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা ✦ 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা ✦ 🛡️ সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন";
 
   function loadMarqueeText() {
@@ -574,18 +489,13 @@
 
   document.getElementById('saveMarqueeBtn').addEventListener('click', async () => {
     const newText = document.getElementById('marqueeText').value.trim();
-    if (!newText) {
-      alert('দয়া করে কিছু লেখুন!');
-      return;
-    }
+    if (!newText) { alert('দয়া করে কিছু লেখুন!'); return; }
     try {
       await marqueeRef.set({ text: newText, updatedAt: Date.now() });
       alert('✅ চলন্ত লেখা সফলভাবে সংরক্ষণ করা হয়েছে!');
       document.getElementById('marqueePreview').innerText = newText;
       document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(newText.substring(0, 100))}${newText.length > 100 ? '...' : ''}`;
-    } catch(e) {
-      alert('ত্রুটি: ' + e.message);
-    }
+    } catch(e) { alert('ত্রুটি: ' + e.message); }
   });
 
   document.getElementById('resetMarqueeBtn').addEventListener('click', async () => {
@@ -600,7 +510,7 @@
     }
   });
 
-  // ========== স্লাইডার ইমেজ ফাংশন ==========
+  // ========== স্লাইডার ইমেজ ==========
   function loadSliderImages() {
     sliderImagesRef.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -615,9 +525,10 @@
       let html = '';
       items.forEach(item => {
         html += `
-          <div class="img-item" data-id="${item.id}">
-            <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title || 'স্লাইড')}" title="${escapeHtml(item.title || '')}">
-            <button class="remove-img" onclick="deleteSliderImage('${item.id}')">×</button>
+          <div class="img-item" data-id="${item.id}" onclick="editSliderImage('${item.id}')">
+            <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title || 'স্লাইড')}">
+            <button class="remove-img" onclick="event.stopPropagation(); deleteSliderImage('${item.id}')">×</button>
+            <div class="img-info">${escapeHtml(item.title || 'শিরোনাম নেই')}</div>
           </div>
         `;
       });
@@ -630,10 +541,32 @@
       try {
         await sliderImagesRef.child(id).remove();
         alert('ইমেজ ডিলিট হয়েছে!');
-      } catch(e) {
-        alert('ত্রুটি: ' + e.message);
-      }
+      } catch(e) { alert('ত্রুটি: ' + e.message); }
     }
+  };
+
+  window.editSliderImage = function(id) {
+    sliderImagesRef.child(id).once('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        currentEditSliderId = id;
+        document.getElementById('slideTitle').value = data.title || '';
+        document.getElementById('slideDescription').value = data.description || '';
+        document.getElementById('slideImageUrl').value = data.imageUrl || '';
+        document.getElementById('slideOrder').value = data.order || 1;
+        document.getElementById('slideLink').value = data.link || '';
+        document.getElementById('saveSliderBtn').innerHTML = '✏️ আপডেট করুন';
+        document.getElementById('cancelSliderBtn').style.display = 'inline-block';
+        
+        const header = document.getElementById('sliderHeaderSlider');
+        const content = document.getElementById('sliderContentSlider');
+        if (!content.classList.contains('open')) {
+          header.classList.add('open');
+          content.classList.add('open');
+        }
+        document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   };
 
   document.getElementById('saveSliderBtn').addEventListener('click', async () => {
@@ -643,10 +576,7 @@
     const order = parseInt(document.getElementById('slideOrder').value) || 1;
     const link = document.getElementById('slideLink').value.trim();
     
-    if (!imageUrl) {
-      alert('ইমেজ URL দিতে হবে!');
-      return;
-    }
+    if (!imageUrl) { alert('ইমেজ URL দিতে হবে!'); return; }
     
     const slideData = {
       title: title || 'স্লাইড',
@@ -668,17 +598,12 @@
         await sliderImagesRef.push().set(slideData);
         alert('✅ নতুন স্লাইডার ইমেজ যোগ হয়েছে!');
       }
-      
-      // ফর্ম রিসেট
       document.getElementById('slideTitle').value = '';
       document.getElementById('slideDescription').value = '';
       document.getElementById('slideImageUrl').value = '';
       document.getElementById('slideOrder').value = '1';
       document.getElementById('slideLink').value = '';
-      
-    } catch(e) {
-      alert('ত্রুটি: ' + e.message);
-    }
+    } catch(e) { alert('ত্রুটি: ' + e.message); }
   });
 
   document.getElementById('cancelSliderBtn').addEventListener('click', () => {
@@ -692,53 +617,7 @@
     document.getElementById('cancelSliderBtn').style.display = 'none';
   });
 
-  // ========== পোস্ট ফাংশন (পূর্বের মতো) ==========
-  function calculateDays(startDate, endDate, melaType) {
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      const diffTime = Math.abs(end - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-      return diffDays;
-    }
-    switch(melaType) {
-      case 'মাসব্যাপী মেলা': return 30;
-      case '১৫ দিনব্যাপী মেলা': return 15;
-      case '৭ দিনব্যাপী মেলা': return 7;
-      case '৩ দিনব্যাপী মেলা': return 3;
-      default: return 0;
-    }
-  }
-
-  function collectContacts() {
-    const contacts = [];
-    document.querySelectorAll('.contact-group').forEach(group => {
-      const name = group.querySelector('.contact-name').value.trim();
-      const phone = group.querySelector('.contact-phone').value.trim();
-      if (name && phone) contacts.push({ name, phone });
-    });
-    return contacts;
-  }
-
-  function renderContactFields(contacts) {
-    const container = document.getElementById('contactList');
-    container.innerHTML = '';
-    if (!contacts || contacts.length === 0) {
-      const div = document.createElement('div');
-      div.className = 'contact-group';
-      div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone"></div>`;
-      container.appendChild(div);
-    } else {
-      contacts.forEach(contact => {
-        const div = document.createElement('div');
-        div.className = 'contact-group';
-        div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name" value="${escapeHtml(contact.name)}"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone" value="${escapeHtml(contact.phone)}"></div><button type="button" class="removeContactBtn" style="background:#dc3545; padding:4px 8px; font-size:0.7rem;">✖️ সরান</button>`;
-        container.appendChild(div);
-        div.querySelector('.removeContactBtn').addEventListener('click', () => div.remove());
-      });
-    }
-  }
-
+  // ========== পোস্ট লোড ও এডিট (মেলা পোস্ট) ==========
   function loadPosts() {
     melaPostsRef.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -756,7 +635,7 @@
         html += `
           <div class="card-item" data-id="${post.id}">
             <h4>${escapeHtml(post.title)}</h4>
-            <p><strong>📅 ধরন:</strong> ${escapeHtml(post.melaType)} (${days} দিন)</p>
+            <p><strong>📅 মেলার ধরন:</strong> ${escapeHtml(post.melaType)} (${days} দিন)</p>
             <p><strong>⏰ সময়:</strong> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</p>
             <p><strong>📍 ঠিকানা:</strong> ${escapeHtml(post.address) || 'নেই'}</p>
             <p><strong>📝 বিবরণ:</strong> ${escapeHtml(post.description.substring(0,80))}...</p>
@@ -781,6 +660,23 @@
         });
       });
     });
+  }
+
+  function calculateDays(startDate, endDate, melaType) {
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      return diffDays;
+    }
+    switch(melaType) {
+      case 'মাসব্যাপী মেলা': return 30;
+      case '১৫ দিনব্যাপী মেলা': return 15;
+      case '৭ দিনব্যাপী মেলা': return 7;
+      case '৩ দিনব্যাপী মেলা': return 3;
+      default: return 0;
+    }
   }
 
   function formatDate(dateStr) {
@@ -830,38 +726,35 @@
     document.getElementById('cancelBtn').style.display = 'none';
   }
 
-  // স্লাইডার ইমেজ এডিট করার জন্য ক্লিক ইভেন্ট (ডাইনামিক)
-  document.addEventListener('click', function(e) {
-    const imgItem = e.target.closest('.img-item');
-    if (imgItem && !e.target.classList.contains('remove-img')) {
-      const id = imgItem.dataset.id;
-      if (id) {
-        sliderImagesRef.child(id).once('value', (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            currentEditSliderId = id;
-            document.getElementById('slideTitle').value = data.title || '';
-            document.getElementById('slideDescription').value = data.description || '';
-            document.getElementById('slideImageUrl').value = data.imageUrl || '';
-            document.getElementById('slideOrder').value = data.order || 1;
-            document.getElementById('slideLink').value = data.link || '';
-            document.getElementById('saveSliderBtn').innerHTML = '✏️ আপডেট করুন';
-            document.getElementById('cancelSliderBtn').style.display = 'inline-block';
-            
-            const header = document.getElementById('sliderHeaderSlider');
-            const content = document.getElementById('sliderContentSlider');
-            if (!content.classList.contains('open')) {
-              header.classList.add('open');
-              content.classList.add('open');
-            }
-            document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      }
-    }
-  });
+  function collectContacts() {
+    const contacts = [];
+    document.querySelectorAll('.contact-group').forEach(group => {
+      const name = group.querySelector('.contact-name').value.trim();
+      const phone = group.querySelector('.contact-phone').value.trim();
+      if (name && phone) contacts.push({ name, phone });
+    });
+    return contacts;
+  }
 
-  // নিউ পোস্ট ফর্ম
+  function renderContactFields(contacts) {
+    const container = document.getElementById('contactList');
+    container.innerHTML = '';
+    if (!contacts || contacts.length === 0) {
+      const div = document.createElement('div');
+      div.className = 'contact-group';
+      div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone"></div>`;
+      container.appendChild(div);
+    } else {
+      contacts.forEach(contact => {
+        const div = document.createElement('div');
+        div.className = 'contact-group';
+        div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="contact-name" value="${escapeHtml(contact.name)}"><input type="tel" placeholder="মোবাইল নাম্বার" class="contact-phone" value="${escapeHtml(contact.phone)}"></div><button type="button" class="removeContactBtn" style="background:#dc3545; padding:4px 8px; font-size:0.7rem;">✖️ সরান</button>`;
+        container.appendChild(div);
+        div.querySelector('.removeContactBtn').addEventListener('click', () => div.remove());
+      });
+    }
+  }
+
   document.getElementById('saveBtn').addEventListener('click', async () => {
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
