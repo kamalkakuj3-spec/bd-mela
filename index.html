@@ -142,30 +142,37 @@
             font-size: 1.8rem;
         }
         
-        /* ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে) ========== */
+        /* ========== স্পেসার (হেডারের নিচে জায়গা) ========== */
+        .header-spacer {
+            height: 62px;
+            width: 100%;
+        }
+        
+        /* ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে, স্লাইডারের উপরে) ========== */
         .search-filter-section {
             background: #ffffff;
             padding: 0 16px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease;
+            transition: max-height 0.4s ease, padding 0.3s ease, margin 0.3s ease;
             border-bottom: 1px solid #e0e0e0;
-            position: fixed;
-            top: 62px;
+            position: relative;
+            top: 0;
             left: 0;
             right: 0;
             z-index: 99;
             width: 100%;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            margin-top: 0;
         }
         .search-filter-section.show {
             max-height: 220px;
             padding: 10px 16px 14px 16px;
         }
         
-        /* সার্চ সেকশন খোলা থাকলে স্লাইডার নিচে নামবে (সামান্য মার্জিন) */
+        /* সার্চ সেকশন খোলা থাকলে স্লাইডার নিচে নামবে */
         body.search-active .slider-wrapper {
-            margin-top: 140px;
+            margin-top: 12px;
         }
         
         .search-box {
@@ -434,8 +441,8 @@
             width: 100%;
             background: transparent;
             padding: 0 16px;
-            margin: 8px 0 8px 0;
-            margin-top: 78px;
+            margin: 12px 0 8px 0;
+            margin-top: 0;
             transition: margin-top 0.4s ease;
         }
         
@@ -1174,10 +1181,10 @@
         
         @media (max-width: 480px) {
             .app-header { min-height: 56px; padding: 8px 12px; }
-            .search-filter-section { top: 56px; }
+            .header-spacer { height: 56px; }
             .search-filter-section.show { max-height: 200px; padding: 8px 12px 12px 12px; }
-            body.search-active .slider-wrapper { margin-top: 130px; }
-            .slider-wrapper { margin-top: 72px; }
+            body.search-active .slider-wrapper { margin-top: 8px; }
+            .slider-wrapper { margin-top: 8px; }
             .marquee-card { padding: 8px 10px; margin: 6px 16px 10px 16px; }
             .marquee-line .track { gap: 1.2rem; }
             .marquee-line .track span { gap: 1.2rem; font-size: clamp(0.8rem, 3vw, 1.2rem); }
@@ -1196,10 +1203,10 @@
         }
         @media (max-width: 380px) {
             .app-header { min-height: 50px; padding: 6px 10px; }
-            .search-filter-section { top: 50px; }
+            .header-spacer { height: 50px; }
             .search-filter-section.show { max-height: 190px; padding: 6px 10px 10px 10px; }
-            body.search-active .slider-wrapper { margin-top: 120px; }
-            .slider-wrapper { margin-top: 66px; }
+            body.search-active .slider-wrapper { margin-top: 6px; }
+            .slider-wrapper { margin-top: 6px; }
             .marquee-line .track span { font-size: 0.7rem; }
             .arrow-btn { width: 26px; height: 26px; font-size: 14px; }
             .nav-item i { font-size: 1rem; }
@@ -1215,6 +1222,9 @@
     </style>
 </head>
 <body>
+
+<!-- ========== স্পেসার (হেডারের নিচে জায়গা) ========== -->
+<div class="header-spacer"></div>
 
 <!-- সময়কাল ভিত্তিক ক্যাটাগরি প্যানেল -->
 <div class="time-category-panel" id="timeCategoryPanel">
@@ -1292,7 +1302,7 @@
     </div>
 </div>
 
-<!-- সার্চ + ফিল্টার সেকশন (হেডারের নিচে) -->
+<!-- সার্চ + ফিল্টার সেকশন (হেডারের নিচে, স্লাইডারের উপরে) -->
 <div class="search-filter-section" id="searchFilterSection">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
