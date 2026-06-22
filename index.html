@@ -28,7 +28,7 @@
             padding-top: 0;
         }
         
-        /* ========== হেডার ========== */
+        /* ========== হেডার (সর্বদা দৃশ্যমান) ========== */
         .app-header {
             background: #ffffff;
             padding: 10px 16px;
@@ -41,19 +41,12 @@
             left: 0;
             right: 0;
             z-index: 100;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            transform: translateY(0);
             min-height: 62px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            opacity: 1;
-        }
-        .app-header.hide-header {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-        .app-header.hide-header::after {
-            display: none;
+            /* হেডার আর লুকাবে না */
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
         }
         
         .logo-area {
@@ -62,16 +55,11 @@
             gap: 14px;
             transition: all 0.3s ease;
             flex: 1;
-            justify-content: center;
+            justify-content: flex-start; /* বাম দিক থেকে শুরু */
+            padding-left: 4px; /* প্রোফাইল আইকনে মার্জিন */
         }
-        .logo-area.center-logo {
-            justify-content: center;
-            position: relative;
-        }
-        .logo-area.center-logo .user-avatar {
-            position: absolute;
-            left: 0;
-        }
+        
+        /* প্রোফাইল আইকনে বাম মার্জিন */
         .user-avatar {
             width: 44px;
             height: 44px;
@@ -80,29 +68,41 @@
             cursor: pointer;
             border: 2px solid #d4af37;
             flex-shrink: 0;
+            margin-left: 4px; /* বামে মার্জিন */
         }
         .user-avatar.hide {
             display: none;
         }
-        .logo-area h1 {
-            font-size: 1.5rem;
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem; /* বড় সাইজ */
             font-weight: 800;
             background: linear-gradient(135deg, #1a1a1a, #555);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            line-height: 1.2;
         }
-        .logo-area p {
-            font-size: 0.7rem;
+        
+        .logo-text p {
+            font-size: 0.75rem;
             color: #888;
             font-weight: 500;
             margin-top: 1px;
         }
+        
         .header-icons {
             display: flex;
             gap: 10px;
             align-items: center;
+            padding-right: 4px; /* হেল্প আইকনে ডান মার্জিন */
         }
+        
         .signin-btn {
             background: #2e7d32;
             color: white;
@@ -121,6 +121,7 @@
         .signin-btn.hide {
             display: none;
         }
+        
         .help-btn {
             background: none;
             border: none;
@@ -134,6 +135,7 @@
             justify-content: center;
             width: 44px;
             height: 44px;
+            margin-right: 4px; /* ডানে মার্জিন */
         }
         .help-btn:hover {
             color: #1a1a1a;
@@ -142,7 +144,7 @@
             font-size: 1.8rem;
         }
         
-        /* ========== সার্চ + ফিল্টার সেকশন ========== */
+        /* ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে) ========== */
         .search-filter-section {
             background: #ffffff;
             padding: 0 16px;
@@ -151,7 +153,7 @@
             transition: max-height 0.4s ease, padding 0.3s ease;
             border-bottom: 1px solid #e0e0e0;
             position: fixed;
-            top: 62px;
+            top: 62px; /* হেডারের ঠিক নিচে */
             left: 0;
             right: 0;
             z-index: 99;
@@ -159,7 +161,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .search-filter-section.show {
-            max-height: 200px;
+            max-height: 220px;
             padding: 10px 16px 14px 16px;
         }
         
@@ -188,6 +190,7 @@
         .search-box input::placeholder {
             color: #aaa;
         }
+        
         .filter-row {
             display: flex;
             gap: 6px;
@@ -432,6 +435,13 @@
             margin-top: 78px;
             transition: margin-top 0.3s ease;
         }
+        /* সার্চ অ্যাক্টিভ থাকলে স্লাইডার ও মার্কি লুকাবে */
+        .search-active .slider-wrapper,
+        .search-active .marquee-card,
+        .search-active .stats-card {
+            display: none !important;
+        }
+        
         .slider-container {
             position: relative;
             border-radius: 16px;
@@ -1165,17 +1175,10 @@
             gap: 8px;
         }
         
-        /* সার্চের সময় স্লাইডার এবং মার্কি হাইড */
-        .search-active .slider-wrapper,
-        .search-active .marquee-card,
-        .search-active .stats-card {
-            display: none !important;
-        }
-        
         @media (max-width: 480px) {
             .app-header { min-height: 56px; padding: 8px 12px; }
             .search-filter-section { top: 56px; }
-            .search-filter-section.show { max-height: 190px; padding: 8px 12px 12px 12px; }
+            .search-filter-section.show { max-height: 200px; padding: 8px 12px 12px 12px; }
             .slider-wrapper { margin-top: 72px; }
             .marquee-card { padding: 8px 10px; margin: 6px 16px 10px 16px; }
             .marquee-line .track { gap: 1.2rem; }
@@ -1183,20 +1186,20 @@
             .arrow-btn { width: 30px; height: 30px; font-size: 16px; }
             .news-title { font-size: 1.2rem; }
             .stats-number { font-size: 1.3rem; }
-            .logo-area h1 { font-size: 1.2rem; }
-            .logo-area p { font-size: 0.6rem; }
+            .logo-text h1 { font-size: 1.4rem; }
+            .logo-text p { font-size: 0.6rem; }
             .bottom-nav { padding: 6px 8px; min-height: 56px; }
             .nav-item i { font-size: 1.2rem; }
             .nav-center { width: 44px; height: 44px; margin-top: -22px; }
             .nav-center i { font-size: 1.3rem; }
-            .user-avatar { width: 36px; height: 36px; }
-            .help-btn { width: 36px; height: 36px; font-size: 1.4rem; }
+            .user-avatar { width: 36px; height: 36px; margin-left: 2px; }
+            .help-btn { width: 36px; height: 36px; font-size: 1.4rem; margin-right: 2px; }
             .help-btn i { font-size: 1.4rem; }
         }
         @media (max-width: 380px) {
             .app-header { min-height: 50px; padding: 6px 10px; }
             .search-filter-section { top: 50px; }
-            .search-filter-section.show { max-height: 180px; padding: 6px 10px 10px 10px; }
+            .search-filter-section.show { max-height: 190px; padding: 6px 10px 10px 10px; }
             .slider-wrapper { margin-top: 66px; }
             .marquee-line .track span { font-size: 0.7rem; }
             .arrow-btn { width: 26px; height: 26px; font-size: 14px; }
@@ -1205,9 +1208,10 @@
             .nav-center i { font-size: 1.1rem; }
             .bottom-nav { padding: 4px 6px; min-height: 48px; }
             .nav-item { font-size: 0.5rem; }
-            .user-avatar { width: 30px; height: 30px; }
-            .help-btn { width: 30px; height: 30px; font-size: 1.2rem; }
+            .user-avatar { width: 30px; height: 30px; margin-left: 2px; }
+            .help-btn { width: 30px; height: 30px; font-size: 1.2rem; margin-right: 2px; }
             .help-btn i { font-size: 1.2rem; }
+            .logo-text h1 { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -1276,7 +1280,7 @@
 <div class="app-header" id="appHeader">
     <div class="logo-area" id="logoArea">
         <img id="userAvatar" class="user-avatar hide" src="" alt="avatar" onclick="openDrawer()">
-        <div>
+        <div class="logo-text">
             <h1>বাংলাদেশ মেলা</h1>
             <p>দেশের মেলার ঠিকানা</p>
         </div>
@@ -1289,7 +1293,7 @@
     </div>
 </div>
 
-<!-- সার্চ + ফিল্টার সেকশন -->
+<!-- সার্চ + ফিল্টার সেকশন (হেডারের নিচে) -->
 <div class="search-filter-section" id="searchFilterSection">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -1497,22 +1501,8 @@
     let isSearchActive = false;
     let lastScrollY = 0;
     
-    // ========== স্ক্রল ইভেন্ট (হেডার হাইড) ==========
-    window.addEventListener('scroll', function() {
-        const header = document.getElementById('appHeader');
-        const currentScrollY = window.scrollY;
-        
-        if (currentScrollY > 60) {
-            if (currentScrollY > lastScrollY) {
-                header.classList.add('hide-header');
-            } else {
-                header.classList.remove('hide-header');
-            }
-        } else {
-            header.classList.remove('hide-header');
-        }
-        lastScrollY = currentScrollY;
-    }, { passive: true });
+    // ========== স্ক্রল ইভেন্ট (হেডার আর লুকাবে না) ==========
+    // এখন কোনো স্ক্রল ইভেন্ট নেই, হেডার সর্বদা দৃশ্যমান
     
     // ========== স্লাইডার ডিফল্ট ইমেজ ==========
     const DEFAULT_SLIDES = [
@@ -1713,7 +1703,7 @@
         }, { passive: true });
     }
     
-    // ========== ডিভিশন ডাটা লোড ==========
+    // ========== ডিভিশন ডাটা লোড (divisions.json থেকে) ==========
     async function loadDivisions() {
         try {
             const response = await fetch('divisions.json');
@@ -1823,53 +1813,65 @@
         });
     }
     
-    // ========== সার্চ এবং ফিল্টার ফাংশন ==========
-    function updateSearchActiveState() {
-        const query = document.getElementById('searchInput').value.trim();
-        const hasSearch = query.length > 0;
-        const hasDivision = document.getElementById('divisionFilter').value !== '';
-        const hasDistrict = document.getElementById('districtFilter').value !== '';
-        const hasUpazila = document.getElementById('upazilaFilter').value !== '';
-        
-        isSearchActive = hasSearch || hasDivision || hasDistrict || hasUpazila;
-        
-        if (isSearchActive) {
-            document.body.classList.add('search-active');
-        } else {
-            document.body.classList.remove('search-active');
-        }
-    }
-    
+    // ========== ডিভিশন ফিল্টার আপডেট (নির্বাচিত বিভাগ অনুযায়ী জেলা ও উপজেলা) ==========
     function onFilterChange() {
         const division = document.getElementById('divisionFilter').value;
         const district = document.getElementById('districtFilter').value;
         const upazila = document.getElementById('upazilaFilter').value;
         
-        // শুধুমাত্র নির্বাচিত মানগুলো সেট করুন
         selectedDivision = division;
         selectedDistrict = district;
         selectedUpazila = upazila;
         
-        // উপজেলা ফিল্টার আপডেট (যদি বিভাগ এবং জেলা নির্বাচিত থাকে)
-        if (division && district) {
+        // বিভাগ নির্বাচন করলে জেলা আপডেট
+        if (division) {
             const divData = divisionsData.find(d => d.name === division);
-            const distData = divData?.districts?.find(d => d.name === district);
-            if (distData && distData.upazilas && distData.upazilas.length > 0) {
-                const upazilaSelect = document.getElementById('upazilaFilter');
-                const currentVal = upazilaSelect.value;
-                upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>';
-                distData.upazilas.forEach(up => {
-                    upazilaSelect.add(new Option(up, up));
+            if (divData && divData.districts) {
+                const districtSelect = document.getElementById('districtFilter');
+                const currentVal = districtSelect.value;
+                districtSelect.innerHTML = '<option value="">সব জেলা</option>';
+                divData.districts.forEach(dist => {
+                    districtSelect.add(new Option(dist.name, dist.name));
                 });
+                // আগের নির্বাচিত জেলা সেট করা
                 if (currentVal) {
-                    for (let i = 0; i < upazilaSelect.options.length; i++) {
-                        if (upazilaSelect.options[i].value === currentVal) {
-                            upazilaSelect.selectedIndex = i;
+                    for (let i = 0; i < districtSelect.options.length; i++) {
+                        if (districtSelect.options[i].value === currentVal) {
+                            districtSelect.selectedIndex = i;
                             break;
                         }
                     }
                 }
+                // জেলা নির্বাচন করলে উপজেলা আপডেট
+                const selectedDistrict = districtSelect.value;
+                if (selectedDistrict) {
+                    const distData = divData.districts.find(d => d.name === selectedDistrict);
+                    if (distData && distData.upazilas && distData.upazilas.length > 0) {
+                        const upazilaSelect = document.getElementById('upazilaFilter');
+                        const currentUpVal = upazilaSelect.value;
+                        upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>';
+                        distData.upazilas.forEach(up => {
+                            upazilaSelect.add(new Option(up, up));
+                        });
+                        if (currentUpVal) {
+                            for (let i = 0; i < upazilaSelect.options.length; i++) {
+                                if (upazilaSelect.options[i].value === currentUpVal) {
+                                    upazilaSelect.selectedIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        document.getElementById('upazilaFilter').innerHTML = '<option value="">সব উপজেলা</option>';
+                    }
+                } else {
+                    document.getElementById('upazilaFilter').innerHTML = '<option value="">সব উপজেলা</option>';
+                }
             }
+        } else {
+            // বিভাগ না থাকলে জেলা ও উপজেলা রিসেট
+            document.getElementById('districtFilter').innerHTML = '<option value="">সব জেলা</option>';
+            document.getElementById('upazilaFilter').innerHTML = '<option value="">সব উপজেলা</option>';
         }
         
         updateSearchActiveState();
@@ -1889,6 +1891,22 @@
         document.body.classList.remove('search-active');
         loadPosts();
         showToast('সব ফিল্টার রিসেট হয়েছে');
+    }
+    
+    function updateSearchActiveState() {
+        const query = document.getElementById('searchInput').value.trim();
+        const hasSearch = query.length > 0;
+        const hasDivision = document.getElementById('divisionFilter').value !== '';
+        const hasDistrict = document.getElementById('districtFilter').value !== '';
+        const hasUpazila = document.getElementById('upazilaFilter').value !== '';
+        
+        isSearchActive = hasSearch || hasDivision || hasDistrict || hasUpazila;
+        
+        if (isSearchActive) {
+            document.body.classList.add('search-active');
+        } else {
+            document.body.classList.remove('search-active');
+        }
     }
     
     // ========== মার্কি টেক্সট লোড ==========
@@ -1912,7 +1930,6 @@
         const myPostsDrawerItem = document.getElementById("myPostsDrawerItem");
         const newPostDrawerItem = document.getElementById("newPostDrawerItem");
         const logoutDrawerBtn = document.getElementById("logoutDrawerBtn");
-        const logoArea = document.getElementById("logoArea");
         
         if(user) {
             signinBtn.classList.add("hide");
@@ -1922,7 +1939,6 @@
             myPostsDrawerItem.style.display = "flex";
             newPostDrawerItem.style.display = "flex";
             logoutDrawerBtn.style.display = "flex";
-            logoArea.classList.add("center-logo");
             document.getElementById("drawerName").innerText = user.displayName || "User";
             document.getElementById("drawerEmail").innerText = user.email || "";
             document.getElementById("drawerAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=ffffff&color=333&bold=true";
@@ -1933,7 +1949,6 @@
             myPostsDrawerItem.style.display = "none";
             newPostDrawerItem.style.display = "none";
             logoutDrawerBtn.style.display = "none";
-            logoArea.classList.remove("center-logo");
             document.getElementById("drawerName").innerText = "অতিথি";
             document.getElementById("drawerEmail").innerText = "";
             document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=Guest&background=ffffff&color=333&bold=true";
@@ -1954,13 +1969,13 @@
         loadMarqueeText();
     });
     
-    document.getElementById("signinBtn").onclick = () => { window.location.href = "mela-login.html"; };
-    document.getElementById("loginDrawerBtn").onclick = () => { window.location.href = "mela-login.html"; };
-    document.getElementById("loginFromModalBtn").onclick = () => { window.location.href = "mela-login.html"; };
+    document.getElementById("signinBtn").onclick = () => { window.location.href = "login.html"; };
+    document.getElementById("loginDrawerBtn").onclick = () => { window.location.href = "login.html"; };
+    document.getElementById("loginFromModalBtn").onclick = () => { window.location.href = "login.html"; };
     
     // ========== হেল্প বাটন ==========
     document.getElementById("helpBtn").addEventListener("click", function() {
-        window.location.href = "mela-help.html";
+        window.location.href = "help.html";
     });
     
     // ========== ক্যাটাগরি লোড ==========
@@ -2138,7 +2153,7 @@
     function openEditModal(post) {
         if(!currentUser) {
             showToast("এডিট করতে লগইন করুন!");
-            window.location.href = "mela-login.html";
+            window.location.href = "login.html";
             return;
         }
         currentEditPostId = post.id;
@@ -2190,7 +2205,7 @@
     document.getElementById("updatePostBtn").onclick = async () => {
         if(!currentUser) {
             showToast("আপডেট করতে লগইন করুন!");
-            window.location.href = "mela-login.html";
+            window.location.href = "login.html";
             return;
         }
         const title = document.getElementById("editPostTitle").value.trim();
@@ -2232,7 +2247,7 @@
     async function deletePost(postId) { 
         if(!currentUser) {
             showToast("ডিলিট করতে লগইন করুন!");
-            window.location.href = "mela-login.html";
+            window.location.href = "login.html";
             return;
         }
         if(confirm("পোস্টটি ডিলিট করতে চান?")) { 
@@ -2256,9 +2271,9 @@
             card.innerHTML = `<div class="news-header"><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;"><div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="news-category topic-cat">${getTopicCategoryIcon(post.topicCategory)} ${post.topicCategory || 'অন্যান্য'}</span><span class="news-category time-cat">${getTimeCategoryIcon(post.category)} ${post.category || 'মেলা'}</span></div></div><div class="news-title">${statusBadgeHtml}${escapeHtml(post.title)}</div></div><div class="news-body"><div class="news-info-grid"><div class="info-item"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(post.division)} , ${escapeHtml(post.district)}</div><div class="info-item"><i class="fa-regular fa-calendar"></i> ${formatDate(post.startDate)} - ${formatDate(post.endDate)}</div></div><div class="news-description" data-fulltext="${escapeHtml(post.description || 'কোনো বিবরণ নেই')}">${escapeHtml(post.description?.substring(0, 150) || 'কোনো বিবরণ নেই')}${post.description?.length > 150 ? '...' : ''}</div>${posterHtml}<div id="comments-${post.id}" class="comments-section"></div></div><div class="news-footer">${actionButtons}</div>`;
             container.appendChild(card);
             const descElem = card.querySelector(".news-description"); const fullText = descElem.dataset.fulltext; descElem.onclick = (e) => { e.stopPropagation(); if(descElem.classList.contains("expanded")) { descElem.classList.remove("expanded"); descElem.innerText = fullText.substring(0,150)+(fullText.length>150?'...':''); } else { descElem.classList.add("expanded"); descElem.innerText = fullText; } };
-            card.querySelector(".like-btn")?.addEventListener("click", (e) => { e.stopPropagation(); if(!currentUser) { showToast("লাইক দিতে লগইন করুন"); window.location.href = "mela-login.html"; return; } showReactionPopup(card.querySelector(".like-btn"), post.id); });
-            card.querySelector(".save-btn")?.addEventListener("click", () => { if(!currentUser) { showToast("সেভ করতে লগইন করুন"); window.location.href = "mela-login.html"; return; } toggleSave(post.id); });
-            card.querySelector(".comment-btn")?.addEventListener("click", () => { if(!currentUser) { showToast("কমেন্ট করতে লগইন করুন"); window.location.href = "mela-login.html"; return; } const commentDiv = document.getElementById(`comments-${post.id}`); if(commentDiv.style.display === "none" || !commentDiv.style.display) { commentDiv.style.display = "block"; loadComments(post.id, commentDiv); } else { commentDiv.style.display = "none"; } });
+            card.querySelector(".like-btn")?.addEventListener("click", (e) => { e.stopPropagation(); if(!currentUser) { showToast("লাইক দিতে লগইন করুন"); window.location.href = "login.html"; return; } showReactionPopup(card.querySelector(".like-btn"), post.id); });
+            card.querySelector(".save-btn")?.addEventListener("click", () => { if(!currentUser) { showToast("সেভ করতে লগইন করুন"); window.location.href = "login.html"; return; } toggleSave(post.id); });
+            card.querySelector(".comment-btn")?.addEventListener("click", () => { if(!currentUser) { showToast("কমেন্ট করতে লগইন করুন"); window.location.href = "login.html"; return; } const commentDiv = document.getElementById(`comments-${post.id}`); if(commentDiv.style.display === "none" || !commentDiv.style.display) { commentDiv.style.display = "block"; loadComments(post.id, commentDiv); } else { commentDiv.style.display = "none"; } });
             card.querySelector(".edit-btn")?.addEventListener("click", () => openEditModal(post));
             card.querySelector(".delete-btn")?.addEventListener("click", () => deletePost(post.id));
             card.querySelector(".map-btn")?.addEventListener("click", (e) => { e.stopPropagation(); window.open(e.currentTarget.dataset.link, '_blank'); });
@@ -2356,7 +2371,7 @@
     document.getElementById("submitPost").onclick = async () => {
         if(!currentUser) {
             showToast("পোস্ট করতে লগইন করুন!");
-            window.location.href = "mela-login.html";
+            window.location.href = "login.html";
             return;
         }
         const title = document.getElementById("postTitle").value.trim();
