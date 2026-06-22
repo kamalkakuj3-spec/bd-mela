@@ -67,8 +67,31 @@
             border: 2px solid #d4af37;
             flex-shrink: 0;
             margin-left: 4px;
+            position: relative;
         }
         .user-avatar.hide {
+            display: none;
+        }
+        
+        /* সেভ কাউন্ট ব্যাজ - প্রোফাইল আইকনে */
+        .save-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid white;
+            pointer-events: none;
+        }
+        .save-badge.hide {
             display: none;
         }
         
@@ -170,9 +193,11 @@
             padding: 10px 16px 14px 16px;
         }
         
-        /* সার্চ সেকশন খোলা থাকলে স্লাইডার নিচে নামবে */
-        body.search-active .slider-wrapper {
-            margin-top: 12px;
+        /* সার্চ সেকশন খোলা থাকলে স্লাইডার, মার্কি, স্ট্যাটস লুকাবে */
+        body.search-active .slider-wrapper,
+        body.search-active .marquee-card,
+        body.search-active .stats-card {
+            display: none !important;
         }
         
         .search-box {
@@ -1183,7 +1208,6 @@
             .app-header { min-height: 56px; padding: 8px 12px; }
             .header-spacer { height: 56px; }
             .search-filter-section.show { max-height: 200px; padding: 8px 12px 12px 12px; }
-            body.search-active .slider-wrapper { margin-top: 8px; }
             .slider-wrapper { margin-top: 8px; }
             .marquee-card { padding: 8px 10px; margin: 6px 16px 10px 16px; }
             .marquee-line .track { gap: 1.2rem; }
@@ -1200,12 +1224,12 @@
             .user-avatar { width: 36px; height: 36px; margin-left: 2px; }
             .help-btn { width: 36px; height: 36px; font-size: 1.4rem; margin-right: 2px; }
             .help-btn i { font-size: 1.4rem; }
+            .save-badge { width: 18px; height: 18px; font-size: 9px; }
         }
         @media (max-width: 380px) {
             .app-header { min-height: 50px; padding: 6px 10px; }
             .header-spacer { height: 50px; }
             .search-filter-section.show { max-height: 190px; padding: 6px 10px 10px 10px; }
-            body.search-active .slider-wrapper { margin-top: 6px; }
             .slider-wrapper { margin-top: 6px; }
             .marquee-line .track span { font-size: 0.7rem; }
             .arrow-btn { width: 26px; height: 26px; font-size: 14px; }
@@ -1218,6 +1242,7 @@
             .help-btn { width: 30px; height: 30px; font-size: 1.2rem; margin-right: 2px; }
             .help-btn i { font-size: 1.2rem; }
             .logo-text h1 { font-size: 1.2rem; }
+            .save-badge { width: 16px; height: 16px; font-size: 8px; }
         }
     </style>
 </head>
@@ -1397,10 +1422,15 @@
 
 <!-- ========== নিচের মেনু বার ========== -->
 <div class="bottom-nav">
-    <button class="nav-item active" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়</span></button>
+    <!-- সময় আইকন (বামে) - এখন রিফ্রেশ হবে -->
+    <button class="nav-item active" id="navRefreshBtn"><i class="fa-solid fa-rotate"></i><span>রিফ্রেশ</span></button>
+    <!-- সার্চ -->
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
+    <!-- ক্রিয়েট (মাঝে) -->
     <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
-    <button class="nav-item" id="navSavedBtn"><i class="fa-regular fa-bookmark"></i><span>সেভ</span></button>
+    <!-- সময় (সেভের জায়গায়) -->
+    <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়</span></button>
+    <!-- বিষয় -->
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
@@ -1954,6 +1984,18 @@
             document.getElementById("drawerEmail").innerText = "";
             document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=Guest&background=ffffff&color=333&bold=true";
         }
+        updateSaveBadge();
+    }
+    
+    function updateSaveBadge() {
+        const badge = document.getElementById('saveBadge');
+        if (!badge) return;
+        if (savedPostsIds && savedPostsIds.length > 0) {
+            badge.classList.remove('hide');
+            badge.textContent = savedPostsIds.length;
+        } else {
+            badge.classList.add('hide');
+        }
     }
     
     auth.onAuthStateChanged(async (user) => {
@@ -1965,6 +2007,7 @@
         } else {
             savedPostsIds = [];
         }
+        updateSaveBadge();
         loadPosts();
         loadSliderData();
         loadMarqueeText();
@@ -1977,6 +2020,11 @@
     // ========== হেল্প বাটন ==========
     document.getElementById("helpBtn").addEventListener("click", function() {
         window.location.href = "mela-help.html";
+    });
+    
+    // ========== রিফ্রেশ বাটন ==========
+    document.getElementById("navRefreshBtn").addEventListener("click", function() {
+        location.reload();
     });
     
     // ========== ক্যাটাগরি লোড ==========
@@ -2084,6 +2132,7 @@
         } else {
             savedPostsIds = [];
         }
+        updateSaveBadge();
     }
     
     function getStatusText(post) { 
@@ -2323,7 +2372,7 @@
     window.addComment = async (postId) => { const text = document.getElementById(`newCom-${postId}`).value.trim(); if(!text) return; await db.ref(`posts/${postId}/comments/${Date.now()}`).set({ uid: currentUser.uid, name: currentUser.displayName, text, time: Date.now() }); loadPosts(); };
     
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
-    async function toggleSave(postId) { const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); const snap = await userRef.once('value'); let saved = snap.val() || []; if(saved.includes(postId)) saved = saved.filter(id => id !== postId); else saved.push(postId); await userRef.set(saved); savedPostsIds = saved; loadPosts(); showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল'); }
+    async function toggleSave(postId) { const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); const snap = await userRef.once('value'); let saved = snap.val() || []; if(saved.includes(postId)) saved = saved.filter(id => id !== postId); else saved.push(postId); await userRef.set(saved); savedPostsIds = saved; loadPosts(); updateSaveBadge(); showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল'); }
     function openDrawer() { document.getElementById("sideDrawer").classList.add("open"); document.getElementById("drawerOverlay").classList.add("show"); }
     function closeDrawer() { document.getElementById("sideDrawer").classList.remove("open"); document.getElementById("drawerOverlay").classList.remove("show"); }
     function openPostModal() { 
@@ -2339,12 +2388,16 @@
     }
     function closePostModal() { document.getElementById("postModal").style.display = "none"; }
     
-    document.getElementById("userAvatar").addEventListener("click", openDrawer);
+    document.getElementById("userAvatar").addEventListener("click", function() {
+        openDrawer();
+    });
     document.getElementById("drawerOverlay").onclick = closeDrawer;
     document.getElementById("drawerCloseBtn").onclick = closeDrawer;
     document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.reload(); };
     
-    document.getElementById("navSavedBtn").onclick = openSavedItemsPanel;
+    document.getElementById("navRefreshBtn").onclick = function() {
+        location.reload();
+    };
     document.getElementById("navSearchBtn").onclick = function() { 
         const section = document.getElementById("searchFilterSection");
         section.classList.toggle("show");
