@@ -42,9 +42,10 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             transition: all 0.3s ease;
             flex: 1;
+            justify-content: center;
         }
         .logo-area.center-logo {
             justify-content: center;
@@ -55,13 +56,14 @@
             left: 0;
         }
         .user-avatar {
-            width: 36px;
-            height: 36px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             object-fit: cover;
             cursor: pointer;
             border: 2px solid #d4af37;
             flex-shrink: 0;
+            margin-right: 10px;
         }
         .user-avatar.hide {
             display: none;
@@ -82,7 +84,7 @@
         }
         .header-icons {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             align-items: center;
         }
         .signin-btn {
@@ -107,13 +109,14 @@
             background: none;
             border: none;
             color: #555;
-            font-size: 1.4rem;
+            font-size: 2.8rem;
             cursor: pointer;
-            padding: 4px;
+            padding: 4px 8px;
             transition: color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-right: 10px;
         }
         .help-btn:hover {
             color: #1a1a1a;
@@ -133,6 +136,9 @@
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.3s ease;
             border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 99;
         }
         .search-filter-section.show {
             max-height: 150px;
@@ -1179,6 +1185,13 @@
             gap: 8px;
         }
         
+        /* সার্চের সময় স্লাইডার এবং মার্কি হাইড */
+        .search-active .slider-wrapper,
+        .search-active .marquee-card,
+        .search-active .stats-card {
+            display: none !important;
+        }
+        
         @media (max-width: 480px) {
             .marquee-card { padding: 8px 10px; margin: 6px 16px 10px 16px; }
             .marquee-line .track { gap: 1.2rem; }
@@ -1192,7 +1205,8 @@
             .nav-item i { font-size: 1.3rem; }
             .nav-center { width: 48px; height: 48px; margin-top: -24px; }
             .nav-center i { font-size: 1.5rem; }
-            .user-avatar { width: 30px; height: 30px; }
+            .user-avatar { width: 54px; height: 54px; }
+            .help-btn { font-size: 2.2rem; }
         }
         @media (max-width: 380px) {
             .marquee-line .track span { font-size: 0.7rem; }
@@ -1202,7 +1216,8 @@
             .nav-center i { font-size: 1.3rem; }
             .bottom-nav { padding: 6px 4px; min-height: 52px; }
             .nav-item { font-size: 0.55rem; }
-            .user-avatar { width: 26px; height: 26px; }
+            .user-avatar { width: 44px; height: 44px; }
+            .help-btn { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -1286,9 +1301,12 @@
     </div>
 </div>
 
-<!-- সার্চ + ফিল্টার সেকশন -->
+<!-- সার্চ + ফিল্টার সেকশন (হেডারের নিচে) -->
 <div class="search-filter-section" id="searchFilterSection">
-    <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ লিখুন..."></div>
+    <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="মেলার নাম, জেলা, বিভাগ লিখুন...">
+    </div>
     <div class="filter-row">
         <select id="divisionFilter" class="filter-select"><option value="">সব বিভাগ</option></select>
         <select id="districtFilter" class="filter-select"><option value="">সব জেলা</option></select>
@@ -1298,7 +1316,7 @@
 </div>
 
 <!-- ========== ইমেজ স্লাইডার ========== -->
-<div class="slider-wrapper">
+<div class="slider-wrapper" id="sliderWrapper">
     <div class="slider-container" id="sliderContainer">
         <div class="slides-track" id="slidesTrack">
             <!-- স্লাইড গুলো JavaScript দিয়ে তৈরি হবে -->
@@ -1320,7 +1338,7 @@
 </div>
 
 <!-- ========== চলন্ত লেখা (বড়) ========== -->
-<div class="marquee-card">
+<div class="marquee-card" id="marqueeCard">
     <div class="marquee-wrapper">
         <div class="marquee-line">
             <div class="track" id="liveMarqueeTrack">
@@ -1344,7 +1362,27 @@
 </div>
 
 <!-- স্ট্যাটিস্টিক্স কার্ড -->
-<div class="stats-card"><div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div><div class="stats-grid"><div class="stat-item" onclick="filterByStatus('live')"><div class="stat-number" id="statLive">0</div><div class="stat-label">চলমান মেলা</div></div><div class="stat-item" onclick="filterByStatus('soon')"><div class="stat-number" id="statSoon">0</div><div class="stat-label">আসন্ন মেলা</div></div><div class="stat-item"><div class="stat-number" id="statEnded">0</div><div class="stat-label">সমাপ্ত মেলা</div></div><div class="stat-item"><div class="stat-number" id="statReviews">0</div><div class="stat-label">মোট রিভিউ</div></div></div></div>
+<div class="stats-card" id="statsCard">
+    <div class="stats-title"><i class="fa-solid fa-chart-line"></i> লাইভ প্রিভিউ - পরিসংখ্যান</div>
+    <div class="stats-grid">
+        <div class="stat-item" onclick="filterByStatus('live')">
+            <div class="stat-number" id="statLive">0</div>
+            <div class="stat-label">চলমান মেলা</div>
+        </div>
+        <div class="stat-item" onclick="filterByStatus('soon')">
+            <div class="stat-number" id="statSoon">0</div>
+            <div class="stat-label">আসন্ন মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statEnded">0</div>
+            <div class="stat-label">সমাপ্ত মেলা</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="statReviews">0</div>
+            <div class="stat-label">মোট রিভিউ</div>
+        </div>
+    </div>
+</div>
 
 <!-- পোস্ট গ্রিড টাইটেল -->
 <div class="section-title">
@@ -1666,6 +1704,41 @@
                 else prevSlide();
             }
         }, { passive: true });
+    }
+    
+    // ========== সার্চ ফাংশন ==========
+    const searchInput = document.getElementById('searchInput');
+    const body = document.body;
+    const sliderWrapper = document.getElementById('sliderWrapper');
+    const marqueeCard = document.getElementById('marqueeCard');
+    const statsCard = document.getElementById('statsCard');
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        searchText = query;
+        
+        if (query.length > 0) {
+            body.classList.add('search-active');
+        } else {
+            body.classList.remove('search-active');
+        }
+        loadPosts();
+    });
+    
+    // সার্চ ফিল্টার ক্লিয়ার
+    function clearSearch() {
+        searchInput.value = '';
+        searchText = '';
+        body.classList.remove('search-active');
+        loadPosts();
+        // ফিল্টারও রিসেট
+        document.getElementById('divisionFilter').value = '';
+        document.getElementById('districtFilter').value = '';
+        document.getElementById('upazilaFilter').value = '';
+        selectedDivision = '';
+        selectedDistrict = '';
+        selectedUpazila = '';
+        loadPosts();
     }
     
     // ========== মার্কি টেক্সট লোড ==========
@@ -2167,7 +2240,7 @@
     }
     function closePostModal() { document.getElementById("postModal").style.display = "none"; }
     
-    // মেনু আইকন না থাকায় প্রোফাইল ক্লিক করলে ড্রয়ার ওপেন
+    // প্রোফাইল ক্লিক করলে ড্রয়ার ওপেন
     document.getElementById("userAvatar").addEventListener("click", openDrawer);
     
     document.getElementById("drawerOverlay").onclick = closeDrawer;
@@ -2175,12 +2248,17 @@
     document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.reload(); };
     
     document.getElementById("navSavedBtn").onclick = openSavedItemsPanel;
-    document.getElementById("navSearchBtn").onclick = () => { document.getElementById("searchFilterSection").classList.toggle("show"); if(document.getElementById("searchFilterSection").classList.contains("show")) document.getElementById("searchInput").focus(); };
+    document.getElementById("navSearchBtn").onclick = () => { 
+        const section = document.getElementById("searchFilterSection");
+        section.classList.toggle("show");
+        if (section.classList.contains("show")) {
+            document.getElementById("searchInput").focus();
+        }
+    };
     document.getElementById("navTimeCategory").onclick = openTimeCategoryPanel;
     document.getElementById("navTopicCategory").onclick = openTopicCategoryPanel;
     document.getElementById("navCreate").onclick = openPostModal;
     
-    document.getElementById("searchInput").addEventListener("input", (e) => { searchText = e.target.value; loadPosts(); });
     document.getElementById("closeModal").onclick = closePostModal;
     document.querySelectorAll('.time-category-item').forEach(i => { i.addEventListener('click', () => { document.querySelectorAll('.time-category-item').forEach(t => t.classList.remove('selected')); i.classList.add('selected'); }); });
     document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected');
@@ -2222,6 +2300,19 @@
         if(e.target === document.getElementById("postModal")) closePostModal(); 
         if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
         if(e.target === document.getElementById("slideDetailModal")) document.getElementById("slideDetailModal").style.display = "none";
+    };
+    
+    // clearAllFilters ফাংশন
+    window.clearAllFilters = function() {
+        clearSearch();
+        document.getElementById('divisionFilter').value = '';
+        document.getElementById('districtFilter').value = '';
+        document.getElementById('upazilaFilter').value = '';
+        selectedDivision = '';
+        selectedDistrict = '';
+        selectedUpazila = '';
+        loadPosts();
+        showToast('সব ফিল্টার রিসেট হয়েছে');
     };
     
     loadDivisions();
