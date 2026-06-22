@@ -58,41 +58,55 @@
             padding-left: 4px;
         }
         
+        /* প্রোফাইল আইকন - সেভ সহ */
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
         .user-avatar {
             width: 44px;
             height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            cursor: pointer;
             border: 2px solid #d4af37;
             flex-shrink: 0;
             margin-left: 4px;
-            position: relative;
+            display: block;
         }
         .user-avatar.hide {
             display: none;
         }
         
-        /* সেভ কাউন্ট ব্যাজ - প্রোফাইল আইকনে */
+        /* সেভ ব্যাজ - প্রোফাইল আইকনের উপর */
         .save-badge {
             position: absolute;
-            top: -6px;
-            right: -6px;
-            background: #dc3545;
+            bottom: -2px;
+            right: -4px;
+            background: #d4af37;
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 10px;
+            width: 22px;
+            height: 22px;
+            font-size: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             border: 2px solid white;
-            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .save-badge:hover {
+            transform: scale(1.15);
         }
         .save-badge.hide {
             display: none;
+        }
+        .save-badge i {
+            font-size: 10px;
         }
         
         .logo-text {
@@ -171,13 +185,13 @@
             width: 100%;
         }
         
-        /* ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে, স্লাইডারের উপরে) ========== */
+        /* ========== সার্চ + ফিল্টার সেকশন ========== */
         .search-filter-section {
             background: #ffffff;
             padding: 0 16px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease, margin 0.3s ease;
+            transition: max-height 0.4s ease, padding 0.3s ease;
             border-bottom: 1px solid #e0e0e0;
             position: relative;
             top: 0;
@@ -416,7 +430,7 @@
             cursor: pointer;
         }
         
-        /* সেভড আইটেম প্যানেল */
+        /* সেভড আইটেম প্যানেল - এখন ড্রয়ারে */
         .saved-items-panel {
             display: none;
             position: fixed;
@@ -559,14 +573,58 @@
         }
         .wheel-wrapper { display: none !important; }
         
-        /* স্লাইডার ডিটেইল মোডাল */
-        .slide-detail-modal .modal-content { max-width: 500px; }
+        /* ========== স্লাইডার ডিটেইল মোডাল ========== */
+        .slide-detail-modal .modal-content { 
+            max-width: 500px; 
+            position: relative;
+        }
         .slide-detail-modal .modal-body img {
             width: 100%;
             border-radius: 12px;
             margin-bottom: 15px;
             aspect-ratio: 16/9;
             object-fit: cover;
+        }
+        
+        /* ===== ক্রস বাটন - অ্যানিমেটেড ও চোখে পড়ার মতো ===== */
+        .close-modal-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 60px rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(4px);
+            animation: pulse-close 2s ease-in-out infinite;
+        }
+        .close-modal-btn:hover {
+            transform: scale(1.15) rotate(90deg);
+            background: rgba(220, 53, 69, 0.9);
+            border-color: #ff6b6b;
+            box-shadow: 0 0 30px rgba(220, 53, 69, 0.5), 0 0 80px rgba(212, 175, 55, 0.2);
+        }
+        .close-modal-btn:active {
+            transform: scale(0.9) rotate(90deg);
+        }
+        
+        @keyframes pulse-close {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(212, 175, 55, 0.05);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.4), 0 0 80px rgba(212, 175, 55, 0.15);
+            }
         }
         
         /* ========== চলন্ত লেখা ========== */
@@ -855,6 +913,8 @@
         .edit-btn { color: #2e7d32; }
         .delete-btn { color: #dc3545; }
         .edit-btn:hover, .delete-btn:hover { background: #f0f0f0; }
+        
+        /* ========== কমেন্ট সেকশন ========== */
         .comments-section {
             display: none;
             background: #f8f9fa;
@@ -889,7 +949,66 @@
             border-bottom: 1px solid #e0e0e0;
             font-size: 0.8rem;
         }
+        .comment-item:last-child {
+            border-bottom: none;
+        }
         .comment-item strong { color: #00c853; }
+        .comment-item .comment-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+            font-size: 0.7rem;
+        }
+        .comment-item .comment-actions button {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+        .comment-item .comment-actions button:hover {
+            background: #e0e0e0;
+            color: #333;
+        }
+        .comment-item .replies {
+            margin-left: 20px;
+            padding-left: 12px;
+            border-left: 2px solid #d4af37;
+            margin-top: 6px;
+        }
+        .comment-item .reply-input {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .comment-item .reply-input input {
+            flex: 1;
+            padding: 4px 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            outline: none;
+        }
+        .comment-item .reply-input button {
+            padding: 4px 12px;
+            background: #d4af37;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            cursor: pointer;
+        }
+        .comment-item .reply-item {
+            padding: 4px 0;
+            font-size: 0.75rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .comment-item .reply-item:last-child {
+            border-bottom: none;
+        }
+        .comment-item .reply-item strong { color: #b8860b; }
         
         .reaction-popup {
             position: fixed;
@@ -1071,15 +1190,6 @@
             gap: 8px;
             margin: 10px 0;
         }
-        .close-modal-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 22px;
-            cursor: pointer;
-            color: #999;
-            z-index: 30;
-        }
         .modal-section {
             margin-bottom: 15px;
             padding-bottom: 10px;
@@ -1225,6 +1335,7 @@
             .help-btn { width: 36px; height: 36px; font-size: 1.4rem; margin-right: 2px; }
             .help-btn i { font-size: 1.4rem; }
             .save-badge { width: 18px; height: 18px; font-size: 9px; }
+            .close-modal-btn { width: 34px; height: 34px; font-size: 16px; top: 8px; right: 8px; }
         }
         @media (max-width: 380px) {
             .app-header { min-height: 50px; padding: 6px 10px; }
@@ -1243,6 +1354,7 @@
             .help-btn i { font-size: 1.2rem; }
             .logo-text h1 { font-size: 1.2rem; }
             .save-badge { width: 16px; height: 16px; font-size: 8px; }
+            .close-modal-btn { width: 30px; height: 30px; font-size: 14px; top: 6px; right: 6px; }
         }
     </style>
 </head>
@@ -1307,13 +1419,23 @@
         <div class="drawer-item" onclick="closeDrawer(); showMyPosts()" id="myPostsDrawerItem" style="display:none;"><i class="fa-regular fa-user"></i><span>আমার পোস্ট</span></div>
         <div class="drawer-item" onclick="closeDrawer(); openPostModal()" id="newPostDrawerItem" style="display:none;"><i class="fa-regular fa-pen-to-square"></i><span>নতুন পোস্ট</span></div>
         <div class="drawer-item" id="logoutDrawerBtn" style="display:none;"><i class="fa-solid fa-sign-out-alt"></i><span>লগআউট</span></div>
+        <!-- সেভড পোস্ট ড্রয়ারে -->
+        <div class="drawer-item" id="savedDrawerItem" style="display:none;" onclick="closeDrawer(); openSavedItemsPanel();">
+            <i class="fa-regular fa-bookmark"></i><span>সেভ করা মেলা <span id="savedDrawerCount" style="background:#d4af37; color:white; border-radius:50%; padding:0 6px; font-size:10px; margin-left:4px;">0</span></span>
+        </div>
     </div>
 </div>
 
 <!-- হেডার -->
 <div class="app-header" id="appHeader">
     <div class="logo-area" id="logoArea">
-        <img id="userAvatar" class="user-avatar hide" src="" alt="avatar" onclick="openDrawer()">
+        <div class="profile-wrapper" onclick="openDrawer()">
+            <img id="userAvatar" class="user-avatar hide" src="" alt="avatar">
+            <div class="save-badge hide" id="saveBadge" title="সেভ করা মেলা দেখুন">
+                <i class="fa-regular fa-bookmark"></i>
+                <span id="badgeCount">0</span>
+            </div>
+        </div>
         <div class="logo-text">
             <h1>বাংলাদেশ মেলা</h1>
             <p>দেশের মেলার ঠিকানা</p>
@@ -1327,7 +1449,7 @@
     </div>
 </div>
 
-<!-- সার্চ + ফিল্টার সেকশন (হেডারের নিচে, স্লাইডারের উপরে) -->
+<!-- সার্চ + ফিল্টার সেকশন -->
 <div class="search-filter-section" id="searchFilterSection">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -1358,7 +1480,7 @@
 <!-- স্লাইডার ডিটেইল মোডাল -->
 <div id="slideDetailModal" class="modal slide-detail-modal">
     <div class="modal-content">
-        <span class="close-modal-btn" id="closeSlideModalBtn">&times;</span>
+        <span class="close-modal-btn" id="closeSlideModalBtn"><i class="fa-solid fa-xmark"></i></span>
         <div class="modal-body" id="slideDetailBody"></div>
     </div>
 </div>
@@ -1422,15 +1544,10 @@
 
 <!-- ========== নিচের মেনু বার ========== -->
 <div class="bottom-nav">
-    <!-- সময় আইকন (বামে) - এখন রিফ্রেশ হবে -->
     <button class="nav-item active" id="navRefreshBtn"><i class="fa-solid fa-rotate"></i><span>রিফ্রেশ</span></button>
-    <!-- সার্চ -->
     <button class="nav-item" id="navSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>সার্চ</span></button>
-    <!-- ক্রিয়েট (মাঝে) -->
     <button class="nav-item nav-center" id="navCreate"><i class="fa-solid fa-plus"></i></button>
-    <!-- সময় (সেভের জায়গায়) -->
     <button class="nav-item" id="navTimeCategory"><i class="fa-regular fa-calendar"></i><span>সময়</span></button>
-    <!-- বিষয় -->
     <button class="nav-item" id="navTopicCategory"><i class="fa-solid fa-th-large"></i><span>বিষয়</span></button>
 </div>
 
@@ -1502,7 +1619,7 @@
 <!-- সেভড পোস্ট বিস্তারিত মোডাল -->
 <div id="savedPostDetailModal" class="modal">
     <div class="modal-content">
-        <span class="close-modal-btn" id="closeSavedModalBtn">&times;</span>
+        <span class="close-modal-btn" id="closeSavedModalBtn"><i class="fa-solid fa-xmark"></i></span>
         <div class="modal-body" id="savedPostDetailBody"></div>
     </div>
 </div>
@@ -1538,6 +1655,7 @@
     let selectedDivision = "", selectedDistrict = "", selectedUpazila = "";
     let currentEditPostId = null;
     let isSearchActive = false;
+    let showingSavedOnly = false;
     
     // ========== স্লাইডার ডিফল্ট ইমেজ ==========
     const DEFAULT_SLIDES = [
@@ -1738,7 +1856,7 @@
         }, { passive: true });
     }
     
-    // ========== ডিভিশন ডাটা লোড (divisions.json থেকে) ==========
+    // ========== ডিভিশন ডাটা লোড ==========
     async function loadDivisions() {
         try {
             const response = await fetch('divisions.json');
@@ -1919,6 +2037,7 @@
         selectedUpazila = '';
         searchText = '';
         isSearchActive = false;
+        showingSavedOnly = false;
         document.body.classList.remove('search-active');
         loadPosts();
         showToast('সব ফিল্টার রিসেট হয়েছে');
@@ -1931,7 +2050,7 @@
         const hasDistrict = document.getElementById('districtFilter').value !== '';
         const hasUpazila = document.getElementById('upazilaFilter').value !== '';
         
-        isSearchActive = hasSearch || hasDivision || hasDistrict || hasUpazila;
+        isSearchActive = hasSearch || hasDivision || hasDistrict || hasUpazila || showingSavedOnly;
         
         if (isSearchActive) {
             document.body.classList.add('search-active');
@@ -1961,6 +2080,8 @@
         const myPostsDrawerItem = document.getElementById("myPostsDrawerItem");
         const newPostDrawerItem = document.getElementById("newPostDrawerItem");
         const logoutDrawerBtn = document.getElementById("logoutDrawerBtn");
+        const savedDrawerItem = document.getElementById("savedDrawerItem");
+        const saveBadge = document.getElementById("saveBadge");
         
         if(user) {
             signinBtn.classList.add("hide");
@@ -1970,6 +2091,8 @@
             myPostsDrawerItem.style.display = "flex";
             newPostDrawerItem.style.display = "flex";
             logoutDrawerBtn.style.display = "flex";
+            savedDrawerItem.style.display = "flex";
+            saveBadge.classList.remove("hide");
             document.getElementById("drawerName").innerText = user.displayName || "User";
             document.getElementById("drawerEmail").innerText = user.email || "";
             document.getElementById("drawerAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=ffffff&color=333&bold=true";
@@ -1980,6 +2103,8 @@
             myPostsDrawerItem.style.display = "none";
             newPostDrawerItem.style.display = "none";
             logoutDrawerBtn.style.display = "none";
+            savedDrawerItem.style.display = "none";
+            saveBadge.classList.add("hide");
             document.getElementById("drawerName").innerText = "অতিথি";
             document.getElementById("drawerEmail").innerText = "";
             document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=Guest&background=ffffff&color=333&bold=true";
@@ -1989,14 +2114,32 @@
     
     function updateSaveBadge() {
         const badge = document.getElementById('saveBadge');
+        const countSpan = document.getElementById('badgeCount');
+        const drawerCount = document.getElementById('savedDrawerCount');
         if (!badge) return;
         if (savedPostsIds && savedPostsIds.length > 0) {
             badge.classList.remove('hide');
-            badge.textContent = savedPostsIds.length;
+            countSpan.textContent = savedPostsIds.length;
+            if (drawerCount) drawerCount.textContent = savedPostsIds.length;
         } else {
             badge.classList.add('hide');
+            if (drawerCount) drawerCount.textContent = '0';
         }
     }
+    
+    // সেভ ব্যাজ ক্লিক করলে সেভড পোস্ট দেখাবে
+    document.getElementById('saveBadge').addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (currentUser) {
+            showingSavedOnly = true;
+            updateSearchActiveState();
+            loadPosts();
+            showToast('📚 আপনার সেভ করা মেলা দেখাচ্ছে');
+        } else {
+            showToast('সেভ দেখতে লগইন করুন');
+            window.location.href = "mela-login.html";
+        }
+    });
     
     auth.onAuthStateChanged(async (user) => {
         currentUser = user;
@@ -2094,7 +2237,10 @@
         return icons[catName] || '📆';
     }
     
-    function openSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.add('show'); loadSavedItemsList(); }
+    function openSavedItemsPanel() { 
+        document.getElementById('savedItemsPanel').classList.add('show'); 
+        loadSavedItemsList(); 
+    }
     function closeSavedItemsPanel() { document.getElementById('savedItemsPanel').classList.remove('show'); }
     function openTimeCategoryPanel() { document.getElementById('timeCategoryPanel').classList.add('show'); }
     function closeTimeCategoryPanel() { document.getElementById('timeCategoryPanel').classList.remove('show'); }
@@ -2114,15 +2260,16 @@
                 statusFilter = 'all';
             }
         }
+        showingSavedOnly = false;
         updateSearchActiveState();
         loadPosts(); 
         closeTimeCategoryPanel(); 
         showToast(`⏰ ফিল্টার প্রয়োগ করা হয়েছে`); 
     }
-    function resetTimeCategoryFilter() { selectedTimeCategory = "all"; statusFilter = "all"; document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected')); document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected'); updateSearchActiveState(); loadPosts(); showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে'); }
-    function applyTopicCategoryFilter() { updateSearchActiveState(); loadPosts(); closeTopicCategoryPanel(); showToast(`${selectedTopicCategories.length}টি বিষয় নির্বাচিত হয়েছে`); }
-    function resetTopicCategoryFilter() { selectedTopicCategories = []; document.querySelectorAll('.topic-category-item').forEach(i => { i.classList.remove('selected'); i.querySelector('i').className = 'fa-regular fa-square'; }); updateSearchActiveState(); loadPosts(); showToast('সব বিষয় ফিল্টার রিসেট হয়েছে'); }
-    function filterByStatus(status) { statusFilter = status; selectedTimeCategory = "all"; updateSearchActiveState(); loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
+    function resetTimeCategoryFilter() { selectedTimeCategory = "all"; statusFilter = "all"; document.querySelectorAll('.time-category-item').forEach(i => i.classList.remove('selected')); document.querySelector('.time-category-item[data-cat="all"]')?.classList.add('selected'); showingSavedOnly = false; updateSearchActiveState(); loadPosts(); showToast('সব সময়কাল ফিল্টার রিসেট হয়েছে'); }
+    function applyTopicCategoryFilter() { showingSavedOnly = false; updateSearchActiveState(); loadPosts(); closeTopicCategoryPanel(); showToast(`${selectedTopicCategories.length}টি বিষয় নির্বাচিত হয়েছে`); }
+    function resetTopicCategoryFilter() { selectedTopicCategories = []; document.querySelectorAll('.topic-category-item').forEach(i => { i.classList.remove('selected'); i.querySelector('i').className = 'fa-regular fa-square'; }); showingSavedOnly = false; updateSearchActiveState(); loadPosts(); showToast('সব বিষয় ফিল্টার রিসেট হয়েছে'); }
+    function filterByStatus(status) { statusFilter = status; selectedTimeCategory = "all"; showingSavedOnly = false; updateSearchActiveState(); loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
     
     // ========== সেভড পোস্ট ==========
     async function loadSavedPosts() { 
@@ -2177,6 +2324,10 @@
     async function loadPosts() {
         const snapshot = await db.ref('posts').once('value'); allPosts = []; snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); }); allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         let filtered = allPosts.filter(post => {
+            // সেভড শুধু দেখানোর ফিল্টার
+            if(showingSavedOnly) {
+                if(!savedPostsIds.includes(post.id)) return false;
+            }
             if(statusFilter !== "all") { const postStatus = getStatusText(post).type; if(postStatus !== statusFilter) return false; }
             if(selectedTimeCategory !== "all" && post.category !== selectedTimeCategory) return false;
             if(selectedTopicCategories.length > 0 && !selectedTopicCategories.includes(post.topicCategory)) return false;
@@ -2306,8 +2457,100 @@
         } 
     }
     
+    // ========== কমেন্ট + রিপ্লাই ফাংশন ==========
+    async function addComment(postId, text, parentId) {
+        if(!currentUser) {
+            showToast("কমেন্ট করতে লগইন করুন!");
+            window.location.href = "mela-login.html";
+            return;
+        }
+        const commentData = {
+            uid: currentUser.uid,
+            name: currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী',
+            text: text,
+            time: Date.now(),
+            replies: {}
+        };
+        if(parentId) {
+            await db.ref(`posts/${postId}/comments/${parentId}/replies`).push(commentData);
+        } else {
+            await db.ref(`posts/${postId}/comments`).push(commentData);
+        }
+        loadPosts();
+    }
+    
+    window.addComment = async function(postId) {
+        const input = document.getElementById(`newCom-${postId}`);
+        if(!input) return;
+        const text = input.value.trim();
+        if(!text) return;
+        await addComment(postId, text, null);
+        input.value = '';
+    };
+    
+    window.addReply = async function(postId, parentId) {
+        const input = document.getElementById(`replyInput-${postId}-${parentId}`);
+        if(!input) return;
+        const text = input.value.trim();
+        if(!text) return;
+        await addComment(postId, text, parentId);
+        input.value = '';
+        // রিপ্লাই ইনপুট লুকান
+        const replyDiv = document.getElementById(`replyForm-${postId}-${parentId}`);
+        if(replyDiv) replyDiv.style.display = 'none';
+    };
+    
+    window.toggleReply = function(postId, parentId) {
+        const replyDiv = document.getElementById(`replyForm-${postId}-${parentId}`);
+        if(replyDiv) {
+            replyDiv.style.display = replyDiv.style.display === 'none' ? 'flex' : 'none';
+            if(replyDiv.style.display === 'flex') {
+                replyDiv.querySelector('input')?.focus();
+            }
+        }
+    };
+    
+    async function loadComments(postId, container) {
+        const snapshot = await db.ref(`posts/${postId}/comments`).once('value');
+        const comments = snapshot.val() || {};
+        let html = `<div class="comment-input"><input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন..."><button onclick="window.addComment('${postId}')">পোস্ট</button></div><div id="commentList-${postId}">`;
+        
+        for(let [key, val] of Object.entries(comments)) {
+            html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}`;
+            html += `<div class="comment-actions"><button onclick="window.toggleReply('${postId}', '${key}')"><i class="fa-regular fa-reply"></i> রিপ্লাই</button></div>`;
+            
+            // রিপ্লাই ফর্ম
+            html += `<div class="reply-input" id="replyForm-${postId}-${key}" style="display:none; margin-top:6px; gap:6px;">
+                <input type="text" id="replyInput-${postId}-${key}" placeholder="রিপ্লাই লিখুন..." style="flex:1; padding:4px 10px; border:1px solid #ddd; border-radius:20px; font-size:0.7rem; outline:none;">
+                <button onclick="window.addReply('${postId}', '${key}')" style="padding:4px 12px; background:#d4af37; color:white; border:none; border-radius:20px; font-size:0.65rem; cursor:pointer;">রিপ্লাই</button>
+            </div>`;
+            
+            // রিপ্লাই লোড
+            if(val.replies) {
+                html += `<div class="replies">`;
+                for(let [replyKey, replyVal] of Object.entries(val.replies)) {
+                    html += `<div class="reply-item"><strong>${escapeHtml(replyVal.name)}</strong>: ${escapeHtml(replyVal.text)}</div>`;
+                }
+                html += `</div>`;
+            }
+            html += `</div>`;
+        }
+        html += `</div>`;
+        container.innerHTML = html;
+    }
+    
+    // ========== পোস্ট রেন্ডার ==========
     async function renderPosts(posts) {
-        const container = document.getElementById("postsContainer"); if(posts.length === 0) { container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>'; return; } container.innerHTML = "";
+        const container = document.getElementById("postsContainer"); 
+        if(posts.length === 0) { 
+            if(showingSavedOnly) {
+                container.innerHTML = '<div class="loader">😢 আপনার কোনো সেভ করা মেলা নেই</div>';
+            } else {
+                container.innerHTML = '<div class="loader">😢 কোনো মেলা পাওয়া যায়নি</div>';
+            }
+            return; 
+        } 
+        container.innerHTML = "";
         for(const post of posts) {
             const reactions = post.reactions || {}; const reactionCount = Object.keys(reactions).length; const userReaction = reactions[currentUser?.uid]; const isSaved = savedPostsIds.includes(post.id); const isMyPost = (post.uid === currentUser?.uid); const commentCount = post.comments ? Object.keys(post.comments).length : 0; const status = getStatusText(post); const displayInfo = getDisplayName(post);
             let likeButtonHtml = `<button class="action-btn like-btn ${userReaction ? 'liked' : ''}" data-id="${post.id}">${userReaction ? (userReaction.emoji || '❤️') : '<i class="fa-regular fa-thumbs-up"></i>'} <span class="count">${reactionCount}</span></button>`;
@@ -2368,11 +2611,24 @@
         }, 100); 
     }
     async function setReaction(postId, type, emoji) { await db.ref(`posts/${postId}/reactions/${currentUser.uid}`).set({ type, emoji, timestamp: Date.now() }); loadPosts(); }
-    async function loadComments(postId, container) { const snapshot = await db.ref(`posts/${postId}/comments`).once('value'); const comments = snapshot.val() || {}; let html = `<div class="comment-input"><input type="text" id="newCom-${postId}" placeholder="কমেন্ট লিখুন..."><button onclick="window.addComment('${postId}')">পোস্ট</button></div><div id="commentList-${postId}">`; for(let [key, val] of Object.entries(comments)) html += `<div class="comment-item"><strong>${escapeHtml(val.name)}</strong>: ${escapeHtml(val.text)}</div>`; html += `</div>`; container.innerHTML = html; }
-    window.addComment = async (postId) => { const text = document.getElementById(`newCom-${postId}`).value.trim(); if(!text) return; await db.ref(`posts/${postId}/comments/${Date.now()}`).set({ uid: currentUser.uid, name: currentUser.displayName, text, time: Date.now() }); loadPosts(); };
     
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
-    async function toggleSave(postId) { const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); const snap = await userRef.once('value'); let saved = snap.val() || []; if(saved.includes(postId)) saved = saved.filter(id => id !== postId); else saved.push(postId); await userRef.set(saved); savedPostsIds = saved; loadPosts(); updateSaveBadge(); showToast(saved.includes(postId) ? '⭐ মেলা সেভ হয়েছে' : '❌ সেভ বাতিল'); }
+    async function toggleSave(postId) { 
+        const userRef = db.ref(`users/${currentUser.uid}/savedPosts`); 
+        const snap = await userRef.once('value'); 
+        let saved = snap.val() || []; 
+        if(saved.includes(postId)) {
+            saved = saved.filter(id => id !== postId); 
+            showToast('❌ সেভ বাতিল');
+        } else {
+            saved.push(postId); 
+            showToast('⭐ মেলা সেভ হয়েছে');
+        } 
+        await userRef.set(saved); 
+        savedPostsIds = saved; 
+        updateSaveBadge();
+        loadPosts(); 
+    }
     function openDrawer() { document.getElementById("sideDrawer").classList.add("open"); document.getElementById("drawerOverlay").classList.add("show"); }
     function closeDrawer() { document.getElementById("sideDrawer").classList.remove("open"); document.getElementById("drawerOverlay").classList.remove("show"); }
     function openPostModal() { 
@@ -2460,6 +2716,7 @@
         if(e.target === document.getElementById("postModal")) closePostModal(); 
         if(e.target === document.getElementById("editPostModal")) document.getElementById("editPostModal").style.display = "none";
         if(e.target === document.getElementById("slideDetailModal")) document.getElementById("slideDetailModal").style.display = "none";
+        if(e.target === document.getElementById("savedPostDetailModal")) document.getElementById("savedPostDetailModal").style.display = "none";
     };
     
     loadDivisions();
