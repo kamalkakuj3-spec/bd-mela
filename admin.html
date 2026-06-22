@@ -12,7 +12,7 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
       padding: 20px;
     }
-    .container { max-width: 900px; margin: 0 auto; }
+    .container { max-width: 1100px; margin: 0 auto; }
     h1 { text-align: center; color: #d4af37; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
     
     /* লগইন স্ক্রিন */
@@ -157,7 +157,10 @@
     button:hover { transform: translateY(-2px); }
     .delete-btn { background: #dc3545; }
     .edit-btn { background: #28a745; }
+    .block-btn { background: #ff6b35; }
     .small-btn { padding: 6px 12px; font-size: 0.8rem; margin: 2px; }
+    .danger-btn { background: #dc3545; }
+    .warning-btn { background: #ff6b35; }
     
     .card-list {
       background: white;
@@ -265,6 +268,133 @@
       font-size: 0.65rem;
     }
     
+    /* ===== ইউজার পোস্ট ম্যানেজমেন্ট সেকশন ===== */
+    .user-post-management {
+      background: white;
+      border-radius: 24px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .user-post-management h3 {
+      color: #b8860b;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-user-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .search-user-box input {
+      flex: 1;
+      min-width: 200px;
+      margin: 0;
+    }
+    .search-user-box button {
+      margin: 0;
+      white-space: nowrap;
+    }
+    .post-item {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+      border-left: 4px solid #d4af37;
+      transition: all 0.2s;
+    }
+    .post-item:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .post-item .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .post-item .post-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1a1a1a;
+    }
+    .post-item .post-meta {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 4px;
+    }
+    .post-item .post-meta span {
+      margin-right: 12px;
+    }
+    .post-item .post-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .post-item .post-actions button {
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      border-radius: 20px;
+      margin: 0;
+    }
+    .post-item .post-desc {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 8px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .post-item .post-desc.expanded {
+      -webkit-line-clamp: unset;
+    }
+    .post-item .toggle-desc {
+      background: none;
+      border: none;
+      color: #b8860b;
+      font-size: 0.7rem;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 2px;
+      text-decoration: underline;
+    }
+    .post-item .post-desc-toggle {
+      cursor: pointer;
+    }
+    .post-item .user-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .post-item .user-badge.blocked {
+      background: #ffebee;
+      color: #c62828;
+    }
+    .no-results {
+      text-align: center;
+      padding: 30px;
+      color: #999;
+    }
+    .blocked-user-tag {
+      display: inline-block;
+      background: #dc3545;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    
     /* ক্যালেন্ডার */
     .date-range {
       display: flex;
@@ -310,6 +440,37 @@
       margin-top: 8px;
     }
     
+    /* ট্যাব স্টাইল */
+    .admin-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .admin-tabs button {
+      background: rgba(255,255,255,0.8);
+      color: #333;
+      border: 2px solid #ddd;
+      border-radius: 30px;
+      padding: 10px 24px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .admin-tabs button.active {
+      background: #d4af37;
+      color: white;
+      border-color: #d4af37;
+    }
+    .admin-tabs button:hover {
+      transform: none;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    
     @media (max-width: 550px) {
       .slider-header h2 { font-size: 1rem; }
       .form-card { padding: 18px; }
@@ -317,6 +478,9 @@
       .date-range { flex-direction: column; }
       .date-range input[type="date"] { width: 100%; }
       .slider-image-preview .img-item { width: 100px; }
+      .admin-tabs button { padding: 8px 16px; font-size: 0.8rem; }
+      .search-user-box input { min-width: 100px; }
+      .post-item .post-header { flex-direction: column; }
     }
   </style>
 </head>
@@ -345,123 +509,161 @@
     
     <h1>🏆 অ্যাডমিন প্যানেল | বাংলাদেশ মেলা 🏆</h1>
 
-    <!-- ===== লাইনার ০: চলন্ত লেখা ===== -->
-    <div class="slider-dropdown">
-      <div class="slider-header" id="sliderHeaderMarquee">
-        <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
-        <span class="toggle-icon">▼</span>
-      </div>
-      <div class="slider-content" id="sliderContentMarquee">
-        <div class="form-card marquee-editor">
-          <h3>✨ স্লাইডারের নিচের চলন্ত লেখা এডিট করুন ✨</h3>
-          <textarea id="marqueeText" rows="3" placeholder="এখানে আপনার চলন্ত লেখা লিখুন..." style="resize: vertical;"></textarea>
-          <div class="marquee-preview">
-            <div class="marquee-preview-text" id="marqueePreview">প্রিভিউ দেখাচ্ছে...</div>
+    <!-- ট্যাব নেভিগেশন -->
+    <div class="admin-tabs">
+      <button class="active" data-tab="tabMarquee">📢 চলন্ত লেখা</button>
+      <button data-tab="tabSlider">🖼️ স্লাইডার</button>
+      <button data-tab="tabUsers">👥 ইউজার ও পোস্ট</button>
+    </div>
+
+    <!-- ===== ট্যাব ১: চলন্ত লেখা ===== -->
+    <div id="tabMarquee" class="tab-content active">
+      <div class="slider-dropdown">
+        <div class="slider-header" id="sliderHeaderMarquee">
+          <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="slider-content" id="sliderContentMarquee">
+          <div class="form-card marquee-editor">
+            <h3>✨ স্লাইডারের নিচের চলন্ত লেখা এডিট করুন ✨</h3>
+            <textarea id="marqueeText" rows="3" placeholder="এখানে আপনার চলন্ত লেখা লিখুন..." style="resize: vertical;"></textarea>
+            <div class="marquee-preview">
+              <div class="marquee-preview-text" id="marqueePreview">প্রিভিউ দেখাচ্ছে...</div>
+            </div>
+            <div class="current-marquee-display" id="currentMarqueeDisplay">
+              <i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা লোড হচ্ছে...
+            </div>
+            <div style="margin-top: 20px;">
+              <button id="saveMarqueeBtn">💾 চলন্ত লেখা সংরক্ষণ করুন</button>
+              <button id="resetMarqueeBtn" style="background:#6c757d;">↺ ডিফল্ট রিসেট</button>
+            </div>
+            <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই লেখা হোমপেজের স্লাইডারের নিচে প্রদর্শিত হবে।</p>
           </div>
-          <div class="current-marquee-display" id="currentMarqueeDisplay">
-            <i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা লোড হচ্ছে...
-          </div>
-          <div style="margin-top: 20px;">
-            <button id="saveMarqueeBtn">💾 চলন্ত লেখা সংরক্ষণ করুন</button>
-            <button id="resetMarqueeBtn" style="background:#6c757d;">↺ ডিফল্ট রিসেট</button>
-          </div>
-          <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই লেখা হোমপেজের স্লাইডারের নিচে প্রদর্শিত হবে।</p>
         </div>
       </div>
     </div>
 
-    <!-- ===== লাইনার ১: স্লাইডার ইমেজ + সম্পূর্ণ তথ্য ===== -->
-    <div class="slider-dropdown">
-      <div class="slider-header" id="sliderHeaderSlider">
-        <h2>🖼️ স্লাইডার ইমেজ ও তথ্য ম্যানেজ</h2>
-        <span class="toggle-icon">▼</span>
-      </div>
-      <div class="slider-content" id="sliderContentSlider">
-        <div class="form-card">
-          <h3>✨ স্লাইডারের জন্য ইমেজ ও মেলার সম্পূর্ণ তথ্য যোগ/এডিট করুন ✨</h3>
-          
-          <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য ইমেজ ও মেলার সম্পূর্ণ তথ্য দিন। ইমেজ ক্লিক করলে পপআপে সব তথ্য দেখাবে।</p>
-          </div>
-          
-          <!-- ⭐ ইমেজ URL -->
-          <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
-          
-          <!-- ⭐ শিরোনাম -->
-          <input type="text" id="slideTitle" placeholder="মেলার নাম / শিরোনাম *">
-          
-          <!-- ⭐ মেলার ধরন -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">🏷️ মেলার ধরন *</label>
-            <select id="slideMelaType" required>
-              <option value="">-- নির্বাচন করুন --</option>
-            </select>
-          </div>
-          
-          <!-- ⭐ সময়কাল -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">⏰ সময়কাল *</label>
-            <div class="date-range">
-              <input type="date" id="slideStartDate" required>
-              <input type="date" id="slideEndDate" required>
+    <!-- ===== ট্যাব ২: স্লাইডার ===== -->
+    <div id="tabSlider" class="tab-content">
+      <div class="slider-dropdown">
+        <div class="slider-header" id="sliderHeaderSlider">
+          <h2>🖼️ স্লাইডার ইমেজ ম্যানেজ</h2>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="slider-content" id="sliderContentSlider">
+          <div class="form-card">
+            <h3>✨ স্লাইডারের জন্য ইমেজ যোগ/এডিট করুন ✨</h3>
+            
+            <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+              <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য ইমেজ ও মেলার তথ্য দিন।</p>
             </div>
-          </div>
-          
-          <!-- ⭐ ঠিকানা -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight:600; display:block; margin-bottom:4px;">📍 ঠিকানা *</label>
-            <select id="slideDivision" required>
-              <option value="">-- বিভাগ নির্বাচন করুন --</option>
-            </select>
-            <select id="slideDistrict" required>
-              <option value="">-- জেলা নির্বাচন করুন --</option>
-            </select>
-            <select id="slideUpazila">
-              <option value="">-- উপজেলা নির্বাচন করুন --</option>
-            </select>
-            <input type="text" id="slideAddressDetail" placeholder="বিস্তারিত ঠিকানা (ঐচ্ছিক)">
-          </div>
-          
-          <!-- ⭐ বিবরণ -->
-          <textarea id="slideDescription" rows="3" placeholder="মেলার বিস্তারিত বিবরণ *"></textarea>
-          
-          <!-- ⭐ যোগাযোগ -->
-          <div id="slideContactsArea">
-            <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (ঐচ্ছিক)</h4>
-            <div id="slideContactList">
-              <div class="contact-group">
-                <div class="contact-row">
-                  <input type="text" placeholder="নাম" class="slide-contact-name">
-                  <input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone">
-                </div>
+            
+            <!-- ⭐ ইমেজ URL -->
+            <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
+            
+            <!-- ⭐ শিরোনাম -->
+            <input type="text" id="slideTitle" placeholder="মেলার নাম / শিরোনাম *">
+            
+            <!-- ⭐ মেলার ধরন -->
+            <div class="form-group">
+              <label style="font-weight:600; display:block; margin-bottom:4px;">🏷️ মেলার ধরন *</label>
+              <select id="slideMelaType" required>
+                <option value="">-- নির্বাচন করুন --</option>
+                <option value="কৃষি মেলা">🌾 কৃষি মেলা</option>
+                <option value="বাণিজ্য মেলা">💼 বাণিজ্য মেলা</option>
+                <option value="সাংস্কৃতিক মেলা">🎭 সাংস্কৃতিক মেলা</option>
+                <option value="বইমেলা">📚 বইমেলা</option>
+                <option value="খাবার মেলা">🍽️ খাবার মেলা</option>
+                <option value="অন্যান্য">🎪 অন্যান্য</option>
+              </select>
+            </div>
+            
+            <!-- ⭐ সময়কাল -->
+            <div class="form-group">
+              <label style="font-weight:600; display:block; margin-bottom:4px;">⏰ সময়কাল *</label>
+              <div class="date-range">
+                <input type="date" id="slideStartDate" required>
+                <input type="date" id="slideEndDate" required>
               </div>
             </div>
-            <button type="button" id="slideAddContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
-          </div>
-          
-          <!-- ⭐ লিংক -->
-          <input type="url" id="slideLink" placeholder="লিংক (ঐচ্ছিক) - ক্লিক করলে যাবে">
-          
-          <!-- ⭐ ক্রম -->
-          <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
-          
-          <div id="currentSliderImages" style="margin: 15px 0;">
-            <h4 style="color: #b8860b; margin-bottom: 10px;">📸 বর্তমান স্লাইডার ইমেজ</h4>
-            <div id="sliderImageList" class="slider-image-preview">
-              <p style="color: #999;">লোড হচ্ছে...</p>
+            
+            <!-- ⭐ লোকেশন - ম্যানুয়াল টেক্সট (ডিভিশন সিস্টেম বাদ) -->
+            <div class="form-group">
+              <label style="font-weight:600; display:block; margin-bottom:4px;">📍 মেলার লোকেশন/ঠিকানা *</label>
+              <input type="text" id="slideLocation" placeholder="ঢাকা, বাংলাদেশ অথবা বিস্তারিত ঠিকানা লিখুন" required>
             </div>
-          </div>
-          
-          <div style="margin-top: 20px;">
-            <button id="saveSliderBtn">➕ ইমেজ ও তথ্য যোগ/আপডেট করুন</button>
-            <button id="cancelSliderBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
+            
+            <!-- ⭐ বিবরণ -->
+            <textarea id="slideDescription" rows="3" placeholder="মেলার বিস্তারিত বিবরণ *"></textarea>
+            
+            <!-- ⭐ যোগাযোগ -->
+            <div id="slideContactsArea">
+              <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (ঐচ্ছিক)</h4>
+              <div id="slideContactList">
+                <div class="contact-group">
+                  <div class="contact-row">
+                    <input type="text" placeholder="নাম" class="slide-contact-name">
+                    <input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone">
+                  </div>
+                </div>
+              </div>
+              <button type="button" id="slideAddContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
+            </div>
+            
+            <!-- ⭐ লিংক -->
+            <input type="url" id="slideLink" placeholder="লিংক (ঐচ্ছিক) - ক্লিক করলে যাবে">
+            
+            <!-- ⭐ ক্রম -->
+            <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
+            
+            <div id="currentSliderImages" style="margin: 15px 0;">
+              <h4 style="color: #b8860b; margin-bottom: 10px;">📸 বর্তমান স্লাইডার ইমেজ</h4>
+              <div id="sliderImageList" class="slider-image-preview">
+                <p style="color: #999;">লোড হচ্ছে...</p>
+              </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+              <button id="saveSliderBtn">➕ ইমেজ যোগ/আপডেট করুন</button>
+              <button id="cancelSliderBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ===== লাইনার ২: স্লাইডার পোস্ট করা তথ্য এডিট (বাতিল) ===== -->
-    <!-- এই বিভাগটি সম্পূর্ণ বাদ দেওয়া হয়েছে, কারণ ইমেজের সাথেই সব তথ্য সংরক্ষিত -->
+    <!-- ===== ট্যাব ৩: ইউজার ও পোস্ট ম্যানেজমেন্ট ===== -->
+    <div id="tabUsers" class="tab-content">
+      <div class="user-post-management">
+        <h3><i class="fa-solid fa-users-gear"></i> ইউজার ও পোস্ট ম্যানেজমেন্ট</h3>
+        
+        <!-- সার্চ বার -->
+        <div class="search-user-box">
+          <input type="text" id="adminSearchInput" placeholder="ইউজার নাম, ইমেইল বা পোস্টের শিরোনাম লিখুন...">
+          <button id="adminSearchBtn"><i class="fa-solid fa-search"></i> সার্চ</button>
+          <button id="adminResetSearchBtn" style="background:#6c757d;"><i class="fa-solid fa-rotate-left"></i> রিসেট</button>
+        </div>
+        
+        <!-- ফিল্টার অপশন -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
+          <select id="adminFilterType" class="filter-select" style="width:auto; min-width:120px;">
+            <option value="all">সব পোস্ট</option>
+            <option value="live">চলমান</option>
+            <option value="soon">আসন্ন</option>
+            <option value="ended">সমাপ্ত</option>
+          </select>
+          <select id="adminFilterUser" class="filter-select" style="width:auto; min-width:150px;">
+            <option value="all">সব ইউজার</option>
+          </select>
+          <button id="adminApplyFilterBtn" class="small-btn" style="background:#28a745;">ফিল্টার প্রয়োগ</button>
+        </div>
+        
+        <!-- পোস্ট লিস্ট -->
+        <div id="adminPostList" style="max-height:600px; overflow-y:auto;">
+          <div class="no-results"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>
@@ -489,11 +691,13 @@
   const database = firebase.database();
   const sliderImagesRef = database.ref('sliderImages');
   const marqueeRef = database.ref('marqueeText');
+  const postsRef = database.ref('posts');
 
   let currentEditSliderId = null;
   let currentAdminUser = null;
-  let categoriesData = [];
-  let divisionsData = [];
+  let allPosts = [];
+  let allUsers = [];
+  let blockedUsers = [];
   
   const ALLOWED_ADMINS = ["kamalkakuj3@gmail.com", "kamalkakuj3@gmail.com"];
   
@@ -502,6 +706,245 @@
   const adminContent = document.getElementById('adminContent');
   const adminUserInfo = document.getElementById('adminUserInfo');
   
+  // ========== ব্লক/আনব্লক ইউজার ==========
+  async function toggleBlockUser(userId, userName, currentBlocked) {
+    if (!currentAdminUser) return;
+    const confirmMsg = currentBlocked ? 
+      `"${userName}"-কে আনব্লক করতে চান?` : 
+      `"${userName}"-কে ব্লক করতে চান? তার সমস্ত পোস্ট লুকানো হবে এবং তিনি নতুন পোস্ট করতে পারবেন না।`;
+    if (!confirm(confirmMsg)) return;
+    
+    try {
+      const blockRef = database.ref(`blockedUsers/${userId}`);
+      if (currentBlocked) {
+        await blockRef.remove();
+        showToast(`✅ "${userName}" আনব্লক করা হয়েছে`);
+      } else {
+        await blockRef.set({ 
+          uid: userId, 
+          name: userName, 
+          blockedAt: Date.now(),
+          blockedBy: currentAdminUser.email 
+        });
+        showToast(`🔒 "${userName}" ব্লক করা হয়েছে`);
+      }
+      loadBlockedUsers();
+      loadAdminPosts();
+    } catch(e) {
+      alert('ত্রুটি: ' + e.message);
+    }
+  }
+
+  async function loadBlockedUsers() {
+    const snapshot = await database.ref('blockedUsers').once('value');
+    const data = snapshot.val();
+    blockedUsers = data ? Object.keys(data) : [];
+    return blockedUsers;
+  }
+
+  // ========== পোস্ট ডিলিট ==========
+  async function deleteAdminPost(postId, title) {
+    if (!currentAdminUser) return;
+    if (!confirm(`"${title}" পোস্টটি ডিলিট করতে চান?`)) return;
+    try {
+      await postsRef.child(postId).remove();
+      showToast('✅ পোস্ট ডিলিট করা হয়েছে');
+      loadAdminPosts();
+    } catch(e) {
+      alert('ত্রুটি: ' + e.message);
+    }
+  }
+
+  // ========== পোস্ট ব্লক (ইউজার ব্লক) ==========
+  async function blockUserFromPost(userId, userName) {
+    if (!currentAdminUser) return;
+    if (!confirm(`"${userName}"-কে ব্লক করতে চান? তার সমস্ত পোস্ট লুকানো হবে।`)) return;
+    try {
+      await database.ref(`blockedUsers/${userId}`).set({ 
+        uid: userId, 
+        name: userName, 
+        blockedAt: Date.now(),
+        blockedBy: currentAdminUser.email 
+      });
+      showToast(`🔒 "${userName}" ব্লক করা হয়েছে`);
+      loadBlockedUsers();
+      loadAdminPosts();
+    } catch(e) {
+      alert('ত্রুটি: ' + e.message);
+    }
+  }
+
+  // ========== অ্যাডমিন পোস্ট লোড ==========
+  async function loadAdminPosts() {
+    await loadBlockedUsers();
+    const snapshot = await postsRef.once('value');
+    allPosts = [];
+    const usersMap = {};
+    
+    snapshot.forEach(child => {
+      const post = { id: child.key, ...child.val() };
+      allPosts.push(post);
+      if (post.uid && post.posterName) {
+        usersMap[post.uid] = post.posterName;
+      }
+    });
+    
+    // ইউজার লিস্ট তৈরি
+    allUsers = Object.keys(usersMap).map(uid => ({ uid, name: usersMap[uid] }));
+    
+    // ফিল্টার ইউজার ড্রপডাউন আপডেট
+    const userFilter = document.getElementById('adminFilterUser');
+    const currentVal = userFilter.value;
+    userFilter.innerHTML = '<option value="all">সব ইউজার</option>';
+    allUsers.forEach(u => {
+      const isBlocked = blockedUsers.includes(u.uid);
+      userFilter.add(new Option(`${u.name}${isBlocked ? ' 🔒' : ''}`, u.uid));
+    });
+    if (currentVal) userFilter.value = currentVal;
+    
+    renderAdminPosts(allPosts);
+  }
+
+  function renderAdminPosts(posts) {
+    const container = document.getElementById('adminPostList');
+    if (!posts || posts.length === 0) {
+      container.innerHTML = '<div class="no-results">😢 কোনো পোস্ট পাওয়া যায়নি</div>';
+      return;
+    }
+
+    // সর্ট করুন (নতুন প্রথমে)
+    posts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    let html = '';
+    posts.forEach(post => {
+      const isBlockedUser = post.uid && blockedUsers.includes(post.uid);
+      const displayName = post.posterName || post.email || 'অজ্ঞাত';
+      const status = getPostStatus(post);
+      const statusEmoji = status === 'live' ? '🟢' : (status === 'soon' ? '🟠' : '⚫');
+      const statusText = status === 'live' ? 'চলমান' : (status === 'soon' ? 'আসন্ন' : 'সমাপ্ত');
+      
+      html += `
+        <div class="post-item" style="${isBlockedUser ? 'opacity:0.6; border-left-color:#dc3545;' : ''}">
+          <div class="post-header">
+            <div>
+              <div class="post-title">${escapeHtml(post.title || 'শিরোনাম নেই')}</div>
+              <div class="post-meta">
+                <span><i class="fa-regular fa-user"></i> ${escapeHtml(displayName)}</span>
+                <span><i class="fa-regular fa-envelope"></i> ${escapeHtml(post.email || 'N/A')}</span>
+                <span><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.division || '')} ${post.district ? ', ' + escapeHtml(post.district) : ''}</span>
+                <span>${statusEmoji} ${statusText}</span>
+                ${isBlockedUser ? '<span class="blocked-user-tag"><i class="fa-solid fa-ban"></i> ব্লকড</span>' : ''}
+              </div>
+            </div>
+            <div>
+              <span style="font-size:0.7rem; color:#999;">${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
+            </div>
+          </div>
+          <div class="post-desc" id="desc-${post.id}">${escapeHtml(post.description || 'কোনো বিবরণ নেই')}</div>
+          <button class="toggle-desc" onclick="toggleDesc('${post.id}')">বিস্তারিত দেখুন</button>
+          <div class="post-actions">
+            ${!isBlockedUser ? `<button class="warning-btn small-btn" onclick="blockUserFromPost('${post.uid}', '${escapeHtml(displayName)}')"><i class="fa-solid fa-ban"></i> ইউজার ব্লক</button>` : 
+              `<button class="edit-btn small-btn" onclick="toggleBlockUser('${post.uid}', '${escapeHtml(displayName)}', true)"><i class="fa-solid fa-unlock"></i> আনব্লক</button>`}
+            <button class="delete-btn small-btn" onclick="deleteAdminPost('${post.id}', '${escapeHtml(post.title)}')"><i class="fa-solid fa-trash"></i> ডিলিট</button>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  function toggleDesc(postId) {
+    const desc = document.getElementById(`desc-${postId}`);
+    if (!desc) return;
+    if (desc.classList.contains('expanded')) {
+      desc.classList.remove('expanded');
+      desc.parentElement.querySelector('.toggle-desc').textContent = 'বিস্তারিত দেখুন';
+    } else {
+      desc.classList.add('expanded');
+      desc.parentElement.querySelector('.toggle-desc').textContent = 'সংক্ষেপে দেখুন';
+    }
+  }
+
+  function getPostStatus(post) {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const start = post.startDate ? new Date(post.startDate) : null;
+    const end = post.endDate ? new Date(post.endDate) : null;
+    if (!start || !end) return 'soon';
+    start.setHours(0,0,0,0);
+    end.setHours(0,0,0,0);
+    if (end < today) return 'ended';
+    if (start <= today && end >= today) return 'live';
+    return 'soon';
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: #1a1a1a; color: #00e676; padding: 10px 24px;
+      border-radius: 30px; font-size: 0.9rem; z-index: 9999;
+      opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    `;
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.style.opacity = '1', 50);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 400);
+    }, 2500);
+  }
+
+  // ========== অ্যাডমিন ফিল্টার ও সার্চ ==========
+  function filterAdminPosts() {
+    const searchText = document.getElementById('adminSearchInput').value.trim().toLowerCase();
+    const filterType = document.getElementById('adminFilterType').value;
+    const filterUser = document.getElementById('adminFilterUser').value;
+
+    let filtered = allPosts.filter(post => {
+      // সার্চ ফিল্টার
+      if (searchText) {
+        const title = (post.title || '').toLowerCase();
+        const desc = (post.description || '').toLowerCase();
+        const name = (post.posterName || '').toLowerCase();
+        const email = (post.email || '').toLowerCase();
+        const division = (post.division || '').toLowerCase();
+        const district = (post.district || '').toLowerCase();
+        if (!title.includes(searchText) && !desc.includes(searchText) && 
+            !name.includes(searchText) && !email.includes(searchText) &&
+            !division.includes(searchText) && !district.includes(searchText)) {
+          return false;
+        }
+      }
+      
+      // টাইপ ফিল্টার
+      if (filterType !== 'all') {
+        const status = getPostStatus(post);
+        if (status !== filterType) return false;
+      }
+      
+      // ইউজার ফিল্টার
+      if (filterUser !== 'all' && post.uid !== filterUser) return false;
+      
+      // ব্লকড ইউজারের পোস্ট দেখানো (শুধু অ্যাডমিন দেখতে পারে)
+      return true;
+    });
+
+    renderAdminPosts(filtered);
+  }
+
+  // ========== অ্যাডমিন ফাংশন ==========
   function isAdminUser(email) { return ALLOWED_ADMINS.includes(email); }
   
   function showAdminPanel(user) {
@@ -511,8 +954,7 @@
     adminContent.classList.add('show');
     loadMarqueeText();
     loadSliderImages();
-    loadCategories();
-    loadDivisions();
+    loadAdminPosts();
   }
   
   function showLoginScreen() {
@@ -525,9 +967,16 @@
   
   auth.onAuthStateChanged(async (user) => {
     if (user) {
-      if (isAdminUser(user.email)) { showAdminPanel(user); }
-      else { showLoginScreen(); showAccessDenied(); await auth.signOut(); }
-    } else { showLoginScreen(); }
+      if (isAdminUser(user.email)) { 
+        showAdminPanel(user); 
+      } else { 
+        showLoginScreen(); 
+        showAccessDenied(); 
+        await auth.signOut(); 
+      }
+    } else { 
+      showLoginScreen(); 
+    }
   });
   
   document.getElementById('adminGoogleLoginBtn').addEventListener('click', async () => {
@@ -561,6 +1010,17 @@
     showLoginScreen();
   });
   
+  // ========== ট্যাব সুইচ ==========
+  document.querySelectorAll('.admin-tabs button').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.getElementById(this.dataset.tab).classList.add('active');
+    });
+  });
+  
+  // ========== ড্রপডাউন টগল ==========
   function toggleDropdown(headerId, contentId) {
     const header = document.getElementById(headerId);
     const content = document.getElementById(contentId);
@@ -570,96 +1030,6 @@
 
   document.getElementById('sliderHeaderMarquee').addEventListener('click', () => toggleDropdown('sliderHeaderMarquee', 'sliderContentMarquee'));
   document.getElementById('sliderHeaderSlider').addEventListener('click', () => toggleDropdown('sliderHeaderSlider', 'sliderContentSlider'));
-
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  // ========== ক্যাটাগরি লোড ==========
-  async function loadCategories() {
-    try {
-      const response = await fetch('mela-category.json');
-      if (!response.ok) throw new Error('mela-category.json not found');
-      const data = await response.json();
-      categoriesData = data.categories || [];
-    } catch(e) {
-      categoriesData = [
-        { name: "কৃষি মেলা", icon: "🌾" },
-        { name: "বাণিজ্য মেলা", icon: "💼" },
-        { name: "সাংস্কৃতিক মেলা", icon: "🎭" },
-        { name: "বইমেলা", icon: "📚" },
-        { name: "খাবার মেলা", icon: "🍽️" },
-        { name: "অন্যান্য", icon: "🎪" }
-      ];
-    }
-    populateSlideCategorySelect();
-  }
-
-  function populateSlideCategorySelect() {
-    const select = document.getElementById('slideMelaType');
-    select.innerHTML = '<option value="">-- নির্বাচন করুন --</option>';
-    categoriesData.forEach(cat => {
-      select.add(new Option(`${cat.icon || '🏷️'} ${cat.name}`, cat.name));
-    });
-  }
-
-  // ========== ডিভিশন লোড ==========
-  async function loadDivisions() {
-    try {
-      const response = await fetch('divisions.json');
-      if (!response.ok) throw new Error('divisions.json not found');
-      const data = await response.json();
-      divisionsData = data.divisions || [];
-    } catch(e) {
-      divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }];
-    }
-    populateSlideDivisionSelect();
-  }
-
-  function populateSlideDivisionSelect() {
-    const select = document.getElementById('slideDivision');
-    select.innerHTML = '<option value="">-- বিভাগ নির্বাচন করুন --</option>';
-    divisionsData.forEach(div => {
-      select.add(new Option(div.name, div.name));
-    });
-    select.onchange = function() {
-      const divisionName = this.value;
-      updateSlideDistrictSelect(divisionName);
-    };
-  }
-
-  function updateSlideDistrictSelect(divisionName) {
-    const districtSelect = document.getElementById('slideDistrict');
-    districtSelect.innerHTML = '<option value="">-- জেলা নির্বাচন করুন --</option>';
-    const division = divisionsData.find(d => d.name === divisionName);
-    if (division && division.districts) {
-      division.districts.forEach(dist => {
-        districtSelect.add(new Option(dist.name, dist.name));
-      });
-    }
-    districtSelect.onchange = function() {
-      const districtName = this.value;
-      const division = divisionsData.find(d => d.name === divisionName);
-      const district = division?.districts?.find(d => d.name === districtName);
-      updateSlideUpazilaSelect(district?.upazilas || []);
-    };
-  }
-
-  function updateSlideUpazilaSelect(upazilas) {
-    const upazilaSelect = document.getElementById('slideUpazila');
-    upazilaSelect.innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
-    if (upazilas) {
-      upazilas.forEach(up => {
-        upazilaSelect.add(new Option(up, up));
-      });
-    }
-  }
 
   // ========== মার্কি ==========
   const DEFAULT_MARQUEE = "🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা ✦ 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা ✦ 🛡️ সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন";
@@ -679,7 +1049,7 @@
     if (!newText) { alert('দয়া করে কিছু লেখুন!'); return; }
     try {
       await marqueeRef.set({ text: newText, updatedAt: Date.now() });
-      alert('✅ চলন্ত লেখা সফলভাবে সংরক্ষণ করা হয়েছে!');
+      showToast('✅ চলন্ত লেখা সফলভাবে সংরক্ষণ করা হয়েছে!');
       document.getElementById('marqueePreview').innerText = newText;
       document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(newText.substring(0, 100))}${newText.length > 100 ? '...' : ''}`;
     } catch(e) { alert('ত্রুটি: ' + e.message); }
@@ -692,12 +1062,12 @@
         document.getElementById('marqueeText').value = DEFAULT_MARQUEE;
         document.getElementById('marqueePreview').innerText = DEFAULT_MARQUEE;
         document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(DEFAULT_MARQUEE.substring(0, 100))}${DEFAULT_MARQUEE.length > 100 ? '...' : ''}`;
-        alert('ডিফল্ট লেখায় রিসেট করা হয়েছে!');
+        showToast('ডিফল্ট লেখায় রিসেট করা হয়েছে!');
       } catch(e) { alert('ত্রুটি: ' + e.message); }
     }
   });
 
-  // ========== স্লাইডার ইমেজ (সম্পূর্ণ তথ্য সহ) ==========
+  // ========== স্লাইডার ইমেজ ==========
   function loadSliderImages() {
     sliderImagesRef.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -730,7 +1100,7 @@
     if(confirm('এই স্লাইডার ইমেজ ডিলিট করবেন?')) {
       try {
         await sliderImagesRef.child(id).remove();
-        alert('ইমেজ ডিলিট হয়েছে!');
+        showToast('ইমেজ ডিলিট হয়েছে!');
       } catch(e) { alert('ত্রুটি: ' + e.message); }
     }
   };
@@ -746,47 +1116,10 @@
         document.getElementById('slideMelaType').value = data.melaType || '';
         document.getElementById('slideStartDate').value = data.startDate || '';
         document.getElementById('slideEndDate').value = data.endDate || '';
-        document.getElementById('slideAddressDetail').value = data.addressDetail || '';
+        document.getElementById('slideLocation').value = data.location || data.addressDetail || '';
         document.getElementById('slideDescription').value = data.description || '';
         document.getElementById('slideLink').value = data.link || '';
         document.getElementById('slideOrder').value = data.order || 1;
-        
-        // বিভাগ সেট
-        if (data.division) {
-          const divSelect = document.getElementById('slideDivision');
-          for (let i = 0; i < divSelect.options.length; i++) {
-            if (divSelect.options[i].value === data.division) {
-              divSelect.selectedIndex = i;
-              updateSlideDistrictSelect(data.division);
-              break;
-            }
-          }
-          if (data.district) {
-            setTimeout(() => {
-              const distSelect = document.getElementById('slideDistrict');
-              for (let i = 0; i < distSelect.options.length; i++) {
-                if (distSelect.options[i].value === data.district) {
-                  distSelect.selectedIndex = i;
-                  const division = divisionsData.find(d => d.name === data.division);
-                  const district = division?.districts?.find(d => d.name === data.district);
-                  updateSlideUpazilaSelect(district?.upazilas || []);
-                  break;
-                }
-              }
-              if (data.upazila) {
-                setTimeout(() => {
-                  const upazilaSelect = document.getElementById('slideUpazila');
-                  for (let i = 0; i < upazilaSelect.options.length; i++) {
-                    if (upazilaSelect.options[i].value === data.upazila) {
-                      upazilaSelect.selectedIndex = i;
-                      break;
-                    }
-                  }
-                }, 100);
-              }
-            }, 100);
-          }
-        }
         
         renderSlideContactFields(data.contacts || []);
         
@@ -810,10 +1143,7 @@
     const melaType = document.getElementById('slideMelaType').value;
     const startDate = document.getElementById('slideStartDate').value;
     const endDate = document.getElementById('slideEndDate').value;
-    const division = document.getElementById('slideDivision').value;
-    const district = document.getElementById('slideDistrict').value;
-    const upazila = document.getElementById('slideUpazila').value;
-    const addressDetail = document.getElementById('slideAddressDetail').value.trim();
+    const location = document.getElementById('slideLocation').value.trim();
     const description = document.getElementById('slideDescription').value.trim();
     const link = document.getElementById('slideLink').value.trim();
     const order = parseInt(document.getElementById('slideOrder').value) || 1;
@@ -823,7 +1153,7 @@
     if (!title) { alert('শিরোনাম দিতে হবে!'); return; }
     if (!melaType) { alert('মেলার ধরন নির্বাচন করুন!'); return; }
     if (!startDate || !endDate) { alert('সময়কাল নির্বাচন করুন!'); return; }
-    if (!division || !district) { alert('ঠিকানা নির্বাচন করুন!'); return; }
+    if (!location) { alert('মেলার লোকেশন লিখুন!'); return; }
     if (!description) { alert('বিবরণ লিখুন!'); return; }
     
     const slideData = {
@@ -832,10 +1162,7 @@
       melaType: melaType,
       startDate: startDate,
       endDate: endDate,
-      division: division,
-      district: district,
-      upazila: upazila,
-      addressDetail: addressDetail,
+      location: location,
       description: description,
       link: link || '',
       order: order,
@@ -846,13 +1173,13 @@
     try {
       if (currentEditSliderId) {
         await sliderImagesRef.child(currentEditSliderId).update(slideData);
-        alert('✅ স্লাইডার ইমেজ ও তথ্য আপডেট হয়েছে!');
+        showToast('✅ স্লাইডার ইমেজ আপডেট হয়েছে!');
         currentEditSliderId = null;
-        document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ ও তথ্য যোগ/আপডেট করুন';
+        document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
         document.getElementById('cancelSliderBtn').style.display = 'none';
       } else {
         await sliderImagesRef.push().set(slideData);
-        alert('✅ নতুন স্লাইডার ইমেজ ও তথ্য যোগ হয়েছে!');
+        showToast('✅ নতুন স্লাইডার ইমেজ যোগ হয়েছে!');
       }
       resetSlideForm();
     } catch(e) { alert('ত্রুটি: ' + e.message); }
@@ -861,7 +1188,7 @@
   document.getElementById('cancelSliderBtn').addEventListener('click', () => {
     currentEditSliderId = null;
     resetSlideForm();
-    document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ ও তথ্য যোগ/আপডেট করুন';
+    document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
     document.getElementById('cancelSliderBtn').style.display = 'none';
   });
 
@@ -871,10 +1198,7 @@
     document.getElementById('slideMelaType').value = '';
     document.getElementById('slideStartDate').value = '';
     document.getElementById('slideEndDate').value = '';
-    document.getElementById('slideDivision').value = '';
-    document.getElementById('slideDistrict').innerHTML = '<option value="">-- জেলা নির্বাচন করুন --</option>';
-    document.getElementById('slideUpazila').innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
-    document.getElementById('slideAddressDetail').value = '';
+    document.getElementById('slideLocation').value = '';
     document.getElementById('slideDescription').value = '';
     document.getElementById('slideLink').value = '';
     document.getElementById('slideOrder').value = '1';
@@ -916,6 +1240,27 @@
     div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="slide-contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone"></div><button type="button" class="removeContactBtn" onclick="this.closest('.contact-group').remove()">✖️ সরান</button>`;
     container.appendChild(div);
   });
+
+  // ========== অ্যাডমিন ফিল্টার ইভেন্ট ==========
+  document.getElementById('adminSearchBtn').addEventListener('click', filterAdminPosts);
+  document.getElementById('adminResetSearchBtn').addEventListener('click', function() {
+    document.getElementById('adminSearchInput').value = '';
+    document.getElementById('adminFilterType').value = 'all';
+    document.getElementById('adminFilterUser').value = 'all';
+    filterAdminPosts();
+    showToast('সব ফিল্টার রিসেট হয়েছে');
+  });
+  document.getElementById('adminApplyFilterBtn').addEventListener('click', filterAdminPosts);
+  
+  document.getElementById('adminSearchInput').addEventListener('keyup', function(e) {
+    if (e.key === 'Enter') filterAdminPosts();
+  });
+
+  // এক্সপোজ ফাংশন গ্লোবালি
+  window.deleteAdminPost = deleteAdminPost;
+  window.blockUserFromPost = blockUserFromPost;
+  window.toggleBlockUser = toggleBlockUser;
+  window.toggleDesc = toggleDesc;
 </script>
 </body>
 </html>
