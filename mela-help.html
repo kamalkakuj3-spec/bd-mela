@@ -1,1278 +1,759 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>প্যানেল | বাংলাদেশ মেলা অ্যাপস</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      padding: 20px;
-    }
-    .container { max-width: 1100px; margin: 0 auto; }
-    h1 { text-align: center; color: #d4af37; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>সাহায্য - বাংলাদেশ মেলা</title>
     
-    /* লগইন স্ক্রিন */
-    .login-screen {
-      background: white;
-      border-radius: 24px;
-      padding: 40px 30px;
-      max-width: 400px;
-      margin: 50px auto;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-    .login-screen h2 { color: #b8860b; margin-bottom: 20px; }
-    .login-screen .google-btn {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 50px;
-      padding: 14px 24px;
-      width: 100%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      font-size: 1rem;
-      font-weight: 500;
-      transition: all 0.3s;
-      margin-top: 20px;
-    }
-    .login-screen .google-btn:hover {
-      background: #f5f5f5;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .login-screen .google-btn img { width: 22px; height: 22px; }
-    .login-screen .loader { display: none; margin-top: 20px; color: #666; }
-    .login-screen .loader.show { display: block; }
-    .login-screen .error-msg { color: #e74c3c; margin-top: 15px; font-size: 0.85rem; display: none; }
-    .login-screen .error-msg.show { display: block; }
-    .login-screen .access-denied { color: #e74c3c; margin-top: 15px; font-size: 0.9rem; display: none; }
-    .login-screen .access-denied.show { display: block; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
-    /* প্যানেল */
-    .admin-content { display: none; }
-    .admin-content.show { display: block; }
-    
-    .logout-header {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .logout-btn {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .logout-btn:hover { background: #c82333; }
-    .admin-user-info {
-      background: rgba(255,255,255,0.9);
-      padding: 8px 15px;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      color: #333;
-    }
-    
-    /* ড্রপডাউন */
-    .slider-dropdown {
-      background: white;
-      border-radius: 24px;
-      margin-bottom: 20px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-    .slider-header {
-      background: linear-gradient(115deg, #d4af37, #c49b2a);
-      padding: 15px 22px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.3s;
-    }
-    .slider-header:hover { background: linear-gradient(115deg, #c49b2a, #b8860b); }
-    .slider-header h2 {
-      color: white;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .toggle-icon {
-      color: white;
-      font-size: 1.3rem;
-      font-weight: bold;
-      transition: transform 0.3s;
-    }
-    .slider-header.open .toggle-icon { transform: rotate(180deg); }
-    .slider-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-out;
-      background: white;
-    }
-    .slider-content.open { max-height: 3000px; transition: max-height 0.5s ease-in; }
-    .form-card { padding: 25px; }
-    .form-card h3 { color: #b8860b; margin-bottom: 20px; font-size: 1.2rem; }
-    
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0 16px 0;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-family: inherit;
-    }
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: #d4af37;
-    }
-    
-    button {
-      background: linear-gradient(115deg, #d4af37, #c49b2a);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-right: 10px;
-      transition: transform 0.2s;
-    }
-    button:hover { transform: translateY(-2px); }
-    .delete-btn { background: #dc3545; }
-    .edit-btn { background: #28a745; }
-    .block-btn { background: #ff6b35; }
-    .small-btn { padding: 6px 12px; font-size: 0.8rem; margin: 2px; }
-    .danger-btn { background: #dc3545; }
-    .warning-btn { background: #ff6b35; }
-    
-    .card-list {
-      background: white;
-      border-radius: 24px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      max-height: 500px;
-      overflow-y: auto;
-    }
-    .card-list h3 { color: #b8860b; margin-bottom: 20px; }
-    .card-item {
-      background: #f8f9fa;
-      border-left: 4px solid #d4af37;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-    }
-    .card-item h4 { color: #2c3e50; margin-bottom: 8px; }
-    .card-item p { color: #666; margin: 5px 0; font-size: 0.9rem; }
-    .card-actions { margin-top: 12px; }
-    
-    /* মার্কি */
-    .marquee-editor { background: #fef9e6; border: 2px solid #d4af37; }
-    .marquee-preview {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      border-radius: 8px;
-      padding: 8px 12px;
-      margin-top: 15px;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .marquee-preview-text {
-      display: inline-block;
-      animation: previewScroll 20s linear infinite;
-      color: #ffffff;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-    @keyframes previewScroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    .current-marquee-display {
-      background: #e8f5e9;
-      padding: 10px 15px;
-      border-radius: 12px;
-      margin-top: 10px;
-      font-size: 0.85rem;
-      color: #2e7d32;
-    }
-    
-    /* স্লাইডার ইমেজ প্রিভিউ */
-    .slider-image-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 10px 0;
-    }
-    .slider-image-preview .img-item {
-      position: relative;
-      width: 120px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 2px solid #e0e0e0;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .slider-image-preview .img-item:hover {
-      border-color: #d4af37;
-      transform: scale(1.02);
-    }
-    .slider-image-preview .img-item img {
-      width: 100%;
-      height: 70px;
-      object-fit: cover;
-      display: block;
-    }
-    .slider-image-preview .img-item .remove-img {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      background: #dc3545;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .slider-image-preview .img-item .img-info {
-      padding: 4px 6px;
-      font-size: 0.6rem;
-      color: #333;
-      background: rgba(255,255,255,0.95);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .slider-image-preview .img-item .img-info strong {
-      display: block;
-      font-size: 0.65rem;
-    }
-    
-    /* ===== ইউজার পোস্ট ম্যানেজমেন্ট সেকশন ===== */
-    .user-post-management {
-      background: white;
-      border-radius: 24px;
-      padding: 25px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-    .user-post-management h3 {
-      color: #b8860b;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .search-user-box {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .search-user-box input {
-      flex: 1;
-      min-width: 200px;
-      margin: 0;
-    }
-    .search-user-box button {
-      margin: 0;
-      white-space: nowrap;
-    }
-    .post-item {
-      background: #f8f9fa;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 12px;
-      border-left: 4px solid #d4af37;
-      transition: all 0.2s;
-    }
-    .post-item:hover {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .post-item .post-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .post-item .post-title {
-      font-weight: 600;
-      font-size: 1rem;
-      color: #1a1a1a;
-    }
-    .post-item .post-meta {
-      font-size: 0.75rem;
-      color: #888;
-      margin-top: 4px;
-    }
-    .post-item .post-meta span {
-      margin-right: 12px;
-    }
-    .post-item .post-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-    .post-item .post-actions button {
-      padding: 4px 12px;
-      font-size: 0.7rem;
-      border-radius: 20px;
-      margin: 0;
-    }
-    .post-item .post-desc {
-      font-size: 0.85rem;
-      color: #555;
-      margin: 8px 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .post-item .post-desc.expanded {
-      -webkit-line-clamp: unset;
-    }
-    .post-item .toggle-desc {
-      background: none;
-      border: none;
-      color: #b8860b;
-      font-size: 0.7rem;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 2px;
-      text-decoration: underline;
-    }
-    .post-item .user-badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-    .post-item .user-badge.blocked {
-      background: #ffebee;
-      color: #c62828;
-    }
-    .no-results {
-      text-align: center;
-      padding: 30px;
-      color: #999;
-    }
-    .blocked-user-tag {
-      display: inline-block;
-      background: #dc3545;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 0.65rem;
-      font-weight: 600;
-      margin-left: 6px;
-    }
-    
-    /* ক্যালেন্ডার */
-    .date-range {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .date-range input[type="date"] {
-      width: 50%;
-      margin-bottom: 0;
-      padding: 12px;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      font-size: 1rem;
-      background: white;
-      cursor: pointer;
-    }
-    .date-range input[type="date"]:focus {
-      outline: none;
-      border-color: #d4af37;
-    }
-    
-    /* কন্টাক্ট গ্রুপ */
-    .contact-group {
-      background: #f9f9f9;
-      padding: 15px;
-      border-radius: 16px;
-      margin-bottom: 15px;
-    }
-    .contact-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .contact-row input { margin: 0; flex: 1; }
-    .removeContactBtn {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.7rem;
-      margin-top: 8px;
-    }
-    
-    /* ট্যাব স্টাইল */
-    .admin-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .admin-tabs button {
-      background: rgba(255,255,255,0.8);
-      color: #333;
-      border: 2px solid #ddd;
-      border-radius: 30px;
-      padding: 10px 24px;
-      font-weight: 600;
-      margin: 0;
-    }
-    .admin-tabs button.active {
-      background: #d4af37;
-      color: white;
-      border-color: #d4af37;
-    }
-    .admin-tabs button:hover {
-      transform: none;
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-
-    /* ইনপুট হেল্পার টেক্সট */
-    .input-helper {
-      font-size: 0.75rem;
-      color: #888;
-      margin-top: -12px;
-      margin-bottom: 12px;
-      display: block;
-    }
-    .input-helper i {
-      margin-right: 4px;
-    }
-    
-    @media (max-width: 550px) {
-      .slider-header h2 { font-size: 1rem; }
-      .form-card { padding: 18px; }
-      .slider-header { padding: 12px 18px; }
-      .date-range { flex-direction: column; }
-      .date-range input[type="date"] { width: 100%; }
-      .slider-image-preview .img-item { width: 100px; }
-      .admin-tabs button { padding: 8px 16px; font-size: 0.8rem; }
-      .search-user-box input { min-width: 100px; }
-      .post-item .post-header { flex-direction: column; }
-    }
-  </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        }
+        
+        body {
+            background: #f0f2f5;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+        
+        /* ========== হেডার ========== */
+        .help-header {
+            background: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #d4af37;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .help-header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .help-header .logo-area h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a1a1a, #555);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .help-header .logo-area .subtitle {
+            font-size: 0.7rem;
+            color: #888;
+            font-weight: 500;
+        }
+        .help-header .back-btn {
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .help-header .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* ========== হিরো সেকশন ========== */
+        .help-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+        .help-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .help-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .help-hero .help-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        /* ========== কন্টেন্ট ========== */
+        .help-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+        
+        /* সার্চ সেকশন */
+        .help-search {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+        }
+        .help-search input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .help-search input:focus {
+            border-color: #d4af37;
+        }
+        .help-search input::placeholder {
+            color: #aaa;
+        }
+        
+        /* ক্যাটাগরি ট্যাব */
+        .help-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .help-tabs button {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .help-tabs button:hover {
+            border-color: #d4af37;
+            background: #fef9e6;
+        }
+        .help-tabs button.active {
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            border-color: #d4af37;
+            color: white;
+        }
+        .help-tabs button i {
+            margin-right: 6px;
+        }
+        
+        /* FAQ আইটেম */
+        .faq-section {
+            display: none;
+        }
+        .faq-section.active {
+            display: block;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .faq-item:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .faq-question {
+            padding: 18px 22px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1a1a1a;
+            transition: background 0.2s;
+        }
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+        .faq-question .icon {
+            font-size: 1.2rem;
+            color: #d4af37;
+            transition: transform 0.3s;
+        }
+        .faq-question.open .icon {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 22px;
+        }
+        .faq-answer.open {
+            max-height: 800px;
+            padding: 0 22px 20px 22px;
+        }
+        .faq-answer p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .faq-answer ul {
+            margin: 10px 0 10px 20px;
+            color: #555;
+            line-height: 1.7;
+        }
+        .faq-answer ul li {
+            margin-bottom: 6px;
+        }
+        .faq-answer .highlight {
+            background: #fef9e6;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+            margin: 10px 0;
+        }
+        .faq-answer .highlight i {
+            color: #d4af37;
+            margin-right: 8px;
+        }
+        .faq-answer a {
+            color: #b8860b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .faq-answer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ========== কন্টাক্ট সেকশন ========== */
+        .contact-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        .contact-section h3 {
+            color: #b8860b;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .contact-section p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .contact-section .contact-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .contact-section .contact-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .contact-section .contact-buttons a:hover {
+            background: #c8e6c9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+        }
+        .contact-section .contact-buttons a i {
+            font-size: 1.2rem;
+        }
+        
+        /* ========== ফুটার ========== */
+        .help-footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #888;
+            font-size: 0.8rem;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+        }
+        .help-footer a {
+            color: #b8860b;
+            text-decoration: none;
+        }
+        .help-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ========== নো রেজাল্ট ========== */
+        .no-result {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            display: none;
+        }
+        .no-result i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        /* ========== রেসপনসিভ ========== */
+        @media (max-width: 550px) {
+            .help-header .logo-area h1 { font-size: 1.2rem; }
+            .help-header .back-btn { font-size: 0.75rem; padding: 6px 14px; }
+            .help-hero h1 { font-size: 1.6rem; }
+            .help-hero p { font-size: 0.95rem; }
+            .help-tabs button { font-size: 0.75rem; padding: 8px 14px; }
+            .faq-question { font-size: 0.9rem; padding: 14px 16px; }
+            .faq-answer { padding: 0 16px; }
+            .faq-answer.open { padding: 0 16px 16px 16px; }
+            .contact-section .contact-buttons a { font-size: 0.9rem; padding: 10px 20px; }
+        }
+        @media (max-width: 380px) {
+            .help-hero h1 { font-size: 1.3rem; }
+            .help-tabs button { font-size: 0.65rem; padding: 6px 10px; }
+            .help-header .logo-area h1 { font-size: 1rem; }
+            .contact-section .contact-buttons a { font-size: 0.8rem; padding: 8px 16px; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-  
-  <!-- লগইন স্ক্রিন -->
-  <div id="loginScreen" class="login-screen">
-    <h2>🔐 ম্যানেজমেন্ট অ্যাক্সেস</h2>
-    <p style="color: #555; margin-bottom: 10px;">শুধুমাত্র কর্তৃপক্ষের জন্য</p>
-    <button id="adminGoogleLoginBtn" class="google-btn">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-      গুগল অ্যাকাউন্ট দিয়ে লগইন করুন
-    </button>
-    <div id="adminLoader" class="loader"><i class="fa-solid fa-spinner fa-spin"></i> লগইন হচ্ছে...</div>
-    <div id="adminErrorMsg" class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ হয়েছে।</div>
-    <div id="accessDeniedMsg" class="access-denied"><i class="fa-solid fa-ban"></i> আপনার এই প্যানেলে অ্যাক্সেস নেই।</div>
-  </div>
-  
-  <!-- ম্যানেজমেন্ট প্যানেল -->
-  <div id="adminContent" class="admin-content">
-    <div class="logout-header">
-      <div class="admin-user-info" id="adminUserInfo"></div>
-      <button id="adminLogoutBtn" class="logout-btn"><i class="fa-solid fa-sign-out-alt"></i> লগআউট</button>
-    </div>
-    
-    <h1>🏆 ম্যানেজমেন্ট প্যানেল | বাংলাদেশ মেলা 🏆</h1>
 
-    <!-- ট্যাব নেভিগেশন -->
-    <div class="admin-tabs">
-      <button class="active" data-tab="tabMarquee">📢 চলন্ত লেখা</button>
-      <button data-tab="tabSlider">🖼️ স্লাইডার</button>
-      <button data-tab="tabUsers">👥 ইউজার ও পোস্ট</button>
+<!-- ========== হেডার ========== -->
+<header class="help-header">
+    <div class="logo-area">
+        <div>
+            <h1>🇧🇩 বাংলাদেশ মেলা</h1>
+            <div class="subtitle">দেশের মেলার ঠিকানা</div>
+        </div>
+    </div>
+    <a href="mela-index.html" class="back-btn">
+        <i class="fa-solid fa-house"></i> হোম
+    </a>
+</header>
+
+<!-- ========== হিরো সেকশন ========== -->
+<section class="help-hero">
+    <span class="help-icon"><i class="fa-regular fa-circle-question"></i></span>
+    <h1>আমরা কিভাবে সাহায্য করতে পারি?</h1>
+    <p>বাংলাদেশ মেলা অ্যাপ ব্যবহারের পূর্ণ নির্দেশিকা। নিচের প্রশ্নোত্তর ও টিপস দেখুন অথবা সার্চ করুন।</p>
+</section>
+
+<!-- ========== কন্টেন্ট ========== -->
+<div class="help-container">
+
+    <!-- সার্চ -->
+    <div class="help-search">
+        <input type="text" id="helpSearchInput" placeholder="🔍 সাহায্য খুঁজুন (যেমন: পোস্ট, লগইন, সেভ...)">
     </div>
 
-    <!-- ===== ট্যাব ১: চলন্ত লেখা ===== -->
-    <div id="tabMarquee" class="tab-content active">
-      <div class="slider-dropdown">
-        <div class="slider-header" id="sliderHeaderMarquee">
-          <h2>📢 চলন্ত লেখা (মার্কি) কন্ট্রোল</h2>
-          <span class="toggle-icon">▼</span>
-        </div>
-        <div class="slider-content" id="sliderContentMarquee">
-          <div class="form-card marquee-editor">
-            <h3>✨ স্লাইডারের নিচের চলন্ত লেখা এডিট করুন ✨</h3>
-            <textarea id="marqueeText" rows="3" placeholder="এখানে আপনার চলন্ত লেখা লিখুন..." style="resize: vertical;"></textarea>
-            <div class="marquee-preview">
-              <div class="marquee-preview-text" id="marqueePreview">প্রিভিউ দেখাচ্ছে...</div>
-            </div>
-            <div class="current-marquee-display" id="currentMarqueeDisplay">
-              <i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা লোড হচ্ছে...
-            </div>
-            <div style="margin-top: 20px;">
-              <button id="saveMarqueeBtn">💾 চলন্ত লেখা সংরক্ষণ করুন</button>
-              <button id="resetMarqueeBtn" style="background:#6c757d;">↺ ডিফল্ট রিসেট</button>
-            </div>
-            <p style="font-size: 0.7rem; color: #888; margin-top: 12px;">⚠️ সতর্কতা: এই লেখা হোমপেজের স্লাইডারের নিচে প্রদর্শিত হবে।</p>
-          </div>
-        </div>
-      </div>
+    <!-- ট্যাব -->
+    <div class="help-tabs" id="helpTabs">
+        <button class="active" data-tab="general"><i class="fa-regular fa-star"></i> সাধারণ</button>
+        <button data-tab="post"><i class="fa-regular fa-pen-to-square"></i> পোস্ট</button>
+        <button data-tab="account"><i class="fa-regular fa-user"></i> অ্যাকাউন্ট</button>
+        <button data-tab="saved"><i class="fa-regular fa-bookmark"></i> সেভ</button>
+        <button data-tab="slider"><i class="fa-regular fa-image"></i> স্লাইডার</button>
     </div>
 
-    <!-- ===== ট্যাব ২: স্লাইডার ===== -->
-    <div id="tabSlider" class="tab-content">
-      <div class="slider-dropdown">
-        <div class="slider-header" id="sliderHeaderSlider">
-          <h2>🖼️ স্লাইডার ইমেজ ম্যানেজ</h2>
-          <span class="toggle-icon">▼</span>
+    <!-- ===== সাধারণ ===== -->
+    <div class="faq-section active" id="tab-general">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>📌 বাংলাদেশ মেলা অ্যাপ কি?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>বাংলাদেশ মেলা একটি ওয়েব অ্যাপ্লিকেশন যেখানে আপনি দেশের বিভিন্ন মেলার তথ্য পেতে পারেন। এখানে আপনি:</p>
+                <ul>
+                    <li>📍 চলমান ও আসন্ন মেলার খবর দেখতে পারেন</li>
+                    <li>📝 নিজের মেলা পোস্ট করতে পারেন</li>
+                    <li>⭐ পছন্দের মেলা সেভ করে রাখতে পারেন</li>
+                    <li>🗺️ মেলার লোকেশন গুগল ম্যাপে দেখতে পারেন</li>
+                    <li>💬 পোস্টে কমেন্ট ও লাইক দিতে পারেন</li>
+                </ul>
+            </div>
         </div>
-        <div class="slider-content" id="sliderContentSlider">
-          <div class="form-card">
-            <h3>✨ স্লাইডারের জন্য ইমেজ যোগ/এডিট করুন ✨</h3>
-            
-            <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-              <p style="color: #555; font-size: 0.9rem;"><i class="fa-solid fa-info-circle"></i> প্রতিটি স্লাইডের জন্য ইমেজ ও মেলার তথ্য দিন।</p>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>📱 অ্যাপটি কিভাবে ব্যবহার করব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
             </div>
-            
-            <!-- ⭐ ইমেজ URL -->
-            <input type="url" id="slideImageUrl" placeholder="ইমেজ URL * (যেমন: https://example.com/image.jpg)" required>
-            
-            <!-- ⭐ শিরোনাম -->
-            <input type="text" id="slideTitle" placeholder="মেলার নাম / শিরোনাম *">
-            
-            <!-- ⭐ মেলার ধরন -->
-            <div class="form-group">
-              <label style="font-weight:600; display:block; margin-bottom:4px;">🏷️ মেলার ধরন *</label>
-              <select id="slideMelaType" required>
-                <option value="">-- নির্বাচন করুন --</option>
-                <option value="কৃষি মেলা">🌾 কৃষি মেলা</option>
-                <option value="বাণিজ্য মেলা">💼 বাণিজ্য মেলা</option>
-                <option value="সাংস্কৃতিক মেলা">🎭 সাংস্কৃতিক মেলা</option>
-                <option value="বইমেলা">📚 বইমেলা</option>
-                <option value="খাবার মেলা">🍽️ খাবার মেলা</option>
-                <option value="অন্যান্য">🎪 অন্যান্য</option>
-              </select>
-            </div>
-            
-            <!-- ⭐ সময়কাল -->
-            <div class="form-group">
-              <label style="font-weight:600; display:block; margin-bottom:4px;">⏰ সময়কাল *</label>
-              <div class="date-range">
-                <input type="date" id="slideStartDate" required>
-                <input type="date" id="slideEndDate" required>
-              </div>
-            </div>
-            
-            <!-- ⭐ লোকেশন - ম্যানুয়াল টেক্সট -->
-            <div class="form-group">
-              <label style="font-weight:600; display:block; margin-bottom:4px;">📍 মেলার লোকেশন/ঠিকানা *</label>
-              <input type="text" id="slideLocation" placeholder="ঢাকা, বাংলাদেশ অথবা বিস্তারিত ঠিকানা লিখুন" required>
-            </div>
-            
-            <!-- ⭐ গুগল ম্যাপ লিংক -->
-            <div class="form-group">
-              <label style="font-weight:600; display:block; margin-bottom:4px;">🗺️ গুগল ম্যাপ লিংক (ঐচ্ছিক)</label>
-              <input type="url" id="slideMapLink" placeholder="https://maps.google.com/?q=23.7779,90.3994">
-              <span class="input-helper"><i class="fa-regular fa-circle-info"></i> গুগল ম্যাপ থেকে লোকেশন শেয়ার করে লিংক কপি করে দিন</span>
-            </div>
-            
-            <!-- ⭐ বিবরণ -->
-            <textarea id="slideDescription" rows="3" placeholder="মেলার বিস্তারিত বিবরণ *"></textarea>
-            
-            <!-- ⭐ যোগাযোগ -->
-            <div id="slideContactsArea">
-              <h4 style="margin:15px 0 10px;">📞 যোগাযোগ ব্যক্তি (ঐচ্ছিক)</h4>
-              <div id="slideContactList">
-                <div class="contact-group">
-                  <div class="contact-row">
-                    <input type="text" placeholder="নাম" class="slide-contact-name">
-                    <input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone">
-                  </div>
+            <div class="faq-answer">
+                <p>অ্যাপটি ব্যবহার খুবই সহজ। নিচের ধাপগুলো অনুসরণ করুন:</p>
+                <ul>
+                    <li><strong>হোমপেজ</strong> - সব মেলার পোস্ট দেখতে পান।</li>
+                    <li><strong>সার্চ</strong> - মেলার নাম, জেলা বা বিভাগ দিয়ে খুঁজুন।</li>
+                    <li><strong>ফিল্টার</strong> - সময় বা বিষয় অনুযায়ী পোস্ট ফিল্টার করুন।</li>
+                    <li><strong>পোস্ট</strong> - নিজের মেলার তথ্য পোস্ট করুন।</li>
+                    <li><strong>সেভ</strong> - পছন্দের মেলা সেভ করে রাখুন।</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-lightbulb"></i> <strong>টিপ:</strong> লগইন করলে সব ফিচার ব্যবহার করতে পারবেন!
                 </div>
-              </div>
-              <button type="button" id="slideAddContactBtn" style="background:#6c757d;">+ আরও যোগাযোগ যোগ করুন</button>
             </div>
-            
-            <!-- ⭐ ক্রম -->
-            <input type="number" id="slideOrder" placeholder="ক্রম (১,২,৩...)" value="1">
-            
-            <div id="currentSliderImages" style="margin: 15px 0;">
-              <h4 style="color: #b8860b; margin-bottom: 10px;">📸 বর্তমান স্লাইডার ইমেজ</h4>
-              <div id="sliderImageList" class="slider-image-preview">
-                <p style="color: #999;">লোড হচ্ছে...</p>
-              </div>
-            </div>
-            
-            <div style="margin-top: 20px;">
-              <button id="saveSliderBtn">➕ ইমেজ যোগ/আপডেট করুন</button>
-              <button id="cancelSliderBtn" style="background:#6c757d; display:none;">বাতিল করুন</button>
-            </div>
-          </div>
         </div>
-      </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>🛡️ তথ্য কতটুকু নির্ভরযোগ্য?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>বাংলাদেশ মেলা একটি ইউজার-জেনারেটেড কন্টেন্ট প্ল্যাটফর্ম। তাই:</p>
+                <ul>
+                    <li>✅ পোস্টগুলো সাধারণ ইউজাররা দিয়ে থাকেন</li>
+                    <li>⚠️ তথ্য যাচাই করে নেওয়ার পরামর্শ দেওয়া হয়</li>
+                    <li>🛡️ ম্যানেজমেন্ট কর্তৃপক্ষ নিয়মিত পোস্ট মনিটর করেন</li>
+                    <li>🚫 ভুল বা স্প্যাম পোস্ট রিপোর্ট করা যায়</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-triangle-exclamation" style="color:#f57c00;"></i> <strong>সতর্কতা:</strong> কোনো মেলায় অংশগ্রহণের আগে স্ব-যাচাই করুন।
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- ===== ট্যাব ৩: ইউজার ও পোস্ট ম্যানেজমেন্ট ===== -->
-    <div id="tabUsers" class="tab-content">
-      <div class="user-post-management">
-        <h3><i class="fa-solid fa-users-gear"></i> ইউজার ও পোস্ট ম্যানেজমেন্ট</h3>
-        
-        <!-- সার্চ বার -->
-        <div class="search-user-box">
-          <input type="text" id="adminSearchInput" placeholder="ইউজার নাম, ইমেইল বা পোস্টের শিরোনাম লিখুন...">
-          <button id="adminSearchBtn"><i class="fa-solid fa-search"></i> সার্চ</button>
-          <button id="adminResetSearchBtn" style="background:#6c757d;"><i class="fa-solid fa-rotate-left"></i> রিসেট</button>
+    <!-- ===== পোস্ট ===== -->
+    <div class="faq-section" id="tab-post">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>✍️ কিভাবে নতুন মেলা পোস্ট করব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>নতুন পোস্ট করতে নিচের ধাপগুলো অনুসরণ করুন:</p>
+                <ul>
+                    <li><strong>ধাপ ১:</strong> প্রথমে <a href="mela-login.html">লগইন</a> করুন</li>
+                    <li><strong>ধাপ ২:</strong> নিচের মেনু থেকে <strong>প্লাস (+)</strong> আইকনে ক্লিক করুন</li>
+                    <li><strong>ধাপ ৩:</strong> ফর্মে মেলার নাম, বিভাগ, জেলা, সময়কাল ও বিবরণ দিন</li>
+                    <li><strong>ধাপ ৪:</strong> চাইলে গুগল ম্যাপ লিংক দিন</li>
+                    <li><strong>ধাপ ৫:</strong> "পোস্ট করুন" বাটনে ক্লিক করুন</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-lock"></i> শুধুমাত্র লগইন করা ইউজাররা পোস্ট করতে পারবেন।
+                </div>
+            </div>
         </div>
         
-        <!-- ফিল্টার অপশন -->
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
-          <select id="adminFilterType" class="filter-select" style="width:auto; min-width:120px;">
-            <option value="all">সব পোস্ট</option>
-            <option value="live">চলমান</option>
-            <option value="soon">আসন্ন</option>
-            <option value="ended">সমাপ্ত</option>
-          </select>
-          <select id="adminFilterUser" class="filter-select" style="width:auto; min-width:150px;">
-            <option value="all">সব ইউজার</option>
-          </select>
-          <button id="adminApplyFilterBtn" class="small-btn" style="background:#28a745;">ফিল্টার প্রয়োগ</button>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>✏️ আমার পোস্ট কিভাবে এডিট বা ডিলিট করব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>শুধুমাত্র আপনার নিজের পোস্ট এডিট বা ডিলিট করতে পারবেন:</p>
+                <ul>
+                    <li><strong>এডিট:</strong> আপনার পোস্টের নিচে <strong>"এডিট"</strong> বাটনে ক্লিক করুন</li>
+                    <li><strong>ডিলিট:</strong> আপনার পোস্টের নিচে <strong>"ডিলিট"</strong> বাটনে ক্লিক করুন</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-user"></i> শুধুমাত্র পোস্টের মালিক এডিট/ডিলিট করতে পারেন।
+                </div>
+            </div>
         </div>
         
-        <!-- পোস্ট লিস্ট -->
-        <div id="adminPostList" style="max-height:600px; overflow-y:auto;">
-          <div class="no-results"><i class="fa-solid fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>🕵️ বেনামে পোস্ট করা যায়?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>হ্যাঁ, আপনি চাইলে বেনামে পোস্ট করতে পারেন:</p>
+                <ul>
+                    <li>পোস্ট ফর্মে <strong>"🕵️ বেনামে পোস্ট করুন"</strong> চেকবক্স টিক দিন</li>
+                    <li>তাহলে আপনার নাম প্রকাশ করা হবে না</li>
+                    <li>শুধু "বেনামে" হিসেবে দেখাবে</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-shield"></i> ম্যানেজমেন্ট কর্তৃপক্ষ আপনার আইডি দেখতে পাবে, কিন্তু সাধারণ ইউজাররা দেখতে পাবে না।
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
-  </div>
+    <!-- ===== অ্যাকাউন্ট ===== -->
+    <div class="faq-section" id="tab-account">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>🔐 কিভাবে অ্যাকাউন্ট তৈরি করব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>অ্যাকাউন্ট তৈরি করতে গুগল অ্যাকাউন্ট ব্যবহার করুন:</p>
+                <ul>
+                    <li><strong>ধাপ ১:</strong> হেডারের <strong>"লগইন"</strong> বাটনে ক্লিক করুন</li>
+                    <li><strong>ধাপ ২:</strong> "গুগল অ্যাকাউন্ট দিয়ে লগইন" বাটনে ক্লিক করুন</li>
+                    <li><strong>ধাপ ৩:</strong> আপনার গুগল অ্যাকাউন্ট নির্বাচন করুন</li>
+                    <li><strong>ধাপ ৪:</strong> লগইন হয়ে গেলে সব ফিচার ব্যবহার করতে পারবেন</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-google"></i> শুধুমাত্র গুগল অ্যাকাউন্ট দিয়ে লগইন করা যায়।
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>🚪 কিভাবে লগআউট করব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>লগআউট করতে:</p>
+                <ul>
+                    <li><strong>ধাপ ১:</strong> হেডারের প্রোফাইল আইকনে ক্লিক করুন</li>
+                    <li><strong>ধাপ ২:</strong> ড্রয়ার থেকে <strong>"লগআউট"</strong> অপশনে ক্লিক করুন</li>
+                    <li>অথবা সরাসরি <a href="mela-login.html">লগইন পেজ</a> থেকে লগআউট করুন</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>👤 আমার প্রোফাইল কোথায় দেখব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>আপনার প্রোফাইল দেখতে:</p>
+                <ul>
+                    <li>হেডারের <strong>প্রোফাইল আইকনে</strong> ক্লিক করুন</li>
+                    <li>ড্রয়ারে আপনার নাম, ইমেইল ও প্রোফাইল ছবি দেখাবে</li>
+                    <li>এখান থেকে <strong>"আমার পোস্ট"</strong> দেখতে পারবেন</li>
+                    <li><strong>"নতুন পোস্ট"</strong> করতে পারবেন</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== সেভ ===== -->
+    <div class="faq-section" id="tab-saved">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>⭐ কিভাবে মেলা সেভ করব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>পছন্দের মেলা সেভ করতে:</p>
+                <ul>
+                    <li>যেকোনো পোস্টের নিচে <strong>বুকমার্ক</strong> আইকনে ক্লিক করুন</li>
+                    <li>সেভ হয়ে গেলে আইকনটি ভরা (সলিড) হবে</li>
+                    <li>আবার ক্লিক করলে সেভ বাতিল হবে</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-bookmark"></i> হেডারের সেভ ব্যাজে ক্লিক করে আপনার সেভ করা সব মেলা দেখতে পারবেন।
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>📂 সেভ করা মেলা কোথায় দেখব?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>সেভ করা মেলা দেখতে দুইভাবে পারেন:</p>
+                <ul>
+                    <li><strong>হেডারের সেভ ব্যাজ:</strong> হেল্প আইকনের পাশের বুকমার্ক ব্যাজে ক্লিক করুন</li>
+                    <li><strong>ড্রয়ার:</strong> প্রোফাইল আইকনে ক্লিক করে ড্রয়ারের "সেভ করা মেলা" অপশনে ক্লিক করুন</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-eye"></i> সেভ করা পোস্টগুলো আলাদা লিস্টে দেখাবে, শুধু আপনার দেখা যায়।
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== স্লাইডার ===== -->
+    <div class="faq-section" id="tab-slider">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>🖼️ স্লাইডার কি এবং কিভাবে কাজ করে?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>স্লাইডারটি হোমপেজের উপরে দেখানো একটি বিশেষ সেকশন:</p>
+                <ul>
+                    <li>📸 ম্যানেজমেন্ট কর্তৃপক্ষ দ্বারা নির্বাচিত বিশেষ মেলা দেখায়</li>
+                    <li>🔄 স্বয়ংক্রিয়ভাবে প্রতি ৪ সেকেন্ডে পরিবর্তন হয়</li>
+                    <li>👆 ইমেজে ক্লিক করলে বিস্তারিত দেখতে পারেন</li>
+                    <li>🗺️ বিস্তারিত পেজে গুগল ম্যাপ লিংক থাকলে দেখাবে</li>
+                </ul>
+                <div class="highlight">
+                    <i class="fa-regular fa-gem"></i> স্লাইডারে শুধুমাত্র ম্যানেজমেন্ট কর্তৃপক্ষ পোস্ট করতে পারেন।
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>📌 স্লাইডারের নিচের চলন্ত লেখা কি?</span>
+                <span class="icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>স্লাইডারের নিচে একটি চলন্ত লেখা (মার্কি) থাকে:</p>
+                <ul>
+                    <li>📢 গুরুত্বপূর্ণ ঘোষণা বা বার্তা দেখায়</li>
+                    <li>🔄 বাম থেকে ডানে স্বয়ংক্রিয়ভাবে চলে</li>
+                    <li>✏️ শুধুমাত্র ম্যানেজমেন্ট কর্তৃপক্ষ এই লেখা পরিবর্তন করতে পারেন</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== নো রেজাল্ট ===== -->
+    <div class="no-result" id="noResult">
+        <i class="fa-regular fa-face-frown"></i>
+        <p>আপনার সার্চের সাথে মিলে এমন কোনো প্রশ্ন নেই।<br>অন্য কিওয়ার্ড দিয়ে চেষ্টা করুন।</p>
+    </div>
+
+    <!-- ========== কন্টাক্ট সেকশন ========== -->
+    <div class="contact-section">
+        <h3><i class="fa-regular fa-headset"></i> আরও সাহায্য প্রয়োজন?</h3>
+        <p>সরাসরি কল করুন। আমরা সহায়তা করতে প্রস্তুত।</p>
+        <div class="contact-buttons">
+            <a href="tel:01817236767">
+                <i class="fa-solid fa-phone"></i> ০১৮১৭-২৩৬৭৬৭
+            </a>
+        </div>
+        <p style="margin-top:15px; font-size:0.8rem; color:#999;">
+            <i class="fa-regular fa-clock"></i> সাপ্তাহিক ৭ দিন, সকাল ৯টা - রাত ১০টা
+        </p>
+    </div>
+
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- ========== ফুটার ========== -->
+<footer class="help-footer">
+    <p>© ২০২৬ <a href="mela-index.html">বাংলাদেশ মেলা</a> | সর্বস্বত্ব সংরক্ষিত</p>
+    <p style="margin-top:4px; font-size:0.7rem; color:#aaa;">
+        <i class="fa-regular fa-code"></i> দেশের মেলার ঠিকানা
+    </p>
+</footer>
 
 <script>
-  // Firebase Config
-  const firebaseConfig = {
-    apiKey: "AIzaSyCZ6L7QiarIOIeiK62HEdaSyr84ORVKwl4",
-    authDomain: "pikaribazar-e5f17.firebaseapp.com",
-    projectId: "pikaribazar-e5f17",
-    databaseURL: "https://pikaribazar-e5f17-default-rtdb.firebaseio.com",
-    storageBucket: "pikaribazar-e5f17.firebasestorage.app",
-    messagingSenderId: "819295862018",
-    appId: "1:819295862018:web:c24937bebb24be75cd961b",
-    measurementId: "G-PVKZ2KJ7K4"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const database = firebase.database();
-  const sliderImagesRef = database.ref('sliderImages');
-  const marqueeRef = database.ref('marqueeText');
-  const postsRef = database.ref('posts');
-
-  let currentEditSliderId = null;
-  let currentAdminUser = null;
-  let allPosts = [];
-  let allUsers = [];
-  let blockedUsers = [];
-  
-  const ALLOWED_ADMINS = ["kamalkakuj3@gmail.com", "kamalkakuj3@gmail.com"];
-  
-  // DOM
-  const loginScreen = document.getElementById('loginScreen');
-  const adminContent = document.getElementById('adminContent');
-  const adminUserInfo = document.getElementById('adminUserInfo');
-  
-  // ========== ব্লক/আনব্লক ইউজার ==========
-  async function toggleBlockUser(userId, userName, currentBlocked) {
-    if (!currentAdminUser) return;
-    const confirmMsg = currentBlocked ? 
-      `"${userName}"-কে আনব্লক করতে চান?` : 
-      `"${userName}"-কে ব্লক করতে চান? তার সমস্ত পোস্ট লুকানো হবে এবং তিনি নতুন পোস্ট করতে পারবেন না।`;
-    if (!confirm(confirmMsg)) return;
+    // ========== FAQ টগল ==========
+    function toggleFaq(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('.icon');
+        
+        if (answer.classList.contains('open')) {
+            answer.classList.remove('open');
+            element.classList.remove('open');
+        } else {
+            // অন্য সব FAQ বন্ধ করুন
+            document.querySelectorAll('.faq-answer.open').forEach(el => {
+                el.classList.remove('open');
+                el.previousElementSibling.classList.remove('open');
+            });
+            answer.classList.add('open');
+            element.classList.add('open');
+        }
+    }
     
-    try {
-      const blockRef = database.ref(`blockedUsers/${userId}`);
-      if (currentBlocked) {
-        await blockRef.remove();
-        showToast(`✅ "${userName}" আনব্লক করা হয়েছে`);
-      } else {
-        await blockRef.set({ 
-          uid: userId, 
-          name: userName, 
-          blockedAt: Date.now(),
-          blockedBy: currentAdminUser.email 
+    // ========== ট্যাব সুইচ ==========
+    document.querySelectorAll('#helpTabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // অ্যাক্টিভ ক্লাস রিমুভ
+            document.querySelectorAll('#helpTabs button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // সব সেকশন লুকান
+            document.querySelectorAll('.faq-section').forEach(s => s.classList.remove('active'));
+            
+            // নির্বাচিত সেকশন শো
+            const tabId = this.dataset.tab;
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            // নো রেজাল্ট লুকান
+            document.getElementById('noResult').style.display = 'none';
+            
+            // সার্চ রিসেট
+            document.getElementById('helpSearchInput').value = '';
+            
+            // স্ক্রল টপ
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        showToast(`🔒 "${userName}" ব্লক করা হয়েছে`);
-      }
-      loadBlockedUsers();
-      loadAdminPosts();
-    } catch(e) {
-      alert('ত্রুটি: ' + e.message);
-    }
-  }
-
-  async function loadBlockedUsers() {
-    const snapshot = await database.ref('blockedUsers').once('value');
-    const data = snapshot.val();
-    blockedUsers = data ? Object.keys(data) : [];
-    return blockedUsers;
-  }
-
-  // ========== পোস্ট ডিলিট ==========
-  async function deleteAdminPost(postId, title) {
-    if (!currentAdminUser) return;
-    if (!confirm(`"${title}" পোস্টটি ডিলিট করতে চান?`)) return;
-    try {
-      await postsRef.child(postId).remove();
-      showToast('✅ পোস্ট ডিলিট করা হয়েছে');
-      loadAdminPosts();
-    } catch(e) {
-      alert('ত্রুটি: ' + e.message);
-    }
-  }
-
-  // ========== পোস্ট ব্লক (ইউজার ব্লক) ==========
-  async function blockUserFromPost(userId, userName) {
-    if (!currentAdminUser) return;
-    if (!confirm(`"${userName}"-কে ব্লক করতে চান? তার সমস্ত পোস্ট লুকানো হবে।`)) return;
-    try {
-      await database.ref(`blockedUsers/${userId}`).set({ 
-        uid: userId, 
-        name: userName, 
-        blockedAt: Date.now(),
-        blockedBy: currentAdminUser.email 
-      });
-      showToast(`🔒 "${userName}" ব্লক করা হয়েছে`);
-      loadBlockedUsers();
-      loadAdminPosts();
-    } catch(e) {
-      alert('ত্রুটি: ' + e.message);
-    }
-  }
-
-  // ========== পোস্ট লোড ==========
-  async function loadAdminPosts() {
-    await loadBlockedUsers();
-    const snapshot = await postsRef.once('value');
-    allPosts = [];
-    const usersMap = {};
-    
-    snapshot.forEach(child => {
-      const post = { id: child.key, ...child.val() };
-      allPosts.push(post);
-      if (post.uid && post.posterName) {
-        usersMap[post.uid] = post.posterName;
-      }
     });
     
-    // ইউজার লিস্ট তৈরি
-    allUsers = Object.keys(usersMap).map(uid => ({ uid, name: usersMap[uid] }));
-    
-    // ফিল্টার ইউজার ড্রপডাউন আপডেট
-    const userFilter = document.getElementById('adminFilterUser');
-    const currentVal = userFilter.value;
-    userFilter.innerHTML = '<option value="all">সব ইউজার</option>';
-    allUsers.forEach(u => {
-      const isBlocked = blockedUsers.includes(u.uid);
-      userFilter.add(new Option(`${u.name}${isBlocked ? ' 🔒' : ''}`, u.uid));
-    });
-    if (currentVal) userFilter.value = currentVal;
-    
-    renderAdminPosts(allPosts);
-  }
-
-  function renderAdminPosts(posts) {
-    const container = document.getElementById('adminPostList');
-    if (!posts || posts.length === 0) {
-      container.innerHTML = '<div class="no-results">😢 কোনো পোস্ট পাওয়া যায়নি</div>';
-      return;
-    }
-
-    // সর্ট করুন (নতুন প্রথমে)
-    posts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-    let html = '';
-    posts.forEach(post => {
-      const isBlockedUser = post.uid && blockedUsers.includes(post.uid);
-      const displayName = post.posterName || post.email || 'অজ্ঞাত';
-      const status = getPostStatus(post);
-      const statusEmoji = status === 'live' ? '🟢' : (status === 'soon' ? '🟠' : '⚫');
-      const statusText = status === 'live' ? 'চলমান' : (status === 'soon' ? 'আসন্ন' : 'সমাপ্ত');
-      
-      html += `
-        <div class="post-item" style="${isBlockedUser ? 'opacity:0.6; border-left-color:#dc3545;' : ''}">
-          <div class="post-header">
-            <div>
-              <div class="post-title">${escapeHtml(post.title || 'শিরোনাম নেই')}</div>
-              <div class="post-meta">
-                <span><i class="fa-regular fa-user"></i> ${escapeHtml(displayName)}</span>
-                <span><i class="fa-regular fa-envelope"></i> ${escapeHtml(post.email || 'N/A')}</span>
-                <span><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.division || '')} ${post.district ? ', ' + escapeHtml(post.district) : ''}</span>
-                <span>${statusEmoji} ${statusText}</span>
-                ${isBlockedUser ? '<span class="blocked-user-tag"><i class="fa-solid fa-ban"></i> ব্লকড</span>' : ''}
-              </div>
-            </div>
-            <div>
-              <span style="font-size:0.7rem; color:#999;">${new Date(post.createdAt).toLocaleDateString('bn-BD')}</span>
-            </div>
-          </div>
-          <div class="post-desc" id="desc-${post.id}">${escapeHtml(post.description || 'কোনো বিবরণ নেই')}</div>
-          <button class="toggle-desc" onclick="toggleDesc('${post.id}')">বিস্তারিত দেখুন</button>
-          <div class="post-actions">
-            ${!isBlockedUser ? `<button class="warning-btn small-btn" onclick="blockUserFromPost('${post.uid}', '${escapeHtml(displayName)}')"><i class="fa-solid fa-ban"></i> ইউজার ব্লক</button>` : 
-              `<button class="edit-btn small-btn" onclick="toggleBlockUser('${post.uid}', '${escapeHtml(displayName)}', true)"><i class="fa-solid fa-unlock"></i> আনব্লক</button>`}
-            <button class="delete-btn small-btn" onclick="deleteAdminPost('${post.id}', '${escapeHtml(post.title)}')"><i class="fa-solid fa-trash"></i> ডিলিট</button>
-          </div>
-        </div>
-      `;
-    });
-    container.innerHTML = html;
-  }
-
-  function toggleDesc(postId) {
-    const desc = document.getElementById(`desc-${postId}`);
-    if (!desc) return;
-    if (desc.classList.contains('expanded')) {
-      desc.classList.remove('expanded');
-      desc.parentElement.querySelector('.toggle-desc').textContent = 'বিস্তারিত দেখুন';
-    } else {
-      desc.classList.add('expanded');
-      desc.parentElement.querySelector('.toggle-desc').textContent = 'সংক্ষেপে দেখুন';
-    }
-  }
-
-  function getPostStatus(post) {
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    const start = post.startDate ? new Date(post.startDate) : null;
-    const end = post.endDate ? new Date(post.endDate) : null;
-    if (!start || !end) return 'soon';
-    start.setHours(0,0,0,0);
-    end.setHours(0,0,0,0);
-    if (end < today) return 'ended';
-    if (start <= today && end >= today) return 'live';
-    return 'soon';
-  }
-
-  function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  function showToast(msg) {
-    const toast = document.createElement('div');
-    toast.style.cssText = `
-      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-      background: #1a1a1a; color: #00e676; padding: 10px 24px;
-      border-radius: 30px; font-size: 0.9rem; z-index: 9999;
-      opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    `;
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.style.opacity = '1', 50);
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      setTimeout(() => toast.remove(), 400);
-    }, 2500);
-  }
-
-  // ========== ফিল্টার ও সার্চ ==========
-  function filterAdminPosts() {
-    const searchText = document.getElementById('adminSearchInput').value.trim().toLowerCase();
-    const filterType = document.getElementById('adminFilterType').value;
-    const filterUser = document.getElementById('adminFilterUser').value;
-
-    let filtered = allPosts.filter(post => {
-      // সার্চ ফিল্টার
-      if (searchText) {
-        const title = (post.title || '').toLowerCase();
-        const desc = (post.description || '').toLowerCase();
-        const name = (post.posterName || '').toLowerCase();
-        const email = (post.email || '').toLowerCase();
-        const division = (post.division || '').toLowerCase();
-        const district = (post.district || '').toLowerCase();
-        if (!title.includes(searchText) && !desc.includes(searchText) && 
-            !name.includes(searchText) && !email.includes(searchText) &&
-            !division.includes(searchText) && !district.includes(searchText)) {
-          return false;
+    // ========== সার্চ ফাংশন ==========
+    document.getElementById('helpSearchInput').addEventListener('input', function() {
+        const searchText = this.value.toLowerCase().trim();
+        const allItems = document.querySelectorAll('.faq-item');
+        let found = false;
+        
+        allItems.forEach(item => {
+            const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+            const answer = item.querySelector('.faq-answer p')?.textContent?.toLowerCase() || '';
+            const listItems = item.querySelectorAll('.faq-answer ul li');
+            let listText = '';
+            listItems.forEach(li => { listText += li.textContent.toLowerCase(); });
+            
+            const matches = question.includes(searchText) || 
+                           answer.includes(searchText) || 
+                           listText.includes(searchText);
+            
+            if (searchText === '') {
+                item.style.display = 'block';
+                // সব FAQ বন্ধ করুন
+                item.querySelector('.faq-answer').classList.remove('open');
+                item.querySelector('.faq-question').classList.remove('open');
+                found = true;
+            } else if (matches) {
+                item.style.display = 'block';
+                // ম্যাচ হলে ওপেন করুন
+                item.querySelector('.faq-answer').classList.add('open');
+                item.querySelector('.faq-question').classList.add('open');
+                found = true;
+            } else {
+                item.style.display = 'none';
+                item.querySelector('.faq-answer').classList.remove('open');
+                item.querySelector('.faq-question').classList.remove('open');
+            }
+        });
+        
+        // নো রেজাল্ট
+        const noResult = document.getElementById('noResult');
+        if (searchText !== '' && !found) {
+            noResult.style.display = 'block';
+        } else {
+            noResult.style.display = 'none';
         }
-      }
-      
-      // টাইপ ফিল্টার
-      if (filterType !== 'all') {
-        const status = getPostStatus(post);
-        if (status !== filterType) return false;
-      }
-      
-      // ইউজার ফিল্টার
-      if (filterUser !== 'all' && post.uid !== filterUser) return false;
-      
-      return true;
     });
-
-    renderAdminPosts(filtered);
-  }
-
-  // ========== অ্যাডমিন ফাংশন ==========
-  function isAdminUser(email) { return ALLOWED_ADMINS.includes(email); }
-  
-  function showAdminPanel(user) {
-    currentAdminUser = user;
-    adminUserInfo.innerHTML = `<i class="fa-regular fa-user"></i> ${user.displayName || user.email} (ম্যানেজমেন্ট কর্তৃপক্ষ)`;
-    loginScreen.style.display = 'none';
-    adminContent.classList.add('show');
-    loadMarqueeText();
-    loadSliderImages();
-    loadAdminPosts();
-  }
-  
-  function showLoginScreen() {
-    loginScreen.style.display = 'block';
-    adminContent.classList.remove('show');
-    currentAdminUser = null;
-  }
-  
-  function showAccessDenied() { document.getElementById('accessDeniedMsg').classList.add('show'); }
-  
-  auth.onAuthStateChanged(async (user) => {
-    if (user) {
-      if (isAdminUser(user.email)) { 
-        showAdminPanel(user); 
-      } else { 
-        showLoginScreen(); 
-        showAccessDenied(); 
-        await auth.signOut(); 
-      }
-    } else { 
-      showLoginScreen(); 
-    }
-  });
-  
-  document.getElementById('adminGoogleLoginBtn').addEventListener('click', async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const loader = document.getElementById('adminLoader');
-    const errorMsg = document.getElementById('adminErrorMsg');
-    const accessDeniedMsg = document.getElementById('accessDeniedMsg');
     
-    loader.classList.add('show');
-    errorMsg.classList.remove('show');
-    accessDeniedMsg.classList.remove('show');
-    
-    try {
-      const result = await auth.signInWithPopup(provider);
-      const user = result.user;
-      if (isAdminUser(user.email)) { showAdminPanel(user); }
-      else { await auth.signOut(); accessDeniedMsg.classList.add('show'); }
-    } catch (error) {
-      console.error("Login error:", error);
-      errorMsg.classList.add('show');
-      if (error.code === "auth/popup-blocked") {
-        errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> পপ-আপ ব্লক হয়েছে! ব্রাউজার সেটিংস থেকে পপ-আপ অনুমোদন করুন।';
-      } else {
-        errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> লগইন ব্যর্থ। আবার চেষ্টা করুন।';
-      }
-    } finally { loader.classList.remove('show'); }
-  });
-  
-  document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
-    await auth.signOut();
-    showLoginScreen();
-  });
-  
-  // ========== ট্যাব সুইচ ==========
-  document.querySelectorAll('.admin-tabs button').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      document.getElementById(this.dataset.tab).classList.add('active');
-    });
-  });
-  
-  // ========== ড্রপডাউন টগল ==========
-  function toggleDropdown(headerId, contentId) {
-    const header = document.getElementById(headerId);
-    const content = document.getElementById(contentId);
-    header.classList.toggle('open');
-    content.classList.toggle('open');
-  }
-
-  document.getElementById('sliderHeaderMarquee').addEventListener('click', () => toggleDropdown('sliderHeaderMarquee', 'sliderContentMarquee'));
-  document.getElementById('sliderHeaderSlider').addEventListener('click', () => toggleDropdown('sliderHeaderSlider', 'sliderContentSlider'));
-
-  // ========== মার্কি ==========
-  const DEFAULT_MARQUEE = "🎉 দেশের সকল মেলার খবর একসাথে ✦ 📍 যাচাই করে তথ্য নিন ✦ ⭐ সোনালী স্লাইডারে দেখুন বিশেষ মেলা ✦ 🎪 ব্যবসার সুযোগ, বিনোদন আর সংস্কৃতির মিলনমেলা ✦ 🛡️ সতর্ক থাকুন, নিজ দায়িত্বে সিদ্ধান্ত নিন";
-
-  function loadMarqueeText() {
-    marqueeRef.on('value', (snapshot) => {
-      const savedText = snapshot.val();
-      const currentText = savedText && savedText.text ? savedText.text : DEFAULT_MARQUEE;
-      document.getElementById('marqueeText').value = currentText;
-      document.getElementById('marqueePreview').innerText = currentText;
-      document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(currentText.substring(0, 100))}${currentText.length > 100 ? '...' : ''}`;
-    });
-  }
-
-  document.getElementById('saveMarqueeBtn').addEventListener('click', async () => {
-    const newText = document.getElementById('marqueeText').value.trim();
-    if (!newText) { alert('দয়া করে কিছু লেখুন!'); return; }
-    try {
-      await marqueeRef.set({ text: newText, updatedAt: Date.now() });
-      showToast('✅ চলন্ত লেখা সফলভাবে সংরক্ষণ করা হয়েছে!');
-      document.getElementById('marqueePreview').innerText = newText;
-      document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(newText.substring(0, 100))}${newText.length > 100 ? '...' : ''}`;
-    } catch(e) { alert('ত্রুটি: ' + e.message); }
-  });
-
-  document.getElementById('resetMarqueeBtn').addEventListener('click', async () => {
-    if(confirm('ডিফল্ট চলন্ত লেখায় রিসেট করবেন?')) {
-      try {
-        await marqueeRef.set({ text: DEFAULT_MARQUEE, updatedAt: Date.now() });
-        document.getElementById('marqueeText').value = DEFAULT_MARQUEE;
-        document.getElementById('marqueePreview').innerText = DEFAULT_MARQUEE;
-        document.getElementById('currentMarqueeDisplay').innerHTML = `<i class="fa-regular fa-eye"></i> বর্তমান চলন্ত লেখা: ${escapeHtml(DEFAULT_MARQUEE.substring(0, 100))}${DEFAULT_MARQUEE.length > 100 ? '...' : ''}`;
-        showToast('ডিফল্ট লেখায় রিসেট করা হয়েছে!');
-      } catch(e) { alert('ত্রুটি: ' + e.message); }
-    }
-  });
-
-  // ========== স্লাইডার ইমেজ ==========
-  function loadSliderImages() {
-    sliderImagesRef.on('value', (snapshot) => {
-      const data = snapshot.val();
-      const container = document.getElementById('sliderImageList');
-      if (!data) {
-        container.innerHTML = '<p style="color: #999;">কোনো স্লাইডার ইমেজ নেই। উপরের ফর্ম ব্যবহার করে যোগ করুন।</p>';
-        return;
-      }
-      const items = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-      items.sort((a, b) => (a.order || 0) - (b.order || 0));
-      
-      let html = '';
-      items.forEach(item => {
-        html += `
-          <div class="img-item" data-id="${item.id}" onclick="editSliderImage('${item.id}')">
-            <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title || 'স্লাইড')}">
-            <button class="remove-img" onclick="event.stopPropagation(); deleteSliderImage('${item.id}')">×</button>
-            <div class="img-info">
-              <strong>${escapeHtml(item.title || 'শিরোনাম নেই')}</strong>
-              <small>${escapeHtml((item.description || '').substring(0, 25))}${(item.description || '').length > 25 ? '...' : ''}</small>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    });
-  }
-
-  window.deleteSliderImage = async function(id) {
-    if(confirm('এই স্লাইডার ইমেজ ডিলিট করবেন?')) {
-      try {
-        await sliderImagesRef.child(id).remove();
-        showToast('ইমেজ ডিলিট হয়েছে!');
-      } catch(e) { alert('ত্রুটি: ' + e.message); }
-    }
-  };
-
-  window.editSliderImage = function(id) {
-    sliderImagesRef.child(id).once('value', (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        currentEditSliderId = id;
-        
-        document.getElementById('slideImageUrl').value = data.imageUrl || '';
-        document.getElementById('slideTitle').value = data.title || '';
-        document.getElementById('slideMelaType').value = data.melaType || '';
-        document.getElementById('slideStartDate').value = data.startDate || '';
-        document.getElementById('slideEndDate').value = data.endDate || '';
-        document.getElementById('slideLocation').value = data.location || data.addressDetail || '';
-        document.getElementById('slideMapLink').value = data.mapLink || data.link || '';
-        document.getElementById('slideDescription').value = data.description || '';
-        document.getElementById('slideOrder').value = data.order || 1;
-        
-        renderSlideContactFields(data.contacts || []);
-        
-        document.getElementById('saveSliderBtn').innerHTML = '✏️ আপডেট করুন';
-        document.getElementById('cancelSliderBtn').style.display = 'inline-block';
-        
-        const header = document.getElementById('sliderHeaderSlider');
-        const content = document.getElementById('sliderContentSlider');
-        if (!content.classList.contains('open')) {
-          header.classList.add('open');
-          content.classList.add('open');
+    // ========== ডিফল্ট প্রথম FAQ ওপেন ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstFaq = document.querySelector('.faq-item');
+        if (firstFaq) {
+            const answer = firstFaq.querySelector('.faq-answer');
+            const question = firstFaq.querySelector('.faq-question');
+            answer.classList.add('open');
+            question.classList.add('open');
         }
-        document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
-      }
     });
-  };
-
-  document.getElementById('saveSliderBtn').addEventListener('click', async () => {
-    const imageUrl = document.getElementById('slideImageUrl').value.trim();
-    const title = document.getElementById('slideTitle').value.trim();
-    const melaType = document.getElementById('slideMelaType').value;
-    const startDate = document.getElementById('slideStartDate').value;
-    const endDate = document.getElementById('slideEndDate').value;
-    const location = document.getElementById('slideLocation').value.trim();
-    const mapLink = document.getElementById('slideMapLink').value.trim();
-    const description = document.getElementById('slideDescription').value.trim();
-    const order = parseInt(document.getElementById('slideOrder').value) || 1;
-    const contacts = collectSlideContacts();
-    
-    if (!imageUrl) { alert('ইমেজ URL দিতে হবে!'); return; }
-    if (!title) { alert('শিরোনাম দিতে হবে!'); return; }
-    if (!melaType) { alert('মেলার ধরন নির্বাচন করুন!'); return; }
-    if (!startDate || !endDate) { alert('সময়কাল নির্বাচন করুন!'); return; }
-    if (!location) { alert('মেলার লোকেশন লিখুন!'); return; }
-    if (!description) { alert('বিবরণ লিখুন!'); return; }
-    
-    const slideData = {
-      imageUrl: imageUrl,
-      title: title,
-      melaType: melaType,
-      startDate: startDate,
-      endDate: endDate,
-      location: location,
-      mapLink: mapLink || '',
-      description: description,
-      order: order,
-      contacts: contacts,
-      updatedAt: Date.now()
-    };
-    
-    try {
-      if (currentEditSliderId) {
-        await sliderImagesRef.child(currentEditSliderId).update(slideData);
-        showToast('✅ স্লাইডার ইমেজ আপডেট হয়েছে!');
-        currentEditSliderId = null;
-        document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
-        document.getElementById('cancelSliderBtn').style.display = 'none';
-      } else {
-        await sliderImagesRef.push().set(slideData);
-        showToast('✅ নতুন স্লাইডার ইমেজ যোগ হয়েছে!');
-      }
-      resetSlideForm();
-    } catch(e) { alert('ত্রুটি: ' + e.message); }
-  });
-
-  document.getElementById('cancelSliderBtn').addEventListener('click', () => {
-    currentEditSliderId = null;
-    resetSlideForm();
-    document.getElementById('saveSliderBtn').innerHTML = '➕ ইমেজ যোগ/আপডেট করুন';
-    document.getElementById('cancelSliderBtn').style.display = 'none';
-  });
-
-  function resetSlideForm() {
-    document.getElementById('slideImageUrl').value = '';
-    document.getElementById('slideTitle').value = '';
-    document.getElementById('slideMelaType').value = '';
-    document.getElementById('slideStartDate').value = '';
-    document.getElementById('slideEndDate').value = '';
-    document.getElementById('slideLocation').value = '';
-    document.getElementById('slideMapLink').value = '';
-    document.getElementById('slideDescription').value = '';
-    document.getElementById('slideOrder').value = '1';
-    renderSlideContactFields([]);
-  }
-
-  function collectSlideContacts() {
-    const contacts = [];
-    document.querySelectorAll('#slideContactList .contact-group').forEach(group => {
-      const name = group.querySelector('.slide-contact-name').value.trim();
-      const phone = group.querySelector('.slide-contact-phone').value.trim();
-      if (name && phone) contacts.push({ name, phone });
-    });
-    return contacts;
-  }
-
-  function renderSlideContactFields(contacts) {
-    const container = document.getElementById('slideContactList');
-    container.innerHTML = '';
-    if (!contacts || contacts.length === 0) {
-      const div = document.createElement('div');
-      div.className = 'contact-group';
-      div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="slide-contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone"></div>`;
-      container.appendChild(div);
-    } else {
-      contacts.forEach(contact => {
-        const div = document.createElement('div');
-        div.className = 'contact-group';
-        div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="slide-contact-name" value="${escapeHtml(contact.name)}"><input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone" value="${escapeHtml(contact.phone)}"></div><button type="button" class="removeContactBtn" onclick="this.closest('.contact-group').remove()">✖️ সরান</button>`;
-        container.appendChild(div);
-      });
-    }
-  }
-
-  document.getElementById('slideAddContactBtn').addEventListener('click', () => {
-    const container = document.getElementById('slideContactList');
-    const div = document.createElement('div');
-    div.className = 'contact-group';
-    div.innerHTML = `<div class="contact-row"><input type="text" placeholder="নাম" class="slide-contact-name"><input type="tel" placeholder="মোবাইল নাম্বার" class="slide-contact-phone"></div><button type="button" class="removeContactBtn" onclick="this.closest('.contact-group').remove()">✖️ সরান</button>`;
-    container.appendChild(div);
-  });
-
-  // ========== ফিল্টার ইভেন্ট ==========
-  document.getElementById('adminSearchBtn').addEventListener('click', filterAdminPosts);
-  document.getElementById('adminResetSearchBtn').addEventListener('click', function() {
-    document.getElementById('adminSearchInput').value = '';
-    document.getElementById('adminFilterType').value = 'all';
-    document.getElementById('adminFilterUser').value = 'all';
-    filterAdminPosts();
-    showToast('সব ফিল্টার রিসেট হয়েছে');
-  });
-  document.getElementById('adminApplyFilterBtn').addEventListener('click', filterAdminPosts);
-  
-  document.getElementById('adminSearchInput').addEventListener('keyup', function(e) {
-    if (e.key === 'Enter') filterAdminPosts();
-  });
-
-  // এক্সপোজ ফাংশন গ্লোবালি
-  window.deleteAdminPost = deleteAdminPost;
-  window.blockUserFromPost = blockUserFromPost;
-  window.toggleBlockUser = toggleBlockUser;
-  window.toggleDesc = toggleDesc;
 </script>
+
 </body>
 </html>
