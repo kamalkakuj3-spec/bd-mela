@@ -1601,7 +1601,7 @@
     <div class="custom-indicators" id="dotIndicators"></div>
 </div>
 
-<!-- স্লাইডার ডিটেইল মোডাল -->
+<!-- ========== স্লাইডার ডিটেইল মোডাল ========== -->
 <div id="slideDetailModal" class="modal slide-detail-modal">
     <div class="modal-content">
         <span class="close-modal-btn" id="closeSlideModalBtn"><i class="fa-solid fa-xmark"></i></span>
@@ -2046,6 +2046,7 @@
         const startDate = slide.startDate ? new Date(slide.startDate).toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }) : 'N/A';
         const endDate = slide.endDate ? new Date(slide.endDate).toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }) : 'N/A';
         const location = slide.location || slide.addressDetail || 'ঠিকানা দেওয়া নেই';
+        const mapLink = slide.mapLink || slide.link || '';
         
         let contactsHtml = '';
         if (slide.contacts && slide.contacts.length > 0) {
@@ -2056,6 +2057,17 @@
             contactsHtml = '<div>কোনো যোগাযোগ তথ্য নেই</div>';
         }
         
+        let mapButtonHtml = '';
+        if (mapLink) {
+            mapButtonHtml = `
+                <div class="modal-section" style="text-align:center;">
+                    <a href="${escapeHtml(mapLink)}" target="_blank" class="map-link-btn" style="display:inline-block; background:linear-gradient(115deg, #d4af37, #c49b2a); color:white; padding:10px 24px; border-radius:30px; text-decoration:none; font-size:0.9rem; font-weight:600; margin-top:5px;">
+                        <i class="fa-solid fa-location-dot"></i> 🗺️ গুগল ম্যাপে লোকেশন দেখুন
+                    </a>
+                </div>
+            `;
+        }
+        
         body.innerHTML = `
             <img src="${escapeHtml(slide.imageUrl)}" alt="${escapeHtml(slide.title || '')}" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85f6b3?w=800&h=450&fit=crop&crop=center&auto=format'; this.onerror=null;">
             <div class="modal-title">${escapeHtml(slide.title || 'বাংলাদেশ মেলা')}</div>
@@ -2064,7 +2076,7 @@
             <div class="modal-section"><strong>📍 লোকেশন:</strong> ${escapeHtml(location)}</div>
             <div class="modal-section"><strong>📝 বিবরণ:</strong><div style="margin-top:8px; line-height:1.6; color:#444;">${escapeHtml(slide.description || 'কোনো বিবরণ নেই')}</div></div>
             <div class="modal-section"><strong>📞 যোগাযোগ:</strong><div style="margin-top:8px;">${contactsHtml}</div></div>
-            ${slide.link ? `<div class="modal-section"><a href="${escapeHtml(slide.link)}" target="_blank" class="map-link-btn">🔗 বিস্তারিত দেখুন</a></div>` : ''}
+            ${mapButtonHtml}
         `;
         modal.style.display = 'flex';
     };
@@ -2585,14 +2597,12 @@
         allPosts = []; 
         snapshot.forEach(child => { 
             const post = { id: child.key, ...child.val() };
-            // ব্লকড ইউজারের পোস্ট বাদ (শুধু অ্যাডমিনরা দেখতে পারবে না)
-            // কিন্তু সাধারণ ইউজারদের জন্য ব্লকড ইউজারের পোস্ট দেখাবে না
             allPosts.push(post); 
         }); 
         allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         
         let filtered = allPosts.filter(post => {
-            // ব্লকড ইউজারের পোস্ট বাদ (সাধারণ ইউজারদের জন্য)
+            // ব্লকড ইউজারের পোস্ট বাদ
             if (post.uid && isUserBlocked(post.uid)) return false;
             
             if(showingSavedOnly) {
@@ -2622,7 +2632,6 @@
     }
     
     function updateStatistics() { 
-        // শুধু আনব্লকড ইউজারের পোস্ট গণনা
         const visiblePosts = allPosts.filter(p => !(p.uid && isUserBlocked(p.uid)));
         const live = visiblePosts.filter(p => getStatusText(p).type === 'live').length; 
         const soon = visiblePosts.filter(p => getStatusText(p).type === 'soon').length; 
