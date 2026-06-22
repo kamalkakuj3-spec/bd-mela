@@ -28,7 +28,7 @@
             padding-top: 0;
         }
         
-        /* ========== হেডার (অফ-হোয়াইট) ========== */
+        /* ========== হেডার ========== */
         .app-header {
             background: #ffffff;
             padding: 10px 16px;
@@ -52,8 +52,6 @@
             opacity: 0;
             pointer-events: none;
         }
-        
-        /* হেডার লুকালে তার কোনো চিহ্ন থাকবে না */
         .app-header.hide-header::after {
             display: none;
         }
@@ -144,13 +142,13 @@
             font-size: 1.8rem;
         }
         
-        /* ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে) ========== */
+        /* ========== সার্চ + ফিল্টার সেকশন ========== */
         .search-filter-section {
             background: #ffffff;
             padding: 0 16px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease, transform 0.3s ease;
+            transition: max-height 0.4s ease, padding 0.3s ease;
             border-bottom: 1px solid #e0e0e0;
             position: fixed;
             top: 62px;
@@ -159,22 +157,10 @@
             z-index: 99;
             width: 100%;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            transform: translateY(0);
         }
         .search-filter-section.show {
             max-height: 200px;
             padding: 10px 16px 14px 16px;
-        }
-        
-        /* হেডার লুকালে সার্চ বার হেডারের জায়গা দখল করবে */
-        .app-header.hide-header ~ .search-filter-section {
-            top: 0;
-            transform: translateY(0);
-        }
-        
-        /* হেডার লুকালে তার উপরের অংশ খালি থাকবে না, সার্চ বার দখল করবে */
-        .app-header.hide-header ~ .slider-wrapper {
-            margin-top: 0;
         }
         
         .search-box {
@@ -1186,11 +1172,6 @@
             display: none !important;
         }
         
-        /* হেডার লুকালে স্লাইডারের মার্জিন কমবে */
-        .app-header.hide-header ~ .slider-wrapper {
-            margin-top: 0;
-        }
-        
         @media (max-width: 480px) {
             .app-header { min-height: 56px; padding: 8px 12px; }
             .search-filter-section { top: 56px; }
@@ -1732,69 +1713,6 @@
         }, { passive: true });
     }
     
-    // ========== সার্চ এবং ফিল্টার ফাংশন ==========
-    function updateSearchActiveState() {
-        const query = document.getElementById('searchInput').value.trim();
-        const hasSearch = query.length > 0;
-        const hasDivision = document.getElementById('divisionFilter').value !== '';
-        const hasDistrict = document.getElementById('districtFilter').value !== '';
-        const hasUpazila = document.getElementById('upazilaFilter').value !== '';
-        
-        isSearchActive = hasSearch || hasDivision || hasDistrict || hasUpazila;
-        
-        if (isSearchActive) {
-            document.body.classList.add('search-active');
-        } else {
-            document.body.classList.remove('search-active');
-        }
-    }
-    
-    function onFilterChange() {
-        selectedDivision = document.getElementById('divisionFilter').value;
-        selectedDistrict = document.getElementById('districtFilter').value;
-        selectedUpazila = document.getElementById('upazilaFilter').value;
-        
-        // উপজেলা ফিল্টার আপডেট
-        if (selectedDivision && selectedDistrict) {
-            const division = divisionsData.find(d => d.name === selectedDivision);
-            const district = division?.districts?.find(d => d.name === selectedDistrict);
-            if (district && district.upazilas) {
-                const upazilaSelect = document.getElementById('upazilaFilter');
-                const currentVal = upazilaSelect.value;
-                upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>';
-                district.upazilas.forEach(up => {
-                    upazilaSelect.add(new Option(up, up));
-                });
-                if (currentVal) {
-                    for (let i = 0; i < upazilaSelect.options.length; i++) {
-                        if (upazilaSelect.options[i].value === currentVal) {
-                            upazilaSelect.selectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        
-        updateSearchActiveState();
-        loadPosts();
-    }
-    
-    function clearAllFilters() {
-        document.getElementById('searchInput').value = '';
-        document.getElementById('divisionFilter').value = '';
-        document.getElementById('districtFilter').innerHTML = '<option value="">সব জেলা</option>';
-        document.getElementById('upazilaFilter').innerHTML = '<option value="">সব উপজেলা</option>';
-        selectedDivision = '';
-        selectedDistrict = '';
-        selectedUpazila = '';
-        searchText = '';
-        isSearchActive = false;
-        document.body.classList.remove('search-active');
-        loadPosts();
-        showToast('সব ফিল্টার রিসেট হয়েছে');
-    }
-    
     // ========== ডিভিশন ডাটা লোড ==========
     async function loadDivisions() {
         try {
@@ -1903,6 +1821,74 @@
         upazilas.forEach(up => {
             upazilaSelect.add(new Option(up, up));
         });
+    }
+    
+    // ========== সার্চ এবং ফিল্টার ফাংশন ==========
+    function updateSearchActiveState() {
+        const query = document.getElementById('searchInput').value.trim();
+        const hasSearch = query.length > 0;
+        const hasDivision = document.getElementById('divisionFilter').value !== '';
+        const hasDistrict = document.getElementById('districtFilter').value !== '';
+        const hasUpazila = document.getElementById('upazilaFilter').value !== '';
+        
+        isSearchActive = hasSearch || hasDivision || hasDistrict || hasUpazila;
+        
+        if (isSearchActive) {
+            document.body.classList.add('search-active');
+        } else {
+            document.body.classList.remove('search-active');
+        }
+    }
+    
+    function onFilterChange() {
+        const division = document.getElementById('divisionFilter').value;
+        const district = document.getElementById('districtFilter').value;
+        const upazila = document.getElementById('upazilaFilter').value;
+        
+        // শুধুমাত্র নির্বাচিত মানগুলো সেট করুন
+        selectedDivision = division;
+        selectedDistrict = district;
+        selectedUpazila = upazila;
+        
+        // উপজেলা ফিল্টার আপডেট (যদি বিভাগ এবং জেলা নির্বাচিত থাকে)
+        if (division && district) {
+            const divData = divisionsData.find(d => d.name === division);
+            const distData = divData?.districts?.find(d => d.name === district);
+            if (distData && distData.upazilas && distData.upazilas.length > 0) {
+                const upazilaSelect = document.getElementById('upazilaFilter');
+                const currentVal = upazilaSelect.value;
+                upazilaSelect.innerHTML = '<option value="">সব উপজেলা</option>';
+                distData.upazilas.forEach(up => {
+                    upazilaSelect.add(new Option(up, up));
+                });
+                if (currentVal) {
+                    for (let i = 0; i < upazilaSelect.options.length; i++) {
+                        if (upazilaSelect.options[i].value === currentVal) {
+                            upazilaSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        updateSearchActiveState();
+        loadPosts();
+    }
+    
+    function clearAllFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('divisionFilter').value = '';
+        document.getElementById('districtFilter').innerHTML = '<option value="">সব জেলা</option>';
+        document.getElementById('upazilaFilter').innerHTML = '<option value="">সব উপজেলা</option>';
+        selectedDivision = '';
+        selectedDistrict = '';
+        selectedUpazila = '';
+        searchText = '';
+        isSearchActive = false;
+        document.body.classList.remove('search-active');
+        loadPosts();
+        showToast('সব ফিল্টার রিসেট হয়েছে');
     }
     
     // ========== মার্কি টেক্সট লোড ==========
