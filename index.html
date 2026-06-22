@@ -595,7 +595,7 @@
             object-fit: cover;
         }
         
-        /* ===== ক্রস বাটন - অ্যানিমেটেড ও চোখে পড়ার মতো ===== */
+        /* ===== ক্রস বাটন - অ্যানিমেটেড ===== */
         .close-modal-btn {
             position: absolute;
             top: 12px;
@@ -1562,7 +1562,7 @@
     </div>
     <div class="header-icons">
         <button class="signin-btn" id="signinBtn">লগইন</button>
-        <!-- সেভ ব্যাজ - হেল্প আইকনের বাম পাশে -->
+        <!-- সেভ ব্যাজ -->
         <div class="save-badge-wrapper" id="saveBadgeWrapper" onclick="handleSaveBadgeClick()" title="সেভ করা মেলা দেখুন">
             <i class="fa-regular fa-bookmark save-icon"></i>
             <span class="save-count hide" id="saveCount">0</span>
@@ -1781,6 +1781,7 @@
     let currentEditPostId = null;
     let isSearchActive = false;
     let showingSavedOnly = false;
+    let blockedUsers = [];
     
     // ========== কাস্টম ডেট পিকার ভেরিয়েবল ==========
     let activeDateInput = null;
@@ -1793,19 +1794,22 @@
             id: 'default1',
             imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85f6b3?w=800&h=450&fit=crop&crop=center&auto=format',
             title: 'বাংলাদেশ মেলা',
-            description: 'দেশের মেলার ঠিকানা - এখানে আপনি বাংলাদেশের সকল মেলার তথ্য পাবেন।'
+            description: 'দেশের মেলার ঠিকানা - এখানে আপনি বাংলাদেশের সকল মেলার তথ্য পাবেন।',
+            location: 'ঢাকা, বাংলাদেশ'
         },
         {
             id: 'default2',
             imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=450&fit=crop&crop=center&auto=format',
             title: 'পাহাড়ি মেলা',
-            description: 'পাহাড়ের কোলে বসে গ্রামীণ মেলার ঐতিহ্য।'
+            description: 'পাহাড়ের কোলে বসে গ্রামীণ মেলার ঐতিহ্য।',
+            location: 'বান্দরবান, বাংলাদেশ'
         },
         {
             id: 'default3',
             imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=450&fit=crop&crop=center&auto=format',
             title: 'সমুদ্র মেলা',
-            description: 'সমুদ্র সৈকতে বসে মেলা ও সাংস্কৃতিক অনুষ্ঠান।'
+            description: 'সমুদ্র সৈকতে বসে মেলা ও সাংস্কৃতিক অনুষ্ঠান।',
+            location: 'কক্সবাজার, বাংলাদেশ'
         }
     ];
     
@@ -1910,7 +1914,6 @@
                 const dateStr = day.dataset.date;
                 if(activeDateInput && dateStr) {
                     activeDateInput.value = dateStr;
-                    // ইভেন্ট ট্রিগার করি
                     const event = new Event('change', { bubbles: true });
                     activeDateInput.dispatchEvent(event);
                 }
@@ -1921,6 +1924,18 @@
         popup.querySelector('.calendar-close').addEventListener('click', () => {
             popup.remove();
         });
+    }
+    
+    // ========== ব্লকড ইউজার লোড ==========
+    async function loadBlockedUsers() {
+        const snapshot = await db.ref('blockedUsers').once('value');
+        const data = snapshot.val();
+        blockedUsers = data ? Object.keys(data) : [];
+        return blockedUsers;
+    }
+    
+    function isUserBlocked(uid) {
+        return blockedUsers.includes(uid);
     }
     
     // ========== স্লাইডার লোড ==========
@@ -2030,7 +2045,7 @@
         
         const startDate = slide.startDate ? new Date(slide.startDate).toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }) : 'N/A';
         const endDate = slide.endDate ? new Date(slide.endDate).toLocaleDateString('bn-BD', { day:'numeric', month:'short', year:'numeric' }) : 'N/A';
-        const address = slide.addressDetail ? `${slide.district || ''}, ${slide.division || ''} - ${slide.addressDetail}` : `${slide.district || ''}, ${slide.division || ''}`;
+        const location = slide.location || slide.addressDetail || 'ঠিকানা দেওয়া নেই';
         
         let contactsHtml = '';
         if (slide.contacts && slide.contacts.length > 0) {
@@ -2046,7 +2061,7 @@
             <div class="modal-title">${escapeHtml(slide.title || 'বাংলাদেশ মেলা')}</div>
             <div class="modal-section"><strong>🏷️ মেলার ধরন:</strong> ${escapeHtml(slide.melaType || 'অন্যান্য')}</div>
             <div class="modal-section"><strong>⏰ সময়কাল:</strong> ${startDate} - ${endDate} ${slide.startDate && slide.endDate ? ` (${calculateDays(slide.startDate, slide.endDate)} দিন)` : ''}</div>
-            <div class="modal-section"><strong>📍 ঠিকানা:</strong> ${escapeHtml(address)}</div>
+            <div class="modal-section"><strong>📍 লোকেশন:</strong> ${escapeHtml(location)}</div>
             <div class="modal-section"><strong>📝 বিবরণ:</strong><div style="margin-top:8px; line-height:1.6; color:#444;">${escapeHtml(slide.description || 'কোনো বিবরণ নেই')}</div></div>
             <div class="modal-section"><strong>📞 যোগাযোগ:</strong><div style="margin-top:8px;">${contactsHtml}</div></div>
             ${slide.link ? `<div class="modal-section"><a href="${escapeHtml(slide.link)}" target="_blank" class="map-link-btn">🔗 বিস্তারিত দেখুন</a></div>` : ''}
@@ -2361,7 +2376,7 @@
         }
     }
     
-    // ========== সেভ ব্যাজ ক্লিক হ্যান্ডলার ==========
+    // ========== সেভ ব্যাজ ক্লিক ==========
     function handleSaveBadgeClick() {
         if (currentUser) {
             showingSavedOnly = true;
@@ -2377,6 +2392,7 @@
     auth.onAuthStateChanged(async (user) => {
         currentUser = user;
         updateUIForUser(user);
+        await loadBlockedUsers();
         
         if(user) {
             await loadSavedPosts();
@@ -2388,7 +2404,6 @@
         loadSliderData();
         loadMarqueeText();
         
-        // কাস্টম ডেট পিকার ইভেন্ট লিসেনার
         const startDateInput = document.getElementById('startDate');
         const endDateInput = document.getElementById('endDate');
         if(startDateInput) {
@@ -2565,30 +2580,65 @@
     
     // ========== পোস্ট লোড ==========
     async function loadPosts() {
-        const snapshot = await db.ref('posts').once('value'); allPosts = []; snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); }); allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+        await loadBlockedUsers();
+        const snapshot = await db.ref('posts').once('value'); 
+        allPosts = []; 
+        snapshot.forEach(child => { 
+            const post = { id: child.key, ...child.val() };
+            // ব্লকড ইউজারের পোস্ট বাদ (শুধু অ্যাডমিনরা দেখতে পারবে না)
+            // কিন্তু সাধারণ ইউজারদের জন্য ব্লকড ইউজারের পোস্ট দেখাবে না
+            allPosts.push(post); 
+        }); 
+        allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+        
         let filtered = allPosts.filter(post => {
+            // ব্লকড ইউজারের পোস্ট বাদ (সাধারণ ইউজারদের জন্য)
+            if (post.uid && isUserBlocked(post.uid)) return false;
+            
             if(showingSavedOnly) {
                 if(!savedPostsIds.includes(post.id)) return false;
             }
-            if(statusFilter !== "all") { const postStatus = getStatusText(post).type; if(postStatus !== statusFilter) return false; }
+            if(statusFilter !== "all") { 
+                const postStatus = getStatusText(post).type; 
+                if(postStatus !== statusFilter) return false; 
+            }
             if(selectedTimeCategory !== "all" && post.category !== selectedTimeCategory) return false;
             if(selectedTopicCategories.length > 0 && !selectedTopicCategories.includes(post.topicCategory)) return false;
             if(selectedDivision && post.division !== selectedDivision) return false;
             if(selectedDistrict && post.district !== selectedDistrict) return false;
             if(selectedUpazila && post.upazila !== selectedUpazila) return false;
-            if(searchText) { const s = searchText.toLowerCase(); return (post.title?.toLowerCase().includes(s) || post.district?.toLowerCase().includes(s) || post.division?.toLowerCase().includes(s)); }
+            if(searchText) { 
+                const s = searchText.toLowerCase(); 
+                return (post.title?.toLowerCase().includes(s) || 
+                        post.district?.toLowerCase().includes(s) || 
+                        post.division?.toLowerCase().includes(s) ||
+                        post.posterName?.toLowerCase().includes(s) ||
+                        post.email?.toLowerCase().includes(s));
+            }
             return true;
         });
         renderPosts(filtered);
         updateStatistics();
     }
     
-    function updateStatistics() { const live = allPosts.filter(p => getStatusText(p).type === 'live').length; const soon = allPosts.filter(p => getStatusText(p).type === 'soon').length; const ended = allPosts.filter(p => getStatusText(p).type === 'ended').length; let reviewCount = 0; allPosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); document.getElementById("statLive").innerText = live; document.getElementById("statSoon").innerText = soon; document.getElementById("statEnded").innerText = ended; document.getElementById("statReviews").innerText = reviewCount; }
+    function updateStatistics() { 
+        // শুধু আনব্লকড ইউজারের পোস্ট গণনা
+        const visiblePosts = allPosts.filter(p => !(p.uid && isUserBlocked(p.uid)));
+        const live = visiblePosts.filter(p => getStatusText(p).type === 'live').length; 
+        const soon = visiblePosts.filter(p => getStatusText(p).type === 'soon').length; 
+        const ended = visiblePosts.filter(p => getStatusText(p).type === 'ended').length; 
+        let reviewCount = 0; 
+        visiblePosts.forEach(p => { if(p.comments) reviewCount += Object.keys(p.comments).length; }); 
+        document.getElementById("statLive").innerText = live; 
+        document.getElementById("statSoon").innerText = soon; 
+        document.getElementById("statEnded").innerText = ended; 
+        document.getElementById("statReviews").innerText = reviewCount; 
+    }
     
     function loadSavedItemsList() { 
         const container = document.getElementById('savedItemsList'); 
         if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
-        const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); 
+        const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id) && !(post.uid && isUserBlocked(post.uid))); 
         if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
         container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="showSavedPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div><div style="font-size:10px; color:#b8860b; margin-top:5px;">${getStatusText(post).type === 'live' ? '🟢 চলমান' : (getStatusText(post).type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div></div>`).join(''); 
     }
