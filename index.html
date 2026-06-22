@@ -20,29 +20,30 @@
         }
         
         body {
-            background: #e8e8e8;
+            background: #f0f2f5;
             color: #1a1a1a;
             padding-bottom: 80px;
             max-width: 100%;
             overflow-x: hidden;
         }
         
-        /* হেডার */
+        /* ========== হেডার (অফ-হোয়াইট) ========== */
         .app-header {
-            background: #1a1f2e;
+            background: #ffffff;
             padding: 10px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid #e0e0e0;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            transition: transform 0.3s ease, background 0.3s ease;
+            transition: transform 0.3s ease;
             transform: translateY(0);
-            min-height: 64px;
+            min-height: 62px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
         .app-header.hide-header {
             transform: translateY(-100%);
@@ -79,15 +80,16 @@
         .logo-area h1 {
             font-size: 1.5rem;
             font-weight: 800;
-            color: #ffffff;
-            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #1a1a1a, #555);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         .logo-area p {
             font-size: 0.7rem;
-            color: #a8b3cf;
-            font-weight: 400;
+            color: #888;
+            font-weight: 500;
             margin-top: 1px;
-            letter-spacing: 0.3px;
         }
         .header-icons {
             display: flex;
@@ -115,7 +117,7 @@
         .help-btn {
             background: none;
             border: none;
-            color: #a8b3cf;
+            color: #555;
             font-size: 1.8rem;
             cursor: pointer;
             padding: 4px;
@@ -127,7 +129,7 @@
             height: 44px;
         }
         .help-btn:hover {
-            color: #ffffff;
+            color: #1a1a1a;
         }
         .help-btn i {
             font-size: 1.8rem;
@@ -135,35 +137,36 @@
         
         /* ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে) ========== */
         .search-filter-section {
-            background: #1a1f2e;
+            background: #ffffff;
             padding: 0 16px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.3s ease;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid #e0e0e0;
             position: fixed;
-            top: 64px;
+            top: 62px;
             left: 0;
             right: 0;
             z-index: 99;
             width: 100%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .search-filter-section.show {
             max-height: 200px;
             padding: 10px 16px 14px 16px;
         }
         .search-box {
-            background: rgba(255,255,255,0.10);
+            background: #f0f2f5;
             border-radius: 30px;
             padding: 8px 16px;
             display: flex;
             gap: 10px;
             align-items: center;
             margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid #e0e0e0;
         }
         .search-box i {
-            color: #8a9bb5;
+            color: #888;
             font-size: 0.9rem;
         }
         .search-box input {
@@ -172,10 +175,10 @@
             background: transparent;
             outline: none;
             font-size: 0.85rem;
-            color: #ffffff;
+            color: #1a1a1a;
         }
         .search-box input::placeholder {
-            color: #6a7b95;
+            color: #aaa;
         }
         .filter-row {
             display: flex;
@@ -184,26 +187,22 @@
         }
         .filter-select {
             flex: 1;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: #f8f9fa;
+            border: 1px solid #ddd;
             border-radius: 30px;
             padding: 6px 12px;
             font-size: 0.65rem;
-            color: #c8d6f0;
+            color: #333;
             outline: none;
             cursor: pointer;
             font-family: inherit;
             min-width: 60px;
             appearance: none;
             -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9bb5' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 10px center;
             padding-right: 28px;
-        }
-        .filter-select option {
-            background: #1a1f2e;
-            color: #c8d6f0;
         }
         .filter-select:focus {
             border-color: #d4af37;
@@ -225,12 +224,12 @@
             bottom: 85px;
             left: 16px;
             right: 16px;
-            background: #1a1f2e;
+            background: #ffffff;
             border-radius: 24px;
             padding: 0;
             z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
             max-height: 70vh;
             overflow-y: auto;
             flex-direction: column;
@@ -248,13 +247,13 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 16px 12px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            background: #1a1f2e;
+            border-bottom: 1px solid #eee;
+            background: #ffffff;
             position: sticky;
             top: 0;
             z-index: 15;
         }
-        .time-category-panel-header h4 { font-size: 14px; color: #d4af37; }
+        .time-category-panel-header h4 { font-size: 14px; color: #b8860b; }
         .time-category-grid {
             display: flex;
             flex-direction: column;
@@ -269,19 +268,19 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            border: 1px solid rgba(255,255,255,0.04);
-            color: #c8d6f0;
+            border: 1px solid #f0f0f0;
+            color: #333;
         }
-        .time-category-item:hover { background: rgba(255,255,255,0.05); }
+        .time-category-item:hover { background: #f5f5f5; }
         .time-category-item.selected {
-            background: rgba(212, 175, 55, 0.15);
+            background: #fef9e6;
             border-color: #d4af37;
         }
         .time-category-icon { font-size: 20px; }
         .time-category-name { font-size: 14px; flex: 1; }
         .time-panel-buttons {
             padding: 0 16px 16px 16px;
-            background: #1a1f2e;
+            background: #ffffff;
             position: sticky;
             bottom: 0;
         }
@@ -293,11 +292,11 @@
             bottom: 85px;
             left: 16px;
             right: 16px;
-            background: #1a1f2e;
+            background: #ffffff;
             border-radius: 24px;
             z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
             max-height: 70vh;
             overflow-y: auto;
             flex-direction: column;
@@ -311,13 +310,13 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 16px 12px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            background: #1a1f2e;
+            border-bottom: 1px solid #eee;
+            background: #ffffff;
             position: sticky;
             top: 0;
             z-index: 15;
         }
-        .topic-category-panel-header h4 { font-size: 14px; color: #d4af37; }
+        .topic-category-panel-header h4 { font-size: 14px; color: #b8860b; }
         .topic-category-grid {
             display: flex;
             flex-direction: column;
@@ -332,27 +331,27 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            border: 1px solid rgba(255,255,255,0.04);
-            color: #c8d6f0;
+            border: 1px solid #f0f0f0;
+            color: #333;
         }
-        .topic-category-item:hover { background: rgba(255,255,255,0.05); }
+        .topic-category-item:hover { background: #f5f5f5; }
         .topic-category-item.selected {
-            background: rgba(212, 175, 55, 0.15);
+            background: #fef9e6;
             border-color: #d4af37;
         }
         .topic-category-icon { font-size: 20px; }
         .topic-category-name { font-size: 14px; flex: 1; }
         .topic-panel-buttons {
             padding: 0 16px 16px 16px;
-            background: #1a1f2e;
+            background: #ffffff;
             position: sticky;
             bottom: 0;
         }
         .apply-filter-btn {
             width: 100%;
             padding: 12px;
-            background: #d4af37;
-            color: #1a1f2e;
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            color: white;
             border: none;
             border-radius: 30px;
             margin-top: 8px;
@@ -362,8 +361,8 @@
         .reset-filter-btn {
             width: 100%;
             padding: 10px;
-            background: rgba(255,255,255,0.06);
-            color: #a8b3cf;
+            background: #f5f5f5;
+            color: #666;
             border: none;
             border-radius: 30px;
             margin-top: 8px;
@@ -378,12 +377,12 @@
             bottom: 85px;
             left: 16px;
             right: 16px;
-            background: #1a1f2e;
+            background: #ffffff;
             border-radius: 24px;
             padding: 16px;
             z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
             max-height: 70vh;
             overflow-y: auto;
         }
@@ -396,25 +395,24 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid #eee;
             margin-bottom: 12px;
         }
-        .saved-items-panel-header h4 { font-size: 14px; color: #d4af37; }
+        .saved-items-panel-header h4 { font-size: 14px; color: #b8860b; }
         .saved-item-card {
-            background: rgba(255,255,255,0.04);
+            background: #f8f9fa;
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 10px;
             cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.04);
-            color: #c8d6f0;
+            border: 1px solid #e0e0e0;
         }
         .saved-item-card:hover {
-            background: rgba(255,255,255,0.08);
+            background: #fef9e6;
             border-color: #d4af37;
         }
-        .saved-item-title { font-size: 14px; font-weight: 600; color: #ffffff; }
-        .saved-item-loc { font-size: 11px; color: #8a9bb5; margin-top: 4px; }
+        .saved-item-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+        .saved-item-loc { font-size: 11px; color: #888; margin-top: 4px; }
         
         /* ========== ইমেজ স্লাইডার ========== */
         .slider-wrapper {
@@ -523,16 +521,16 @@
             object-fit: cover;
         }
         
-        /* ========== চলন্ত লেখা ========== */
+        /* ========== চলন্ত লেখা (অফ-হোয়াইট ব্যাকগ্রাউন্ড) ========== */
         .marquee-card {
             max-width: 100%;
             width: calc(100% - 32px);
             margin: 8px 16px 12px 16px;
-            background: #1a1f2e;
+            background: #ffffff;
             border-radius: 8px;
             padding: 10px 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e0e0e0;
         }
         .marquee-wrapper {
             position: relative;
@@ -555,25 +553,24 @@
         .marquee-line .track span {
             font-size: clamp(1rem, 3.5vw, 1.6rem);
             font-weight: 700;
-            color: #d4af37;
+            color: #1a1a1a;
             letter-spacing: 0.04em;
             display: flex;
             align-items: center;
             gap: 2rem;
             opacity: 0.95;
-            text-shadow: 0 1px 12px rgba(0, 0, 0, 0.15);
         }
         .marquee-line .track span i {
             font-style: normal;
-            color: #f0e6b0;
+            color: #b8860b;
             padding: 0 6px;
             font-weight: 700;
-            background: rgba(212, 175, 55, 0.10);
+            background: rgba(184, 134, 11, 0.08);
             border-radius: 4px;
             padding: 0 10px;
         }
         .marquee-line .track span .dot-sep {
-            color: rgba(212, 175, 55, 0.20);
+            color: #ccc;
             font-size: 0.5em;
             margin: 0 4px;
         }
@@ -583,7 +580,7 @@
             height: 6px;
             border-radius: 50%;
             background: #d4af37;
-            box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 0 14px rgba(212, 175, 55, 0.3);
             margin: 0 4px;
             animation: pulse-dot 2s ease-in-out infinite;
         }
@@ -880,8 +877,8 @@
             left: -280px;
             width: 280px;
             height: 100%;
-            background: #1a1f2e;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
             z-index: 1000;
             transition: left 0.3s ease;
             overflow-y: auto;
@@ -889,17 +886,16 @@
         .side-drawer.open { left: 0; }
         .drawer-header {
             padding: 20px 20px 20px;
-            background: linear-gradient(135deg, #0d111a, #1a1f2e);
+            background: linear-gradient(135deg, #1a1a1a, #333);
             color: white;
             text-align: center;
             position: relative;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .drawer-close-btn {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.2);
             border: none;
             color: white;
             font-size: 1.2rem;
@@ -913,7 +909,7 @@
             transition: all 0.2s;
         }
         .drawer-close-btn:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.3);
             transform: scale(1.05);
         }
         .drawer-avatar {
@@ -923,8 +919,8 @@
             border: 3px solid #d4af37;
             margin-bottom: 10px;
         }
-        .drawer-name { font-size: 1rem; font-weight: 600; color: #ffffff; }
-        .drawer-email { font-size: 0.65rem; color: #8a9bb5; }
+        .drawer-name { font-size: 1rem; font-weight: 600; }
+        .drawer-email { font-size: 0.65rem; opacity: 0.8; }
         .drawer-menu { padding: 20px; }
         .drawer-item {
             display: flex;
@@ -932,11 +928,10 @@
             gap: 12px;
             padding: 12px 0;
             cursor: pointer;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            color: #c8d6f0;
-            transition: color 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
         }
-        .drawer-item:hover { color: #d4af37; }
+        .drawer-item:hover { color: #b8860b; }
         .drawer-item i { width: 24px; font-size: 1.1rem; }
         .drawer-overlay {
             position: fixed;
@@ -964,7 +959,7 @@
             justify-content: center;
         }
         .modal-content {
-            background: #1a1f2e;
+            background: #ffffff;
             width: 90%;
             max-width: 500px;
             max-height: 85vh;
@@ -972,10 +967,9 @@
             border-radius: 24px;
             padding: 0;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.06);
         }
         .modal-header {
-            background: #1a1f2e;
+            background: #ffffff;
             padding: 18px 20px;
             border-bottom: 2px solid #d4af37;
             position: sticky;
@@ -986,57 +980,48 @@
         .modal-header h3 { 
             margin: 0; 
             text-align: center;
-            color: #d4af37;
+            color: #b8860b;
             font-size: 1.2rem;
         }
         .modal-body {
             padding: 20px;
-            color: #c8d6f0;
         }
         .modal-body input, .modal-body select, .modal-body textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid #ddd;
             border-radius: 12px;
             font-size: 0.9rem;
-            background: rgba(255,255,255,0.04);
-            color: #ffffff;
+            background: #ffffff;
+            color: #1a1a1a;
         }
-        .modal-body input::placeholder, .modal-body textarea::placeholder {
-            color: #6a7b95;
-        }
-        .modal-body select option {
-            background: #1a1f2e;
-            color: #c8d6f0;
-        }
-        .modal-body select option[value=""] { color: #6a7b95; }
+        .modal-body select option { background: #ffffff; color: #1a1a1a; }
         .modal-body button {
             width: 100%;
             padding: 12px;
-            background: #d4af37;
-            color: #1a1f2e;
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            color: white;
             border: none;
             border-radius: 12px;
             cursor: pointer;
             font-weight: 700;
         }
-        .modal-body button.cancel { background: rgba(255,255,255,0.08); color: #a8b3cf; margin-top: 8px; }
+        .modal-body button.cancel { background: #f0f0f0; color: #333; margin-top: 8px; }
         .form-group { margin-bottom: 8px; }
         .form-label {
             font-size: 12px;
             font-weight: 600;
-            color: #a8b3cf;
+            color: #333;
             margin-bottom: 4px;
             display: block;
         }
-        .small-text { font-size: 10px; color: #6a7b95; }
+        .small-text { font-size: 10px; color: #888; }
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 8px;
             margin: 10px 0;
-            color: #c8d6f0;
         }
         .close-modal-btn {
             position: absolute;
@@ -1044,19 +1029,21 @@
             right: 15px;
             font-size: 22px;
             cursor: pointer;
-            color: #8a9bb5;
+            color: #999;
             z-index: 30;
         }
-        .close-modal-btn:hover { color: #ffffff; }
         .modal-section {
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid #eee;
         }
         .modal-title {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #d4af37;
+            background: linear-gradient(135deg, #b8860b, #d4af37);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             margin-bottom: 15px;
             text-align: center;
         }
@@ -1064,20 +1051,16 @@
             padding: 6px 0;
             font-size: 0.85rem;
         }
-        .contact-item a {
-            color: #d4af37;
-            text-decoration: none;
-        }
+        .contact-item a { color: #b8860b; text-decoration: none; }
         .map-link-btn {
             display: inline-block;
-            background: #d4af37;
-            color: #1a1f2e;
+            background: linear-gradient(115deg, #d4af37, #c49b2a);
+            color: white;
             padding: 8px 16px;
             border-radius: 30px;
             text-decoration: none;
             font-size: 0.8rem;
             margin-top: 5px;
-            font-weight: 600;
         }
         
         .date-range {
@@ -1090,16 +1073,12 @@
             width: 50%;
             margin-bottom: 0;
             padding: 10px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid #ddd;
             border-radius: 12px;
             font-size: 0.9rem;
-            background: rgba(255,255,255,0.04);
-            color: #ffffff;
+            background: #ffffff;
             cursor: pointer;
             text-align: center;
-        }
-        .date-range input::-webkit-calendar-picker-indicator {
-            filter: invert(1);
         }
         
         /* ========== নিচের মেনু বার ========== */
@@ -1108,15 +1087,15 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: #1a1f2e;
+            background: #ffffff;
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 8px 12px;
-            box-shadow: 0 -2px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
             z-index: 200;
             min-height: 62px;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            border-top: 1px solid #e0e0e0;
         }
         .nav-item {
             display: flex;
@@ -1126,16 +1105,16 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: #6a7b95;
+            color: #aaa;
             font-size: 0.6rem;
             padding: 4px 8px;
             transition: color 0.2s;
         }
         .nav-item i { font-size: 1.4rem; }
-        .nav-item.active { color: #d4af37; }
+        .nav-item.active { color: #1a1a1a; }
         .nav-center {
-            background: #d4af37;
-            color: #1a1f2e;
+            background: #1a1a1a;
+            color: white;
             width: 52px;
             height: 52px;
             border-radius: 50%;
@@ -1143,18 +1122,18 @@
             align-items: center;
             justify-content: center;
             margin-top: -26px;
-            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .nav-center i { font-size: 1.6rem; color: #1a1f2e; }
+        .nav-center i { font-size: 1.6rem; color: white; }
         
-        .loader { text-align: center; padding: 40px; color: #6a7b95; }
+        .loader { text-align: center; padding: 40px; color: #888; }
         .toast {
             position: fixed;
             bottom: 90px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1a1f2e;
-            color: #d4af37;
+            background: #1a1a1a;
+            color: #00e676;
             padding: 8px 20px;
             border-radius: 30px;
             font-size: 0.8rem;
@@ -1162,7 +1141,6 @@
             opacity: 0;
             transition: 0.3s;
             pointer-events: none;
-            border: 1px solid rgba(255,255,255,0.06);
         }
         .toast.show { opacity: 1; }
         
@@ -1172,7 +1150,7 @@
         }
         .section-title h3 {
             font-size: 1rem;
-            color: #1a1f2e;
+            color: #333;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1205,7 +1183,6 @@
             .user-avatar { width: 36px; height: 36px; }
             .help-btn { width: 36px; height: 36px; font-size: 1.4rem; }
             .help-btn i { font-size: 1.4rem; }
-            .filter-select { font-size: 0.6rem; padding: 4px 10px; padding-right: 24px; }
         }
         @media (max-width: 380px) {
             .app-header { min-height: 50px; padding: 6px 10px; }
@@ -1222,8 +1199,6 @@
             .user-avatar { width: 30px; height: 30px; }
             .help-btn { width: 30px; height: 30px; font-size: 1.2rem; }
             .help-btn i { font-size: 1.2rem; }
-            .logo-area h1 { font-size: 1rem; }
-            .logo-area p { font-size: 0.55rem; }
         }
     </style>
 </head>
@@ -1233,7 +1208,7 @@
 <div class="time-category-panel" id="timeCategoryPanel">
     <div class="time-category-panel-header">
         <h4><i class="fa-regular fa-calendar"></i> সময়কাল নির্বাচন করুন</h4>
-        <i class="fa-solid fa-times" onclick="closeTimeCategoryPanel()" style="cursor:pointer;color:#8a9bb5;"></i>
+        <i class="fa-solid fa-times" onclick="closeTimeCategoryPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
     <div class="time-category-grid" id="timeCategoryGrid">
         <div class="time-category-item" data-cat="all"><span class="time-category-icon">🎪</span><span class="time-category-name">সব মেলা</span></div>
@@ -1253,9 +1228,9 @@
 <div class="topic-category-panel" id="topicCategoryPanel">
     <div class="topic-category-panel-header">
         <h4><i class="fa-solid fa-th-large"></i> বিষয় নির্বাচন করুন</h4>
-        <i class="fa-solid fa-times" onclick="closeTopicCategoryPanel()" style="cursor:pointer;color:#8a9bb5;"></i>
+        <i class="fa-solid fa-times" onclick="closeTopicCategoryPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
-    <div class="topic-category-grid" id="topicCategoryGrid"><div style="text-align:center; padding:20px; color:#6a7b95;">লোড হচ্ছে...</div></div>
+    <div class="topic-category-grid" id="topicCategoryGrid"><div style="text-align:center; padding:20px; color:#888;">লোড হচ্ছে...</div></div>
     <div class="topic-panel-buttons">
         <button class="apply-filter-btn" onclick="applyTopicCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
         <button class="reset-filter-btn" onclick="resetTopicCategoryFilter()">সব রিসেট</button>
@@ -1266,7 +1241,7 @@
 <div class="saved-items-panel" id="savedItemsPanel">
     <div class="saved-items-panel-header">
         <h4><i class="fa-regular fa-bookmark"></i> সেভ করা মেলা</h4>
-        <i class="fa-solid fa-times" onclick="closeSavedItemsPanel()" style="cursor:pointer;color:#8a9bb5;"></i>
+        <i class="fa-solid fa-times" onclick="closeSavedItemsPanel()" style="cursor:pointer;color:#999;"></i>
     </div>
     <div id="savedItemsList" style="max-height:60vh; overflow-y:auto;"></div>
 </div>
@@ -1276,7 +1251,7 @@
 <div class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
         <button class="drawer-close-btn" id="drawerCloseBtn"><i class="fa-solid fa-times"></i></button>
-        <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User&background=1a1f2e&color=d4af37&bold=true">
+        <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User&background=ffffff&color=333&bold=true">
         <div class="drawer-name" id="drawerName">অতিথি</div>
         <div class="drawer-email" id="drawerEmail"></div>
     </div>
@@ -1341,7 +1316,7 @@
     </div>
 </div>
 
-<!-- ========== চলন্ত লেখা ========== -->
+<!-- ========== চলন্ত লেখা (অফ-হোয়াইট ব্যাকগ্রাউন্ড) ========== -->
 <div class="marquee-card" id="marqueeCard">
     <div class="marquee-wrapper">
         <div class="marquee-line">
@@ -1414,10 +1389,10 @@
             <h3>📝 নতুন মেলা পোস্ট করুন</h3>
         </div>
         <div class="modal-body">
-            <div id="loginRequiredMsg" style="background:rgba(212,175,55,0.08); padding:15px; border-radius:12px; margin-bottom:15px; text-align:center; border:1px solid rgba(212,175,55,0.15); display:none;">
-                <i class="fa-solid fa-lock" style="color:#d4af37; font-size:1.2rem;"></i>
-                <p style="margin-top:8px; color:#c8d6f0;">পোস্ট করতে লগইন করুন</p>
-                <button id="loginFromModalBtn" style="background:#d4af37; color:#1a1f2e; margin-top:10px; padding:8px 20px; width:auto;">লগইন করুন</button>
+            <div id="loginRequiredMsg" style="background:#fef9e6; padding:15px; border-radius:12px; margin-bottom:15px; text-align:center; display:none;">
+                <i class="fa-solid fa-lock" style="color:#b8860b; font-size:1.2rem;"></i>
+                <p style="margin-top:8px;">পোস্ট করতে লগইন করুন</p>
+                <button id="loginFromModalBtn" style="background:#2e7d32; margin-top:10px; padding:8px 20px;">লগইন করুন</button>
             </div>
             <div id="postFormFields">
                 <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
@@ -1682,7 +1657,7 @@
             <div class="modal-section"><strong>🏷️ মেলার ধরন:</strong> ${escapeHtml(slide.melaType || 'অন্যান্য')}</div>
             <div class="modal-section"><strong>⏰ সময়কাল:</strong> ${startDate} - ${endDate} ${slide.startDate && slide.endDate ? ` (${calculateDays(slide.startDate, slide.endDate)} দিন)` : ''}</div>
             <div class="modal-section"><strong>📍 ঠিকানা:</strong> ${escapeHtml(address)}</div>
-            <div class="modal-section"><strong>📝 বিবরণ:</strong><div style="margin-top:8px; line-height:1.6; color:#c8d6f0;">${escapeHtml(slide.description || 'কোনো বিবরণ নেই')}</div></div>
+            <div class="modal-section"><strong>📝 বিবরণ:</strong><div style="margin-top:8px; line-height:1.6; color:#444;">${escapeHtml(slide.description || 'কোনো বিবরণ নেই')}</div></div>
             <div class="modal-section"><strong>📞 যোগাযোগ:</strong><div style="margin-top:8px;">${contactsHtml}</div></div>
             ${slide.link ? `<div class="modal-section"><a href="${escapeHtml(slide.link)}" target="_blank" class="map-link-btn">🔗 বিস্তারিত দেখুন</a></div>` : ''}
         `;
@@ -1792,6 +1767,116 @@
         showToast('সব ফিল্টার রিসেট হয়েছে');
     }
     
+    // ========== ডিভিশন ডাটা লোড ==========
+    async function loadDivisions() {
+        try {
+            const response = await fetch('divisions.json');
+            if (!response.ok) throw new Error('divisions.json not found');
+            const data = await response.json();
+            divisionsData = data.divisions || [];
+            populateDivisionFilter();
+            updatePostDivisionSelect();
+            updateEditDivisionSelect();
+        } catch(e) {
+            console.warn('divisions.json লোড করতে সমস্যা:', e);
+            divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }];
+            populateDivisionFilter();
+            updatePostDivisionSelect();
+            updateEditDivisionSelect();
+        }
+    }
+    
+    function populateDivisionFilter() {
+        const divSelect = document.getElementById('divisionFilter');
+        divSelect.innerHTML = '<option value="">সব বিভাগ</option>';
+        divisionsData.forEach(div => {
+            divSelect.add(new Option(div.name, div.name));
+        });
+    }
+    
+    function updatePostDivisionSelect() {
+        const divSelect = document.getElementById('postDivision');
+        divSelect.innerHTML = '<option value="">বিভাগ নির্বাচন করুন</option>';
+        divisionsData.forEach(div => {
+            divSelect.add(new Option(div.name, div.name));
+        });
+        if (divisionsData.length > 0) {
+            updatePostDistricts(divisionsData[0].name);
+        }
+        divSelect.onchange = function() {
+            updatePostDistricts(this.value);
+        };
+    }
+    
+    function updatePostDistricts(divisionName) {
+        const division = divisionsData.find(d => d.name === divisionName);
+        const districts = division?.districts || [];
+        const districtSelect = document.getElementById('postDistrict');
+        districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+        districts.forEach(dist => {
+            districtSelect.add(new Option(dist.name, dist.name));
+        });
+        if (districts.length > 0) {
+            updatePostUpazilas(divisionName, districts[0].name);
+        }
+        districtSelect.onchange = function() {
+            updatePostUpazilas(divisionName, this.value);
+        };
+    }
+    
+    function updatePostUpazilas(divisionName, districtName) {
+        const division = divisionsData.find(d => d.name === divisionName);
+        const district = division?.districts?.find(d => d.name === districtName);
+        const upazilas = district?.upazilas || [];
+        const upazilaSelect = document.getElementById('postUpazila');
+        upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+        upazilas.forEach(up => {
+            upazilaSelect.add(new Option(up, up));
+        });
+    }
+    
+    function updateEditDivisionSelect() {
+        const divSelect = document.getElementById('editPostDivision');
+        if (!divSelect) return;
+        divSelect.innerHTML = '<option value="">বিভাগ নির্বাচন করুন</option>';
+        divisionsData.forEach(div => {
+            divSelect.add(new Option(div.name, div.name));
+        });
+        if (divisionsData.length > 0) {
+            updateEditDistricts(divisionsData[0].name);
+        }
+        divSelect.onchange = function() {
+            updateEditDistricts(this.value);
+        };
+    }
+    
+    function updateEditDistricts(divisionName) {
+        const division = divisionsData.find(d => d.name === divisionName);
+        const districts = division?.districts || [];
+        const districtSelect = document.getElementById('editPostDistrict');
+        districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+        districts.forEach(dist => {
+            districtSelect.add(new Option(dist.name, dist.name));
+        });
+        if (districts.length > 0) {
+            updateEditUpazilas(divisionName, districts[0].name);
+        }
+        districtSelect.onchange = function() {
+            updateEditUpazilas(divisionName, this.value);
+        };
+    }
+    
+    function updateEditUpazilas(divisionName, districtName) {
+        const division = divisionsData.find(d => d.name === divisionName);
+        const district = division?.districts?.find(d => d.name === districtName);
+        const upazilas = district?.upazilas || [];
+        const upazilaSelect = document.getElementById('editPostUpazila');
+        upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+        upazilas.forEach(up => {
+            upazilaSelect.add(new Option(up, up));
+        });
+    }
+    
     // ========== মার্কি টেক্সট লোড ==========
     async function loadMarqueeText() {
         const marqueeRef = db.ref('marqueeText');
@@ -1818,7 +1903,7 @@
         if(user) {
             signinBtn.classList.add("hide");
             userAvatar.classList.remove("hide");
-            userAvatar.src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=1a1f2e&color=d4af37&bold=true";
+            userAvatar.src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=ffffff&color=333&bold=true";
             loginDrawerBtn.style.display = "none";
             myPostsDrawerItem.style.display = "flex";
             newPostDrawerItem.style.display = "flex";
@@ -1826,7 +1911,7 @@
             logoArea.classList.add("center-logo");
             document.getElementById("drawerName").innerText = user.displayName || "User";
             document.getElementById("drawerEmail").innerText = user.email || "";
-            document.getElementById("drawerAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=1a1f2e&color=d4af37&bold=true";
+            document.getElementById("drawerAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=ffffff&color=333&bold=true";
         } else {
             signinBtn.classList.remove("hide");
             userAvatar.classList.add("hide");
@@ -1837,7 +1922,7 @@
             logoArea.classList.remove("center-logo");
             document.getElementById("drawerName").innerText = "অতিথি";
             document.getElementById("drawerEmail").innerText = "";
-            document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=Guest&background=1a1f2e&color=d4af37&bold=true";
+            document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=Guest&background=ffffff&color=333&bold=true";
         }
     }
     
@@ -1961,68 +2046,6 @@
     function resetTopicCategoryFilter() { selectedTopicCategories = []; document.querySelectorAll('.topic-category-item').forEach(i => { i.classList.remove('selected'); i.querySelector('i').className = 'fa-regular fa-square'; }); updateSearchActiveState(); loadPosts(); showToast('সব বিষয় ফিল্টার রিসেট হয়েছে'); }
     function filterByStatus(status) { statusFilter = status; selectedTimeCategory = "all"; updateSearchActiveState(); loadPosts(); showToast(status === 'live' ? '🟢 চলমান মেলা দেখানো হচ্ছে' : '⏰ আসন্ন মেলা দেখানো হচ্ছে'); }
     
-    // ========== ডিভিশন লোড ==========
-    async function loadDivisions() {
-        try { const response = await fetch('divisions.json'); const data = await response.json(); divisionsData = data.divisions; populateDivisionFilter(); updatePostDivisionSelect(); updateEditDivisionSelect(); } catch(e) { divisionsData = [{ name: "ঢাকা", districts: [{ name: "ঢাকা", upazilas: ["ঢাকা সদর"] }] }]; populateDivisionFilter(); updatePostDivisionSelect(); updateEditDivisionSelect(); }
-    }
-    
-    function populateDivisionFilter() {
-        const divSelect = document.getElementById("divisionFilter");
-        divSelect.innerHTML = '<option value="">সব বিভাগ</option>';
-        divisionsData.forEach(div => { divSelect.add(new Option(div.name, div.name)); });
-    }
-    
-    function updatePostDivisionSelect() { 
-        const divSelect = document.getElementById("postDivision"); 
-        divSelect.innerHTML = '<option value="">বিভাগ নির্বাচন করুন</option>';
-        divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); 
-        if(divisionsData.length > 0) updatePostDistricts(divisionsData[0].name); 
-        divSelect.onchange = () => updatePostDistricts(divSelect.value); 
-    }
-    function updatePostDistricts(divisionName) { 
-        const division = divisionsData.find(d => d.name === divisionName); 
-        const districts = division?.districts || []; 
-        const districtSelect = document.getElementById("postDistrict"); 
-        districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
-        districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); 
-        if(districts.length > 0) updatePostUpazilas(divisionName, districts[0].name); 
-        districtSelect.onchange = () => updatePostUpazilas(divisionName, districtSelect.value); 
-    }
-    function updatePostUpazilas(divisionName, districtName) { 
-        const division = divisionsData.find(d => d.name === divisionName); 
-        const district = division?.districts?.find(d => d.name === districtName); 
-        const upazilas = district?.upazilas || []; 
-        const upazilaSelect = document.getElementById("postUpazila"); 
-        upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
-        upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); 
-    }
-    
-    function updateEditDivisionSelect() { 
-        const divSelect = document.getElementById("editPostDivision"); 
-        if(!divSelect) return;
-        divSelect.innerHTML = '<option value="">বিভাগ নির্বাচন করুন</option>'; 
-        divisionsData.forEach(div => divSelect.add(new Option(div.name, div.name))); 
-        if(divisionsData.length > 0) updateEditDistricts(divisionsData[0].name); 
-        divSelect.onchange = () => updateEditDistricts(divSelect.value); 
-    }
-    function updateEditDistricts(divisionName) { 
-        const division = divisionsData.find(d => d.name === divisionName); 
-        const districts = division?.districts || []; 
-        const districtSelect = document.getElementById("editPostDistrict"); 
-        districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>'; 
-        districts.forEach(dist => districtSelect.add(new Option(dist.name, dist.name))); 
-        if(districts.length > 0) updateEditUpazilas(divisionName, districts[0].name); 
-        districtSelect.onchange = () => updateEditUpazilas(divisionName, districtSelect.value); 
-    }
-    function updateEditUpazilas(divisionName, districtName) { 
-        const division = divisionsData.find(d => d.name === divisionName); 
-        const district = division?.districts?.find(d => d.name === districtName); 
-        const upazilas = district?.upazilas || []; 
-        const upazilaSelect = document.getElementById("editPostUpazila"); 
-        upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
-        upazilas.forEach(up => upazilaSelect.add(new Option(up, up))); 
-    }
-    
     // ========== সেভড পোস্ট ==========
     async function loadSavedPosts() { 
         if(currentUser) {
@@ -2092,10 +2115,10 @@
     
     function loadSavedItemsList() { 
         const container = document.getElementById('savedItemsList'); 
-        if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#6a7b95;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
+        if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
         const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); 
-        if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#6a7b95;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
-        container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="showSavedPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div><div style="font-size:10px; color:#d4af37; margin-top:5px;">${getStatusText(post).type === 'live' ? '🟢 চলমান' : (getStatusText(post).type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div></div>`).join(''); 
+        if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
+        container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="showSavedPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div><div style="font-size:10px; color:#b8860b; margin-top:5px;">${getStatusText(post).type === 'live' ? '🟢 চলমান' : (getStatusText(post).type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div></div>`).join(''); 
     }
     
     function openEditModal(post) {
@@ -2355,6 +2378,7 @@
         if(e.target === document.getElementById("slideDetailModal")) document.getElementById("slideDetailModal").style.display = "none";
     };
     
+    // ডাটা লোড
     loadDivisions();
     loadCategoriesFromJSON();
 </script>
