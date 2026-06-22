@@ -270,37 +270,23 @@
         .contact-section .contact-buttons a {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
+            gap: 10px;
+            padding: 12px 28px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
             transition: all 0.3s;
-        }
-        .contact-section .contact-buttons .email-btn {
             background: #e8f5e9;
             color: #2e7d32;
         }
-        .contact-section .contact-buttons .email-btn:hover {
+        .contact-section .contact-buttons a:hover {
             background: #c8e6c9;
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
         }
-        .contact-section .contact-buttons .whatsapp-btn {
-            background: #e8f5e9;
-            color: #25d366;
-        }
-        .contact-section .contact-buttons .whatsapp-btn:hover {
-            background: #c8e6c9;
-            transform: translateY(-2px);
-        }
-        .contact-section .contact-buttons .fb-btn {
-            background: #e3f0ff;
-            color: #1877f2;
-        }
-        .contact-section .contact-buttons .fb-btn:hover {
-            background: #c7e0ff;
-            transform: translateY(-2px);
+        .contact-section .contact-buttons a i {
+            font-size: 1.2rem;
         }
         
         /* ========== ফুটার ========== */
@@ -343,12 +329,13 @@
             .faq-question { font-size: 0.9rem; padding: 14px 16px; }
             .faq-answer { padding: 0 16px; }
             .faq-answer.open { padding: 0 16px 16px 16px; }
-            .contact-section .contact-buttons a { font-size: 0.8rem; padding: 8px 16px; }
+            .contact-section .contact-buttons a { font-size: 0.9rem; padding: 10px 20px; }
         }
         @media (max-width: 380px) {
             .help-hero h1 { font-size: 1.3rem; }
             .help-tabs button { font-size: 0.65rem; padding: 6px 10px; }
             .help-header .logo-area h1 { font-size: 1rem; }
+            .contact-section .contact-buttons a { font-size: 0.8rem; padding: 8px 16px; }
         }
     </style>
 </head>
@@ -363,7 +350,7 @@
         </div>
     </div>
     <a href="mela-index.html" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i> হোম
+        <i class="fa-solid fa-house"></i> হোম
     </a>
 </header>
 
@@ -645,16 +632,10 @@
     <!-- ========== কন্টাক্ট সেকশন ========== -->
     <div class="contact-section">
         <h3><i class="fa-regular fa-headset"></i> আরও সাহায্য প্রয়োজন?</h3>
-        <p>আমাদের সাথে যোগাযোগ করুন। আমরা ২৪ ঘন্টার মধ্যে রিপ্লাই দেবো।</p>
+        <p>সরাসরি কল করুন। আমরা সহায়তা করতে প্রস্তুত।</p>
         <div class="contact-buttons">
-            <a href="mailto:support@bangladeshmela.com" class="email-btn">
-                <i class="fa-regular fa-envelope"></i> ইমেইল
-            </a>
-            <a href="https://wa.me/8801234567890" target="_blank" class="whatsapp-btn">
-                <i class="fa-brands fa-whatsapp"></i> হোয়াটসঅ্যাপ
-            </a>
-            <a href="https://facebook.com/bangladeshmela" target="_blank" class="fb-btn">
-                <i class="fa-brands fa-facebook"></i> ফেসবুক
+            <a href="tel:01817236767">
+                <i class="fa-solid fa-phone"></i> ০১৮১৭-২৩৬৭৬৭
             </a>
         </div>
     </div>
