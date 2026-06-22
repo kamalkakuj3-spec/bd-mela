@@ -157,7 +157,6 @@
             z-index: 99;
             width: 100%;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            /* সার্চ সেকশন open হলে body-তে padding-top দিতে হবে */
         }
         .search-filter-section.show {
             max-height: 220px;
@@ -166,7 +165,7 @@
         
         /* সার্চ সেকশন খোলা থাকলে স্লাইডার নিচে নামবে */
         body.search-active .slider-wrapper {
-            margin-top: 210px; /* হেডার + সার্চ সেকশনের উচ্চতা */
+            margin-top: 210px;
         }
         
         .search-box {
@@ -437,14 +436,7 @@
             padding: 0 16px;
             margin: 12px 0 8px 0;
             margin-top: 78px;
-            transition: margin-top 0.3s ease;
-        }
-        /* সার্চ অ্যাক্টিভ থাকলে স্লাইডার ও মার্কি লুকাবে না, শুধু মার্জিন বাড়বে */
-        body.search-active .marquee-card {
-            margin-top: 8px;
-        }
-        body.search-active .stats-card {
-            margin-top: 8px;
+            transition: margin-top 0.4s ease;
         }
         
         .slider-container {
@@ -2346,12 +2338,9 @@
         section.classList.toggle("show");
         if (section.classList.contains("show")) {
             document.getElementById("searchInput").focus();
-            // সার্চ সেকশন খোলা থাকলে স্লাইডারের মার্জিন বাড়বে
             updateSearchActiveState();
         } else {
-            // বন্ধ করলে স্লাইডার স্বাভাবিক হবে
             document.body.classList.remove('search-active');
-            // কিন্তু যদি ফিল্টার বা সার্চ টেক্সট থাকে তাহলে search-active থাকবে
             updateSearchActiveState();
         }
     };
