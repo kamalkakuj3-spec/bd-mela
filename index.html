@@ -44,20 +44,27 @@
             align-items: center;
             gap: 12px;
             transition: all 0.3s ease;
+            flex: 1;
         }
         .logo-area.center-logo {
-            flex: 1;
             justify-content: center;
             position: relative;
         }
-        .logo-area.center-logo .menu-icon {
+        .logo-area.center-logo .user-avatar {
             position: absolute;
             left: 0;
         }
-        .menu-icon {
-            font-size: 1.5rem;
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
             cursor: pointer;
-            color: #333;
+            border: 2px solid #d4af37;
+            flex-shrink: 0;
+        }
+        .user-avatar.hide {
+            display: none;
         }
         .logo-area h1 {
             font-size: 1.8rem;
@@ -75,14 +82,14 @@
         }
         .header-icons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
         .signin-btn {
             background: #2e7d32;
             color: white;
             border: none;
-            padding: 5px 12px;
+            padding: 5px 14px;
             border-radius: 30px;
             font-size: 0.7rem;
             font-weight: 600;
@@ -96,24 +103,26 @@
         .signin-btn.hide {
             display: none;
         }
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
+        .help-btn {
+            background: none;
+            border: none;
+            color: #555;
+            font-size: 1.4rem;
             cursor: pointer;
-            border: 2px solid #d4af37;
+            padding: 4px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .user-avatar.hide {
-            display: none;
+        .help-btn:hover {
+            color: #1a1a1a;
         }
+        
         .header-icons i {
             font-size: 1.1rem;
             color: #333;
             cursor: pointer;
-        }
-        .header-icons .fa-bell {
-            margin-right: 6px;
         }
         
         /* ========== সার্চ + ফিল্টার সেকশন ========== */
@@ -1183,6 +1192,7 @@
             .nav-item i { font-size: 1.3rem; }
             .nav-center { width: 48px; height: 48px; margin-top: -24px; }
             .nav-center i { font-size: 1.5rem; }
+            .user-avatar { width: 30px; height: 30px; }
         }
         @media (max-width: 380px) {
             .marquee-line .track span { font-size: 0.7rem; }
@@ -1192,6 +1202,7 @@
             .nav-center i { font-size: 1.3rem; }
             .bottom-nav { padding: 6px 4px; min-height: 52px; }
             .nav-item { font-size: 0.55rem; }
+            .user-avatar { width: 26px; height: 26px; }
         }
     </style>
 </head>
@@ -1256,10 +1267,11 @@
     </div>
 </div>
 
-<!-- হেডার -->
+<!-- হেডার (পরিবর্তিত) -->
 <div class="app-header">
     <div class="logo-area" id="logoArea">
-        <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
+        <!-- প্রোফাইল আইকন (বাম পাশে) -->
+        <img id="userAvatar" class="user-avatar hide" src="" alt="avatar" onclick="openDrawer()">
         <div>
             <h1>বাংলাদেশ মেলা</h1>
             <p>দেশের মেলার ঠিকানা</p>
@@ -1267,8 +1279,10 @@
     </div>
     <div class="header-icons">
         <button class="signin-btn" id="signinBtn">লগইন</button>
-        <img id="userAvatar" class="user-avatar hide" src="" alt="avatar">
-        <i class="fa-regular fa-bell" id="notifIcon"></i>
+        <!-- হেল্প আইকন -->
+        <button class="help-btn" id="helpBtn" aria-label="সাহায্য">
+            <i class="fa-regular fa-circle-question"></i>
+        </button>
     </div>
 </div>
 
@@ -1721,6 +1735,11 @@
     document.getElementById("loginDrawerBtn").onclick = () => { window.location.href = "mela-login.html"; };
     document.getElementById("loginFromModalBtn").onclick = () => { window.location.href = "mela-login.html"; };
     
+    // ========== হেল্প বাটন ==========
+    document.getElementById("helpBtn").addEventListener("click", function() {
+        window.location.href = "mela-help.html";
+    });
+    
     // ========== ক্যাটাগরি লোড (mela-category.json থেকে) ==========
     async function loadCategoriesFromJSON() {
         try {
@@ -2148,7 +2167,9 @@
     }
     function closePostModal() { document.getElementById("postModal").style.display = "none"; }
     
-    document.getElementById("menuIcon").onclick = openDrawer;
+    // মেনু আইকন না থাকায় প্রোফাইল ক্লিক করলে ড্রয়ার ওপেন
+    document.getElementById("userAvatar").addEventListener("click", openDrawer);
+    
     document.getElementById("drawerOverlay").onclick = closeDrawer;
     document.getElementById("drawerCloseBtn").onclick = closeDrawer;
     document.getElementById("logoutDrawerBtn").onclick = async () => { await auth.signOut(); window.location.reload(); };
