@@ -27,21 +27,22 @@
             overflow-x: hidden;
         }
         
-        /* হেডার (স্ক্রল হাইড) */
+        /* হেডার */
         .app-header {
-            background: white;
-            padding: 12px 16px;
+            background: #1a1f2e;
+            padding: 10px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
             transform: translateY(0);
+            min-height: 64px;
         }
         .app-header.hide-header {
             transform: translateY(-100%);
@@ -50,7 +51,7 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             transition: all 0.3s ease;
             flex: 1;
             justify-content: center;
@@ -64,35 +65,33 @@
             left: 0;
         }
         .user-avatar {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
             cursor: pointer;
             border: 2px solid #d4af37;
             flex-shrink: 0;
-            margin-right: 10px;
         }
         .user-avatar.hide {
             display: none;
         }
         .logo-area h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1a1a1a, #555);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #ffffff;
+            letter-spacing: 0.5px;
         }
         .logo-area p {
-            font-size: 0.8rem;
-            color: #888;
-            font-weight: 500;
-            margin-top: 2px;
+            font-size: 0.7rem;
+            color: #a8b3cf;
+            font-weight: 400;
+            margin-top: 1px;
+            letter-spacing: 0.3px;
         }
         .header-icons {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
         }
         .signin-btn {
@@ -101,7 +100,7 @@
             border: none;
             padding: 5px 14px;
             border-radius: 30px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -116,63 +115,67 @@
         .help-btn {
             background: none;
             border: none;
-            color: #555;
-            font-size: 2.2rem;
+            color: #a8b3cf;
+            font-size: 1.8rem;
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 4px;
             transition: color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 4px;
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
         }
         .help-btn:hover {
-            color: #1a1a1a;
+            color: #ffffff;
         }
         .help-btn i {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
         }
         
-        /* ========== সার্চ + ফিল্টার সেকশন ========== */
+        /* ========== সার্চ + ফিল্টার সেকশন (হেডারের নিচে) ========== */
         .search-filter-section {
-            background: white;
+            background: #1a1f2e;
             padding: 0 16px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.3s ease;
-            border-bottom: none;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             position: fixed;
-            top: 72px;
+            top: 64px;
             left: 0;
             right: 0;
             z-index: 99;
             width: 100%;
         }
         .search-filter-section.show {
-            max-height: 180px;
-            padding: 12px 16px;
-            border-bottom: 1px solid #e0e0e0;
+            max-height: 200px;
+            padding: 10px 16px 14px 16px;
         }
         .search-box {
-            background: #f0f0f0;
+            background: rgba(255,255,255,0.10);
             border-radius: 30px;
-            padding: 10px 18px;
+            padding: 8px 16px;
             display: flex;
             gap: 10px;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.06);
         }
         .search-box i {
-            color: #888;
+            color: #8a9bb5;
+            font-size: 0.9rem;
         }
         .search-box input {
             flex: 1;
             border: none;
             background: transparent;
             outline: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            color: #ffffff;
+        }
+        .search-box input::placeholder {
+            color: #6a7b95;
         }
         .filter-row {
             display: flex;
@@ -181,19 +184,29 @@
         }
         .filter-select {
             flex: 1;
-            background: #f8f9fa;
-            border: 1px solid #ddd;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: 30px;
-            padding: 6px 10px;
+            padding: 6px 12px;
             font-size: 0.65rem;
-            color: #333;
+            color: #c8d6f0;
             outline: none;
             cursor: pointer;
             font-family: inherit;
             min-width: 60px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9bb5' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 28px;
+        }
+        .filter-select option {
+            background: #1a1f2e;
+            color: #c8d6f0;
         }
         .filter-select:focus {
-            border-color: #2e7d32;
+            border-color: #d4af37;
         }
         .clear-filter {
             background: none;
@@ -202,6 +215,7 @@
             font-size: 0.7rem;
             cursor: pointer;
             padding: 0 8px;
+            font-weight: 600;
         }
         
         /* ========== প্যানেল ========== */
@@ -211,12 +225,12 @@
             bottom: 85px;
             left: 16px;
             right: 16px;
-            background: white;
+            background: #1a1f2e;
             border-radius: 24px;
             padding: 0;
             z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
             max-height: 70vh;
             overflow-y: auto;
             flex-direction: column;
@@ -234,17 +248,17 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 16px 12px 16px;
-            border-bottom: 1px solid #eee;
-            background: white;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: #1a1f2e;
             position: sticky;
             top: 0;
             z-index: 15;
         }
-        .time-category-panel-header h4 { font-size: 14px; color: #2e7d32; }
+        .time-category-panel-header h4 { font-size: 14px; color: #d4af37; }
         .time-category-grid {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             padding: 16px;
         }
         .time-category-item {
@@ -255,18 +269,19 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            border: 1px solid #f0f0f0;
+            border: 1px solid rgba(255,255,255,0.04);
+            color: #c8d6f0;
         }
-        .time-category-item:hover { background: #f5f5f5; }
+        .time-category-item:hover { background: rgba(255,255,255,0.05); }
         .time-category-item.selected {
-            background: #e8f5e9;
-            border-color: #2e7d32;
+            background: rgba(212, 175, 55, 0.15);
+            border-color: #d4af37;
         }
         .time-category-icon { font-size: 20px; }
-        .time-category-name { font-size: 14px; color: #333; flex: 1; }
+        .time-category-name { font-size: 14px; flex: 1; }
         .time-panel-buttons {
             padding: 0 16px 16px 16px;
-            background: white;
+            background: #1a1f2e;
             position: sticky;
             bottom: 0;
         }
@@ -278,11 +293,11 @@
             bottom: 85px;
             left: 16px;
             right: 16px;
-            background: white;
+            background: #1a1f2e;
             border-radius: 24px;
             z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
             max-height: 70vh;
             overflow-y: auto;
             flex-direction: column;
@@ -296,17 +311,17 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 16px 12px 16px;
-            border-bottom: 1px solid #eee;
-            background: white;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: #1a1f2e;
             position: sticky;
             top: 0;
             z-index: 15;
         }
-        .topic-category-panel-header h4 { font-size: 14px; color: #2e7d32; }
+        .topic-category-panel-header h4 { font-size: 14px; color: #d4af37; }
         .topic-category-grid {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             padding: 16px;
         }
         .topic-category-item {
@@ -317,37 +332,38 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            border: 1px solid #f0f0f0;
+            border: 1px solid rgba(255,255,255,0.04);
+            color: #c8d6f0;
         }
-        .topic-category-item:hover { background: #f5f5f5; }
+        .topic-category-item:hover { background: rgba(255,255,255,0.05); }
         .topic-category-item.selected {
-            background: #e8f5e9;
-            border-color: #2e7d32;
+            background: rgba(212, 175, 55, 0.15);
+            border-color: #d4af37;
         }
         .topic-category-icon { font-size: 20px; }
-        .topic-category-name { font-size: 14px; color: #333; flex: 1; }
+        .topic-category-name { font-size: 14px; flex: 1; }
         .topic-panel-buttons {
             padding: 0 16px 16px 16px;
-            background: white;
+            background: #1a1f2e;
             position: sticky;
             bottom: 0;
         }
         .apply-filter-btn {
             width: 100%;
             padding: 12px;
-            background: #2e7d32;
-            color: white;
+            background: #d4af37;
+            color: #1a1f2e;
             border: none;
             border-radius: 30px;
             margin-top: 8px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
         }
         .reset-filter-btn {
             width: 100%;
             padding: 10px;
-            background: #f5f5f5;
-            color: #666;
+            background: rgba(255,255,255,0.06);
+            color: #a8b3cf;
             border: none;
             border-radius: 30px;
             margin-top: 8px;
@@ -362,12 +378,12 @@
             bottom: 85px;
             left: 16px;
             right: 16px;
-            background: white;
+            background: #1a1f2e;
             border-radius: 24px;
             padding: 16px;
             z-index: 300;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
             max-height: 70vh;
             overflow-y: auto;
         }
@@ -380,24 +396,25 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 12px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             margin-bottom: 12px;
         }
-        .saved-items-panel-header h4 { font-size: 14px; color: #2e7d32; }
+        .saved-items-panel-header h4 { font-size: 14px; color: #d4af37; }
         .saved-item-card {
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.04);
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 10px;
             cursor: pointer;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255,255,255,0.04);
+            color: #c8d6f0;
         }
         .saved-item-card:hover {
-            background: #e8f5e9;
-            border-color: #2e7d32;
+            background: rgba(255,255,255,0.08);
+            border-color: #d4af37;
         }
-        .saved-item-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
-        .saved-item-loc { font-size: 11px; color: #888; margin-top: 4px; }
+        .saved-item-title { font-size: 14px; font-weight: 600; color: #ffffff; }
+        .saved-item-loc { font-size: 11px; color: #8a9bb5; margin-top: 4px; }
         
         /* ========== ইমেজ স্লাইডার ========== */
         .slider-wrapper {
@@ -406,7 +423,7 @@
             background: transparent;
             padding: 0 16px;
             margin: 12px 0 8px 0;
-            margin-top: 90px;
+            margin-top: 78px;
         }
         .slider-container {
             position: relative;
@@ -511,10 +528,11 @@
             max-width: 100%;
             width: calc(100% - 32px);
             margin: 8px 16px 12px 16px;
-            background: linear-gradient(135deg, #7c3aed, #6d28d9, #5b21b6);
+            background: #1a1f2e;
             border-radius: 8px;
             padding: 10px 12px;
-            box-shadow: 0 6px 28px rgba(108, 70, 255, 0.20);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255,255,255,0.04);
         }
         .marquee-wrapper {
             position: relative;
@@ -537,7 +555,7 @@
         .marquee-line .track span {
             font-size: clamp(1rem, 3.5vw, 1.6rem);
             font-weight: 700;
-            color: #ffffff;
+            color: #d4af37;
             letter-spacing: 0.04em;
             display: flex;
             align-items: center;
@@ -547,15 +565,15 @@
         }
         .marquee-line .track span i {
             font-style: normal;
-            color: #e0d7ff;
+            color: #f0e6b0;
             padding: 0 6px;
             font-weight: 700;
-            background: rgba(255, 255, 255, 0.10);
+            background: rgba(212, 175, 55, 0.10);
             border-radius: 4px;
             padding: 0 10px;
         }
         .marquee-line .track span .dot-sep {
-            color: rgba(255, 255, 255, 0.20);
+            color: rgba(212, 175, 55, 0.20);
             font-size: 0.5em;
             margin: 0 4px;
         }
@@ -564,8 +582,8 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: #c4b5fd;
-            box-shadow: 0 0 14px rgba(196, 181, 253, 0.6);
+            background: #d4af37;
+            box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
             margin: 0 4px;
             animation: pulse-dot 2s ease-in-out infinite;
         }
@@ -862,8 +880,8 @@
             left: -280px;
             width: 280px;
             height: 100%;
-            background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            background: #1a1f2e;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
             z-index: 1000;
             transition: left 0.3s ease;
             overflow-y: auto;
@@ -871,16 +889,17 @@
         .side-drawer.open { left: 0; }
         .drawer-header {
             padding: 20px 20px 20px;
-            background: linear-gradient(135deg, #1a1a1a, #333);
+            background: linear-gradient(135deg, #0d111a, #1a1f2e);
             color: white;
             text-align: center;
             position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .drawer-close-btn {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
             border: none;
             color: white;
             font-size: 1.2rem;
@@ -894,18 +913,18 @@
             transition: all 0.2s;
         }
         .drawer-close-btn:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
             transform: scale(1.05);
         }
         .drawer-avatar {
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            border: 3px solid white;
+            border: 3px solid #d4af37;
             margin-bottom: 10px;
         }
-        .drawer-name { font-size: 1rem; font-weight: 600; }
-        .drawer-email { font-size: 0.65rem; opacity: 0.8; }
+        .drawer-name { font-size: 1rem; font-weight: 600; color: #ffffff; }
+        .drawer-email { font-size: 0.65rem; color: #8a9bb5; }
         .drawer-menu { padding: 20px; }
         .drawer-item {
             display: flex;
@@ -913,10 +932,11 @@
             gap: 12px;
             padding: 12px 0;
             cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            color: #333;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #c8d6f0;
+            transition: color 0.2s;
         }
-        .drawer-item:hover { color: #00c853; }
+        .drawer-item:hover { color: #d4af37; }
         .drawer-item i { width: 24px; font-size: 1.1rem; }
         .drawer-overlay {
             position: fixed;
@@ -944,7 +964,7 @@
             justify-content: center;
         }
         .modal-content {
-            background: white;
+            background: #1a1f2e;
             width: 90%;
             max-width: 500px;
             max-height: 85vh;
@@ -952,60 +972,71 @@
             border-radius: 24px;
             padding: 0;
             position: relative;
+            border: 1px solid rgba(255,255,255,0.06);
         }
         .modal-header {
-            background: white;
+            background: #1a1f2e;
             padding: 18px 20px;
             border-bottom: 2px solid #d4af37;
             position: sticky;
             top: 0;
             z-index: 20;
-            background: white;
             border-radius: 24px 24px 0 0;
         }
         .modal-header h3 { 
             margin: 0; 
             text-align: center;
-            color: #b8860b;
+            color: #d4af37;
             font-size: 1.2rem;
         }
         .modal-body {
             padding: 20px;
+            color: #c8d6f0;
         }
         .modal-body input, .modal-body select, .modal-body textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
             font-size: 0.9rem;
+            background: rgba(255,255,255,0.04);
+            color: #ffffff;
         }
-        .modal-body select option[value=""] { color: #999; }
+        .modal-body input::placeholder, .modal-body textarea::placeholder {
+            color: #6a7b95;
+        }
+        .modal-body select option {
+            background: #1a1f2e;
+            color: #c8d6f0;
+        }
+        .modal-body select option[value=""] { color: #6a7b95; }
         .modal-body button {
             width: 100%;
             padding: 12px;
-            background: #1a1a1a;
-            color: white;
+            background: #d4af37;
+            color: #1a1f2e;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
         }
-        .modal-body button.cancel { background: #ccc; color: #333; margin-top: 8px; }
+        .modal-body button.cancel { background: rgba(255,255,255,0.08); color: #a8b3cf; margin-top: 8px; }
         .form-group { margin-bottom: 8px; }
         .form-label {
             font-size: 12px;
             font-weight: 600;
-            color: #333;
+            color: #a8b3cf;
             margin-bottom: 4px;
             display: block;
         }
-        .small-text { font-size: 10px; color: #888; }
+        .small-text { font-size: 10px; color: #6a7b95; }
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 8px;
             margin: 10px 0;
+            color: #c8d6f0;
         }
         .close-modal-btn {
             position: absolute;
@@ -1013,21 +1044,19 @@
             right: 15px;
             font-size: 22px;
             cursor: pointer;
-            color: #999;
+            color: #8a9bb5;
             z-index: 30;
         }
+        .close-modal-btn:hover { color: #ffffff; }
         .modal-section {
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
         }
         .modal-title {
             font-size: 1.2rem;
             font-weight: bold;
-            background: linear-gradient(135deg, #b8860b, #d4af37);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: #d4af37;
             margin-bottom: 15px;
             text-align: center;
         }
@@ -1036,18 +1065,19 @@
             font-size: 0.85rem;
         }
         .contact-item a {
-            color: #b8860b;
+            color: #d4af37;
             text-decoration: none;
         }
         .map-link-btn {
             display: inline-block;
-            background: linear-gradient(115deg, #d4af37, #c49b2a);
-            color: white;
+            background: #d4af37;
+            color: #1a1f2e;
             padding: 8px 16px;
             border-radius: 30px;
             text-decoration: none;
             font-size: 0.8rem;
             margin-top: 5px;
+            font-weight: 600;
         }
         
         .date-range {
@@ -1060,13 +1090,16 @@
             width: 50%;
             margin-bottom: 0;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
             font-size: 0.9rem;
-            background: white;
+            background: rgba(255,255,255,0.04);
+            color: #ffffff;
             cursor: pointer;
             text-align: center;
-            letter-spacing: 1px;
+        }
+        .date-range input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
         }
         
         /* ========== নিচের মেনু বার ========== */
@@ -1075,51 +1108,53 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
+            background: #1a1f2e;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 10px 12px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            padding: 8px 12px;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.2);
             z-index: 200;
-            min-height: 65px;
+            min-height: 62px;
+            border-top: 1px solid rgba(255,255,255,0.04);
         }
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
             background: none;
             border: none;
             cursor: pointer;
-            color: #aaa;
-            font-size: 0.65rem;
+            color: #6a7b95;
+            font-size: 0.6rem;
             padding: 4px 8px;
+            transition: color 0.2s;
         }
-        .nav-item i { font-size: 1.5rem; }
-        .nav-item.active { color: #1a1a1a; }
+        .nav-item i { font-size: 1.4rem; }
+        .nav-item.active { color: #d4af37; }
         .nav-center {
-            background: #1a1a1a;
-            color: white;
-            width: 56px;
-            height: 56px;
+            background: #d4af37;
+            color: #1a1f2e;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: -28px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-top: -26px;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
         }
-        .nav-center i { font-size: 1.8rem; color: white; }
+        .nav-center i { font-size: 1.6rem; color: #1a1f2e; }
         
-        .loader { text-align: center; padding: 40px; color: #888; }
+        .loader { text-align: center; padding: 40px; color: #6a7b95; }
         .toast {
             position: fixed;
             bottom: 90px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1a1a1a;
-            color: #00e676;
+            background: #1a1f2e;
+            color: #d4af37;
             padding: 8px 20px;
             border-radius: 30px;
             font-size: 0.8rem;
@@ -1127,6 +1162,7 @@
             opacity: 0;
             transition: 0.3s;
             pointer-events: none;
+            border: 1px solid rgba(255,255,255,0.06);
         }
         .toast.show { opacity: 1; }
         
@@ -1136,7 +1172,7 @@
         }
         .section-title h3 {
             font-size: 1rem;
-            color: #333;
+            color: #1a1f2e;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1150,37 +1186,44 @@
         }
         
         @media (max-width: 480px) {
+            .app-header { min-height: 56px; padding: 8px 12px; }
+            .search-filter-section { top: 56px; }
+            .search-filter-section.show { max-height: 190px; padding: 8px 12px 12px 12px; }
+            .slider-wrapper { margin-top: 72px; }
             .marquee-card { padding: 8px 10px; margin: 6px 16px 10px 16px; }
             .marquee-line .track { gap: 1.2rem; }
             .marquee-line .track span { gap: 1.2rem; font-size: clamp(0.8rem, 3vw, 1.2rem); }
             .arrow-btn { width: 30px; height: 30px; font-size: 16px; }
             .news-title { font-size: 1.2rem; }
             .stats-number { font-size: 1.3rem; }
-            .logo-area h1 { font-size: 1.4rem; }
-            .logo-area p { font-size: 0.65rem; }
-            .bottom-nav { padding: 8px 8px; min-height: 58px; }
-            .nav-item i { font-size: 1.3rem; }
-            .nav-center { width: 48px; height: 48px; margin-top: -24px; }
-            .nav-center i { font-size: 1.5rem; }
-            .user-avatar { width: 40px; height: 40px; }
-            .help-btn { width: 40px; height: 40px; font-size: 1.8rem; }
-            .help-btn i { font-size: 1.8rem; }
-            .search-filter-section { top: 64px; }
-            .slider-wrapper { margin-top: 78px; }
+            .logo-area h1 { font-size: 1.2rem; }
+            .logo-area p { font-size: 0.6rem; }
+            .bottom-nav { padding: 6px 8px; min-height: 56px; }
+            .nav-item i { font-size: 1.2rem; }
+            .nav-center { width: 44px; height: 44px; margin-top: -22px; }
+            .nav-center i { font-size: 1.3rem; }
+            .user-avatar { width: 36px; height: 36px; }
+            .help-btn { width: 36px; height: 36px; font-size: 1.4rem; }
+            .help-btn i { font-size: 1.4rem; }
+            .filter-select { font-size: 0.6rem; padding: 4px 10px; padding-right: 24px; }
         }
         @media (max-width: 380px) {
+            .app-header { min-height: 50px; padding: 6px 10px; }
+            .search-filter-section { top: 50px; }
+            .search-filter-section.show { max-height: 180px; padding: 6px 10px 10px 10px; }
+            .slider-wrapper { margin-top: 66px; }
             .marquee-line .track span { font-size: 0.7rem; }
             .arrow-btn { width: 26px; height: 26px; font-size: 14px; }
-            .nav-item i { font-size: 1.1rem; }
-            .nav-center { width: 42px; height: 42px; margin-top: -20px; }
-            .nav-center i { font-size: 1.3rem; }
-            .bottom-nav { padding: 6px 4px; min-height: 52px; }
-            .nav-item { font-size: 0.55rem; }
-            .user-avatar { width: 36px; height: 36px; }
-            .help-btn { width: 36px; height: 36px; font-size: 1.5rem; }
-            .help-btn i { font-size: 1.5rem; }
-            .search-filter-section { top: 58px; }
-            .slider-wrapper { margin-top: 72px; }
+            .nav-item i { font-size: 1rem; }
+            .nav-center { width: 38px; height: 38px; margin-top: -19px; }
+            .nav-center i { font-size: 1.1rem; }
+            .bottom-nav { padding: 4px 6px; min-height: 48px; }
+            .nav-item { font-size: 0.5rem; }
+            .user-avatar { width: 30px; height: 30px; }
+            .help-btn { width: 30px; height: 30px; font-size: 1.2rem; }
+            .help-btn i { font-size: 1.2rem; }
+            .logo-area h1 { font-size: 1rem; }
+            .logo-area p { font-size: 0.55rem; }
         }
     </style>
 </head>
@@ -1190,7 +1233,7 @@
 <div class="time-category-panel" id="timeCategoryPanel">
     <div class="time-category-panel-header">
         <h4><i class="fa-regular fa-calendar"></i> সময়কাল নির্বাচন করুন</h4>
-        <i class="fa-solid fa-times" onclick="closeTimeCategoryPanel()" style="cursor:pointer;color:#999;"></i>
+        <i class="fa-solid fa-times" onclick="closeTimeCategoryPanel()" style="cursor:pointer;color:#8a9bb5;"></i>
     </div>
     <div class="time-category-grid" id="timeCategoryGrid">
         <div class="time-category-item" data-cat="all"><span class="time-category-icon">🎪</span><span class="time-category-name">সব মেলা</span></div>
@@ -1210,9 +1253,9 @@
 <div class="topic-category-panel" id="topicCategoryPanel">
     <div class="topic-category-panel-header">
         <h4><i class="fa-solid fa-th-large"></i> বিষয় নির্বাচন করুন</h4>
-        <i class="fa-solid fa-times" onclick="closeTopicCategoryPanel()" style="cursor:pointer;color:#999;"></i>
+        <i class="fa-solid fa-times" onclick="closeTopicCategoryPanel()" style="cursor:pointer;color:#8a9bb5;"></i>
     </div>
-    <div class="topic-category-grid" id="topicCategoryGrid"><div style="text-align:center; padding:20px;">লোড হচ্ছে...</div></div>
+    <div class="topic-category-grid" id="topicCategoryGrid"><div style="text-align:center; padding:20px; color:#6a7b95;">লোড হচ্ছে...</div></div>
     <div class="topic-panel-buttons">
         <button class="apply-filter-btn" onclick="applyTopicCategoryFilter()">ফিল্টার প্রয়োগ করুন</button>
         <button class="reset-filter-btn" onclick="resetTopicCategoryFilter()">সব রিসেট</button>
@@ -1223,7 +1266,7 @@
 <div class="saved-items-panel" id="savedItemsPanel">
     <div class="saved-items-panel-header">
         <h4><i class="fa-regular fa-bookmark"></i> সেভ করা মেলা</h4>
-        <i class="fa-solid fa-times" onclick="closeSavedItemsPanel()" style="cursor:pointer;color:#999;"></i>
+        <i class="fa-solid fa-times" onclick="closeSavedItemsPanel()" style="cursor:pointer;color:#8a9bb5;"></i>
     </div>
     <div id="savedItemsList" style="max-height:60vh; overflow-y:auto;"></div>
 </div>
@@ -1233,7 +1276,7 @@
 <div class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
         <button class="drawer-close-btn" id="drawerCloseBtn"><i class="fa-solid fa-times"></i></button>
-        <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User&background=ffffff&color=333&bold=true">
+        <img id="drawerAvatar" class="drawer-avatar" src="https://ui-avatars.com/api/?name=User&background=1a1f2e&color=d4af37&bold=true">
         <div class="drawer-name" id="drawerName">অতিথি</div>
         <div class="drawer-email" id="drawerEmail"></div>
     </div>
@@ -1371,10 +1414,10 @@
             <h3>📝 নতুন মেলা পোস্ট করুন</h3>
         </div>
         <div class="modal-body">
-            <div id="loginRequiredMsg" style="background:#fef9e6; padding:15px; border-radius:12px; margin-bottom:15px; text-align:center; display:none;">
-                <i class="fa-solid fa-lock" style="color:#b8860b; font-size:1.2rem;"></i>
-                <p style="margin-top:8px;">পোস্ট করতে লগইন করুন</p>
-                <button id="loginFromModalBtn" style="background:#2e7d32; margin-top:10px; padding:8px 20px;">লগইন করুন</button>
+            <div id="loginRequiredMsg" style="background:rgba(212,175,55,0.08); padding:15px; border-radius:12px; margin-bottom:15px; text-align:center; border:1px solid rgba(212,175,55,0.15); display:none;">
+                <i class="fa-solid fa-lock" style="color:#d4af37; font-size:1.2rem;"></i>
+                <p style="margin-top:8px; color:#c8d6f0;">পোস্ট করতে লগইন করুন</p>
+                <button id="loginFromModalBtn" style="background:#d4af37; color:#1a1f2e; margin-top:10px; padding:8px 20px; width:auto;">লগইন করুন</button>
             </div>
             <div id="postFormFields">
                 <input type="text" id="postTitle" placeholder="মেলার নাম *" required>
@@ -1477,10 +1520,8 @@
         
         if (currentScrollY > 80) {
             if (currentScrollY > lastScrollY) {
-                // নিচে স্ক্রল - হেডার হাইড
                 header.classList.add('hide-header');
             } else {
-                // উপরে স্ক্রল - হেডার শো
                 header.classList.remove('hide-header');
             }
         } else {
@@ -1641,7 +1682,7 @@
             <div class="modal-section"><strong>🏷️ মেলার ধরন:</strong> ${escapeHtml(slide.melaType || 'অন্যান্য')}</div>
             <div class="modal-section"><strong>⏰ সময়কাল:</strong> ${startDate} - ${endDate} ${slide.startDate && slide.endDate ? ` (${calculateDays(slide.startDate, slide.endDate)} দিন)` : ''}</div>
             <div class="modal-section"><strong>📍 ঠিকানা:</strong> ${escapeHtml(address)}</div>
-            <div class="modal-section"><strong>📝 বিবরণ:</strong><div style="margin-top:8px; line-height:1.6; color:#444;">${escapeHtml(slide.description || 'কোনো বিবরণ নেই')}</div></div>
+            <div class="modal-section"><strong>📝 বিবরণ:</strong><div style="margin-top:8px; line-height:1.6; color:#c8d6f0;">${escapeHtml(slide.description || 'কোনো বিবরণ নেই')}</div></div>
             <div class="modal-section"><strong>📞 যোগাযোগ:</strong><div style="margin-top:8px;">${contactsHtml}</div></div>
             ${slide.link ? `<div class="modal-section"><a href="${escapeHtml(slide.link)}" target="_blank" class="map-link-btn">🔗 বিস্তারিত দেখুন</a></div>` : ''}
         `;
@@ -1777,7 +1818,7 @@
         if(user) {
             signinBtn.classList.add("hide");
             userAvatar.classList.remove("hide");
-            userAvatar.src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User");
+            userAvatar.src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=1a1f2e&color=d4af37&bold=true";
             loginDrawerBtn.style.display = "none";
             myPostsDrawerItem.style.display = "flex";
             newPostDrawerItem.style.display = "flex";
@@ -1785,7 +1826,7 @@
             logoArea.classList.add("center-logo");
             document.getElementById("drawerName").innerText = user.displayName || "User";
             document.getElementById("drawerEmail").innerText = user.email || "";
-            document.getElementById("drawerAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User");
+            document.getElementById("drawerAvatar").src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=1a1f2e&color=d4af37&bold=true";
         } else {
             signinBtn.classList.remove("hide");
             userAvatar.classList.add("hide");
@@ -1796,7 +1837,7 @@
             logoArea.classList.remove("center-logo");
             document.getElementById("drawerName").innerText = "অতিথি";
             document.getElementById("drawerEmail").innerText = "";
-            document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=Guest&background=ffffff&color=333&bold=true";
+            document.getElementById("drawerAvatar").src = "https://ui-avatars.com/api/?name=Guest&background=1a1f2e&color=d4af37&bold=true";
         }
     }
     
@@ -2051,10 +2092,10 @@
     
     function loadSavedItemsList() { 
         const container = document.getElementById('savedItemsList'); 
-        if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
+        if(!savedPostsIds.length) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#6a7b95;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
         const savedPosts = allPosts.filter(post => savedPostsIds.includes(post.id)); 
-        if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
-        container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="showSavedPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div><div style="font-size:10px; color:#b8860b; margin-top:5px;">${getStatusText(post).type === 'live' ? '🟢 চলমান' : (getStatusText(post).type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div></div>`).join(''); 
+        if(savedPosts.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:#6a7b95;">😢 কোনো সেভড মেলা নেই</div>'; return; } 
+        container.innerHTML = savedPosts.map(post => `<div class="saved-item-card" onclick="showSavedPostDetail('${post.id}'); closeSavedItemsPanel();"><div class="saved-item-title">${escapeHtml(post.title)}</div><div class="saved-item-loc"><i class="fa-regular fa-location-dot"></i> ${escapeHtml(post.district)}, ${escapeHtml(post.division)}</div><div style="font-size:10px; color:#d4af37; margin-top:5px;">${getStatusText(post).type === 'live' ? '🟢 চলমান' : (getStatusText(post).type === 'soon' ? '🟠 আসন্ন' : '⚫ সমাপ্ত')}</div></div>`).join(''); 
     }
     
     function openEditModal(post) {
