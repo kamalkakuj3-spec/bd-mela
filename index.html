@@ -1230,6 +1230,7 @@
             margin-top: 5px;
         }
         
+        /* ========== কাস্টম ডেট পিকার স্টাইল ========== */
         .date-range {
             display: flex;
             gap: 10px;
@@ -1243,9 +1244,115 @@
             border: 1px solid #ddd;
             border-radius: 12px;
             font-size: 0.9rem;
-            background: #ffffff;
+            background: #f9f9f9;
             cursor: pointer;
             text-align: center;
+            letter-spacing: 1px;
+        }
+        .date-range input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        
+        /* ========== ক্যালেন্ডার পপআপ ========== */
+        .calendar-popup {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 24px 24px 0 0;
+            z-index: 2000;
+            padding: 20px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .calendar-header button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            color: #b8860b;
+            transition: all 0.2s;
+        }
+        .calendar-header button:hover {
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .calendar-header span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .calendar-weekdays div {
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #888;
+        }
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        .calendar-day {
+            padding: 12px 8px;
+            text-align: center;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .calendar-day:hover {
+            background: #f0f0f0;
+        }
+        .calendar-day.selected {
+            background: #d4af37;
+            color: white;
+            font-weight: 600;
+        }
+        .calendar-day.empty {
+            cursor: default;
+            color: #ccc;
+        }
+        .calendar-day.empty:hover {
+            background: transparent;
+        }
+        .calendar-close {
+            width: 100%;
+            padding: 12px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 30px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .calendar-close:hover {
+            background: #e0e0e0;
         }
         
         /* ========== নিচের মেনু বার ========== */
@@ -1347,6 +1454,9 @@
             .save-badge-wrapper .save-icon { font-size: 1.2rem; }
             .save-badge-wrapper .save-count { min-width: 16px; height: 16px; font-size: 8px; top: -1px; right: -1px; }
             .close-modal-btn { width: 34px; height: 34px; font-size: 16px; top: 8px; right: 8px; }
+            .calendar-popup { padding: 16px; }
+            .calendar-day { padding: 8px 4px; font-size: 0.8rem; }
+            .date-range input { font-size: 0.75rem; padding: 8px; }
         }
         @media (max-width: 380px) {
             .app-header { min-height: 50px; padding: 6px 10px; }
@@ -1368,6 +1478,9 @@
             .save-badge-wrapper .save-icon { font-size: 1rem; }
             .save-badge-wrapper .save-count { min-width: 14px; height: 14px; font-size: 7px; top: -2px; right: -2px; }
             .close-modal-btn { width: 30px; height: 30px; font-size: 14px; top: 6px; right: 6px; }
+            .calendar-popup { padding: 12px; }
+            .calendar-day { padding: 6px 2px; font-size: 0.7rem; }
+            .date-range input { font-size: 0.65rem; padding: 6px; }
         }
     </style>
 </head>
@@ -1431,7 +1544,6 @@
         <div class="drawer-item" id="loginDrawerBtn"><i class="fa-solid fa-sign-in-alt"></i><span>লগইন করুন</span></div>
         <div class="drawer-item" onclick="closeDrawer(); showMyPosts()" id="myPostsDrawerItem" style="display:none;"><i class="fa-regular fa-user"></i><span>আমার পোস্ট</span></div>
         <div class="drawer-item" onclick="closeDrawer(); openPostModal()" id="newPostDrawerItem" style="display:none;"><i class="fa-regular fa-pen-to-square"></i><span>নতুন পোস্ট</span></div>
-        <!-- সেভ আইকন - নতুন পোস্টের নিচে -->
         <div class="drawer-item" id="savedDrawerItem" style="display:none;" onclick="closeDrawer(); openSavedItemsPanel();">
             <i class="fa-regular fa-bookmark"></i><span>সেভ করা মেলা <span id="savedDrawerCount" style="background:#d4af37; color:white; border-radius:50%; padding:0 6px; font-size:10px; margin-left:4px;">0</span></span>
         </div>
@@ -1589,9 +1701,10 @@
                 <div class="form-group"><label class="form-label">🏷️ মেলার ক্যাটাগরি *</label><select id="postTopicCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option></select></div>
                 <div class="form-group"><label class="form-label">📋 মেলার সময়কাল *</label><select id="postTimeCategory" class="form-select" required><option value="">-- নির্বাচন করুন --</option><option value="৩০ দিন">📅 ৩০ দিনের মেলা</option><option value="১৫ দিন">📆 ১৫ দিনের মেলা</option><option value="সাপ্তাহিক">⚡ ৭ দিনের মেলা</option><option value="৩ দিন">🔥 ৩ দিনের মেলা</option><option value="অন্যান্য">🎪 অন্যান্য</option></select></div>
                 <div class="form-group"><label class="form-label">📍 গুগল ম্যাপ লিংক <span class="small-text">(ঐচ্ছিক)</span></label><input class="form-input" id="postLocationLink" placeholder="https://maps.google.com/?q=23.7779,90.3994"></div>
+                <!-- ===== কাস্টম ডেট পিকার ===== -->
                 <div class="date-range">
-                    <input type="date" id="postStartDate" required>
-                    <input type="date" id="postEndDate" required>
+                    <input type="text" id="startDate" placeholder="DD/MM/YYYY" readonly required style="cursor:pointer;">
+                    <input type="text" id="endDate" placeholder="DD/MM/YYYY" readonly required style="cursor:pointer;">
                 </div>
                 <textarea id="postDesc" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
                 <div class="checkbox-group"><input type="checkbox" id="anonymousPost"><label for="anonymousPost">🕵️ বেনামে পোস্ট করুন</label></div>
@@ -1669,6 +1782,11 @@
     let isSearchActive = false;
     let showingSavedOnly = false;
     
+    // ========== কাস্টম ডেট পিকার ভেরিয়েবল ==========
+    let activeDateInput = null;
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth();
+    
     // ========== স্লাইডার ডিফল্ট ইমেজ ==========
     const DEFAULT_SLIDES = [
         {
@@ -1696,6 +1814,114 @@
     let slideCurrentIndex = 0;
     let slideAutoTimer = null;
     const slideInterval = 4000;
+    
+    // ========== কাস্টম ডেট পিকার ফাংশন ==========
+    function formatDateDMY(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+    
+    function formatDateToYYYYMMDD(dateStr) {
+        if(!dateStr) return '';
+        const parts = dateStr.split('/');
+        if(parts.length === 3) {
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+        return dateStr;
+    }
+    
+    function showCalendar(inputElement) {
+        if(!currentUser) {
+            showToast("পোস্ট করতে লগইন করুন!");
+            return;
+        }
+        activeDateInput = inputElement;
+        const now = new Date();
+        currentYear = now.getFullYear();
+        currentMonth = now.getMonth();
+        renderCalendarPopup();
+    }
+    
+    function renderCalendarPopup() {
+        const existingPopup = document.querySelector('.calendar-popup');
+        if(existingPopup) existingPopup.remove();
+        
+        const popup = document.createElement('div');
+        popup.className = 'calendar-popup';
+        
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const startDayOfWeek = firstDay.getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        
+        const months = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+        const weekdays = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহস্পতি', 'শুক্র', 'শনি'];
+        
+        let daysHtml = '';
+        for(let i = 0; i < startDayOfWeek; i++) {
+            daysHtml += '<div class="calendar-day empty"></div>';
+        }
+        
+        for(let d = 1; d <= daysInMonth; d++) {
+            const dateObj = new Date(currentYear, currentMonth, d);
+            const dateStr = formatDateDMY(dateObj);
+            const isSelected = activeDateInput && activeDateInput.value === dateStr;
+            daysHtml += `<div class="calendar-day ${isSelected ? 'selected' : ''}" data-day="${d}" data-date="${dateStr}">${d}</div>`;
+        }
+        
+        popup.innerHTML = `
+            <div class="calendar-header">
+                <button class="prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+                <span>${months[currentMonth]} ${currentYear}</span>
+                <button class="next-month"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-weekdays">
+                ${weekdays.map(day => `<div>${day}</div>`).join('')}
+            </div>
+            <div class="calendar-days">
+                ${daysHtml}
+            </div>
+            <button class="calendar-close">বাতিল</button>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        popup.querySelector('.prev-month').addEventListener('click', () => {
+            currentMonth--;
+            if(currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendarPopup();
+        });
+        
+        popup.querySelector('.next-month').addEventListener('click', () => {
+            currentMonth++;
+            if(currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendarPopup();
+        });
+        
+        popup.querySelectorAll('.calendar-day:not(.empty)').forEach(day => {
+            day.addEventListener('click', () => {
+                const dateStr = day.dataset.date;
+                if(activeDateInput && dateStr) {
+                    activeDateInput.value = dateStr;
+                    // ইভেন্ট ট্রিগার করি
+                    const event = new Event('change', { bubbles: true });
+                    activeDateInput.dispatchEvent(event);
+                }
+                popup.remove();
+            });
+        });
+        
+        popup.querySelector('.calendar-close').addEventListener('click', () => {
+            popup.remove();
+        });
+    }
     
     // ========== স্লাইডার লোড ==========
     async function loadSliderData() {
@@ -2161,6 +2387,16 @@
         loadPosts();
         loadSliderData();
         loadMarqueeText();
+        
+        // কাস্টম ডেট পিকার ইভেন্ট লিসেনার
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        if(startDateInput) {
+            startDateInput.addEventListener('click', () => showCalendar(startDateInput));
+        }
+        if(endDateInput) {
+            endDateInput.addEventListener('click', () => showCalendar(endDateInput));
+        }
     });
     
     document.getElementById("signinBtn").onclick = () => { window.location.href = "mela-login.html"; };
@@ -2331,7 +2567,6 @@
     async function loadPosts() {
         const snapshot = await db.ref('posts').once('value'); allPosts = []; snapshot.forEach(child => { allPosts.push({ id: child.key, ...child.val() }); }); allPosts.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
         let filtered = allPosts.filter(post => {
-            // সেভড শুধু দেখানোর ফিল্টার
             if(showingSavedOnly) {
                 if(!savedPostsIds.includes(post.id)) return false;
             }
@@ -2694,12 +2929,15 @@
         const district = document.getElementById("postDistrict").value;
         const upazila = document.getElementById("postUpazila").value;
         const locationLink = document.getElementById("postLocationLink").value.trim();
-        const start = document.getElementById("postStartDate").value;
-        const end = document.getElementById("postEndDate").value;
+        const startDateStr = document.getElementById("startDate").value;
+        const endDateStr = document.getElementById("endDate").value;
         const desc = document.getElementById("postDesc").value;
         const topicCat = document.getElementById("postTopicCategory").value;
         const timeCat = document.getElementById("postTimeCategory").value;
         const isAnonymous = document.getElementById("anonymousPost").checked;
+        
+        const start = formatDateToYYYYMMDD(startDateStr);
+        const end = formatDateToYYYYMMDD(endDateStr);
         
         if(!title || !division || !district || !start || !end) { alert("তারকা চিহ্নিত তথ্য পূরণ করুন!"); return; }
         if(!topicCat || topicCat === "") { alert("মেলার ক্যাটাগরি নির্বাচন করুন!"); return; }
@@ -2709,7 +2947,7 @@
         if(!isAnonymous) postData.posterName = currentUser.displayName || currentUser.email?.split('@')[0] || 'ব্যবহারকারী';
         await db.ref('posts').push(postData);
         closePostModal();
-        document.getElementById("postTitle").value = ""; document.getElementById("postDesc").value = ""; document.getElementById("postLocationLink").value = ""; document.getElementById("anonymousPost").checked = false; document.getElementById("postStartDate").value = ""; document.getElementById("postEndDate").value = ""; document.getElementById("postTopicCategory").value = ""; document.getElementById("postTimeCategory").value = "";
+        document.getElementById("postTitle").value = ""; document.getElementById("postDesc").value = ""; document.getElementById("postLocationLink").value = ""; document.getElementById("anonymousPost").checked = false; document.getElementById("startDate").value = ""; document.getElementById("endDate").value = ""; document.getElementById("postTopicCategory").value = ""; document.getElementById("postTimeCategory").value = "";
         document.getElementById("postDivision").value = ""; document.getElementById("postDistrict").innerHTML = '<option value="">জেলা নির্বাচন করুন</option>'; document.getElementById("postUpazila").innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
         loadPosts();
         showToast("✅ মেলা পোস্ট হয়েছে!");
